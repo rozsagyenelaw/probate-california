@@ -3,14 +3,47 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext'
+import { isFirebaseConfigured } from './services/firebase'
 import './index.css'
+
+// Configuration error component
+const ConfigurationError = () => (
+  <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+      <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h1 className="text-xl font-bold text-gray-900 mb-2">Configuration Required</h1>
+      <p className="text-gray-600 mb-4">
+        Firebase environment variables are not configured. Please add the following environment variables to your Netlify site:
+      </p>
+      <div className="text-left bg-gray-100 rounded p-4 text-sm font-mono text-gray-700 mb-4">
+        <div>VITE_FIREBASE_API_KEY</div>
+        <div>VITE_FIREBASE_AUTH_DOMAIN</div>
+        <div>VITE_FIREBASE_PROJECT_ID</div>
+        <div>VITE_FIREBASE_STORAGE_BUCKET</div>
+        <div>VITE_FIREBASE_MESSAGING_SENDER_ID</div>
+        <div>VITE_FIREBASE_APP_ID</div>
+      </div>
+      <p className="text-sm text-gray-500">
+        Go to Netlify Dashboard → Site Settings → Environment Variables
+      </p>
+    </div>
+  </div>
+)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    {isFirebaseConfigured ? (
+      <BrowserRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    ) : (
+      <ConfigurationError />
+    )}
   </React.StrictMode>,
 )

@@ -15,14 +15,27 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Check if Firebase is configured
+const isFirebaseConfigured = firebaseConfig.apiKey && firebaseConfig.projectId;
 
-// Initialize Firebase services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const functions = getFunctions(app, 'us-central1');
+// Initialize Firebase (only if configured)
+let app = null;
+let auth = null;
+let db = null;
+let storage = null;
+let functions = null;
+
+if (isFirebaseConfigured) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+  functions = getFunctions(app, 'us-central1');
+} else {
+  console.warn('Firebase is not configured. Please set environment variables.');
+}
+
+export { auth, db, storage, functions, isFirebaseConfigured };
 
 // Stripe publishable key
 export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
