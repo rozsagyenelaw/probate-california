@@ -11,6 +11,7 @@ import ForgotPassword from './components/common/ForgotPassword';
 import Dashboard from './components/dashboard/Dashboard';
 import Intake from './components/intake/Intake';
 import PaymentPage from './components/common/PaymentPage';
+import { Documents } from './components/documents';
 
 // Admin pages
 import AdminDashboard from './components/dashboard/AdminDashboard';
@@ -110,6 +111,11 @@ function App() {
         <Route path="/intake/:step" element={
           <ProtectedRoute>
             <Intake />
+          </ProtectedRoute>
+        } />
+        <Route path="/documents" element={
+          <ProtectedRoute>
+            <Documents />
           </ProtectedRoute>
         } />
 
