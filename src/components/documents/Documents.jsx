@@ -60,7 +60,7 @@ const Documents = () => {
     loadCase();
   }, [caseId, user]);
 
-  const handleUploadComplete = (uploadedDocs) => {
+  const handleUploadComplete = () => {
     setShowUploadModal(false);
   };
 

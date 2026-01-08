@@ -22,21 +22,22 @@ const Intake = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Load saved form data from localStorage
-  useEffect(() => {
-    const savedData = localStorage.getItem(`intake-${user?.uid}`);
-    if (savedData) {
-      try {
-        setFormData(JSON.parse(savedData));
-      } catch (e) {
-        console.error('Error loading saved form data:', e);
+  const [formData, setFormData] = useState(() => {
+    // Initialize from localStorage if available
+    if (typeof window !== 'undefined' && user?.uid) {
+      const savedData = localStorage.getItem(`intake-${user.uid}`);
+      if (savedData) {
+        try {
+          return JSON.parse(savedData);
+        } catch (e) {
+          console.error('Error loading saved form data:', e);
+        }
       }
     }
-  }, [user]);
+    return INITIAL_FORM_STATE;
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   // Save form data to localStorage on changes
   useEffect(() => {

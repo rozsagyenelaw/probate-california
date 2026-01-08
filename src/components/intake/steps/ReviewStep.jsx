@@ -12,6 +12,37 @@ import {
   Edit2
 } from 'lucide-react';
 
+// eslint-disable-next-line no-unused-vars
+const Section = ({ icon: Icon, title, stepIndex, onEditStep, children }) => (
+  <div className="border rounded-lg overflow-hidden">
+    <div className="bg-gray-50 px-4 py-3 flex items-center justify-between">
+      <div className="flex items-center">
+        <Icon className="h-5 w-5 text-blue-600 mr-2" />
+        <h3 className="font-medium text-gray-900">{title}</h3>
+      </div>
+      {onEditStep && (
+        <button
+          onClick={() => onEditStep(stepIndex)}
+          className="flex items-center text-sm text-blue-600 hover:text-blue-800"
+        >
+          <Edit2 className="h-4 w-4 mr-1" />
+          Edit
+        </button>
+      )}
+    </div>
+    <div className="p-4">{children}</div>
+  </div>
+);
+
+const DataRow = ({ label, value, highlight }) => (
+  <div className="flex justify-between py-1">
+    <span className="text-gray-600">{label}</span>
+    <span className={`font-medium ${highlight ? 'text-blue-900' : 'text-gray-900'}`}>
+      {value || 'Not provided'}
+    </span>
+  </div>
+);
+
 const ReviewStep = ({ formData, onEditStep }) => {
   const {
     decedent,
@@ -62,36 +93,6 @@ const ReviewStep = ({ formData, onEditStep }) => {
   );
   const netEstate = totalAssets - totalLiabilities;
 
-  const Section = ({ icon: Icon, title, stepIndex, children }) => (
-    <div className="border rounded-lg overflow-hidden">
-      <div className="bg-gray-50 px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center">
-          <Icon className="h-5 w-5 text-blue-600 mr-2" />
-          <h3 className="font-medium text-gray-900">{title}</h3>
-        </div>
-        {onEditStep && (
-          <button
-            onClick={() => onEditStep(stepIndex)}
-            className="flex items-center text-sm text-blue-600 hover:text-blue-800"
-          >
-            <Edit2 className="h-4 w-4 mr-1" />
-            Edit
-          </button>
-        )}
-      </div>
-      <div className="p-4">{children}</div>
-    </div>
-  );
-
-  const DataRow = ({ label, value, highlight }) => (
-    <div className="flex justify-between py-1">
-      <span className="text-gray-600">{label}</span>
-      <span className={`font-medium ${highlight ? 'text-blue-900' : 'text-gray-900'}`}>
-        {value || 'Not provided'}
-      </span>
-    </div>
-  );
-
   return (
     <div className="space-y-6">
       <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
@@ -129,7 +130,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </div>
 
       {/* Decedent Information */}
-      <Section icon={User} title="Decedent Information" stepIndex={0}>
+      <Section icon={User} title="Decedent Information" stepIndex={0} onEditStep={onEditStep}>
         <div className="space-y-1 text-sm">
           <DataRow
             label="Full Name"
@@ -152,7 +153,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Petitioner Information */}
-      <Section icon={User} title="Petitioner Information" stepIndex={1}>
+      <Section icon={User} title="Petitioner Information" stepIndex={1} onEditStep={onEditStep}>
         <div className="space-y-1 text-sm">
           <DataRow
             label="Full Name"
@@ -177,7 +178,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Will Information */}
-      <Section icon={FileText} title="Will Information" stepIndex={2}>
+      <Section icon={FileText} title="Will Information" stepIndex={2} onEditStep={onEditStep}>
         <div className="space-y-1 text-sm">
           <DataRow
             label="Will Exists"
@@ -198,7 +199,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Heirs */}
-      <Section icon={Users} title={`Heirs & Beneficiaries (${heirs?.length || 0})`} stepIndex={3}>
+      <Section icon={Users} title={`Heirs & Beneficiaries (${heirs?.length || 0})`} stepIndex={3} onEditStep={onEditStep}>
         {heirs && heirs.length > 0 ? (
           <div className="space-y-3">
             {heirs.map((heir, index) => (
@@ -223,7 +224,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Real Property */}
-      <Section icon={Home} title={`Real Property (${assets?.realProperty?.length || 0})`} stepIndex={4}>
+      <Section icon={Home} title={`Real Property (${assets?.realProperty?.length || 0})`} stepIndex={4} onEditStep={onEditStep}>
         {assets?.realProperty && assets.realProperty.length > 0 ? (
           <div className="space-y-3">
             {assets.realProperty.map((property, index) => (
@@ -249,7 +250,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Financial Accounts */}
-      <Section icon={Landmark} title={`Financial Accounts (${assets?.financialAccounts?.length || 0})`} stepIndex={5}>
+      <Section icon={Landmark} title={`Financial Accounts (${assets?.financialAccounts?.length || 0})`} stepIndex={5} onEditStep={onEditStep}>
         {assets?.financialAccounts && assets.financialAccounts.length > 0 ? (
           <div className="space-y-3">
             {assets.financialAccounts.map((account, index) => (
@@ -271,7 +272,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Vehicles & Personal Property */}
-      <Section icon={Car} title="Vehicles & Personal Property" stepIndex={6}>
+      <Section icon={Car} title="Vehicles & Personal Property" stepIndex={6} onEditStep={onEditStep}>
         <div className="space-y-4">
           {/* Vehicles */}
           <div>
@@ -318,7 +319,7 @@ const ReviewStep = ({ formData, onEditStep }) => {
       </Section>
 
       {/* Liabilities */}
-      <Section icon={CreditCard} title={`Liabilities (${liabilities?.length || 0})`} stepIndex={7}>
+      <Section icon={CreditCard} title={`Liabilities (${liabilities?.length || 0})`} stepIndex={7} onEditStep={onEditStep}>
         {liabilities && liabilities.length > 0 ? (
           <div className="space-y-3">
             {liabilities.map((debt, index) => (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CreditCard, DollarSign, Check, AlertCircle, Shield, ExternalLink, Clock } from 'lucide-react';
 
-const StripePayment = ({ onPaymentComplete }) => {
+const StripePayment = () => {
   const [loading, setLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('full');
 

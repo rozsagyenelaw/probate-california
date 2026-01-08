@@ -11,7 +11,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 
-const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
+const QuickLinks = ({ unreadMessages = 0 }) => {
   const navigate = useNavigate();
 
   const links = [

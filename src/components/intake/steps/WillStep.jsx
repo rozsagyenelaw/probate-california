@@ -2,7 +2,7 @@ import React from 'react';
 import { FileText, Calendar, Shield, AlertCircle } from 'lucide-react';
 
 const WillStep = ({ formData, updateFormData }) => {
-  const { willExists, willDate, codicilExists, codicilDates, namedExecutor, bondWaivedInWill } = formData;
+  const { willExists, willDate, codicilExists, namedExecutor, bondWaivedInWill } = formData;
 
   const handleChange = (field, value) => {
     updateFormData({ [field]: value });

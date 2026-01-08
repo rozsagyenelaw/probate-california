@@ -8,8 +8,7 @@ import {
   doc,
   updateDoc
 } from 'firebase/firestore';
-import { ref, deleteObject } from 'firebase/storage';
-import { db, storage } from '../../services/firebase';
+import { db } from '../../services/firebase';
 import {
   FileText,
   Download,

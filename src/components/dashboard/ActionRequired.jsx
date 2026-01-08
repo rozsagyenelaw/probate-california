@@ -105,7 +105,7 @@ const PHASE_ACTIONS = {
   }
 };
 
-const ActionRequired = ({ currentPhase = 1, probateCase }) => {
+const ActionRequired = ({ currentPhase = 1 }) => {
   const navigate = useNavigate();
   const action = PHASE_ACTIONS[currentPhase];
 

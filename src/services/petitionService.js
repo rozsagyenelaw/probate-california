@@ -205,8 +205,7 @@ export function downloadBlob(blob, filename) {
  */
 export function getRequiredForms(caseData) {
   const forms = [];
-  const { willExists, assets } = caseData;
-  const hasRealProperty = assets?.realProperty?.length > 0;
+  const { willExists } = caseData;
 
   // DE-111 Petition for Probate (required)
   forms.push({
