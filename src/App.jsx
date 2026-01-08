@@ -13,6 +13,7 @@ import Intake from './components/intake/Intake';
 import PaymentPage from './components/common/PaymentPage';
 import { Documents } from './components/documents';
 import { PetitionGeneration } from './components/petition';
+import { PublicationSetup } from './components/phases';
 
 // Admin pages
 import AdminDashboard from './components/dashboard/AdminDashboard';
@@ -122,6 +123,11 @@ function App() {
         <Route path="/petition" element={
           <ProtectedRoute>
             <PetitionGeneration />
+          </ProtectedRoute>
+        } />
+        <Route path="/publication" element={
+          <ProtectedRoute>
+            <PublicationSetup />
           </ProtectedRoute>
         } />
 
