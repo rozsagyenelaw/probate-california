@@ -48,7 +48,8 @@ const Register = () => {
         lastName: formData.lastName,
         phone: formData.phone
       });
-      navigate('/dashboard');
+      // Redirect to payment page after registration
+      navigate('/payment');
     } catch (err) {
       console.error('Registration error:', err);
       if (err.code === 'auth/email-already-in-use') {

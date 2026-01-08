@@ -10,6 +10,7 @@ import ForgotPassword from './components/common/ForgotPassword';
 // Main pages
 import Dashboard from './components/dashboard/Dashboard';
 import Intake from './components/intake/Intake';
+import PaymentPage from './components/common/PaymentPage';
 
 // Admin pages
 import AdminDashboard from './components/dashboard/AdminDashboard';
@@ -94,6 +95,11 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment" element={
+          <ProtectedRoute>
+            <PaymentPage />
           </ProtectedRoute>
         } />
         <Route path="/intake" element={
