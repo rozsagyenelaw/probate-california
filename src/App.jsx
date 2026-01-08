@@ -24,6 +24,7 @@ import {
   FinalPetition,
   CaseClosing
 } from './components/phases';
+import { Messages } from './components/messaging';
 
 // Admin pages
 import AdminDashboard from './components/dashboard/AdminDashboard';
@@ -178,6 +179,11 @@ function App() {
         <Route path="/closing" element={
           <ProtectedRoute>
             <CaseClosing />
+          </ProtectedRoute>
+        } />
+        <Route path="/messages" element={
+          <ProtectedRoute>
+            <Messages />
           </ProtectedRoute>
         } />
 
