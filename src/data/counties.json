@@ -1,0 +1,232 @@
+{
+  "Los Angeles": {
+    "courthouse": {
+      "name": "Stanley Mosk Courthouse",
+      "address": "111 N Hill St, Los Angeles, CA 90012",
+      "probateDepartments": ["5", "9", "11", "29", "67"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "Los Angeles Daily Journal",
+        "phone": "(213) 229-5300",
+        "website": "https://www.dailyjournal.com",
+        "estimatedCost": "$200-300"
+      },
+      {
+        "name": "Metropolitan News-Enterprise",
+        "phone": "(213) 629-2231",
+        "website": "https://www.metnews.com",
+        "estimatedCost": "$180-250"
+      },
+      {
+        "name": "Daily Commerce",
+        "phone": "(213) 229-5500",
+        "website": "https://www.dailycommerce.news",
+        "estimatedCost": "$175-225"
+      }
+    ],
+    "localRules": "https://www.lacourt.org/forms/probate"
+  },
+  "Orange": {
+    "courthouse": {
+      "name": "Lamoreaux Justice Center",
+      "address": "341 The City Dr S, Orange, CA 92868",
+      "probateDepartments": ["C6", "C8", "C10"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "Orange County Reporter",
+        "phone": "(714) 543-2027",
+        "website": "https://www.ocreporter.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "Daily Pilot",
+        "phone": "(714) 966-4600",
+        "website": "https://www.latimes.com/socal/daily-pilot",
+        "estimatedCost": "$200-275"
+      }
+    ],
+    "localRules": "https://www.occourts.org/self-help/probate"
+  },
+  "San Diego": {
+    "courthouse": {
+      "name": "San Diego Superior Court",
+      "address": "1100 Union St, San Diego, CA 92101",
+      "probateDepartments": ["503", "504"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "San Diego Daily Transcript",
+        "phone": "(619) 232-4381",
+        "website": "https://www.sddt.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "San Diego Commerce",
+        "phone": "(619) 234-4440",
+        "website": "https://www.sdcommerce.com",
+        "estimatedCost": "$150-200"
+      }
+    ],
+    "localRules": "https://www.sdcourt.ca.gov/probate"
+  },
+  "Riverside": {
+    "courthouse": {
+      "name": "Riverside Historic Courthouse",
+      "address": "4050 Main St, Riverside, CA 92501",
+      "probateDepartments": ["1", "8"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "The Press-Enterprise",
+        "phone": "(951) 684-1200",
+        "website": "https://www.pe.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "Riverside County Record",
+        "phone": "(951) 781-6820",
+        "website": "https://www.rcrecord.com",
+        "estimatedCost": "$150-200"
+      }
+    ],
+    "localRules": "https://www.riverside.courts.ca.gov/selfhelp/probate"
+  },
+  "San Bernardino": {
+    "courthouse": {
+      "name": "San Bernardino Justice Center",
+      "address": "247 W Third St, San Bernardino, CA 92415",
+      "probateDepartments": ["S35", "S36"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "San Bernardino County Sentinel",
+        "phone": "(909) 957-9998",
+        "website": "https://sbcsentinel.com",
+        "estimatedCost": "$150-200"
+      },
+      {
+        "name": "Daily Press",
+        "phone": "(760) 241-7755",
+        "website": "https://www.vvdailypress.com",
+        "estimatedCost": "$175-225"
+      }
+    ],
+    "localRules": "https://www.sb-court.org/self-help/probate"
+  },
+  "Ventura": {
+    "courthouse": {
+      "name": "Ventura Superior Court",
+      "address": "800 S Victoria Ave, Ventura, CA 93009",
+      "probateDepartments": ["20", "21"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "Ventura County Star",
+        "phone": "(805) 437-0000",
+        "website": "https://www.vcstar.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "Ventura County Reporter",
+        "phone": "(805) 658-2244",
+        "website": "https://www.vcreporter.com",
+        "estimatedCost": "$150-200"
+      }
+    ],
+    "localRules": "https://www.ventura.courts.ca.gov/probate"
+  },
+  "Santa Barbara": {
+    "courthouse": {
+      "name": "Santa Barbara Superior Court",
+      "address": "1100 Anacapa St, Santa Barbara, CA 93101",
+      "probateDepartments": ["4", "5"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "Santa Barbara News-Press",
+        "phone": "(805) 564-5200",
+        "website": "https://www.newspress.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "Santa Barbara Independent",
+        "phone": "(805) 965-5205",
+        "website": "https://www.independent.com",
+        "estimatedCost": "$150-200"
+      }
+    ],
+    "localRules": "https://www.sbcourts.org/gi/probate"
+  },
+  "Kern": {
+    "courthouse": {
+      "name": "Kern County Superior Court",
+      "address": "1415 Truxtun Ave, Bakersfield, CA 93301",
+      "probateDepartments": ["17", "18"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "The Bakersfield Californian",
+        "phone": "(661) 395-7500",
+        "website": "https://www.bakersfield.com",
+        "estimatedCost": "$150-225"
+      }
+    ],
+    "localRules": "https://www.kern.courts.ca.gov/divisions/probate"
+  },
+  "Fresno": {
+    "courthouse": {
+      "name": "Fresno County Superior Court",
+      "address": "1100 Van Ness Ave, Fresno, CA 93721",
+      "probateDepartments": ["303", "304"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "The Fresno Bee",
+        "phone": "(559) 441-6111",
+        "website": "https://www.fresnobee.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "Daily Commercial Record",
+        "phone": "(559) 268-6881",
+        "website": "https://www.dailycommercialrecord.com",
+        "estimatedCost": "$150-200"
+      }
+    ],
+    "localRules": "https://www.fresno.courts.ca.gov/probate"
+  },
+  "Sacramento": {
+    "courthouse": {
+      "name": "Sacramento Superior Court",
+      "address": "720 9th St, Sacramento, CA 95814",
+      "probateDepartments": ["129", "130"]
+    },
+    "filingFee": 435,
+    "newspapers": [
+      {
+        "name": "Daily Recorder",
+        "phone": "(916) 444-2355",
+        "website": "https://www.dailyrecorder.com",
+        "estimatedCost": "$175-250"
+      },
+      {
+        "name": "Sacramento Bee",
+        "phone": "(916) 321-1000",
+        "website": "https://www.sacbee.com",
+        "estimatedCost": "$200-275"
+      }
+    ],
+    "localRules": "https://www.saccourt.ca.gov/probate"
+  }
+}

@@ -1,0 +1,55 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return request.auth != null &&
+        (request.auth.token.email == 'rozsagyenelaw@yahoo.com' ||
+         request.auth.token.email == 'rozsagyenelaw1@gmail.com');
+    }
+
+    // User uploads - files in cases/{caseId}/ path
+    match /cases/{caseId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Signatures storage
+    match /signatures/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Generated documents
+    match /generated/{caseId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() || isAdmin();
+    }
+
+    // Temp uploads
+    match /temp/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Admin-only paths
+    match /admin/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // File size limit (10MB)
+    function isValidSize() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Valid file types
+    function isValidType() {
+      return request.resource.contentType.matches('application/pdf') ||
+             request.resource.contentType.matches('image/.*');
+    }
+  }
+}
