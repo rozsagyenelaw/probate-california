@@ -13,7 +13,17 @@ import Intake from './components/intake/Intake';
 import PaymentPage from './components/common/PaymentPage';
 import { Documents } from './components/documents';
 import { PetitionGeneration } from './components/petition';
-import { PublicationSetup } from './components/phases';
+import {
+  PublicationSetup,
+  BondSetup,
+  HearingPrep,
+  SupplementGeneration,
+  LettersIssued,
+  InventoryAppraisal,
+  CreditorManagement,
+  FinalPetition,
+  CaseClosing
+} from './components/phases';
 
 // Admin pages
 import AdminDashboard from './components/dashboard/AdminDashboard';
@@ -128,6 +138,46 @@ function App() {
         <Route path="/publication" element={
           <ProtectedRoute>
             <PublicationSetup />
+          </ProtectedRoute>
+        } />
+        <Route path="/bond" element={
+          <ProtectedRoute>
+            <BondSetup />
+          </ProtectedRoute>
+        } />
+        <Route path="/hearing" element={
+          <ProtectedRoute>
+            <HearingPrep />
+          </ProtectedRoute>
+        } />
+        <Route path="/supplements" element={
+          <ProtectedRoute>
+            <SupplementGeneration />
+          </ProtectedRoute>
+        } />
+        <Route path="/letters" element={
+          <ProtectedRoute>
+            <LettersIssued />
+          </ProtectedRoute>
+        } />
+        <Route path="/inventory" element={
+          <ProtectedRoute>
+            <InventoryAppraisal />
+          </ProtectedRoute>
+        } />
+        <Route path="/creditors" element={
+          <ProtectedRoute>
+            <CreditorManagement />
+          </ProtectedRoute>
+        } />
+        <Route path="/final-petition" element={
+          <ProtectedRoute>
+            <FinalPetition />
+          </ProtectedRoute>
+        } />
+        <Route path="/closing" element={
+          <ProtectedRoute>
+            <CaseClosing />
           </ProtectedRoute>
         } />
 
