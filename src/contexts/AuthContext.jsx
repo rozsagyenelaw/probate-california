@@ -25,20 +25,37 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // If auth is not available, stop loading
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+
+    // Set a timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
+      console.warn('Auth timeout - setting loading to false');
+      setLoading(false);
+    }, 5000); // 5 second timeout
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      clearTimeout(timeout);
+
       if (firebaseUser) {
         setUser(firebaseUser);
         const userIsAdmin = ADMIN_EMAILS.includes(firebaseUser.email);
         setIsAdmin(userIsAdmin);
 
-        // Load user profile from Firestore
-        try {
-          const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-          if (userDoc.exists()) {
-            setUserProfile({ id: userDoc.id, ...userDoc.data() });
+        // Load user profile from Firestore (don't block on this)
+        if (db) {
+          try {
+            const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+            if (userDoc.exists()) {
+              setUserProfile({ id: userDoc.id, ...userDoc.data() });
+            }
+          } catch (error) {
+            console.error('Error loading user profile:', error);
+            // Don't block - user can still use the app
           }
-        } catch (error) {
-          console.error('Error loading user profile:', error);
         }
       } else {
         setUser(null);
@@ -48,7 +65,10 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => {
+      clearTimeout(timeout);
+      unsubscribe();
+    };
   }, []);
 
   // Login function

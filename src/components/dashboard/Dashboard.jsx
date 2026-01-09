@@ -35,11 +35,20 @@ const Dashboard = () => {
   // Load user's probate case
   useEffect(() => {
     const loadCase = async () => {
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      // Set a timeout to prevent infinite loading
+      const timeout = setTimeout(() => {
+        console.warn('Loading timeout - setting loading to false');
+        setLoading(false);
+      }, 10000); // 10 second timeout
 
       try {
         const casesQuery = query(
-          collection(db, 'probate_cases'),
+          collection(db, 'cases'),
           where('userId', '==', user.uid),
           orderBy('createdAt', 'desc'),
           limit(1)
@@ -52,16 +61,21 @@ const Dashboard = () => {
         }
 
         // Load unread messages count
-        const messagesQuery = query(
-          collection(db, 'messages'),
-          where('userId', '==', user.uid),
-          where('read', '==', false)
-        );
-        const messagesSnapshot = await getDocs(messagesQuery);
-        setUnreadMessages(messagesSnapshot.size);
+        try {
+          const messagesQuery = query(
+            collection(db, 'messages'),
+            where('userId', '==', user.uid),
+            where('read', '==', false)
+          );
+          const messagesSnapshot = await getDocs(messagesQuery);
+          setUnreadMessages(messagesSnapshot.size);
+        } catch (msgError) {
+          console.warn('Error loading messages:', msgError);
+        }
       } catch (error) {
         console.error('Error loading case:', error);
       } finally {
+        clearTimeout(timeout);
         setLoading(false);
       }
     };
