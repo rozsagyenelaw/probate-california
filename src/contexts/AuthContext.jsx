@@ -25,44 +25,41 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // If auth is not available, stop loading
+    // If auth is not available, stop loading immediately
     if (!auth) {
       setLoading(false);
       return;
     }
 
-    // Set a timeout to prevent infinite loading
+    // Very short timeout - show UI quickly, don't make users wait
     const timeout = setTimeout(() => {
-      console.warn('Auth timeout - setting loading to false');
       setLoading(false);
-    }, 5000); // 5 second timeout
+    }, 1500); // 1.5 second max wait
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       clearTimeout(timeout);
 
       if (firebaseUser) {
         setUser(firebaseUser);
-        const userIsAdmin = ADMIN_EMAILS.includes(firebaseUser.email);
-        setIsAdmin(userIsAdmin);
+        setIsAdmin(ADMIN_EMAILS.includes(firebaseUser.email));
+        setLoading(false); // Stop loading immediately once we have user
 
-        // Load user profile from Firestore (don't block on this)
+        // Load profile in background - don't block
         if (db) {
-          try {
-            const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-            if (userDoc.exists()) {
-              setUserProfile({ id: userDoc.id, ...userDoc.data() });
-            }
-          } catch (error) {
-            console.error('Error loading user profile:', error);
-            // Don't block - user can still use the app
-          }
+          getDoc(doc(db, 'users', firebaseUser.uid))
+            .then(userDoc => {
+              if (userDoc.exists()) {
+                setUserProfile({ id: userDoc.id, ...userDoc.data() });
+              }
+            })
+            .catch(err => console.warn('Profile load error:', err));
         }
       } else {
         setUser(null);
         setUserProfile(null);
         setIsAdmin(false);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => {

@@ -34,53 +34,48 @@ const Dashboard = () => {
 
   // Load user's probate case
   useEffect(() => {
-    const loadCase = async () => {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
-      // Set a timeout to prevent infinite loading
-      const timeout = setTimeout(() => {
-        console.warn('Loading timeout - setting loading to false');
-        setLoading(false);
-      }, 10000); // 10 second timeout
+    // Quick timeout - show dashboard fast even if DB is slow
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 3000); // 3 second max wait
 
-      try {
-        const casesQuery = query(
-          collection(db, 'cases'),
-          where('userId', '==', user.uid),
-          orderBy('createdAt', 'desc'),
-          limit(1)
-        );
-        const snapshot = await getDocs(casesQuery);
+    // Load case data
+    const casesQuery = query(
+      collection(db, 'cases'),
+      where('userId', '==', user.uid),
+      orderBy('createdAt', 'desc'),
+      limit(1)
+    );
 
+    getDocs(casesQuery)
+      .then(snapshot => {
         if (!snapshot.empty) {
           const caseDoc = snapshot.docs[0];
           setProbateCase({ id: caseDoc.id, ...caseDoc.data() });
         }
-
-        // Load unread messages count
-        try {
-          const messagesQuery = query(
-            collection(db, 'messages'),
-            where('userId', '==', user.uid),
-            where('read', '==', false)
-          );
-          const messagesSnapshot = await getDocs(messagesQuery);
-          setUnreadMessages(messagesSnapshot.size);
-        } catch (msgError) {
-          console.warn('Error loading messages:', msgError);
-        }
-      } catch (error) {
-        console.error('Error loading case:', error);
-      } finally {
+      })
+      .catch(err => console.warn('Error loading case:', err))
+      .finally(() => {
         clearTimeout(timeout);
         setLoading(false);
-      }
-    };
+      });
 
-    loadCase();
+    // Load messages in background - don't block
+    const messagesQuery = query(
+      collection(db, 'messages'),
+      where('userId', '==', user.uid),
+      where('read', '==', false)
+    );
+    getDocs(messagesQuery)
+      .then(snapshot => setUnreadMessages(snapshot.size))
+      .catch(() => {});
+
+    return () => clearTimeout(timeout);
   }, [user]);
 
   const handleLogout = async () => {
