@@ -30,7 +30,15 @@ import {
 import { Messages } from './components/messaging';
 
 // Admin pages
-import AdminDashboard from './components/dashboard/AdminDashboard';
+import {
+  AdminLayout,
+  AdminOverview,
+  AdminCases,
+  AdminClients,
+  AdminDocuments,
+  AdminPayments,
+  AdminMessages
+} from './components/admin';
 
 // Loading component
 const LoadingSpinner = () => (
@@ -205,12 +213,19 @@ function App() {
           </ProtectedRoute>
         } />
 
-        {/* Admin routes */}
+        {/* Admin routes with nested layout */}
         <Route path="/admin" element={
           <AdminRoute>
-            <AdminDashboard />
+            <AdminLayout />
           </AdminRoute>
-        } />
+        }>
+          <Route index element={<AdminOverview />} />
+          <Route path="cases" element={<AdminCases />} />
+          <Route path="clients" element={<AdminClients />} />
+          <Route path="documents" element={<AdminDocuments />} />
+          <Route path="payments" element={<AdminPayments />} />
+          <Route path="messages" element={<AdminMessages />} />
+        </Route>
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />
