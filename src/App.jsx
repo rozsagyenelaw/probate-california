@@ -7,6 +7,9 @@ import Login from './components/common/Login';
 import Register from './components/common/Register';
 import ForgotPassword from './components/common/ForgotPassword';
 
+// Landing page
+import { LandingPage } from './components/landing';
+
 // Main pages
 import Dashboard from './components/dashboard/Dashboard';
 import Intake from './components/intake/Intake';
@@ -82,6 +85,21 @@ const PublicRoute = ({ children }) => {
   }
 
   return children;
+};
+
+// Home Route - shows landing page for non-authenticated, dashboard for authenticated
+const HomeRoute = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <LandingPage />;
 };
 
 function App() {
@@ -194,9 +212,11 @@ function App() {
           </AdminRoute>
         } />
 
-        {/* Default redirect */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        {/* Home route - landing page or dashboard based on auth */}
+        <Route path="/" element={<HomeRoute />} />
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
   );
