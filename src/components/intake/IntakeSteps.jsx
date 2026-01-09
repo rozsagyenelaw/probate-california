@@ -1,60 +1,70 @@
 // Step definitions for intake questionnaire
 export const INTAKE_STEPS = [
   {
+    id: 'decedent',
     number: 1,
     title: 'Decedent Information',
     shortTitle: 'Decedent',
     description: 'Information about the person who passed away'
   },
   {
+    id: 'petitioner',
     number: 2,
     title: 'Petitioner Information',
     shortTitle: 'Petitioner',
     description: 'Your information as the personal representative'
   },
   {
+    id: 'will',
     number: 3,
     title: 'Will Information',
     shortTitle: 'Will',
     description: 'Details about the will and named executor'
   },
   {
+    id: 'heirs',
     number: 4,
     title: 'Heirs & Beneficiaries',
     shortTitle: 'Heirs',
     description: 'All persons entitled to inherit'
   },
   {
+    id: 'realProperty',
     number: 5,
     title: 'Real Property',
     shortTitle: 'Real Estate',
     description: 'Houses, land, and other real estate'
   },
   {
+    id: 'financial',
     number: 6,
     title: 'Financial Accounts',
     shortTitle: 'Finances',
     description: 'Bank accounts, investments, retirement'
   },
   {
+    id: 'vehiclesPersonal',
     number: 7,
     title: 'Vehicles & Personal Property',
     shortTitle: 'Personal',
     description: 'Cars, jewelry, furniture, collections'
   },
   {
+    id: 'liabilities',
     number: 8,
     title: 'Liabilities',
     shortTitle: 'Debts',
     description: 'Debts and obligations of the estate'
   },
   {
+    id: 'documents',
     number: 9,
     title: 'Document Uploads',
     shortTitle: 'Documents',
     description: 'Upload required documents'
   },
   {
+    id: 'review',
     number: 10,
     title: 'Review & Submit',
     shortTitle: 'Review',
