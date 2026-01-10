@@ -158,6 +158,9 @@ const Intake = () => {
 
   // Handle submit with payment info
   const handleSubmitWithPayment = async (paymentInfo) => {
+    console.log('Intake: handleSubmitWithPayment called', paymentInfo);
+    console.log('Intake: User ID:', user?.uid);
+
     setIsSubmitting(true);
     setError(null);
 
@@ -165,6 +168,7 @@ const Intake = () => {
       // Create case document
       const caseRef = doc(collection(db, 'cases'));
       const caseId = caseRef.id;
+      console.log('Intake: Creating case with ID:', caseId);
 
       const decedentName = `${formData.decedent.firstName} ${formData.decedent.lastName}`;
 
@@ -233,17 +237,22 @@ const Intake = () => {
         }
       };
 
+      console.log('Intake: Saving case to Firestore...');
       await setDoc(caseRef, caseData);
+      console.log('Intake: Case saved successfully!');
 
       // Update user's payment status
+      console.log('Intake: Updating user payment status...');
       await setDoc(doc(db, 'users', user.uid), {
         paymentStatus: 'pending',
         paymentPlan: paymentInfo.paymentPlan,
         updatedAt: serverTimestamp()
       }, { merge: true });
+      console.log('Intake: User updated successfully!');
 
       // Clear saved form data
       localStorage.removeItem(`intake-${user.uid}`);
+      console.log('Intake: Navigating to dashboard...');
 
       // Navigate to dashboard
       navigate('/dashboard', {
@@ -253,14 +262,20 @@ const Intake = () => {
         }
       });
     } catch (err) {
-      console.error('Error submitting intake:', err);
+      console.error('Intake: ERROR submitting:', err);
+      console.error('Intake: Error code:', err.code);
+      console.error('Intake: Error message:', err.message);
+
+      let errorMessage = 'Failed to submit. ';
       if (err.code === 'permission-denied') {
-        setError('Permission denied. Please contact support - Firestore rules may need to be configured.');
+        errorMessage = 'Permission denied. The Firestore security rules are blocking this action. Please check the rules in Firebase Console.';
       } else if (err.message?.includes('offline')) {
-        setError('Connection error. Please check your internet connection and try again.');
+        errorMessage = 'Connection error. Please check your internet connection and try again.';
       } else {
-        setError(`Failed to submit intake: ${err.message || 'Unknown error'}. Please try again.`);
+        errorMessage = `Error: ${err.code || ''} - ${err.message || 'Unknown error'}`;
       }
+
+      setError(errorMessage);
       setIsSubmitting(false);
     }
   };

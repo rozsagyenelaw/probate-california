@@ -61,6 +61,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
       alert('Please agree to the terms and conditions to proceed.');
       return;
     }
+    console.log('PaymentStep: Submitting with payment info...');
     // Call the parent's submit function with payment info
     onSubmitCase({
       paymentPlan: selectedPlan,
