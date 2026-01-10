@@ -97,19 +97,27 @@ const Dashboard = () => {
     }
 
     const loadCase = async () => {
+      console.log('Dashboard: loadCase called');
+      console.log('Dashboard: user.uid =', user.uid);
+      console.log('Dashboard: location.state =', location.state);
+
       try {
         // If we just came from intake with a caseId, load that specific case
         if (location.state?.caseId) {
+          console.log('Dashboard: Loading specific case by ID:', location.state.caseId);
           const caseDoc = await getDoc(doc(db, 'cases', location.state.caseId));
+          console.log('Dashboard: Case exists?', caseDoc.exists());
           if (caseDoc.exists()) {
-            setProbateCase({ id: caseDoc.id, ...caseDoc.data() });
+            const caseData = { id: caseDoc.id, ...caseDoc.data() };
+            console.log('Dashboard: Loaded case data:', caseData);
+            setProbateCase(caseData);
             setLoading(false);
             return;
           }
         }
 
         // Otherwise query for user's most recent case
-        // Simple query without orderBy to avoid index requirement
+        console.log('Dashboard: Querying cases collection for userId:', user.uid);
         const casesQuery = query(
           collection(db, 'cases'),
           where('userId', '==', user.uid),
@@ -117,7 +125,15 @@ const Dashboard = () => {
         );
 
         const snapshot = await getDocs(casesQuery);
+        console.log('Dashboard: Query returned', snapshot.size, 'documents');
+        console.log('Dashboard: snapshot.empty =', snapshot.empty);
+
         if (!snapshot.empty) {
+          // Log all found cases
+          snapshot.docs.forEach((doc, index) => {
+            console.log(`Dashboard: Case ${index}:`, doc.id, doc.data());
+          });
+
           // Find the most recent case manually
           let mostRecentCase = null;
           let mostRecentTime = 0;
@@ -132,11 +148,16 @@ const Dashboard = () => {
           });
 
           if (mostRecentCase) {
+            console.log('Dashboard: Setting probateCase to:', mostRecentCase);
             setProbateCase(mostRecentCase);
           }
+        } else {
+          console.log('Dashboard: No cases found for this user');
         }
       } catch (err) {
-        console.warn('Error loading case:', err);
+        console.error('Dashboard: Error loading case:', err);
+        console.error('Dashboard: Error code:', err.code);
+        console.error('Dashboard: Error message:', err.message);
       } finally {
         setLoading(false);
       }
