@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, onSnapshot, doc, deleteDoc, getDocs, where } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import {
   Users,
@@ -11,7 +11,10 @@ import {
   Clock,
   RefreshCw,
   Eye,
-  Briefcase
+  Briefcase,
+  Trash2,
+  AlertTriangle,
+  X
 } from 'lucide-react';
 
 const AdminClients = () => {
@@ -21,6 +24,8 @@ const AdminClients = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [paymentFilter, setPaymentFilter] = useState('all');
+  const [deleteModal, setDeleteModal] = useState({ show: false, client: null });
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     console.log('AdminClients: Loading data...');
@@ -56,6 +61,42 @@ const AdminClients = () => {
 
   const getCaseForUser = (userId) => {
     return cases.find(c => c.userId === userId);
+  };
+
+  const handleDeleteClient = async () => {
+    if (!deleteModal.client) return;
+
+    setDeleting(true);
+    const clientId = deleteModal.client.id;
+
+    try {
+      // Delete all documents for this client
+      const docsQuery = query(collection(db, 'documents'), where('userId', '==', clientId));
+      const docsSnapshot = await getDocs(docsQuery);
+      for (const docSnap of docsSnapshot.docs) {
+        await deleteDoc(doc(db, 'documents', docSnap.id));
+      }
+      console.log(`Deleted ${docsSnapshot.size} documents for client ${clientId}`);
+
+      // Delete all cases for this client
+      const casesQuery = query(collection(db, 'cases'), where('userId', '==', clientId));
+      const casesSnapshot = await getDocs(casesQuery);
+      for (const caseSnap of casesSnapshot.docs) {
+        await deleteDoc(doc(db, 'cases', caseSnap.id));
+      }
+      console.log(`Deleted ${casesSnapshot.size} cases for client ${clientId}`);
+
+      // Delete the user document
+      await deleteDoc(doc(db, 'users', clientId));
+      console.log(`Deleted user ${clientId}`);
+
+      setDeleteModal({ show: false, client: null });
+    } catch (error) {
+      console.error('Error deleting client:', error);
+      alert('Failed to delete client. Please try again.');
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const filteredClients = clients.filter(c => {
@@ -269,6 +310,13 @@ const AdminClients = () => {
                               <Eye className="h-5 w-5" />
                             </button>
                           )}
+                          <button
+                            onClick={() => setDeleteModal({ show: true, client })}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Delete Client"
+                          >
+                            <Trash2 className="h-5 w-5" />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -286,6 +334,73 @@ const AdminClients = () => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal.show && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+            <div className="bg-red-50 px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center">
+                <AlertTriangle className="h-6 w-6 text-red-600 mr-2" />
+                <h3 className="text-lg font-semibold text-red-900">Delete Client</h3>
+              </div>
+              <button
+                onClick={() => setDeleteModal({ show: false, client: null })}
+                className="text-gray-400 hover:text-gray-600"
+                disabled={deleting}
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="px-6 py-4">
+              <p className="text-gray-700 mb-4">
+                Are you sure you want to delete{' '}
+                <span className="font-semibold">
+                  {deleteModal.client?.firstName} {deleteModal.client?.lastName}
+                </span>
+                ?
+              </p>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                <p className="text-sm text-red-800 font-medium mb-1">This action will permanently delete:</p>
+                <ul className="text-sm text-red-700 list-disc list-inside space-y-1">
+                  <li>The client's user account</li>
+                  <li>All cases associated with this client ({getCaseCountForUser(deleteModal.client?.id)} case(s))</li>
+                  <li>All uploaded documents</li>
+                </ul>
+              </div>
+              <p className="text-sm text-gray-500">
+                This action cannot be undone.
+              </p>
+            </div>
+            <div className="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
+              <button
+                onClick={() => setDeleteModal({ show: false, client: null })}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteClient}
+                disabled={deleting}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center"
+              >
+                {deleting ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete Client
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
