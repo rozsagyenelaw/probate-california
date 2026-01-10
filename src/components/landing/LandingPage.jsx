@@ -98,7 +98,7 @@ const LandingPage = () => {
     },
     {
       q: 'What if the estate is small?',
-      a: 'Estates under $184,500 (2024 threshold) may qualify for simplified "small estate" procedures that avoid formal probate. We\'ll assess this during intake and recommend the most efficient path.'
+      a: 'Estates under $208,850 (2025 threshold) may qualify for simplified "small estate" procedures that avoid formal probate. Primary residences under $750,000 may also qualify for a simplified affidavit process as of April 2025. We\'ll assess this during intake and recommend the most efficient path.'
     }
   ];
 
@@ -326,7 +326,7 @@ const LandingPage = () => {
                 <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
                   <Check className="h-4 w-4 text-blue-900" />
                 </div>
-                <span className="text-gray-700">Total assets exceed $184,500 (2024 threshold)</span>
+                <span className="text-gray-700">Total personal property exceeds $208,850 (2025 threshold)</span>
               </li>
               <li className="flex items-start">
                 <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
@@ -335,6 +335,11 @@ const LandingPage = () => {
                 <span className="text-gray-700">There's no living trust in place</span>
               </li>
             </ul>
+            <div className="bg-blue-50 rounded-lg p-4 mb-6">
+              <p className="text-sm text-blue-900">
+                <strong>New for 2025:</strong> Primary residences under $750,000 may qualify for a simplified affidavit process (effective April 1, 2025). We'll assess your eligibility during intake.
+              </p>
+            </div>
             <p className="text-gray-600 border-t pt-6">
               <strong className="text-gray-900">Our service guides you through the entire process with attorney oversight at every step.</strong> Complete the intake questionnaire to find out if probate is needed for your situation.
             </p>
