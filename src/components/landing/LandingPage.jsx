@@ -261,8 +261,8 @@ const LandingPage = () => {
               California Probate Made Simple
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8">
-              Complete your loved one's probate case for a flat fee of $3,995.<br className="hidden md:block" />
-              Attorney-guided, step-by-step process through all 11 phases.
+              Every form prepared by a licensed California <strong>attorney</strong>. Every filing reviewed before submission.<br className="hidden md:block" />
+              Flat fee of $3,995 — no percentage of estate, no hourly billing, no surprises.
             </p>
 
             {/* Trust Badges */}
@@ -344,56 +344,91 @@ const LandingPage = () => {
 
       {/* How It Works Section */}
       <section id="how-it-works" className="py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-            <p className="text-xl text-gray-600">Three simple steps to start your probate case</p>
+            <p className="text-xl text-gray-600">Your case is handled by a licensed California <strong>attorney</strong> through all 11 phases of probate.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="bg-white rounded-xl shadow-sm p-8 border-t-4 border-blue-900">
-              <div className="bg-blue-900 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-6">
-                1
+          <div className="space-y-6">
+            {/* Phase 1 */}
+            <div className="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-900">
+              <div className="flex items-center mb-4">
+                <div className="bg-blue-900 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold mr-4">1</div>
+                <h3 className="text-xl font-bold text-gray-900">Case Evaluation</h3>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Complete Intake</h3>
-              <p className="text-gray-600 mb-4">
-                Answer questions about the deceased, their assets, and heirs. We'll determine if probate is needed and which forms are required.
-              </p>
-              <div className="flex items-center text-sm text-gray-500">
-                <Clock className="h-4 w-4 mr-2" />
-                About 30 minutes
-              </div>
+              <ul className="space-y-2 ml-14">
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Complete intake questionnaire (30 min)</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700"><strong>Attorney</strong> reviews your situation</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Identify all required forms for your specific case</span></li>
+              </ul>
             </div>
 
-            {/* Step 2 */}
-            <div className="bg-white rounded-xl shadow-sm p-8 border-t-4 border-blue-900">
-              <div className="bg-blue-900 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-6">
-                2
+            {/* Phase 2-3 */}
+            <div className="bg-green-50 rounded-xl p-6 border-l-4 border-green-600">
+              <div className="flex items-center mb-4">
+                <div className="bg-green-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-4">2-3</div>
+                <h3 className="text-xl font-bold text-gray-900">Petition & Filing</h3>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">We Prepare Everything</h3>
-              <p className="text-gray-600 mb-4">
-                Our system generates all required court forms, petitions, and notices. Attorney reviews before each filing.
-              </p>
-              <div className="flex items-center text-sm text-gray-500">
-                <FileText className="h-4 w-4 mr-2" />
-                All forms included
-              </div>
+              <ul className="space-y-2 ml-14">
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700"><strong>Attorney</strong> prepares Petition for Probate (DE-111)</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700"><strong>Attorney</strong> prepares all supporting declarations</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Prepare Letters Testamentary/Administration request</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Calculate bond requirements (if needed)</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">You file at courthouse or we coordinate filing</span></li>
+              </ul>
             </div>
 
-            {/* Step 3 */}
-            <div className="bg-white rounded-xl shadow-sm p-8 border-t-4 border-blue-900">
-              <div className="bg-blue-900 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-6">
-                3
+            {/* Phase 4-5 */}
+            <div className="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-600">
+              <div className="flex items-center mb-4">
+                <div className="bg-purple-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-4">4-5</div>
+                <h3 className="text-xl font-bold text-gray-900">Notices & Court Date</h3>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Follow the Dashboard</h3>
-              <p className="text-gray-600 mb-4">
-                Track your case through all 11 phases. Upload documents, get reminders, and see exactly what's needed next.
-              </p>
-              <div className="flex items-center text-sm text-gray-500">
-                <CheckCircle className="h-4 w-4 mr-2" />
-                Step-by-step guidance
+              <ul className="space-y-2 ml-14">
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Coordinate legal newspaper publication</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Prepare Notice of Petition (DE-121)</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Mail notices to all heirs and beneficiaries</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Prepare proof of service documents</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Court hearing preparation guidance</span></li>
+              </ul>
+            </div>
+
+            {/* Phase 6-8 */}
+            <div className="bg-orange-50 rounded-xl p-6 border-l-4 border-orange-500">
+              <div className="flex items-center mb-4">
+                <div className="bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-4">6-8</div>
+                <h3 className="text-xl font-bold text-gray-900">Inventory & Creditors</h3>
               </div>
+              <ul className="space-y-2 ml-14">
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700"><strong>Attorney</strong> prepares Inventory & Appraisal (DE-160)</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Coordinate with probate referee for appraisals</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Prepare creditor claim responses</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Track 4-month creditor period</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Guidance on paying valid debts</span></li>
+              </ul>
+            </div>
+
+            {/* Phase 9-11 */}
+            <div className="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-600">
+              <div className="flex items-center mb-4">
+                <div className="bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold mr-4">9-11</div>
+                <h3 className="text-xl font-bold text-gray-900">Accounting & Distribution</h3>
+              </div>
+              <ul className="space-y-2 ml-14">
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700"><strong>Attorney</strong> prepares Final Accounting</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700"><strong>Attorney</strong> prepares Petition for Final Distribution</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Calculate executor compensation (if claimed)</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Prepare receipts and releases</span></li>
+                <li className="flex items-start"><Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" /><span className="text-gray-700">Final order and estate closing documents</span></li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom emphasis */}
+          <div className="mt-10 text-center">
+            <div className="inline-block bg-blue-900 text-white px-8 py-4 rounded-lg">
+              <p className="text-lg font-semibold">Every document <strong>attorney</strong>-prepared. Every filing <strong>attorney</strong>-reviewed.</p>
             </div>
           </div>
         </div>
@@ -449,88 +484,69 @@ const LandingPage = () => {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Our Flat Fee Makes Sense</h2>
-            <p className="text-xl text-gray-600">Compare your options</p>
+            <p className="text-xl text-gray-600">Compare your options side by side</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* DIY Option */}
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">DIY (Forms Yourself)</h3>
-              <p className="text-3xl font-bold text-gray-900 mb-4">$500-1,000<span className="text-lg font-normal text-gray-500"> in fees</span></p>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                  <span>High risk of errors</span>
-                </li>
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                  <span>Rejected filings delay case</span>
-                </li>
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                  <span>No professional guidance</span>
-                </li>
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
-                  <span>Miss deadlines = penalties</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Attorney Option */}
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Hire a Probate Attorney</h3>
-              <p className="text-3xl font-bold text-gray-900 mb-4">$8,000-15,000<span className="text-lg font-normal text-gray-500">+</span></p>
-              <ul className="space-y-3 text-gray-600">
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                  <span>Full professional service</span>
-                </li>
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" />
-                  <span>Hourly billing adds up</span>
-                </li>
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" />
-                  <span>Final cost unpredictable</span>
-                </li>
-                <li className="flex items-start">
-                  <AlertCircle className="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" />
-                  <span>May charge % of estate</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Our Option */}
-            <div className="bg-blue-900 rounded-xl shadow-lg p-6 text-white relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-green-500 text-white text-sm font-bold px-4 py-1 rounded-full">BEST VALUE</span>
-              </div>
-              <h3 className="text-lg font-bold mb-2 mt-2">California Probate (Us)</h3>
-              <p className="text-3xl font-bold mb-4">$3,995<span className="text-lg font-normal text-blue-200"> flat fee</span></p>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-400 mr-2 flex-shrink-0" />
-                  <span>Attorney-guided process</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-400 mr-2 flex-shrink-0" />
-                  <span>All forms prepared</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-400 mr-2 flex-shrink-0" />
-                  <span>Dashboard tracking</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="h-5 w-5 text-green-400 mr-2 flex-shrink-0" />
-                  <span>No surprise fees</span>
-                </li>
-              </ul>
-            </div>
+          {/* Comparison Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+              <thead>
+                <tr>
+                  <th className="px-6 py-4 text-left text-gray-700 font-semibold bg-gray-50"></th>
+                  <th className="px-6 py-4 text-center text-gray-700 font-semibold bg-gray-50">DIY</th>
+                  <th className="px-6 py-4 text-center text-gray-700 font-semibold bg-gray-50">Traditional Attorney</th>
+                  <th className="px-6 py-4 text-center text-white font-semibold bg-blue-900">Us</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900">Cost</td>
+                  <td className="px-6 py-4 text-center text-gray-600">$0 <span className="text-red-500 text-sm">(+ mistakes)</span></td>
+                  <td className="px-6 py-4 text-center text-gray-600">$13,000+ <span className="text-gray-400 text-sm">(for $500K estate)</span></td>
+                  <td className="px-6 py-4 text-center font-bold text-blue-900 bg-blue-50">$3,995 flat</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 font-medium text-gray-900"><strong>Attorney</strong> prepares forms?</td>
+                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900"><strong>Attorney</strong> reviews everything?</td>
+                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 font-medium text-gray-900">Risk of court rejection</td>
+                  <td className="px-6 py-4 text-center text-red-600 font-medium">HIGH</td>
+                  <td className="px-6 py-4 text-center text-green-600">Low</td>
+                  <td className="px-6 py-4 text-center text-green-600 bg-blue-50">Low</td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900">Dedicated dashboard</td>
+                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4 font-medium text-gray-900">Deadline tracking</td>
+                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center text-gray-500">Maybe</td>
+                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                </tr>
+                <tr>
+                  <td className="px-6 py-4 font-medium text-gray-900">Always know what's next?</td>
+                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                  <td className="px-6 py-4 text-center text-gray-500">Ask lawyer</td>
+                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <p className="text-center text-gray-500 mt-8">
-            <strong>Note:</strong> Court filing fees (~$500) and publication costs (~$200) are additional and paid directly to third parties.
+            <strong>Note:</strong> Court filing fees (~$435-500) and publication costs (~$200-300) are additional and paid directly to third parties.
           </p>
         </div>
       </section>
@@ -539,30 +555,85 @@ const LandingPage = () => {
       <section className="py-16 md:py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What's Included</h2>
-            <p className="text-xl text-gray-600">Everything you need for $3,995</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What You Get for $3,995</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              'Complete case management dashboard',
-              'All required court forms prepared (Petition, Inventory, Accounting, etc.)',
-              'Step-by-step guidance through all 11 phases',
-              'Newspaper publication coordination',
-              'Document upload & secure storage',
-              'Attorney review at key milestones',
-              'Deadline tracking & reminders',
-              'Heir notification letters',
-              'Final distribution documents',
-              'Unlimited email support'
-            ].map((item, index) => (
-              <div key={index} className="flex items-start bg-white p-4 rounded-lg shadow-sm">
-                <div className="bg-green-100 rounded-full p-1 mr-3 mt-0.5">
-                  <Check className="h-5 w-5 text-green-600" />
-                </div>
-                <span className="text-gray-700">{item}</span>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Documents Prepared by Attorney */}
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center">
+                <FileText className="h-5 w-5 mr-2" />
+                DOCUMENTS PREPARED BY <strong className="ml-1">ATTORNEY</strong>
+              </h3>
+              <ul className="space-y-3">
+                {[
+                  'Petition for Probate (DE-111)',
+                  'Notice of Petition to Administer Estate (DE-121)',
+                  'Duties and Liabilities of Personal Representative (DE-147)',
+                  'Letters Testamentary / Letters of Administration',
+                  'Inventory and Appraisal (DE-160)',
+                  'Notice of Administration to Creditors (DE-157)',
+                  'Final Accounting',
+                  'Petition for Final Distribution',
+                  'Order for Final Distribution',
+                  'All required proofs of service',
+                  'All supplemental declarations'
+                ].map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services Included */}
+            <div className="space-y-6">
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center">
+                  <CheckCircle className="h-5 w-5 mr-2" />
+                  SERVICES INCLUDED
+                </h3>
+                <ul className="space-y-3">
+                  {[
+                    'Attorney review at every phase',
+                    'Newspaper publication coordination',
+                    'Deadline tracking & reminders',
+                    'Document upload & secure storage',
+                    'Unlimited email support',
+                    'Dashboard access until case closes'
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-start">
+                      <Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
+
+              {/* Not Included */}
+              <div className="bg-gray-100 rounded-xl p-6 border border-gray-200">
+                <h3 className="text-lg font-bold text-gray-700 mb-4">NOT INCLUDED (paid separately)</h3>
+                <ul className="space-y-2 text-gray-600">
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                    Court filing fees (~$435-500)
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                    Newspaper publication (~$200-300)
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                    Probate referee fees (0.1% of assets)
+                  </li>
+                  <li className="flex items-center">
+                    <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                    Bond premium (if required)
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
