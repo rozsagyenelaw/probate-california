@@ -98,16 +98,12 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
-// Home Route - shows landing page for non-authenticated, dashboard for authenticated
+// Home Route - always shows landing page (with login/logout buttons based on auth)
 const HomeRoute = () => {
-  const { user, loading } = useAuth();
+  const { loading } = useAuth();
 
   if (loading) {
     return <LoadingSpinner />;
-  }
-
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
   }
 
   return <LandingPage />;

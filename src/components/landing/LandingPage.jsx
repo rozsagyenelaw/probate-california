@@ -26,13 +26,25 @@ import {
   CheckCircle,
   AlertCircle,
   Menu,
-  X
+  X,
+  LogIn,
+  LogOut,
+  LayoutDashboard
 } from 'lucide-react';
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
   const [expandedPhase, setExpandedPhase] = useState(null);
   const [expandedFaq, setExpandedFaq] = useState(null);
 
@@ -119,12 +131,49 @@ const LandingPage = () => {
               <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-900 font-medium">
                 Contact
               </button>
-              <button
-                onClick={handleStartCase}
-                className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium transition-colors"
-              >
-                Start Your Case
-              </button>
+
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <button
+                      onClick={() => navigate('/admin')}
+                      className="text-gray-600 hover:text-blue-900 font-medium flex items-center"
+                    >
+                      <LayoutDashboard className="h-4 w-4 mr-1" />
+                      Admin
+                    </button>
+                  )}
+                  <button
+                    onClick={() => navigate('/dashboard')}
+                    className="text-gray-600 hover:text-blue-900 font-medium"
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 font-medium transition-colors flex items-center"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="text-gray-600 hover:text-blue-900 font-medium flex items-center"
+                  >
+                    <LogIn className="h-4 w-4 mr-1" />
+                    Login
+                  </button>
+                  <button
+                    onClick={handleStartCase}
+                    className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium transition-colors"
+                  >
+                    Start Your Case
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Mobile menu button */}
@@ -155,12 +204,49 @@ const LandingPage = () => {
                 <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-900 font-medium text-left">
                   Contact
                 </button>
-                <button
-                  onClick={handleStartCase}
-                  className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium w-full"
-                >
-                  Start Your Case
-                </button>
+
+                {user ? (
+                  <>
+                    {isAdmin && (
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); navigate('/admin'); }}
+                        className="text-gray-600 hover:text-blue-900 font-medium text-left flex items-center"
+                      >
+                        <LayoutDashboard className="h-4 w-4 mr-2" />
+                        Admin
+                      </button>
+                    )}
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); navigate('/dashboard'); }}
+                      className="text-gray-600 hover:text-blue-900 font-medium text-left"
+                    >
+                      Dashboard
+                    </button>
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
+                      className="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 font-medium w-full flex items-center justify-center"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
+                      className="text-gray-600 hover:text-blue-900 font-medium text-left flex items-center"
+                    >
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Login
+                    </button>
+                    <button
+                      onClick={handleStartCase}
+                      className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium w-full"
+                    >
+                      Start Your Case
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           )}
