@@ -27,5 +27,19 @@ service firebase.storage {
       allow write: if isAuthenticated();
       allow delete: if isAuthenticated() || isAdmin();
     }
+
+    // Signature request documents - admin can upload, public can read for signing
+    match /signature-requests/{allPaths=**} {
+      allow read: if true;  // Public access for signing page
+      allow write: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Signed documents - cloud function uploads, public can read
+    match /signed-documents/{allPaths=**} {
+      allow read: if true;  // Public access to download signed docs
+      allow write: if true;  // Cloud function needs to write
+      allow delete: if isAdmin();
+    }
   }
 }
