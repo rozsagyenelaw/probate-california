@@ -78,7 +78,7 @@ async function sendSMS(phoneNumber, message) {
 // Send Signature Request Notification
 // ============================================================
 exports.sendSignatureRequestNotification = functions.https.onCall({
-  cors: ['https://cute-kitten-b6cf51.netlify.app', 'https://probate.livingtrust-attorneys.com', 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
+  cors: ['https://cute-kitten-b6cf51.netlify.app', 'https://cute-kitten-b6cf51.netlify.app', 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
 }, async (request) => {
   const {
     requestId,
@@ -123,7 +123,7 @@ exports.sendSignatureRequestNotification = functions.https.onCall({
     if (sendViaEmail) {
       try {
         console.log('Attempting to send email notification...');
-        const signatureUrl = `https://probate.livingtrust-attorneys.com/sign/${requestId}`;
+        const signatureUrl = `https://cute-kitten-b6cf51.netlify.app/sign/${requestId}`;
         console.log('Signature URL:', signatureUrl);
 
         const emailContent = {
@@ -257,7 +257,7 @@ exports.sendSignatureRequestNotification = functions.https.onCall({
 // Generate Signed PDF
 // ============================================================
 exports.generateSignedPdf = functions.https.onCall({
-  cors: ['https://cute-kitten-b6cf51.netlify.app', 'https://probate.livingtrust-attorneys.com', 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
+  cors: ['https://cute-kitten-b6cf51.netlify.app', 'https://cute-kitten-b6cf51.netlify.app', 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
 }, async (request) => {
   const { PDFDocument } = require('pdf-lib');
 
@@ -357,7 +357,7 @@ exports.generateSignedPdf = functions.https.onCall({
 // Send Document Notification Email
 // ============================================================
 exports.sendDocumentNotification = functions.https.onCall({
-  cors: ['https://cute-kitten-b6cf51.netlify.app', 'https://probate.livingtrust-attorneys.com', 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
+  cors: ['https://cute-kitten-b6cf51.netlify.app', 'https://cute-kitten-b6cf51.netlify.app', 'http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
 }, async (request) => {
   const {
     clientName,
@@ -380,7 +380,7 @@ exports.sendDocumentNotification = functions.https.onCall({
     console.log('Client Name:', clientName);
     console.log('Document:', documentTitle);
 
-    const portalUrl = 'https://probate.livingtrust-attorneys.com/documents';
+    const portalUrl = 'https://cute-kitten-b6cf51.netlify.app/documents';
 
     const emailContent = {
       from: '"California Probate Services" <rozsagyenelaw1@gmail.com>',
