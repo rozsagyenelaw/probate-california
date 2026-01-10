@@ -94,11 +94,11 @@ const LandingPage = () => {
     },
     {
       q: 'What court fees are not included?',
-      a: 'Court filing fees (approximately $500) and newspaper publication costs (approximately $200) are paid directly to third parties. Our $3,995 covers all our professional services, form preparation, and attorney oversight.'
+      a: 'Court filing fees (~$435-500), newspaper publication (~$200-300), probate referee fees (0.1% of assets), and bond premiums (if required) are paid directly to third parties. Our flat fees ($2,495 simplified or $3,995 full probate) cover all attorney services, form preparation, and case management.'
     },
     {
       q: 'What if the estate is small?',
-      a: 'Estates under $208,850 (2025 threshold) may qualify for simplified "small estate" procedures that avoid formal probate. Primary residences under $750,000 may also qualify for a simplified affidavit process as of April 2025. We\'ll assess this during intake and recommend the most efficient path.'
+      a: 'Estates with personal property under $208,850 may qualify for a small estate affidavit (no court required). Primary residences valued under $750,000 may qualify for our simplified probate process ($2,495). We\'ll evaluate your situation during intake and recommend the most cost-effective approach.'
     }
   ];
 
@@ -313,36 +313,60 @@ const LandingPage = () => {
           </div>
           <div className="bg-white rounded-xl shadow-sm p-8">
             <p className="text-lg text-gray-700 mb-6">
-              When someone passes away in California, their assets may need to go through probate court before they can be transferred to heirs. Probate is typically required when:
+              When someone passes away in California, their assets may need to go through probate court before they can be transferred to heirs.
             </p>
-            <ul className="space-y-4 mb-6">
-              <li className="flex items-start">
-                <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
-                  <Check className="h-4 w-4 text-blue-900" />
-                </div>
-                <span className="text-gray-700">The deceased owned real estate in their name alone</span>
-              </li>
-              <li className="flex items-start">
-                <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
-                  <Check className="h-4 w-4 text-blue-900" />
-                </div>
-                <span className="text-gray-700">Total personal property exceeds $208,850 (2025 threshold)</span>
-              </li>
-              <li className="flex items-start">
-                <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
-                  <Check className="h-4 w-4 text-blue-900" />
-                </div>
-                <span className="text-gray-700">There's no living trust in place</span>
-              </li>
-            </ul>
-            <div className="bg-blue-50 rounded-lg p-4 mb-6">
-              <p className="text-sm text-blue-900">
-                <strong>New for 2025:</strong> Primary residences under $750,000 may qualify for a simplified affidavit process (effective April 1, 2025). We'll assess your eligibility during intake.
-              </p>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              {/* Full Probate */}
+              <div className="bg-blue-50 rounded-lg p-5 border border-blue-200">
+                <h3 className="font-bold text-blue-900 mb-3">Full Probate is typically required when:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Real estate valued over $750,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Total personal property exceeds $208,850</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">No living trust in place</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Simplified Process */}
+              <div className="bg-green-50 rounded-lg p-5 border border-green-200">
+                <h3 className="font-bold text-green-800 mb-3">Simplified Process may be available when:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Primary residence valued under $750,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Personal property under $208,850</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Effective for deaths on or after April 1, 2025</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <p className="text-gray-600 border-t pt-6">
-              <strong className="text-gray-900">Our service guides you through the entire process with attorney oversight at every step.</strong> Complete the intake questionnaire to find out if probate is needed for your situation.
-            </p>
+
+            <div className="text-center pt-4 border-t">
+              <p className="text-gray-600 mb-4">
+                <strong className="text-gray-900">Not sure which applies?</strong> Complete our intake questionnaire and we'll evaluate your situation.
+              </p>
+              <button
+                onClick={handleStartCase}
+                className="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 font-medium transition-colors"
+              >
+                Get Started — We'll Help You Decide
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -484,73 +508,223 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Pricing Section - Two Tiers */}
       <section id="pricing" className="py-16 md:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Our Flat Fee Makes Sense</h2>
-            <p className="text-xl text-gray-600">Compare your options side by side</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Choose Your Service</h2>
+            <p className="text-xl text-gray-600">Transparent flat-fee pricing with payment plans available</p>
+          </div>
+
+          {/* Two-Tier Pricing Cards */}
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Simplified Probate */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-200">
+              <div className="bg-green-600 text-white p-4 text-center">
+                <h3 className="text-xl font-bold">SIMPLIFIED PROBATE</h3>
+                <p className="text-green-100 text-sm">For primary residences under $750,000</p>
+              </div>
+              <div className="p-6">
+                <div className="text-center mb-6">
+                  <p className="text-4xl font-bold text-gray-900">$2,495</p>
+                  <p className="text-gray-500">flat fee</p>
+                  <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
+                </div>
+
+                <div className="mb-6">
+                  <p className="font-semibold text-gray-900 mb-2">Best for:</p>
+                  <ul className="space-y-1 text-sm text-gray-600">
+                    <li>• Primary home valued under $750,000</li>
+                    <li>• Personal property under $208,850</li>
+                    <li>• All heirs agree on distribution</li>
+                    <li>• No complex assets or disputes</li>
+                  </ul>
+                </div>
+
+                <div className="mb-6">
+                  <p className="font-semibold text-gray-900 mb-2">What's included:</p>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span><strong>Attorney</strong> prepares Petition to Determine Succession</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span><strong>Attorney</strong> prepares all supporting declarations</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Coordinate probate referee appraisal</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Court hearing preparation</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Final order for property transfer</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Unlimited email support</span></li>
+                  </ul>
+                </div>
+
+                <div className="text-center mb-4">
+                  <div className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-600">
+                    <Clock className="h-4 w-4 mr-1" />
+                    Timeline: 3-6 months typical
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleStartCase}
+                  className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                >
+                  Start Simplified Process
+                </button>
+              </div>
+            </div>
+
+            {/* Full Probate */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-blue-900 relative">
+              <div className="absolute -top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">MOST COMMON</span>
+              </div>
+              <div className="bg-blue-900 text-white p-4 text-center">
+                <h3 className="text-xl font-bold">FULL PROBATE</h3>
+                <p className="text-blue-200 text-sm">For estates over $750,000 or complex situations</p>
+              </div>
+              <div className="p-6">
+                <div className="text-center mb-6">
+                  <p className="text-4xl font-bold text-gray-900">$3,995</p>
+                  <p className="text-gray-500">flat fee</p>
+                  <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
+                </div>
+
+                <div className="mb-6">
+                  <p className="font-semibold text-gray-900 mb-2">Best for:</p>
+                  <ul className="space-y-1 text-sm text-gray-600">
+                    <li>• Real estate over $750,000</li>
+                    <li>• Multiple properties or rental/vacation homes</li>
+                    <li>• Business interests</li>
+                    <li>• Any situation not qualifying for simplified</li>
+                  </ul>
+                </div>
+
+                <div className="mb-6">
+                  <p className="font-semibold text-gray-900 mb-2">What's included:</p>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Everything in Simplified, <strong>PLUS:</strong></span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Full 11-phase administration</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>All probate forms prepared by <strong>attorney</strong></span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Inventory & Appraisal preparation</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Creditor claim management</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Final Accounting preparation</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Petition for Final Distribution</span></li>
+                    <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Dashboard tracking & deadline reminders</span></li>
+                  </ul>
+                </div>
+
+                <div className="text-center mb-4">
+                  <div className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-600">
+                    <Clock className="h-4 w-4 mr-1" />
+                    Timeline: 9-18 months typical
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleStartCase}
+                  className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
+                >
+                  Start Full Probate
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Not Sure CTA */}
+          <div className="text-center mb-12 bg-gray-100 rounded-xl p-6">
+            <p className="text-lg text-gray-700 mb-4">
+              <strong>Not sure which you need?</strong> Complete the intake questionnaire and we'll evaluate your situation at no charge.
+            </p>
+            <button
+              onClick={handleStartCase}
+              className="bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
+            >
+              Get Started — We'll Help You Decide
+            </button>
+          </div>
+
+          {/* Payment Plan Callout */}
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-12">
+            <div className="flex items-start">
+              <CreditCard className="h-8 w-8 text-blue-600 mr-4 flex-shrink-0" />
+              <div>
+                <h3 className="font-bold text-blue-900 text-lg mb-2">Payment Plans Available</h3>
+                <p className="text-gray-700 mb-3">Can't pay all at once? No problem.</p>
+                <ul className="space-y-1 text-sm text-gray-600">
+                  <li className="flex items-center"><Check className="h-4 w-4 text-green-600 mr-2" />Split into 3 equal payments</li>
+                  <li className="flex items-center"><Check className="h-4 w-4 text-green-600 mr-2" />No extra fees or interest</li>
+                  <li className="flex items-center"><Check className="h-4 w-4 text-green-600 mr-2" />First payment due after intake</li>
+                  <li className="flex items-center"><Check className="h-4 w-4 text-green-600 mr-2" />Final payment before distribution</li>
+                </ul>
+                <p className="text-sm text-blue-800 mt-3 font-medium">Same total cost whether you pay in full or in installments.</p>
+              </div>
+            </div>
           </div>
 
           {/* Comparison Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
-              <thead>
-                <tr>
-                  <th className="px-6 py-4 text-left text-gray-700 font-semibold bg-gray-50"></th>
-                  <th className="px-6 py-4 text-center text-gray-700 font-semibold bg-gray-50">DIY</th>
-                  <th className="px-6 py-4 text-center text-gray-700 font-semibold bg-gray-50">Traditional Attorney</th>
-                  <th className="px-6 py-4 text-center text-white font-semibold bg-blue-900">Us</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 font-medium text-gray-900">Cost</td>
-                  <td className="px-6 py-4 text-center text-gray-600">$0 <span className="text-red-500 text-sm">(+ mistakes)</span></td>
-                  <td className="px-6 py-4 text-center text-gray-600">$13,000+ <span className="text-gray-400 text-sm">(for $500K estate)</span></td>
-                  <td className="px-6 py-4 text-center font-bold text-blue-900 bg-blue-50">$3,995 flat</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="px-6 py-4 font-medium text-gray-900"><strong>Attorney</strong> prepares forms?</td>
-                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 font-medium text-gray-900"><strong>Attorney</strong> reviews everything?</td>
-                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="px-6 py-4 font-medium text-gray-900">Risk of court rejection</td>
-                  <td className="px-6 py-4 text-center text-red-600 font-medium">HIGH</td>
-                  <td className="px-6 py-4 text-center text-green-600">Low</td>
-                  <td className="px-6 py-4 text-center text-green-600 bg-blue-50">Low</td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 font-medium text-gray-900">Dedicated dashboard</td>
-                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="px-6 py-4 font-medium text-gray-900">Deadline tracking</td>
-                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center text-gray-500">Maybe</td>
-                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                </tr>
-                <tr>
-                  <td className="px-6 py-4 font-medium text-gray-900">Always know what's next?</td>
-                  <td className="px-6 py-4 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
-                  <td className="px-6 py-4 text-center text-gray-500">Ask lawyer</td>
-                  <td className="px-6 py-4 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-6">Why Flat Fee Makes Sense</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-4 text-left text-gray-700 font-semibold bg-gray-50"></th>
+                    <th className="px-4 py-4 text-center text-gray-700 font-semibold bg-gray-50">DIY</th>
+                    <th className="px-4 py-4 text-center text-gray-700 font-semibold bg-gray-50">Traditional Attorney</th>
+                    <th className="px-4 py-4 text-center text-white font-semibold bg-blue-900">Us</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  <tr>
+                    <td className="px-4 py-3 font-medium text-gray-900">Cost</td>
+                    <td className="px-4 py-3 text-center text-gray-600 text-sm">$0 <span className="text-red-500">(+ mistakes)</span></td>
+                    <td className="px-4 py-3 text-center text-gray-600 text-sm">$13,000+</td>
+                    <td className="px-4 py-3 text-center font-bold text-blue-900 bg-blue-50">$2,495 - $3,995</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900"><strong>Attorney</strong> prepares forms?</td>
+                    <td className="px-4 py-3 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium text-gray-900"><strong>Attorney</strong> reviews everything?</td>
+                    <td className="px-4 py-3 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">Risk of court rejection</td>
+                    <td className="px-4 py-3 text-center text-red-600 font-medium">HIGH</td>
+                    <td className="px-4 py-3 text-center text-green-600">Low</td>
+                    <td className="px-4 py-3 text-center text-green-600 bg-blue-50">Low</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium text-gray-900">Dedicated dashboard</td>
+                    <td className="px-4 py-3 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">Deadline tracking</td>
+                    <td className="px-4 py-3 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center text-gray-500">Maybe</td>
+                    <td className="px-4 py-3 text-center bg-blue-50"><Check className="h-5 w-5 text-green-500 mx-auto" /></td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium text-gray-900">Know what's next?</td>
+                    <td className="px-4 py-3 text-center"><X className="h-5 w-5 text-red-500 mx-auto" /></td>
+                    <td className="px-4 py-3 text-center text-gray-500">Ask lawyer</td>
+                    <td className="px-4 py-3 text-center bg-blue-50 text-green-600 font-medium">Always</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="px-4 py-3 font-medium text-gray-900">Payment plan?</td>
+                    <td className="px-4 py-3 text-center text-gray-500">N/A</td>
+                    <td className="px-4 py-3 text-center text-gray-500">Rarely</td>
+                    <td className="px-4 py-3 text-center bg-blue-50 text-green-600 font-medium">Yes, no extra cost</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <p className="text-center text-gray-500 mt-8">
+          <p className="text-center text-gray-500">
             <strong>Note:</strong> Court filing fees (~$435-500) and publication costs (~$200-300) are additional and paid directly to third parties.
           </p>
         </div>
