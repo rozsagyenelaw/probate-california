@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import {
   CreditCard,
@@ -21,17 +21,27 @@ const AdminPayments = () => {
   const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
-    const usersQuery = query(
-      collection(db, 'users'),
-      orderBy('createdAt', 'desc')
-    );
+    console.log('AdminPayments: Loading users...');
+    // Simple query without orderBy to avoid index requirement
+    const usersQuery = query(collection(db, 'users'));
 
     const unsubUsers = onSnapshot(usersQuery, (snapshot) => {
-      const usersData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      console.log('AdminPayments: Users loaded:', snapshot.size);
+      const usersData = snapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        // Sort by createdAt in JavaScript instead
+        .sort((a, b) => {
+          const timeA = a.createdAt?.toMillis?.() || 0;
+          const timeB = b.createdAt?.toMillis?.() || 0;
+          return timeB - timeA;
+        });
       setClients(usersData);
+      setLoading(false);
+    }, (error) => {
+      console.error('AdminPayments: Error loading users:', error);
       setLoading(false);
     });
 

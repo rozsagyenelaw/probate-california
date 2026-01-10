@@ -46,16 +46,30 @@ const AdminCases = () => {
   const [unreadMessages, setUnreadMessages] = useState({});
 
   useEffect(() => {
-    const casesQuery = query(
-      collection(db, 'cases'),
-      orderBy('createdAt', 'desc')
-    );
+    console.log('AdminCases: Starting to load cases...');
+
+    // Simple query without orderBy to avoid index requirement
+    const casesQuery = query(collection(db, 'cases'));
 
     const unsubCases = onSnapshot(casesQuery, (snapshot) => {
-      const casesData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      console.log('AdminCases: Query returned', snapshot.size, 'documents');
+
+      const casesData = snapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        // Sort by createdAt in JavaScript instead
+        .sort((a, b) => {
+          const timeA = a.createdAt?.toMillis?.() || 0;
+          const timeB = b.createdAt?.toMillis?.() || 0;
+          return timeB - timeA;
+        });
+
+      console.log('AdminCases: Processed cases:', casesData.length);
+      if (casesData.length > 0) {
+        console.log('AdminCases: First case:', casesData[0]);
+      }
 
       setCases(casesData);
 
@@ -71,21 +85,27 @@ const AdminCases = () => {
       });
 
       setLoading(false);
+    }, (error) => {
+      console.error('AdminCases: Error loading cases:', error);
+      console.error('AdminCases: Error code:', error.code);
+      setLoading(false);
     });
 
-    const messagesQuery = query(
-      collection(db, 'messages'),
-      where('isAdmin', '==', false),
-      where('read', '==', false)
-    );
+    // Simple messages query - filter in JavaScript to avoid index requirement
+    const messagesQuery = query(collection(db, 'messages'));
 
     const unsubMessages = onSnapshot(messagesQuery, (snapshot) => {
       const unread = {};
       snapshot.docs.forEach(doc => {
         const data = doc.data();
-        unread[data.caseId] = (unread[data.caseId] || 0) + 1;
+        // Filter: not from admin and not read
+        if (data.isAdmin === false && data.read === false) {
+          unread[data.caseId] = (unread[data.caseId] || 0) + 1;
+        }
       });
       setUnreadMessages(unread);
+    }, (error) => {
+      console.error('AdminCases: Error loading messages:', error);
     });
 
     return () => {

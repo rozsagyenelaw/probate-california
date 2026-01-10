@@ -34,6 +34,7 @@ import {
   AdminLayout,
   AdminOverview,
   AdminCases,
+  AdminCaseDetails,
   AdminClients,
   AdminDocuments,
   AdminPayments,
@@ -221,6 +222,7 @@ function App() {
         }>
           <Route index element={<AdminOverview />} />
           <Route path="cases" element={<AdminCases />} />
+          <Route path="cases/:caseId" element={<AdminCaseDetails />} />
           <Route path="clients" element={<AdminClients />} />
           <Route path="documents" element={<AdminDocuments />} />
           <Route path="payments" element={<AdminPayments />} />

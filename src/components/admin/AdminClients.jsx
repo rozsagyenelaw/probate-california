@@ -23,28 +23,26 @@ const AdminClients = () => {
   const [paymentFilter, setPaymentFilter] = useState('all');
 
   useEffect(() => {
-    const usersQuery = query(
-      collection(db, 'users'),
-      orderBy('createdAt', 'desc')
-    );
+    console.log('AdminClients: Loading data...');
 
-    const unsubUsers = onSnapshot(usersQuery, (snapshot) => {
-      const usersData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    // Simple query, sort in JS
+    const unsubUsers = onSnapshot(query(collection(db, 'users')), (snapshot) => {
+      console.log('AdminClients: Users loaded:', snapshot.size);
+      const usersData = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
       setClients(usersData);
+      setLoading(false);
+    }, (error) => {
+      console.error('AdminClients: Error loading users:', error);
       setLoading(false);
     });
 
-    const casesQuery = query(collection(db, 'cases'));
-    const unsubCases = onSnapshot(casesQuery, (snapshot) => {
-      const casesData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    const unsubCases = onSnapshot(query(collection(db, 'cases')), (snapshot) => {
+      console.log('AdminClients: Cases loaded:', snapshot.size);
+      const casesData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setCases(casesData);
-    });
+    }, (error) => console.error('AdminClients: Error loading cases:', error));
 
     return () => {
       unsubUsers();

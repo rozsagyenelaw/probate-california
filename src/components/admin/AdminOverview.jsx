@@ -44,21 +44,25 @@ const AdminOverview = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Subscribe to cases
-    const casesQuery = query(collection(db, 'cases'), orderBy('createdAt', 'desc'));
-    const unsubCases = onSnapshot(casesQuery, (snapshot) => {
-      const cases = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    console.log('AdminOverview: Loading data...');
+
+    // Subscribe to cases - simple query, sort in JS
+    const unsubCases = onSnapshot(query(collection(db, 'cases')), (snapshot) => {
+      console.log('AdminOverview: Cases loaded:', snapshot.size);
+      const cases = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
       setRecentCases(cases.slice(0, 5));
       setStats(prev => ({
         ...prev,
         totalCases: cases.length,
         activeCases: cases.filter(c => c.status === 'active').length
       }));
-    });
+    }, (error) => console.error('AdminOverview cases error:', error));
 
-    // Subscribe to users
-    const usersQuery = query(collection(db, 'users'), orderBy('createdAt', 'desc'));
-    const unsubUsers = onSnapshot(usersQuery, (snapshot) => {
+    // Subscribe to users - simple query, sort in JS
+    const unsubUsers = onSnapshot(query(collection(db, 'users')), (snapshot) => {
+      console.log('AdminOverview: Users loaded:', snapshot.size);
       const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setStats(prev => ({
         ...prev,
@@ -66,16 +70,15 @@ const AdminOverview = () => {
         paidClients: users.filter(u => u.paymentStatus === 'paid').length,
         pendingPayments: users.filter(u => u.paymentStatus !== 'paid').length
       }));
-    });
+    }, (error) => console.error('AdminOverview users error:', error));
 
-    // Subscribe to documents
-    const docsQuery = query(
-      collection(db, 'documents'),
-      where('status', '==', 'active'),
-      orderBy('uploadedAt', 'desc')
-    );
-    const unsubDocs = onSnapshot(docsQuery, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Subscribe to documents - simple query, filter/sort in JS
+    const unsubDocs = onSnapshot(query(collection(db, 'documents')), (snapshot) => {
+      console.log('AdminOverview: Documents loaded:', snapshot.size);
+      const docs = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter(doc => doc.status === 'active' || !doc.status)
+        .sort((a, b) => (b.uploadedAt?.toMillis?.() || 0) - (a.uploadedAt?.toMillis?.() || 0));
       setStats(prev => ({ ...prev, totalDocuments: docs.length }));
 
       // Build recent activity from documents
@@ -86,17 +89,16 @@ const AdminOverview = () => {
         category: d.category
       }));
       setRecentActivity(docActivity);
-    });
+    }, (error) => console.error('AdminOverview docs error:', error));
 
-    // Subscribe to unread messages
-    const messagesQuery = query(
-      collection(db, 'messages'),
-      where('isAdmin', '==', false),
-      where('read', '==', false)
-    );
-    const unsubMessages = onSnapshot(messagesQuery, (snapshot) => {
-      setStats(prev => ({ ...prev, unreadMessages: snapshot.size }));
-    });
+    // Subscribe to messages - simple query, filter in JS
+    const unsubMessages = onSnapshot(query(collection(db, 'messages')), (snapshot) => {
+      const unreadCount = snapshot.docs.filter(doc => {
+        const data = doc.data();
+        return data.isAdmin === false && data.read === false;
+      }).length;
+      setStats(prev => ({ ...prev, unreadMessages: unreadCount }));
+    }, (error) => console.error('AdminOverview messages error:', error));
 
     setLoading(false);
 
