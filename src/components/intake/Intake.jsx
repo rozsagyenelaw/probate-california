@@ -55,45 +55,53 @@ const Intake = () => {
 
   const progress = ((currentStep + 1) / INTAKE_STEPS.length) * 100;
 
-  const canProceed = () => {
+  const getMissingFields = () => {
     const step = INTAKE_STEPS[currentStep];
+    const missing = [];
 
     switch (step.id) {
       case 'decedent':
-        return formData.decedent.firstName &&
-               formData.decedent.lastName &&
-               formData.decedent.dateOfDeath &&
-               formData.decedent.lastAddress.street &&
-               formData.decedent.lastAddress.city &&
-               formData.decedent.lastAddress.county &&
-               formData.decedent.maritalStatus;
+        if (!formData.decedent.firstName) missing.push('First Name');
+        if (!formData.decedent.lastName) missing.push('Last Name');
+        if (!formData.decedent.dateOfDeath) missing.push('Date of Death');
+        if (!formData.decedent.lastAddress.street) missing.push('Street Address');
+        if (!formData.decedent.lastAddress.city) missing.push('City');
+        if (!formData.decedent.lastAddress.county) missing.push('County');
+        if (!formData.decedent.maritalStatus) missing.push('Marital Status');
+        break;
 
       case 'petitioner':
-        return formData.petitioner.firstName &&
-               formData.petitioner.lastName &&
-               formData.petitioner.relationship &&
-               formData.petitioner.phone &&
-               formData.petitioner.email &&
-               formData.petitioner.address.street &&
-               formData.petitioner.address.city &&
-               formData.petitioner.address.zip;
+        if (!formData.petitioner.firstName) missing.push('First Name');
+        if (!formData.petitioner.lastName) missing.push('Last Name');
+        if (!formData.petitioner.relationship) missing.push('Relationship');
+        if (!formData.petitioner.phone) missing.push('Phone');
+        if (!formData.petitioner.email) missing.push('Email');
+        if (!formData.petitioner.address.street) missing.push('Street Address');
+        if (!formData.petitioner.address.city) missing.push('City');
+        if (!formData.petitioner.address.zip) missing.push('ZIP Code');
+        break;
 
       case 'will':
-        if (formData.willExists === null) return false;
+        if (formData.willExists === null) missing.push('Will exists (Yes/No)');
         if (formData.willExists === true) {
-          return formData.willDate && formData.namedExecutor && formData.bondWaivedInWill !== null;
+          if (!formData.willDate) missing.push('Will Date');
+          if (!formData.namedExecutor) missing.push('Named Executor');
+          if (formData.bondWaivedInWill === null) missing.push('Bond Waived');
         }
-        return true;
+        break;
 
       case 'heirs':
-        return formData.heirs.length > 0;
-
-      case 'review':
-        return true;
+        if (formData.heirs.length === 0) missing.push('At least one heir');
+        break;
 
       default:
-        return true;
+        break;
     }
+    return missing;
+  };
+
+  const canProceed = () => {
+    return getMissingFields().length === 0;
   };
 
   const handleNext = () => {
@@ -326,6 +334,20 @@ const Intake = () => {
 
           {renderStep()}
         </div>
+
+        {/* Missing Fields Warning */}
+        {!canProceed() && !isLastStep && (
+          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-sm font-medium text-amber-800">
+              Please complete the following required fields to continue:
+            </p>
+            <ul className="mt-2 text-sm text-amber-700 list-disc list-inside">
+              {getMissingFields().map((field, index) => (
+                <li key={index}>{field}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-6">
