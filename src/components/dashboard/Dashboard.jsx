@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { collection, query, where, getDocs, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
 import { db } from '../../services/firebase';
 import {
@@ -10,7 +10,8 @@ import {
   Mail,
   Menu,
   X,
-  User
+  User,
+  CheckCircle
 } from 'lucide-react';
 
 // Dashboard Components
@@ -63,11 +64,25 @@ const CaseDashboardView = ({ probateCase, unreadMessages }) => (
 const Dashboard = () => {
   const { user, userProfile, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [probateCase, setProbateCase] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
+  const [successMessage, setSuccessMessage] = useState(null);
   const initialLoadRef = useRef(true);
+
+  // Check for success message from intake submission
+  useEffect(() => {
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+      // Clear the state so message doesn't show again on refresh
+      window.history.replaceState({}, document.title);
+      // Auto-dismiss after 5 seconds
+      const timer = setTimeout(() => setSuccessMessage(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [location.state]);
 
   // Load user's probate case
   useEffect(() => {
@@ -81,44 +96,78 @@ const Dashboard = () => {
       return;
     }
 
+    const loadCase = async () => {
+      try {
+        // If we just came from intake with a caseId, load that specific case
+        if (location.state?.caseId) {
+          const caseDoc = await getDoc(doc(db, 'cases', location.state.caseId));
+          if (caseDoc.exists()) {
+            setProbateCase({ id: caseDoc.id, ...caseDoc.data() });
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Otherwise query for user's most recent case
+        // Simple query without orderBy to avoid index requirement
+        const casesQuery = query(
+          collection(db, 'cases'),
+          where('userId', '==', user.uid),
+          limit(10)
+        );
+
+        const snapshot = await getDocs(casesQuery);
+        if (!snapshot.empty) {
+          // Find the most recent case manually
+          let mostRecentCase = null;
+          let mostRecentTime = 0;
+
+          snapshot.docs.forEach(caseDoc => {
+            const data = caseDoc.data();
+            const createdAt = data.createdAt?.toMillis?.() || 0;
+            if (createdAt > mostRecentTime) {
+              mostRecentTime = createdAt;
+              mostRecentCase = { id: caseDoc.id, ...data };
+            }
+          });
+
+          if (mostRecentCase) {
+            setProbateCase(mostRecentCase);
+          }
+        }
+      } catch (err) {
+        console.warn('Error loading case:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     // Quick timeout - show dashboard fast even if DB is slow
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 3000); // 3 second max wait
+    }, 5000); // 5 second max wait
 
-    // Load case data
-    const casesQuery = query(
-      collection(db, 'cases'),
-      where('userId', '==', user.uid),
-      orderBy('createdAt', 'desc'),
-      limit(1)
-    );
-
-    getDocs(casesQuery)
-      .then(snapshot => {
-        if (!snapshot.empty) {
-          const caseDoc = snapshot.docs[0];
-          setProbateCase({ id: caseDoc.id, ...caseDoc.data() });
-        }
-      })
-      .catch(err => console.warn('Error loading case:', err))
-      .finally(() => {
-        clearTimeout(timeout);
-        setLoading(false);
-      });
+    loadCase().finally(() => clearTimeout(timeout));
 
     // Load messages in background - don't block
-    const messagesQuery = query(
-      collection(db, 'messages'),
-      where('userId', '==', user.uid),
-      where('read', '==', false)
-    );
-    getDocs(messagesQuery)
-      .then(snapshot => setUnreadMessages(snapshot.size))
-      .catch(() => {});
+    const loadMessages = async () => {
+      try {
+        // Simple query without compound conditions
+        const messagesQuery = query(
+          collection(db, 'messages'),
+          where('userId', '==', user.uid)
+        );
+        const snapshot = await getDocs(messagesQuery);
+        const unread = snapshot.docs.filter(d => d.data().read === false).length;
+        setUnreadMessages(unread);
+      } catch (err) {
+        // Silently fail for messages
+      }
+    };
+    loadMessages();
 
     return () => clearTimeout(timeout);
-  }, [user]);
+  }, [user, location.state?.caseId]);
 
   const handleLogout = async () => {
     try {
@@ -199,6 +248,20 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Success Message */}
+        {successMessage && (
+          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center">
+            <CheckCircle className="h-5 w-5 text-green-600 mr-3 flex-shrink-0" />
+            <p className="text-green-800 font-medium">{successMessage}</p>
+            <button
+              onClick={() => setSuccessMessage(null)}
+              className="ml-auto text-green-600 hover:text-green-800"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        )}
+
         <CaseDashboardView probateCase={probateCase} unreadMessages={unreadMessages} />
 
         {/* Contact Section */}

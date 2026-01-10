@@ -36,18 +36,26 @@ const AdminDocuments = () => {
   const [categoryFilter, setCategoryFilter] = useState('all');
 
   useEffect(() => {
-    const docsQuery = query(
-      collection(db, 'documents'),
-      where('status', '==', 'active'),
-      orderBy('uploadedAt', 'desc')
-    );
+    // Simple query without compound conditions to avoid index requirement
+    const docsQuery = query(collection(db, 'documents'));
 
     const unsubDocs = onSnapshot(docsQuery, (snapshot) => {
-      const docsData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+      const docsData = snapshot.docs
+        .map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        // Filter and sort in JavaScript instead of Firestore
+        .filter(doc => doc.status === 'active' || !doc.status)
+        .sort((a, b) => {
+          const timeA = a.uploadedAt?.toMillis?.() || 0;
+          const timeB = b.uploadedAt?.toMillis?.() || 0;
+          return timeB - timeA;
+        });
       setDocuments(docsData);
+      setLoading(false);
+    }, (error) => {
+      console.error('Error loading documents:', error);
       setLoading(false);
     });
 
