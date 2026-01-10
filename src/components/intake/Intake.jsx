@@ -204,7 +204,14 @@ const Intake = () => {
       });
     } catch (err) {
       console.error('Error submitting intake:', err);
-      setError('Failed to submit intake. Please try again.');
+      // Show more detailed error message
+      if (err.code === 'permission-denied') {
+        setError('Permission denied. Please contact support - Firestore rules may need to be configured.');
+      } else if (err.message?.includes('offline')) {
+        setError('Connection error. Please check your internet connection and try again.');
+      } else {
+        setError(`Failed to submit intake: ${err.message || 'Unknown error'}. Please try again.`);
+      }
       setIsSubmitting(false);
     }
   };
