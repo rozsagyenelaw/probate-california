@@ -70,11 +70,22 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
 
   const formatCurrency = (value) => {
     if (!value) return '';
+    // Remove any non-numeric characters except decimal point
+    const numericValue = parseFloat(String(value).replace(/[^0-9.]/g, ''));
+    if (isNaN(numericValue)) return '';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-      minimumFractionDigits: 0
-    }).format(value);
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(Math.round(numericValue));
+  };
+
+  // Clean number input - remove non-numeric characters
+  const handleNumberChange = (field, value) => {
+    // Remove everything except digits
+    const cleanValue = value.replace(/[^0-9]/g, '');
+    setPropertyForm({ ...propertyForm, [field]: cleanValue });
   };
 
   return (
@@ -186,11 +197,12 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
               <div className="relative">
                 <DollarSign className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   value={propertyForm.estimatedValue}
-                  onChange={(e) => setPropertyForm({ ...propertyForm, estimatedValue: e.target.value })}
+                  onChange={(e) => handleNumberChange('estimatedValue', e.target.value)}
                   className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg"
-                  placeholder="0"
+                  placeholder="800000"
                 />
               </div>
             </div>
@@ -222,9 +234,10 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
               <div className="relative">
                 <DollarSign className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   value={propertyForm.mortgageBalance}
-                  onChange={(e) => setPropertyForm({ ...propertyForm, mortgageBalance: e.target.value })}
+                  onChange={(e) => handleNumberChange('mortgageBalance', e.target.value)}
                   className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg"
                   placeholder="0"
                 />
