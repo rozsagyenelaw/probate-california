@@ -12,7 +12,8 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronLeft
+  ChevronLeft,
+  FileSignature
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -35,6 +36,7 @@ const AdminLayout = () => {
     { path: '/admin/cases', icon: Briefcase, label: 'Cases' },
     { path: '/admin/clients', icon: Users, label: 'Clients' },
     { path: '/admin/documents', icon: FileText, label: 'Documents' },
+    { path: '/admin/signatures', icon: FileSignature, label: 'Signatures' },
     { path: '/admin/payments', icon: CreditCard, label: 'Payments' },
     { path: '/admin/messages', icon: MessageSquare, label: 'Messages' },
   ];

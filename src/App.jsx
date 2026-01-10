@@ -37,9 +37,11 @@ import {
   AdminCaseDetails,
   AdminClients,
   AdminDocuments,
+  AdminSignatureRequests,
   AdminPayments,
   AdminMessages
 } from './components/admin';
+import ClientSignaturePage from './components/signature/ClientSignaturePage';
 
 // Loading component
 const LoadingSpinner = () => (
@@ -225,9 +227,13 @@ function App() {
           <Route path="cases/:caseId" element={<AdminCaseDetails />} />
           <Route path="clients" element={<AdminClients />} />
           <Route path="documents" element={<AdminDocuments />} />
+          <Route path="signatures" element={<AdminSignatureRequests />} />
           <Route path="payments" element={<AdminPayments />} />
           <Route path="messages" element={<AdminMessages />} />
         </Route>
+
+        {/* Public signature page (no auth required) */}
+        <Route path="/sign/:requestId" element={<ClientSignaturePage />} />
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />

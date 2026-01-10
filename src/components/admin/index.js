@@ -4,5 +4,6 @@ export { default as AdminCases } from './AdminCases';
 export { default as AdminCaseDetails } from './AdminCaseDetails';
 export { default as AdminClients } from './AdminClients';
 export { default as AdminDocuments } from './AdminDocuments';
+export { default as AdminSignatureRequests } from './AdminSignatureRequests';
 export { default as AdminPayments } from './AdminPayments';
 export { default as AdminMessages } from './AdminMessages';
