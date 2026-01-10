@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../services/firebase';
 import {
@@ -31,7 +31,9 @@ import {
   Loader2,
   Gavel,
   Eye,
-  Trash2
+  Trash2,
+  Newspaper,
+  Save
 } from 'lucide-react';
 
 const PHASE_LABELS = {
@@ -65,6 +67,15 @@ const AdminCaseDetails = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef(null);
+
+  // Publication management state
+  const [publication, setPublication] = useState({
+    newspaperName: '',
+    newspaperPhone: '',
+    status: 'pending', // pending, arranged, completed
+    notes: ''
+  });
+  const [savingPublication, setSavingPublication] = useState(false);
 
   // Open external document generator with case data
   const openDocumentGenerator = () => {
@@ -143,7 +154,17 @@ const AdminCaseDetails = () => {
     // Subscribe to case data
     const unsubCase = onSnapshot(doc(db, 'cases', caseId), (snapshot) => {
       if (snapshot.exists()) {
-        setCaseData({ id: snapshot.id, ...snapshot.data() });
+        const data = { id: snapshot.id, ...snapshot.data() };
+        setCaseData(data);
+        // Load publication data if exists
+        if (data.publication) {
+          setPublication({
+            newspaperName: data.publication.newspaperName || '',
+            newspaperPhone: data.publication.newspaperPhone || '',
+            status: data.publication.status || 'pending',
+            notes: data.publication.notes || ''
+          });
+        }
       }
       setLoading(false);
     }, (error) => {
@@ -163,6 +184,44 @@ const AdminCaseDetails = () => {
       unsubDocs();
     };
   }, [caseId]);
+
+  // Save publication info
+  const handleSavePublication = async () => {
+    if (!caseData) return;
+
+    setSavingPublication(true);
+    try {
+      const updateData = {
+        publication: {
+          newspaperName: publication.newspaperName,
+          newspaperPhone: publication.newspaperPhone,
+          status: publication.status,
+          notes: publication.notes,
+          updatedAt: new Date().toISOString()
+        },
+        updatedAt: serverTimestamp()
+      };
+
+      // Update phase if publication is arranged or completed
+      if (publication.status === 'arranged' && caseData.currentPhase < 3) {
+        updateData.currentPhase = 3;
+        updateData['phaseStatuses.3'] = 'in_progress';
+      }
+      if (publication.status === 'completed') {
+        updateData['phaseStatuses.3'] = 'complete';
+        if (caseData.currentPhase < 4) {
+          updateData.currentPhase = 4;
+        }
+      }
+
+      await updateDoc(doc(db, 'cases', caseData.id), updateData);
+    } catch (error) {
+      console.error('Error saving publication:', error);
+      alert('Failed to save publication info.');
+    } finally {
+      setSavingPublication(false);
+    }
+  };
 
   const formatDate = (timestamp) => {
     if (!timestamp) return '-';
@@ -509,6 +568,109 @@ const AdminCaseDetails = () => {
           </div>
         )}
       </div>
+
+      {/* Publication Management */}
+      {caseData.caseNumber && (
+        <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-xl shadow-sm p-6 print:hidden">
+          <div className="flex items-center mb-4">
+            <Newspaper className="h-6 w-6 text-white mr-2" />
+            <h2 className="text-lg font-semibold text-white">Publication Management</h2>
+          </div>
+
+          <div className="bg-white rounded-lg p-4">
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Newspaper Name
+                </label>
+                <input
+                  type="text"
+                  value={publication.newspaperName}
+                  onChange={(e) => setPublication({ ...publication, newspaperName: e.target.value })}
+                  placeholder="e.g., Los Angeles Daily Journal"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Newspaper Phone
+                </label>
+                <input
+                  type="tel"
+                  value={publication.newspaperPhone}
+                  onChange={(e) => setPublication({ ...publication, newspaperPhone: e.target.value })}
+                  placeholder="(213) 229-5300"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                />
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Publication Status
+              </label>
+              <div className="flex space-x-4">
+                {[
+                  { value: 'pending', label: 'Pending', color: 'yellow' },
+                  { value: 'arranged', label: 'Arranged', color: 'blue' },
+                  { value: 'completed', label: 'Completed', color: 'green' }
+                ].map((option) => (
+                  <label key={option.value} className="flex items-center">
+                    <input
+                      type="radio"
+                      name="publicationStatus"
+                      value={option.value}
+                      checked={publication.status === option.value}
+                      onChange={(e) => setPublication({ ...publication, status: e.target.value })}
+                      className={`h-4 w-4 text-${option.color}-600 focus:ring-${option.color}-500`}
+                    />
+                    <span className={`ml-2 text-sm ${
+                      publication.status === option.value ? 'font-medium' : ''
+                    }`}>
+                      {option.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Notes for Client
+              </label>
+              <textarea
+                value={publication.notes}
+                onChange={(e) => setPublication({ ...publication, notes: e.target.value })}
+                placeholder="e.g., Publication started on Jan 5, expected completion Jan 26. Contact Daily Journal at (213) 229-5300."
+                rows={2}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              />
+            </div>
+
+            <button
+              onClick={handleSavePublication}
+              disabled={savingPublication}
+              className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                savingPublication
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-orange-600 text-white hover:bg-orange-700'
+              }`}
+            >
+              {savingPublication ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4 mr-2" />
+                  Save Publication Info
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Case Summary Card */}
       <div className="bg-white rounded-xl shadow-sm p-6 print:shadow-none print:border print:border-gray-300">
