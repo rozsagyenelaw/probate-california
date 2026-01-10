@@ -1,21 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { doc, getDoc, updateDoc, serverTimestamp, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
-import { generatePetition, downloadBlob, getRequiredForms } from '../../services/petitionService';
 import {
   ArrowLeft,
   Scale,
   FileText,
   Download,
   CheckCircle,
-  AlertCircle,
+  Clock,
   Loader2,
-  ExternalLink,
-  RefreshCw,
-  Info
+  Eye,
+  Info,
+  User,
+  Gavel
 } from 'lucide-react';
+
+// Forms that are typically required for California probate
+const PROBATE_FORMS = [
+  {
+    id: 'de-111',
+    name: 'DE-111',
+    title: 'Petition for Probate',
+    description: 'Primary petition to open probate case',
+    required: true
+  },
+  {
+    id: 'de-121',
+    name: 'DE-121',
+    title: 'Notice of Petition to Administer Estate',
+    description: 'Notice sent to heirs and beneficiaries',
+    required: true
+  },
+  {
+    id: 'de-140',
+    name: 'DE-140',
+    title: 'Order for Probate',
+    description: 'Court order appointing personal representative',
+    required: true
+  },
+  {
+    id: 'de-147',
+    name: 'DE-147',
+    title: 'Duties and Liabilities of Personal Representative',
+    description: 'Acknowledgment of executor duties',
+    required: true
+  },
+  {
+    id: 'de-150',
+    name: 'DE-150',
+    title: 'Letters',
+    description: 'Letters Testamentary or Letters of Administration',
+    required: true
+  }
+];
 
 const PetitionGeneration = () => {
   const navigate = useNavigate();
@@ -23,10 +62,7 @@ const PetitionGeneration = () => {
   const { user } = useAuth();
   const [probateCase, setProbateCase] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [generating, setGenerating] = useState(false);
-  const [error, setError] = useState(null);
-  const [generatedForms, setGeneratedForms] = useState(null);
-  const [forms, setForms] = useState([]);
+  const [preparedDocuments, setPreparedDocuments] = useState([]);
 
   const searchParams = new URLSearchParams(location.search);
   const caseId = searchParams.get('caseId');
@@ -35,27 +71,44 @@ const PetitionGeneration = () => {
     const loadCase = async () => {
       try {
         let caseDoc;
+        let loadedCaseId;
 
         if (caseId) {
           const docRef = doc(db, 'cases', caseId);
           caseDoc = await getDoc(docRef);
+          loadedCaseId = caseId;
         } else {
           // Find user's case
           const q = query(collection(db, 'cases'), where('userId', '==', user.uid));
           const snapshot = await getDocs(q);
           if (!snapshot.empty) {
             caseDoc = snapshot.docs[0];
+            loadedCaseId = caseDoc.id;
           }
         }
 
         if (caseDoc?.exists()) {
           const caseData = { id: caseDoc.id, ...caseDoc.data() };
           setProbateCase(caseData);
-          setForms(getRequiredForms(caseData));
+
+          // Listen for prepared documents (court-form category)
+          const docsQuery = query(
+            collection(db, 'documents'),
+            where('caseId', '==', loadedCaseId)
+          );
+
+          const unsubDocs = onSnapshot(docsQuery, (snapshot) => {
+            const docs = snapshot.docs
+              .map(d => ({ id: d.id, ...d.data() }))
+              .filter(d => d.category === 'court-form' || d.category === 'prepared-form');
+            setPreparedDocuments(docs);
+          });
+
+          setLoading(false);
+          return () => unsubDocs();
         }
       } catch (err) {
         console.error('Error loading case:', err);
-        setError('Failed to load case data');
       } finally {
         setLoading(false);
       }
@@ -64,50 +117,10 @@ const PetitionGeneration = () => {
     loadCase();
   }, [caseId, user]);
 
-  const handleGenerateForms = async () => {
-    if (!probateCase) return;
-
-    setGenerating(true);
-    setError(null);
-
-    try {
-      const result = await generatePetition(probateCase);
-
-      if (result.blob) {
-        // Direct download
-        downloadBlob(result.blob, result.filename || 'probate-forms.pdf');
-        setGeneratedForms({ success: true, type: result.type });
-      } else if (result.downloadUrl) {
-        // Download URL
-        window.open(result.downloadUrl, '_blank');
-        setGeneratedForms(result);
-      } else {
-        setGeneratedForms(result);
-      }
-
-      // Update case status
-      await updateDoc(doc(db, 'cases', probateCase.id), {
-        'phaseStatuses.2': 'in_progress',
-        petitionGenerated: true,
-        petitionGeneratedAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
-
-    } catch (err) {
-      console.error('Error generating forms:', err);
-      setError(err.message || 'Failed to generate forms. Please try again.');
-    } finally {
-      setGenerating(false);
-    }
-  };
-
-  const openFormsGenerator = () => {
-    // Open the external forms generator with case data encoded
-    const params = new URLSearchParams({
-      source: 'probate-app',
-      caseId: probateCase?.id || ''
-    });
-    window.open(`https://probatepetition.netlify.app?${params.toString()}`, '_blank');
+  const formatDate = (timestamp) => {
+    if (!timestamp) return '-';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   };
 
   if (loading) {
@@ -131,13 +144,13 @@ const PetitionGeneration = () => {
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <Scale className="h-6 w-6 text-blue-900 mr-2" />
-              <h1 className="text-xl font-bold text-gray-900">Petition Generation</h1>
+              <h1 className="text-xl font-bold text-gray-900">Petition Forms</h1>
             </div>
           </div>
         </header>
         <main className="max-w-4xl mx-auto px-4 py-8">
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-            <AlertCircle className="h-16 w-16 text-yellow-500 mx-auto mb-4" />
+            <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-gray-900 mb-2">No Case Found</h2>
             <p className="text-gray-600 mb-6">
               Complete the intake questionnaire first to create your case.
@@ -172,7 +185,7 @@ const PetitionGeneration = () => {
                   <Scale className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Generate Petition Forms</h1>
+                  <h1 className="text-xl font-bold text-gray-900">Court Forms</h1>
                   <p className="text-sm text-gray-500">{probateCase.estateName}</p>
                 </div>
               </div>
@@ -182,65 +195,40 @@ const PetitionGeneration = () => {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Info Banner */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        {/* Status Banner */}
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
           <div className="flex items-start">
-            <Info className="h-5 w-5 text-blue-600 mr-2 mt-0.5" />
-            <div>
-              <p className="font-medium text-blue-900">Phase 2: Petition Generation</p>
-              <p className="text-sm text-blue-700">
-                Generate the required California probate court forms based on your intake information.
-                These forms will be pre-filled with the data you provided.
+            <div className="bg-blue-100 rounded-full p-3 mr-4">
+              <Gavel className="h-8 w-8 text-blue-900" />
+            </div>
+            <div className="flex-1">
+              <h2 className="text-xl font-bold text-blue-900 mb-2">
+                Your Documents Are Being Prepared
+              </h2>
+              <p className="text-blue-800 mb-3">
+                A licensed California attorney is reviewing your case information and preparing
+                the required probate court forms. You will be notified when your documents are
+                ready for review and signature.
               </p>
+              <div className="flex items-center text-sm text-blue-700">
+                <User className="h-4 w-4 mr-2" />
+                <span>Prepared by: Law Offices of Rozsa Gyene, CA Bar #208356</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Error Alert */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              <AlertCircle className="h-5 w-5 text-red-600 mr-2 mt-0.5" />
-              <div>
-                <p className="font-medium text-red-900">Error</p>
-                <p className="text-sm text-red-700">{error}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Success Message */}
-        {generatedForms?.success && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <div className="flex items-start">
-              <CheckCircle className="h-5 w-5 text-green-600 mr-2 mt-0.5" />
-              <div>
-                <p className="font-medium text-green-900">Forms Generated Successfully</p>
-                <p className="text-sm text-green-700">
-                  Your petition forms have been downloaded. Review them carefully before filing.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Case Summary */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Case Summary</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Case Information</h2>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-gray-500">Decedent</p>
-              <p className="font-medium text-gray-900">
-                {probateCase.decedent?.firstName} {probateCase.decedent?.lastName}
-              </p>
+              <p className="text-gray-500">Estate</p>
+              <p className="font-medium text-gray-900">{probateCase.estateName}</p>
             </div>
             <div>
-              <p className="text-gray-500">Date of Death</p>
-              <p className="font-medium text-gray-900">
-                {probateCase.decedent?.dateOfDeath
-                  ? new Date(probateCase.decedent.dateOfDeath).toLocaleDateString()
-                  : 'Not provided'}
-              </p>
+              <p className="text-gray-500">Filing County</p>
+              <p className="font-medium text-gray-900">{probateCase.filingCounty || 'Not specified'}</p>
             </div>
             <div>
               <p className="text-gray-500">Probate Type</p>
@@ -249,116 +237,190 @@ const PetitionGeneration = () => {
               </p>
             </div>
             <div>
-              <p className="text-gray-500">Filing County</p>
-              <p className="font-medium text-gray-900">{probateCase.filingCounty || 'Not specified'}</p>
-            </div>
-            <div>
-              <p className="text-gray-500">Petitioner</p>
-              <p className="font-medium text-gray-900">
-                {probateCase.petitioner?.firstName} {probateCase.petitioner?.lastName}
-              </p>
-            </div>
-            <div>
-              <p className="text-gray-500">Number of Heirs</p>
-              <p className="font-medium text-gray-900">{probateCase.heirs?.length || 0}</p>
+              <p className="text-gray-500">Intake Completed</p>
+              <p className="font-medium text-gray-900">{formatDate(probateCase.createdAt)}</p>
             </div>
           </div>
         </div>
 
-        {/* Forms List */}
+        {/* Required Forms Status */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Forms to Generate</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Required Court Forms</h2>
           <div className="space-y-3">
-            {forms.map((form) => (
-              <div
-                key={form.id}
-                className="flex items-start p-3 bg-gray-50 rounded-lg"
-              >
-                <FileText className="h-5 w-5 text-blue-600 mr-3 mt-0.5" />
-                <div className="flex-1">
-                  <p className="font-medium text-gray-900">
-                    {form.name}: {form.title}
-                  </p>
-                  <p className="text-sm text-gray-600">{form.description}</p>
+            {PROBATE_FORMS.map((form) => {
+              // Check if this form has been prepared and uploaded
+              const preparedDoc = preparedDocuments.find(
+                d => d.formId === form.id || d.fileName?.toLowerCase().includes(form.name.toLowerCase())
+              );
+
+              return (
+                <div
+                  key={form.id}
+                  className={`flex items-center justify-between p-4 rounded-lg border ${
+                    preparedDoc
+                      ? 'bg-green-50 border-green-200'
+                      : 'bg-gray-50 border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-start flex-1">
+                    <FileText className={`h-5 w-5 mr-3 mt-0.5 ${
+                      preparedDoc ? 'text-green-600' : 'text-gray-400'
+                    }`} />
+                    <div>
+                      <p className="font-medium text-gray-900">
+                        {form.name}: {form.title}
+                      </p>
+                      <p className="text-sm text-gray-600">{form.description}</p>
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    {preparedDoc ? (
+                      <div className="flex items-center space-x-2">
+                        <span className="flex items-center px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">
+                          <CheckCircle className="h-4 w-4 mr-1" />
+                          Ready
+                        </span>
+                        {preparedDoc.downloadURL && (
+                          <a
+                            href={preparedDoc.downloadURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                            title="View Document"
+                          >
+                            <Eye className="h-5 w-5" />
+                          </a>
+                        )}
+                        {preparedDoc.downloadURL && (
+                          <a
+                            href={preparedDoc.downloadURL}
+                            download
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                            title="Download"
+                          >
+                            <Download className="h-5 w-5" />
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-full">
+                        <Clock className="h-4 w-4 mr-1" />
+                        Pending
+                      </span>
+                    )}
+                  </div>
                 </div>
-                {form.required && (
-                  <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full">
-                    Required
-                  </span>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        {/* Generation Options */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Generate Forms</h2>
-
-          <div className="space-y-4">
-            {/* Primary action - generate forms */}
-            <button
-              onClick={handleGenerateForms}
-              disabled={generating}
-              className={`w-full flex items-center justify-center px-6 py-4 rounded-lg text-lg transition-colors ${
-                generating
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-blue-900 text-white hover:bg-blue-800'
-              }`}
-            >
-              {generating ? (
-                <>
-                  <Loader2 className="h-6 w-6 mr-2 animate-spin" />
-                  Generating Forms...
-                </>
-              ) : (
-                <>
-                  <Download className="h-6 w-6 mr-2" />
-                  Generate & Download Forms
-                </>
-              )}
-            </button>
-
-            {/* Secondary action - use external generator */}
-            <div className="text-center">
-              <p className="text-sm text-gray-500 mb-2">Or use the standalone form generator:</p>
-              <button
-                onClick={openFormsGenerator}
-                className="inline-flex items-center px-4 py-2 text-blue-600 hover:text-blue-800"
-              >
-                <ExternalLink className="h-4 w-4 mr-1" />
-                Open Forms Generator
-              </button>
+        {/* Prepared Documents Section (if any uploaded) */}
+        {preparedDocuments.length > 0 && (
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Your Prepared Documents ({preparedDocuments.length})
+            </h2>
+            <div className="space-y-3">
+              {preparedDocuments.map((doc) => (
+                <div
+                  key={doc.id}
+                  className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200"
+                >
+                  <div className="flex items-center">
+                    <FileText className="h-5 w-5 text-green-600 mr-3" />
+                    <div>
+                      <p className="font-medium text-gray-900">{doc.fileName}</p>
+                      <p className="text-sm text-gray-500">
+                        Uploaded {formatDate(doc.uploadedAt)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {doc.downloadURL && (
+                      <>
+                        <a
+                          href={doc.downloadURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg text-sm"
+                        >
+                          <Eye className="h-4 w-4 mr-1" />
+                          View
+                        </a>
+                        <a
+                          href={doc.downloadURL}
+                          download={doc.fileName}
+                          className="flex items-center px-3 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 text-sm"
+                        >
+                          <Download className="h-4 w-4 mr-1" />
+                          Download
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        </div>
-
-        {/* Instructions */}
-        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <h3 className="font-medium text-yellow-900 mb-2">Next Steps After Generation</h3>
-          <ol className="list-decimal list-inside text-sm text-yellow-800 space-y-1">
-            <li>Review all generated forms for accuracy</li>
-            <li>Print the forms on legal-size paper (8.5" x 14")</li>
-            <li>Sign where indicated (some forms require notarization)</li>
-            <li>Make copies: Original for court, one for you, one for each heir</li>
-            <li>File with the {probateCase.filingCounty || 'county'} Superior Court Probate Division</li>
-            <li>Pay the filing fee (varies by county, typically $400-$500)</li>
-          </ol>
-        </div>
-
-        {/* Regenerate option */}
-        {generatedForms && (
-          <div className="mt-4 text-center">
-            <button
-              onClick={handleGenerateForms}
-              disabled={generating}
-              className="inline-flex items-center text-gray-600 hover:text-gray-900"
-            >
-              <RefreshCw className={`h-4 w-4 mr-1 ${generating ? 'animate-spin' : ''}`} />
-              Regenerate Forms
-            </button>
           </div>
         )}
+
+        {/* Timeline Info */}
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <h3 className="font-semibold text-gray-900 mb-4 flex items-center">
+            <Info className="h-5 w-5 mr-2 text-gray-500" />
+            What to Expect
+          </h3>
+          <div className="space-y-4">
+            <div className="flex items-start">
+              <div className="bg-blue-900 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">
+                1
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Document Preparation</p>
+                <p className="text-sm text-gray-600">
+                  Our attorney reviews your case and prepares all required court forms (typically 2-3 business days).
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="bg-blue-900 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">
+                2
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Documents Ready for Review</p>
+                <p className="text-sm text-gray-600">
+                  You'll be notified when documents are uploaded. Review them for accuracy.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="bg-blue-900 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0">
+                3
+              </div>
+              <div>
+                <p className="font-medium text-gray-900">Sign & File</p>
+                <p className="text-sm text-gray-600">
+                  Print, sign where indicated, and file with the {probateCase.filingCounty || 'county'} Superior Court.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact */}
+        <div className="mt-6 text-center">
+          <p className="text-gray-600">
+            Questions? Contact us at{' '}
+            <a href="mailto:rozsagyenelaw@yahoo.com" className="text-blue-600 hover:text-blue-800">
+              rozsagyenelaw@yahoo.com
+            </a>
+            {' '}or{' '}
+            <a href="tel:+18182916217" className="text-blue-600 hover:text-blue-800">
+              (818) 291-6217
+            </a>
+          </p>
+        </div>
       </main>
     </div>
   );

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, onSnapshot, collection, query, where } from 'firebase/firestore';
-import { db } from '../../services/firebase';
+import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../services/firebase';
 import {
   ArrowLeft,
   Printer,
@@ -24,7 +25,13 @@ import {
   Check,
   X,
   AlertCircle,
-  Clock
+  Clock,
+  ExternalLink,
+  Upload,
+  Loader2,
+  Gavel,
+  Eye,
+  Trash2
 } from 'lucide-react';
 
 const PHASE_LABELS = {
@@ -55,6 +62,80 @@ const AdminCaseDetails = () => {
   const [caseData, setCaseData] = useState(null);
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileInputRef = useRef(null);
+
+  // Open external document generator with case data
+  const openDocumentGenerator = () => {
+    if (!caseData) return;
+    // Encode case data for the generator
+    const params = new URLSearchParams({
+      source: 'admin',
+      caseId: caseData.id,
+      // You can add more params as needed by your generator
+    });
+    window.open(`https://probatepetition.netlify.app?${params.toString()}`, '_blank');
+  };
+
+  // Handle file upload for prepared documents
+  const handleFileUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !caseData) return;
+
+    setUploading(true);
+    setUploadProgress(0);
+
+    try {
+      const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+      const storagePath = `cases/${caseId}/prepared-forms/${fileName}`;
+      const storageRef = ref(storage, storagePath);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          console.error('Upload error:', error);
+          setUploading(false);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+          // Save document to documents collection
+          const documentRef = doc(collection(db, 'documents'));
+          await setDoc(documentRef, {
+            id: documentRef.id,
+            caseId: caseId,
+            userId: caseData.userId,
+            fileName: file.name,
+            fileSize: file.size,
+            fileType: file.type,
+            category: 'court-form',
+            storagePath,
+            downloadURL,
+            status: 'active',
+            uploadedAt: serverTimestamp(),
+            source: 'admin-prepared'
+          });
+
+          setUploading(false);
+          setUploadProgress(0);
+          // Clear the file input
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Upload error:', error);
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (!caseId) return;
@@ -318,6 +399,115 @@ const AdminCaseDetails = () => {
         <h1 className="text-2xl font-bold">PROBATE CASE DETAILS</h1>
         <p className="text-lg">{caseData.estateName}</p>
         <p className="text-sm text-gray-500">Printed: {new Date().toLocaleDateString()}</p>
+      </div>
+
+      {/* Admin Actions - Document Generation & Upload */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-xl shadow-sm p-6 print:hidden">
+        <div className="flex items-center mb-4">
+          <Gavel className="h-6 w-6 text-white mr-2" />
+          <h2 className="text-lg font-semibold text-white">Admin Actions - Document Preparation</h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Generate Forms */}
+          <div className="bg-white/10 rounded-lg p-4">
+            <h3 className="text-white font-medium mb-2">Step 1: Generate Forms</h3>
+            <p className="text-blue-100 text-sm mb-3">
+              Use the document generator to create court forms pre-filled with case data.
+            </p>
+            <button
+              onClick={openDocumentGenerator}
+              className="w-full flex items-center justify-center px-4 py-3 bg-white text-blue-900 rounded-lg hover:bg-blue-50 font-medium transition-colors"
+            >
+              <ExternalLink className="h-5 w-5 mr-2" />
+              Open Document Generator
+            </button>
+          </div>
+
+          {/* Upload Prepared Documents */}
+          <div className="bg-white/10 rounded-lg p-4">
+            <h3 className="text-white font-medium mb-2">Step 2: Upload for Client</h3>
+            <p className="text-blue-100 text-sm mb-3">
+              After reviewing/correcting, upload the final documents for the client.
+            </p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleFileUpload}
+              className="hidden"
+              accept=".pdf,.doc,.docx"
+            />
+            {uploading ? (
+              <div className="w-full bg-white rounded-lg p-3">
+                <div className="flex items-center mb-2">
+                  <Loader2 className="h-5 w-5 text-blue-600 animate-spin mr-2" />
+                  <span className="text-sm text-blue-900">Uploading... {Math.round(uploadProgress)}%</span>
+                </div>
+                <div className="w-full bg-blue-200 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full flex items-center justify-center px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium transition-colors"
+              >
+                <Upload className="h-5 w-5 mr-2" />
+                Upload Prepared Document
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Uploaded Documents for this case */}
+        {documents.filter(d => d.category === 'court-form' || d.source === 'admin-prepared').length > 0 && (
+          <div className="mt-4 bg-white/10 rounded-lg p-4">
+            <h3 className="text-white font-medium mb-3">Uploaded Prepared Documents</h3>
+            <div className="space-y-2">
+              {documents
+                .filter(d => d.category === 'court-form' || d.source === 'admin-prepared')
+                .map((doc) => (
+                  <div key={doc.id} className="flex items-center justify-between bg-white rounded-lg p-3">
+                    <div className="flex items-center">
+                      <FileText className="h-5 w-5 text-green-600 mr-2" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">{doc.fileName}</p>
+                        <p className="text-xs text-gray-500">
+                          {doc.uploadedAt ? formatDate(doc.uploadedAt) : 'Just now'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      {doc.downloadURL && (
+                        <>
+                          <a
+                            href={doc.downloadURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                            title="View"
+                          >
+                            <Eye className="h-4 w-4" />
+                          </a>
+                          <a
+                            href={doc.downloadURL}
+                            download={doc.fileName}
+                            className="p-2 text-green-600 hover:bg-green-50 rounded"
+                            title="Download"
+                          >
+                            <Download className="h-4 w-4" />
+                          </a>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Case Summary Card */}
