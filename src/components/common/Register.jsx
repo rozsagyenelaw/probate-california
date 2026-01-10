@@ -48,8 +48,8 @@ const Register = () => {
         lastName: formData.lastName,
         phone: formData.phone
       });
-      // Redirect to payment page after registration
-      navigate('/payment');
+      // Redirect to intake questionnaire after registration (payment is at the end)
+      navigate('/intake');
     } catch (err) {
       console.error('Registration error:', err);
       if (err.code === 'auth/email-already-in-use') {
