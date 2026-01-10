@@ -66,9 +66,16 @@ export const INTAKE_STEPS = [
   {
     id: 'review',
     number: 10,
-    title: 'Review & Submit',
+    title: 'Review Information',
     shortTitle: 'Review',
-    description: 'Review all information and submit'
+    description: 'Review all information before payment'
+  },
+  {
+    id: 'payment',
+    number: 11,
+    title: 'Payment & Submit',
+    shortTitle: 'Payment',
+    description: 'Complete payment to submit your case'
   }
 ];
 

@@ -17,6 +17,7 @@ import VehiclesPersonalStep from './steps/VehiclesPersonalStep';
 import LiabilitiesStep from './steps/LiabilitiesStep';
 import DocumentsStep from './steps/DocumentsStep';
 import ReviewStep from './steps/ReviewStep';
+import PaymentStep from './steps/PaymentStep';
 
 const Intake = () => {
   const navigate = useNavigate();
@@ -123,7 +124,40 @@ const Intake = () => {
     window.scrollTo(0, 0);
   };
 
-  const handleSubmit = async () => {
+  const renderStep = () => {
+    const step = INTAKE_STEPS[currentStep];
+    const props = { formData, updateFormData };
+
+    switch (step.id) {
+      case 'decedent':
+        return <DecedentStep {...props} />;
+      case 'petitioner':
+        return <PetitionerStep {...props} />;
+      case 'will':
+        return <WillStep {...props} />;
+      case 'heirs':
+        return <HeirsStep {...props} />;
+      case 'realProperty':
+        return <RealPropertyStep {...props} />;
+      case 'financial':
+        return <FinancialStep {...props} />;
+      case 'vehiclesPersonal':
+        return <VehiclesPersonalStep {...props} />;
+      case 'liabilities':
+        return <LiabilitiesStep {...props} />;
+      case 'documents':
+        return <DocumentsStep {...props} />;
+      case 'review':
+        return <ReviewStep {...props} onEditStep={handleEditStep} />;
+      case 'payment':
+        return <PaymentStep {...props} onSubmitCase={handleSubmitWithPayment} isSubmitting={isSubmitting} />;
+      default:
+        return null;
+    }
+  };
+
+  // Handle submit with payment info
+  const handleSubmitWithPayment = async (paymentInfo) => {
     setIsSubmitting(true);
     setError(null);
 
@@ -171,6 +205,15 @@ const Intake = () => {
         liabilities: formData.liabilities,
         documents: formData.documents,
 
+        // Payment info
+        payment: {
+          plan: paymentInfo.paymentPlan,
+          amount: paymentInfo.paymentAmount,
+          totalAmount: paymentInfo.totalAmount,
+          status: 'pending', // Will be updated after Stripe payment
+          paidAt: null
+        },
+
         // Timestamps and metadata
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -192,19 +235,25 @@ const Intake = () => {
 
       await setDoc(caseRef, caseData);
 
+      // Update user's payment status
+      await setDoc(doc(db, 'users', user.uid), {
+        paymentStatus: 'pending',
+        paymentPlan: paymentInfo.paymentPlan,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
       // Clear saved form data
       localStorage.removeItem(`intake-${user.uid}`);
 
       // Navigate to dashboard
       navigate('/dashboard', {
         state: {
-          message: 'Intake completed successfully! Your case has been created.',
+          message: 'Your case has been created! We will begin processing once payment is confirmed.',
           caseId
         }
       });
     } catch (err) {
       console.error('Error submitting intake:', err);
-      // Show more detailed error message
       if (err.code === 'permission-denied') {
         setError('Permission denied. Please contact support - Firestore rules may need to be configured.');
       } else if (err.message?.includes('offline')) {
@@ -213,36 +262,6 @@ const Intake = () => {
         setError(`Failed to submit intake: ${err.message || 'Unknown error'}. Please try again.`);
       }
       setIsSubmitting(false);
-    }
-  };
-
-  const renderStep = () => {
-    const step = INTAKE_STEPS[currentStep];
-    const props = { formData, updateFormData };
-
-    switch (step.id) {
-      case 'decedent':
-        return <DecedentStep {...props} />;
-      case 'petitioner':
-        return <PetitionerStep {...props} />;
-      case 'will':
-        return <WillStep {...props} />;
-      case 'heirs':
-        return <HeirsStep {...props} />;
-      case 'realProperty':
-        return <RealPropertyStep {...props} />;
-      case 'financial':
-        return <FinancialStep {...props} />;
-      case 'vehiclesPersonal':
-        return <VehiclesPersonalStep {...props} />;
-      case 'liabilities':
-        return <LiabilitiesStep {...props} />;
-      case 'documents':
-        return <DocumentsStep {...props} />;
-      case 'review':
-        return <ReviewStep {...props} onEditStep={handleEditStep} />;
-      default:
-        return null;
     }
   };
 
@@ -356,44 +375,22 @@ const Intake = () => {
           </div>
         )}
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-6">
-          <button
-            onClick={handlePrevious}
-            disabled={currentStep === 0}
-            className={`flex items-center px-6 py-3 rounded-lg transition-colors ${
-              currentStep === 0
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Previous
-          </button>
-
-          {isLastStep ? (
+        {/* Navigation Buttons - hide on payment step since it has its own submit */}
+        {currentStepData.id !== 'payment' && (
+          <div className="flex justify-between mt-6">
             <button
-              onClick={handleSubmit}
-              disabled={isSubmitting || !canProceed()}
-              className={`flex items-center px-8 py-3 rounded-lg transition-colors ${
-                isSubmitting || !canProceed()
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-green-600 text-white hover:bg-green-700'
+              onClick={handlePrevious}
+              disabled={currentStep === 0}
+              className={`flex items-center px-6 py-3 rounded-lg transition-colors ${
+                currentStep === 0
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
               }`}
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Submitting...
-                </>
-              ) : (
-                <>
-                  <Check className="mr-2 h-5 w-5" />
-                  Submit & Create Case
-                </>
-              )}
+              <ArrowLeft className="mr-2 h-5 w-5" />
+              Previous
             </button>
-          ) : (
+
             <button
               onClick={handleNext}
               disabled={!canProceed()}
@@ -403,11 +400,24 @@ const Intake = () => {
                   : 'bg-blue-900 text-white hover:bg-blue-800'
               }`}
             >
-              Next
+              {currentStepData.id === 'review' ? 'Proceed to Payment' : 'Next'}
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* Previous button only on payment step */}
+        {currentStepData.id === 'payment' && (
+          <div className="flex justify-start mt-6">
+            <button
+              onClick={handlePrevious}
+              className="flex items-center px-6 py-3 rounded-lg transition-colors bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+            >
+              <ArrowLeft className="mr-2 h-5 w-5" />
+              Back to Review
+            </button>
+          </div>
+        )}
 
         {/* Required fields note */}
         {!isLastStep && (
