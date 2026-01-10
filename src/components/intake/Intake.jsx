@@ -241,6 +241,46 @@ const Intake = () => {
       await setDoc(caseRef, caseData);
       console.log('Intake: Case saved successfully!');
 
+      // Save uploaded documents to the documents collection
+      const documentCategoryMap = {
+        'deathCertificate': 'death-certificate',
+        'originalWill': 'will',
+        'codicils': 'codicil',
+        'propertyDeeds': 'property-deed',
+        'vehicleTitles': 'vehicle-title',
+        'bankStatements': 'bank-statement',
+        'lifeInsurance': 'insurance-policy'
+      };
+
+      if (formData.documents) {
+        const docPromises = [];
+        for (const [docId, docData] of Object.entries(formData.documents)) {
+          if (docData?.uploaded && docData?.downloadURL) {
+            const documentRef = doc(collection(db, 'documents'));
+            const documentRecord = {
+              id: documentRef.id,
+              caseId: caseId,
+              userId: user.uid,
+              fileName: docData.fileName,
+              fileSize: docData.fileSize,
+              fileType: docData.fileType,
+              category: documentCategoryMap[docId] || 'other',
+              storagePath: docData.storagePath,
+              downloadURL: docData.downloadURL,
+              status: 'active',
+              uploadedAt: serverTimestamp(),
+              source: 'intake'
+            };
+            docPromises.push(setDoc(documentRef, documentRecord));
+            console.log('Intake: Saving document to collection:', docData.fileName);
+          }
+        }
+        if (docPromises.length > 0) {
+          await Promise.all(docPromises);
+          console.log('Intake: All documents saved to collection!');
+        }
+      }
+
       // Update user's payment status
       console.log('Intake: Updating user payment status...');
       await setDoc(doc(db, 'users', user.uid), {
