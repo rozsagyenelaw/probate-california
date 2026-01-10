@@ -176,10 +176,10 @@ const Intake = () => {
         id: caseId,
         userId: user.uid,
         status: 'active',
-        currentPhase: 1,
+        currentPhase: 2, // Start at Phase 2 since intake is complete
         phaseStatuses: {
-          1: 'in_progress',
-          2: 'pending',
+          1: 'completed', // Intake is done
+          2: 'in_progress', // Petition is next
           3: 'pending',
           4: 'pending',
           5: 'pending',
