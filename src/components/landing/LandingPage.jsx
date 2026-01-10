@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   Scale,
   Check,
@@ -30,9 +31,15 @@ import {
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedPhase, setExpandedPhase] = useState(null);
   const [expandedFaq, setExpandedFaq] = useState(null);
+
+  // Navigate to intake if logged in, otherwise to register
+  const handleStartCase = () => {
+    navigate(user ? '/intake' : '/register');
+  };
 
   const scrollToSection = (sectionId) => {
     setMobileMenuOpen(false);
@@ -113,7 +120,7 @@ const LandingPage = () => {
                 Contact
               </button>
               <button
-                onClick={() => navigate('/register')}
+                onClick={handleStartCase}
                 className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium transition-colors"
               >
                 Start Your Case
@@ -149,7 +156,7 @@ const LandingPage = () => {
                   Contact
                 </button>
                 <button
-                  onClick={() => navigate('/register')}
+                  onClick={handleStartCase}
                   className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium w-full"
                 >
                   Start Your Case
@@ -195,7 +202,7 @@ const LandingPage = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => navigate('/register')}
+                onClick={handleStartCase}
                 className="bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors flex items-center justify-center"
               >
                 Start Your Probate Case
@@ -543,7 +550,7 @@ const LandingPage = () => {
             No payment required until you're ready to proceed.
           </p>
           <button
-            onClick={() => navigate('/register')}
+            onClick={handleStartCase}
             className="bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors inline-flex items-center"
           >
             Start Your Case Now
