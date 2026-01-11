@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../services/firebase';
+import FormGenerator from './FormGenerator';
 import {
   ArrowLeft,
   Printer,
@@ -81,6 +82,7 @@ const AdminCaseDetails = () => {
   // Form generation state
   const [generating, setGenerating] = useState(false);
   const [generateError, setGenerateError] = useState(null);
+  const [showFormGenerator, setShowFormGenerator] = useState(false);
 
   // Copy form data to clipboard for pasting into forms
   const handleCopyFormData = () => {
@@ -562,16 +564,23 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
           <div className="bg-white/10 rounded-lg p-4">
             <h3 className="text-white font-medium mb-2">Step 1: Generate Forms</h3>
             <p className="text-blue-100 text-sm mb-3">
-              Copy all case data to clipboard, then paste into your preferred document generator.
+              View all case data in a form layout, pre-filled with questionnaire data.
             </p>
             <div className="space-y-2">
+              <button
+                onClick={() => setShowFormGenerator(true)}
+                className="w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors bg-green-500 text-white hover:bg-green-600"
+              >
+                <Wand2 className="h-5 w-5 mr-2" />
+                Open Auto-Generator
+              </button>
               <button
                 onClick={handleCopyFormData}
                 disabled={generating}
                 className={`w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors ${
                   generating
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-green-500 text-white hover:bg-green-600'
+                    : 'bg-white text-blue-900 hover:bg-blue-50'
                 }`}
               >
                 {generating ? (
@@ -581,8 +590,8 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
                   </>
                 ) : (
                   <>
-                    <Wand2 className="h-5 w-5 mr-2" />
-                    Copy Form Data
+                    <FileText className="h-5 w-5 mr-2" />
+                    Copy as Text
                   </>
                 )}
               </button>
@@ -595,13 +604,6 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
                   {generateError}
                 </div>
               )}
-              <button
-                onClick={openDocumentGenerator}
-                className="w-full flex items-center justify-center px-4 py-3 bg-white text-blue-900 rounded-lg hover:bg-blue-50 font-medium transition-colors"
-              >
-                <ExternalLink className="h-5 w-5 mr-2" />
-                Open Generator Site
-              </button>
             </div>
           </div>
 
@@ -1406,6 +1408,14 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
             )}
           </div>
         </div>
+      )}
+
+      {/* Form Generator Modal */}
+      {showFormGenerator && (
+        <FormGenerator
+          caseData={caseData}
+          onClose={() => setShowFormGenerator(false)}
+        />
       )}
     </div>
   );
