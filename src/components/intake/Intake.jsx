@@ -175,11 +175,11 @@ const Intake = () => {
       const caseData = {
         id: caseId,
         userId: user.uid,
-        status: 'active',
-        currentPhase: 2, // Start at Phase 2 since intake is complete
+        status: 'pending_payment', // Pending until payment confirmed
+        currentPhase: 1, // Will advance to 2 after payment
         phaseStatuses: {
-          1: 'completed', // Intake is done
-          2: 'in_progress', // Petition is next
+          1: 'in_progress', // Intake pending payment
+          2: 'pending',
           3: 'pending',
           4: 'pending',
           5: 'pending',
@@ -286,21 +286,59 @@ const Intake = () => {
       await setDoc(doc(db, 'users', user.uid), {
         paymentStatus: 'pending',
         paymentPlan: paymentInfo.paymentPlan,
+        currentCaseId: caseId,
         updatedAt: serverTimestamp()
       }, { merge: true });
       console.log('Intake: User updated successfully!');
 
       // Clear saved form data
       localStorage.removeItem(`intake-${user.uid}`);
-      console.log('Intake: Navigating to dashboard...');
 
-      // Navigate to dashboard
-      navigate('/dashboard', {
-        state: {
-          message: 'Your case has been created! We will begin processing once payment is confirmed.',
-          caseId
-        }
+      // Now redirect to Stripe checkout
+      console.log('Intake: Creating Stripe checkout session...');
+      const stripePaymentPlan = paymentInfo.paymentPlan === 'full' ? 'full' : 'installments';
+
+      const response = await fetch('/.netlify/functions/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          serviceType: 'full', // Full probate from intake
+          probateType: 'full',
+          accountingAddon: null,
+          paymentPlan: stripePaymentPlan,
+          customerEmail: user.email,
+          caseId: caseId,
+          promoCode: null,
+        }),
       });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        console.error('Intake: Failed to parse Stripe response:', parseError);
+        setError('Payment system error. Please contact us at (818) 291-6217.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!response.ok) {
+        console.error('Intake: Stripe API error:', response.status, data);
+        setError(data.error || 'Payment system error. Please contact us at (818) 291-6217.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (data.url && typeof data.url === 'string' && data.url.startsWith('http')) {
+        console.log('Intake: Redirecting to Stripe checkout:', data.url);
+        window.location.href = data.url;
+      } else {
+        console.error('Intake: Invalid Stripe checkout URL:', data);
+        setError('Failed to start payment. Please contact us at (818) 291-6217.');
+        setIsSubmitting(false);
+      }
     } catch (err) {
       console.error('Intake: ERROR submitting:', err);
       console.error('Intake: Error code:', err.code);
