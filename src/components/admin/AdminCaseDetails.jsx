@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../services/firebase';
-import FormGenerator from './FormGenerator';
+// Generator URL - update this if deployed URL changes
+const GENERATOR_URL = 'https://probatepetition.netlify.app';
 import {
   ArrowLeft,
   Printer,
@@ -82,7 +83,97 @@ const AdminCaseDetails = () => {
   // Form generation state
   const [generating, setGenerating] = useState(false);
   const [generateError, setGenerateError] = useState(null);
-  const [showFormGenerator, setShowFormGenerator] = useState(false);
+
+  // Map case data to generator format and open generator
+  const openGenerator = (prefill = true) => {
+    if (!caseData) return;
+
+    if (!prefill) {
+      // Open generator with empty form
+      window.open(GENERATOR_URL, '_blank');
+      return;
+    }
+
+    // Map questionnaire data to generator format
+    const decedent = caseData.decedent || {};
+    const petitioner = caseData.petitioner || {};
+    const heirs = caseData.heirs || [];
+    const assets = caseData.assets || {};
+    const liabilities = caseData.liabilities || [];
+
+    // Calculate asset totals
+    const personalPropertyValue =
+      (assets.bankAccounts || []).reduce((sum, a) => sum + (parseFloat(a.balance) || 0), 0) +
+      (assets.investments || []).reduce((sum, i) => sum + (parseFloat(i.value) || 0), 0) +
+      (assets.vehicles || []).reduce((sum, v) => sum + (parseFloat(v.value) || 0), 0) +
+      (assets.personalProperty || []).reduce((sum, p) => sum + (parseFloat(p.value) || 0), 0);
+
+    const realPropertyGross = (assets.realProperty || []).reduce((sum, p) => sum + (parseFloat(p.estimatedValue) || 0), 0);
+    const realPropertyEncumbrance = (assets.realProperty || []).reduce((sum, p) => sum + (parseFloat(p.mortgageBalance) || 0), 0);
+
+    // Format heirs list (name, relationship, age, address)
+    const heirsList = heirs.map(h => {
+      const name = `${h.firstName || ''} ${h.lastName || ''}`.trim();
+      const relationship = h.relationship || '';
+      const age = h.isMinor ? 'Minor' : (h.age || 'Adult');
+      const address = h.address ?
+        `${h.address.street || ''}, ${h.address.city || ''}, ${h.address.state || 'CA'} ${h.address.zip || ''}`.trim() : '';
+      return `${name}, ${relationship}, ${age}, ${address}`;
+    }).join('\n');
+
+    // Format addresses
+    const decedentAddress = decedent.lastAddress ?
+      `${decedent.lastAddress.street || ''}, ${decedent.lastAddress.city || ''}, ${decedent.lastAddress.state || 'CA'} ${decedent.lastAddress.zip || ''}`.trim() : '';
+
+    const petitionerAddress = petitioner.address ?
+      `${petitioner.address.street || ''}, ${petitioner.address.city || ''}, ${petitioner.address.state || 'CA'} ${petitioner.address.zip || ''}`.trim() : '';
+
+    // Build data object for generator
+    const generatorData = {
+      // Decedent
+      decedent_name: `${decedent.firstName || ''} ${decedent.middleName || ''} ${decedent.lastName || ''}`.replace(/\s+/g, ' ').trim(),
+      death_date: decedent.dateOfDeath || '',
+      death_place: decedent.placeOfDeath || '',
+      death_address: decedentAddress,
+      death_resident: (decedent.lastAddress?.state === 'CA' || decedent.lastAddress?.state === 'California') ? 'yes' : 'yes', // Default to CA resident
+
+      // Petitioner
+      petitioner_name: `${petitioner.firstName || ''} ${petitioner.lastName || ''}`.trim(),
+      petitioner_relationship: petitioner.relationship || '',
+      petitioner_address: petitionerAddress,
+      petitioner_phone: petitioner.phone || '',
+      petitioner_is_executor: caseData.namedExecutor?.toLowerCase().includes(petitioner.firstName?.toLowerCase() || '') ? 'yes' : 'no',
+
+      // Estate values
+      personal_property_value: Math.round(personalPropertyValue) || 0,
+      real_property_gross: Math.round(realPropertyGross) || 0,
+      real_property_encumbrance: Math.round(realPropertyEncumbrance) || 0,
+
+      // Will info
+      has_will: caseData.willExists ? 'yes' : 'no',
+      will_date: caseData.willDate || '',
+      will_self_proving: 'no',
+
+      // Heirs
+      heirs_list: heirsList,
+
+      // Administration
+      admin_type: 'full',
+      bond_required: caseData.bondWaivedInWill ? 'no' : 'yes',
+      bond_amount: 0,
+
+      // Court
+      court_county: (caseData.filingCounty || decedent.lastAddress?.county || 'LOS ANGELES').toUpperCase(),
+      court_branch: ''
+    };
+
+    // Encode data as base64 and open generator
+    const encodedData = btoa(JSON.stringify(generatorData));
+    const url = `${GENERATOR_URL}?data=${encodedData}`;
+
+    console.log('Opening generator with data:', generatorData);
+    window.open(url, '_blank');
+  };
 
   // Copy form data to clipboard for pasting into forms
   const handleCopyFormData = () => {
@@ -564,46 +655,26 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
           <div className="bg-white/10 rounded-lg p-4">
             <h3 className="text-white font-medium mb-2">Step 1: Generate Forms</h3>
             <p className="text-blue-100 text-sm mb-3">
-              View all case data in a form layout, pre-filled with questionnaire data.
+              Open the form generator to create California probate court forms (DE-111, DE-140, DE-147, etc.)
             </p>
             <div className="space-y-2">
               <button
-                onClick={() => setShowFormGenerator(true)}
+                onClick={() => openGenerator(true)}
                 className="w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors bg-green-500 text-white hover:bg-green-600"
               >
                 <Wand2 className="h-5 w-5 mr-2" />
-                Open Auto-Generator
+                Auto Generate Forms
               </button>
               <button
-                onClick={handleCopyFormData}
-                disabled={generating}
-                className={`w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors ${
-                  generating
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-white text-blue-900 hover:bg-blue-50'
-                }`}
+                onClick={() => openGenerator(false)}
+                className="w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors bg-white text-blue-900 hover:bg-blue-50"
               >
-                {generating ? (
-                  <>
-                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                    Copying...
-                  </>
-                ) : (
-                  <>
-                    <FileText className="h-5 w-5 mr-2" />
-                    Copy as Text
-                  </>
-                )}
+                <FileText className="h-5 w-5 mr-2" />
+                Manual Fill Forms
               </button>
-              {generateError && (
-                <div className={`px-3 py-2 rounded-lg text-sm ${
-                  generateError.includes('copied')
-                    ? 'bg-green-100 border border-green-300 text-green-700'
-                    : 'bg-red-100 border border-red-300 text-red-700'
-                }`}>
-                  {generateError}
-                </div>
-              )}
+              <p className="text-blue-200 text-xs text-center mt-2">
+                Auto Generate = Pre-filled with case data | Manual Fill = Empty form
+              </p>
             </div>
           </div>
 
@@ -1410,13 +1481,6 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
         </div>
       )}
 
-      {/* Form Generator Modal */}
-      {showFormGenerator && (
-        <FormGenerator
-          caseData={caseData}
-          onClose={() => setShowFormGenerator(false)}
-        />
-      )}
     </div>
   );
 };
