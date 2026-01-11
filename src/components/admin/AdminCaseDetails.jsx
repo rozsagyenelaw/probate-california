@@ -33,7 +33,8 @@ import {
   Eye,
   Trash2,
   Newspaper,
-  Save
+  Save,
+  Wand2
 } from 'lucide-react';
 
 const PHASE_LABELS = {
@@ -76,6 +77,73 @@ const AdminCaseDetails = () => {
     notes: ''
   });
   const [savingPublication, setSavingPublication] = useState(false);
+
+  // Form generation state
+  const [generating, setGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState(null);
+
+  // Auto-generate forms from case data
+  const handleAutoGenerate = async () => {
+    if (!caseData) return;
+
+    setGenerating(true);
+    setGenerateError(null);
+
+    try {
+      const response = await fetch('/.netlify/functions/generate-forms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(caseData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate forms');
+      }
+
+      const contentType = response.headers.get('content-type');
+
+      if (contentType?.includes('application/pdf')) {
+        // Download PDF
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${caseData.estateName || 'probate'}-forms.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else if (contentType?.includes('application/zip')) {
+        // Download ZIP
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${caseData.estateName || 'probate'}-forms.zip`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        // JSON response
+        const data = await response.json();
+        if (data.downloadUrl) {
+          window.open(data.downloadUrl, '_blank');
+        } else {
+          console.log('Form generation response:', data);
+          alert('Forms generated. Check the console for details.');
+        }
+      }
+    } catch (error) {
+      console.error('Error generating forms:', error);
+      setGenerateError(error.message || 'Failed to generate forms. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   // Open external document generator with case data
   const openDocumentGenerator = () => {
@@ -472,15 +540,43 @@ const AdminCaseDetails = () => {
           <div className="bg-white/10 rounded-lg p-4">
             <h3 className="text-white font-medium mb-2">Step 1: Generate Forms</h3>
             <p className="text-blue-100 text-sm mb-3">
-              Use the document generator to create court forms pre-filled with case data.
+              Auto-generate court forms pre-filled with all questionnaire data, or use the manual generator.
             </p>
-            <button
-              onClick={openDocumentGenerator}
-              className="w-full flex items-center justify-center px-4 py-3 bg-white text-blue-900 rounded-lg hover:bg-blue-50 font-medium transition-colors"
-            >
-              <ExternalLink className="h-5 w-5 mr-2" />
-              Open Document Generator
-            </button>
+            <div className="space-y-2">
+              <button
+                onClick={handleAutoGenerate}
+                disabled={generating}
+                className={`w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors ${
+                  generating
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-green-500 text-white hover:bg-green-600'
+                }`}
+              >
+                {generating ? (
+                  <>
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    Generating Forms...
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="h-5 w-5 mr-2" />
+                    Auto-Generate Forms
+                  </>
+                )}
+              </button>
+              {generateError && (
+                <div className="bg-red-100 border border-red-300 text-red-700 px-3 py-2 rounded-lg text-sm">
+                  {generateError}
+                </div>
+              )}
+              <button
+                onClick={openDocumentGenerator}
+                className="w-full flex items-center justify-center px-4 py-3 bg-white text-blue-900 rounded-lg hover:bg-blue-50 font-medium transition-colors"
+              >
+                <ExternalLink className="h-5 w-5 mr-2" />
+                Manual Generator
+              </button>
+            </div>
           </div>
 
           {/* Upload Prepared Documents */}

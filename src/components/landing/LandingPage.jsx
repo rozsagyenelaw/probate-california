@@ -99,6 +99,10 @@ const LandingPage = () => {
     {
       q: 'What if the estate is small?',
       a: 'Estates with personal property under $208,850 may qualify for a small estate affidavit (no court required). Primary residences valued under $750,000 may qualify for our simplified probate process ($2,495). We\'ll evaluate your situation during intake and recommend the most cost-effective approach.'
+    },
+    {
+      q: 'What payment options do you offer?',
+      a: 'We offer several ways to pay: Pay in full ($2,495 or $3,995), split into 3 monthly payments at no extra cost, or use Klarna/Afterpay for 4 interest-free payments (subject to approval). You can select your preferred payment method at checkout. Klarna and Afterpay approval is instant and doesn\'t affect your credit score for the initial check.'
     }
   ];
 
@@ -316,6 +320,11 @@ const LandingPage = () => {
                   See How It Works
                 </button>
               </div>
+
+              {/* Payment flexibility note */}
+              <p className="text-white/80 text-sm mt-4">
+                Payment plans available — pay over time with no extra fees
+              </p>
             </div>
           </div>
         </div>
@@ -335,12 +344,19 @@ const LandingPage = () => {
             {/* CA State Bar */}
             <div className="bg-white rounded-xl p-6 text-center shadow-sm">
               <Award className="h-8 w-8 mx-auto mb-3 text-amber-700" />
-              <p className="font-bold text-gray-900">California State Bar #208356</p>
               <a
-                href="https://www.calbar.ca.gov/Attorneys/Find-Lawyer/Member-Profile?memberId=208356"
+                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-gray-500 hover:text-blue-600 flex items-center justify-center"
+                className="font-bold text-gray-900 hover:text-blue-600"
+              >
+                California State Bar #208356
+              </a>
+              <a
+                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-gray-500 hover:text-blue-600 flex items-center justify-center mt-1"
               >
                 Licensed & Verified
                 <svg className="h-3 w-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -458,6 +474,7 @@ const LandingPage = () => {
                   <p className="text-4xl font-bold text-gray-900">$2,495</p>
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
+                  <p className="text-xs text-gray-400 mt-1">Klarna/Afterpay: 4 payments of $624</p>
                 </div>
 
                 <div className="mb-6">
@@ -499,11 +516,11 @@ const LandingPage = () => {
             </div>
 
             {/* Full Probate */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-blue-900 relative mt-4">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md">MOST COMMON</span>
+            <div className="bg-white rounded-xl shadow-lg border-2 border-blue-900 relative mt-8">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                <span className="bg-orange-500 text-white text-sm font-bold px-5 py-2 rounded-full shadow-lg whitespace-nowrap">MOST COMMON</span>
               </div>
-              <div className="bg-blue-900 text-white p-4 pt-5 text-center">
+              <div className="bg-blue-900 text-white p-4 pt-6 text-center rounded-t-lg">
                 <h3 className="text-xl font-bold">FULL PROBATE</h3>
                 <p className="text-blue-200 text-sm">For estates over $750,000 or complex situations</p>
               </div>
@@ -512,6 +529,7 @@ const LandingPage = () => {
                   <p className="text-4xl font-bold text-gray-900">$3,995</p>
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
+                  <p className="text-xs text-gray-400 mt-1">Klarna/Afterpay: 4 payments of $999</p>
                 </div>
 
                 <div className="mb-6">
@@ -553,6 +571,38 @@ const LandingPage = () => {
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Payment Options Section */}
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Payment Options Available</h3>
+              <p className="text-gray-600">Don't have the full amount today? No problem.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+              <div className="bg-white rounded-lg p-4 shadow-sm">
+                <CreditCard className="h-6 w-6 mx-auto mb-2 text-blue-600" />
+                <p className="font-semibold text-gray-900">3 Monthly Payments</p>
+                <p className="text-sm text-gray-500">Split into 3 equal payments — no extra cost</p>
+              </div>
+              <div className="bg-white rounded-lg p-4 shadow-sm">
+                <div className="h-6 flex items-center justify-center mb-2">
+                  <span className="text-pink-500 font-bold text-sm">Klarna</span>
+                </div>
+                <p className="font-semibold text-gray-900">4 Interest-Free Payments</p>
+                <p className="text-sm text-gray-500">Pay in 4 with Klarna — subject to approval</p>
+              </div>
+              <div className="bg-white rounded-lg p-4 shadow-sm">
+                <div className="h-6 flex items-center justify-center mb-2">
+                  <span className="text-teal-500 font-bold text-sm">Afterpay</span>
+                </div>
+                <p className="font-semibold text-gray-900">4 Interest-Free Payments</p>
+                <p className="text-sm text-gray-500">Pay in 4 with Afterpay — subject to approval</p>
+              </div>
+            </div>
+            <p className="text-center text-xs text-gray-500 mt-4">
+              Select your preferred payment method at checkout. Klarna and Afterpay approval is instant and doesn't affect your credit score.
+            </p>
           </div>
 
           {/* Not Sure CTA */}

@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { doc, getDoc, collection, query, where, getDocs, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
-import { generatePetition, downloadBlob } from '../../services/petitionService';
 import {
   ArrowLeft,
   Scale,
@@ -23,7 +22,6 @@ import {
   AlertCircle,
   Save,
   ExternalLink,
-  Wand2,
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
@@ -119,8 +117,6 @@ const PetitionGeneration = () => {
   const [hearingDept, setHearingDept] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [generateError, setGenerateError] = useState(null);
   const [showCaseData, setShowCaseData] = useState(false);
 
   const searchParams = new URLSearchParams(location.search);
@@ -238,35 +234,6 @@ const PetitionGeneration = () => {
   const getCourtInfo = () => {
     const county = probateCase?.filingCounty;
     return COURT_ADDRESSES[county] || COURT_ADDRESSES['default'];
-  };
-
-  // Auto-generate forms from questionnaire data
-  const handleAutoGenerate = async () => {
-    if (!probateCase) return;
-
-    setGenerating(true);
-    setGenerateError(null);
-
-    try {
-      const result = await generatePetition(probateCase);
-
-      if (result.blob) {
-        // Download the generated file
-        downloadBlob(result.blob, result.filename || `${probateCase.estateName}-probate-forms.pdf`);
-      } else if (result.downloadUrl) {
-        // Open download URL
-        window.open(result.downloadUrl, '_blank');
-      } else {
-        // Log success message
-        console.log('Form generation successful:', result);
-        alert('Forms generated successfully! Check your downloads.');
-      }
-    } catch (error) {
-      console.error('Error generating forms:', error);
-      setGenerateError(error.message || 'Failed to generate forms. Please try again.');
-    } finally {
-      setGenerating(false);
-    }
   };
 
   // Format currency for display
@@ -434,55 +401,6 @@ const PetitionGeneration = () => {
             </div>
           </div>
         )}
-
-        {/* Auto-Generate Forms Section */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-6 border border-purple-200">
-          <div className="flex items-start justify-between">
-            <div className="flex items-start">
-              <div className="bg-purple-100 rounded-full p-3 mr-4">
-                <Wand2 className="h-6 w-6 text-purple-600" />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-gray-900 mb-1">
-                  Auto-Generate Forms
-                </h2>
-                <p className="text-gray-600 text-sm mb-3">
-                  Generate pre-filled court forms using your questionnaire data.
-                  Forms will be auto-populated with the information you provided during intake.
-                </p>
-                {generateError && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
-                    <p className="text-sm text-red-700 flex items-center">
-                      <AlertCircle className="h-4 w-4 mr-2" />
-                      {generateError}
-                    </p>
-                  </div>
-                )}
-                <button
-                  onClick={handleAutoGenerate}
-                  disabled={generating}
-                  className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
-                    generating
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-purple-600 text-white hover:bg-purple-700'
-                  }`}
-                >
-                  {generating ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Generating Forms...
-                    </>
-                  ) : (
-                    <>
-                      <Wand2 className="h-4 w-4 mr-2" />
-                      Generate Forms from Questionnaire
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Case Data Summary - Collapsible */}
         <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">

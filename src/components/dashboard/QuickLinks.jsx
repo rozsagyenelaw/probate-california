@@ -9,7 +9,10 @@ import {
   Phone,
   HelpCircle,
   ExternalLink,
-  Calculator
+  Calculator,
+  Gavel,
+  Video,
+  Users
 } from 'lucide-react';
 
 const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
@@ -153,6 +156,46 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Court Appearance Services */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Court Appearance</h3>
+        <p className="text-sm text-gray-600 mb-3">
+          Need an attorney to appear at your hearing? We can represent you in court.
+        </p>
+        <div className="space-y-2">
+          <button
+            onClick={() => navigate('/request-court-appearance?type=remote')}
+            className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+          >
+            <div className="flex items-center">
+              <div className="p-2 rounded-lg bg-blue-100 mr-3">
+                <Video className="h-4 w-4 text-blue-600" />
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-medium text-gray-900">Remote Appearance</p>
+                <p className="text-xs text-gray-500">Standard hearing via video</p>
+              </div>
+            </div>
+            <span className="text-sm font-semibold text-blue-600">$500</span>
+          </button>
+          <button
+            onClick={() => navigate('/request-court-appearance?type=contested')}
+            className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-colors"
+          >
+            <div className="flex items-center">
+              <div className="p-2 rounded-lg bg-purple-100 mr-3">
+                <Users className="h-4 w-4 text-purple-600" />
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-medium text-gray-900">Contested/Complex Hearing</p>
+                <p className="text-xs text-gray-500">2-hour minimum representation</p>
+              </div>
+            </div>
+            <span className="text-sm font-semibold text-purple-600">$600</span>
+          </button>
+        </div>
       </div>
 
       {/* Resources */}

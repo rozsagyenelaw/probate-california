@@ -30,6 +30,7 @@ import {
 } from './components/phases';
 import { Messages } from './components/messaging';
 import RequestAccounting from './components/accounting/RequestAccounting';
+import RequestCourtAppearance from './components/court/RequestCourtAppearance';
 
 // Admin pages
 import {
@@ -222,6 +223,11 @@ function App() {
         <Route path="/request-accounting" element={
           <ProtectedRoute>
             <RequestAccounting />
+          </ProtectedRoute>
+        } />
+        <Route path="/request-court-appearance" element={
+          <ProtectedRoute>
+            <RequestCourtAppearance />
           </ProtectedRoute>
         } />
 
