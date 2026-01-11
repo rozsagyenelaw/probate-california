@@ -1,10 +1,18 @@
 import React from 'react';
 import { Scale, Calendar, FileText, MapPin } from 'lucide-react';
+import { getCourtByCounty } from '../../data/californiaCourts';
 
 const CaseHeader = ({ probateCase }) => {
   if (!probateCase) return null;
 
-  const { decedent, court, status, currentPhase } = probateCase;
+  const { decedent, court, status, currentPhase, filingCounty } = probateCase;
+
+  // Get county - from court object or filingCounty (for backwards compatibility)
+  const county = court?.county || filingCounty || decedent?.lastAddress?.county;
+
+  // Get courthouse - from court object or look up by county
+  const courtInfo = county ? getCourtByCounty(county) : null;
+  const courthouse = court?.courthouse || courtInfo?.name;
 
   const getStatusBadge = (status) => {
     const statusConfig = {
@@ -66,7 +74,7 @@ const CaseHeader = ({ probateCase }) => {
           <MapPin className="h-5 w-5 text-blue-300 mr-2" />
           <div>
             <p className="text-blue-300 text-xs">County</p>
-            <p className="font-medium">{court?.county || 'Not specified'}</p>
+            <p className="font-medium">{county || 'Not specified'}</p>
           </div>
         </div>
 
@@ -82,8 +90,8 @@ const CaseHeader = ({ probateCase }) => {
           <Scale className="h-5 w-5 text-blue-300 mr-2" />
           <div>
             <p className="text-blue-300 text-xs">Court</p>
-            <p className="font-medium text-sm truncate max-w-[150px]">
-              {court?.courthouse || 'TBD'}
+            <p className="font-medium text-sm truncate max-w-[150px]" title={courthouse}>
+              {courthouse || 'TBD'}
             </p>
           </div>
         </div>

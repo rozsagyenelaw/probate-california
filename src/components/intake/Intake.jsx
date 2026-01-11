@@ -5,6 +5,7 @@ import { doc, setDoc, serverTimestamp, collection } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { INTAKE_STEPS, INITIAL_FORM_STATE } from './IntakeSteps';
+import { getCourtByCounty } from '../../data/californiaCourts';
 
 // Step Components
 import DecedentStep from './steps/DecedentStep';
@@ -171,6 +172,8 @@ const Intake = () => {
       console.log('Intake: Creating case with ID:', caseId);
 
       const decedentName = `${formData.decedent.firstName} ${formData.decedent.lastName}`;
+      const filingCounty = formData.decedent.lastAddress.county;
+      const courtInfo = getCourtByCounty(filingCounty);
 
       const caseData = {
         id: caseId,
@@ -192,8 +195,17 @@ const Intake = () => {
         },
         estateName: `Estate of ${decedentName}`,
         caseNumber: null,
-        filingCounty: formData.decedent.lastAddress.county,
+        filingCounty: filingCounty,
         probateType: formData.willExists ? 'testate' : 'intestate',
+
+        // Court information based on county
+        court: {
+          county: filingCounty,
+          courthouse: courtInfo?.name || null,
+          address: courtInfo?.address || null,
+          phone: courtInfo?.phone || null,
+          caseNumber: null // Will be assigned after filing
+        },
 
         // Store all intake form data
         decedent: formData.decedent,
