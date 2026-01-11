@@ -434,6 +434,59 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Trust Badges Section */}
+      <section className="py-8 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            {/* 5000+ Families */}
+            <div className="bg-white rounded-xl p-5 text-center shadow-sm">
+              <Users className="h-7 w-7 mx-auto mb-2 text-amber-700" />
+              <p className="font-bold text-gray-900 text-sm">5000+ Families</p>
+              <p className="text-xs text-gray-500">Served Since 2001</p>
+            </div>
+
+            {/* CA State Bar */}
+            <div className="bg-white rounded-xl p-5 text-center shadow-sm">
+              <Award className="h-7 w-7 mx-auto mb-2 text-amber-700" />
+              <a
+                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-gray-900 hover:text-blue-600 text-sm"
+              >
+                State Bar #208356
+              </a>
+              <p className="text-xs text-gray-500">Licensed & Verified</p>
+            </div>
+
+            {/* A+ Rated */}
+            <div className="bg-white rounded-xl p-5 text-center shadow-sm">
+              <svg className="h-7 w-7 mx-auto mb-2 text-amber-700" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <p className="font-bold text-gray-900 text-sm">A+ Rated</p>
+              <p className="text-xs text-gray-500">Better Business Bureau</p>
+            </div>
+
+            {/* 25+ Years */}
+            <div className="bg-white rounded-xl p-5 text-center shadow-sm">
+              <svg className="h-7 w-7 mx-auto mb-2 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+              <p className="font-bold text-gray-900 text-sm">25+ Years</p>
+              <p className="text-xs text-gray-500">Estate Law Experience</p>
+            </div>
+
+            {/* 100% Confidential */}
+            <div className="bg-white rounded-xl p-5 text-center shadow-sm">
+              <Shield className="h-7 w-7 mx-auto mb-2 text-amber-700" />
+              <p className="font-bold text-gray-900 text-sm">100% Confidential</p>
+              <p className="text-xs text-gray-500">Attorney-Client Privilege</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Statutory Fee Calculator Section */}
       <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -569,66 +622,6 @@ const LandingPage = () => {
               Check My Eligibility - Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Is Probate Required Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Is Probate Required?</h2>
-          </div>
-          <div className="bg-white rounded-xl shadow-sm p-8">
-            <p className="text-lg text-gray-700 mb-6">
-              When someone passes away in California, their assets may need to go through probate court before they can be transferred to heirs.
-            </p>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              {/* Full Probate */}
-              <div className="bg-blue-50 rounded-lg p-5 border border-blue-200">
-                <h3 className="font-bold text-blue-900 mb-3">Full Probate is typically required when:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Real estate valued over $750,000</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Total personal property exceeds $208,850</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">No living trust in place</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Simplified Process */}
-              <div className="bg-green-50 rounded-lg p-5 border border-green-200">
-                <h3 className="font-bold text-green-800 mb-3">Simplified Process may be available when:</h3>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Primary residence valued under $750,000</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Personal property under $208,850</span>
-                  </li>
-                  <li className="flex items-start">
-                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Effective for deaths on or after April 1, 2025</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="text-center pt-4 border-t">
-              <p className="text-gray-600 mb-4">
-                <strong className="text-gray-900">Not sure which applies?</strong> Complete our intake questionnaire and we'll evaluate your situation.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -1197,6 +1190,67 @@ const LandingPage = () => {
                 <p className="font-semibold text-gray-900">Jennifer K.</p>
                 <p className="text-sm text-gray-500">San Bernardino County</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Is Probate Required Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Is Probate Required?</h2>
+            <p className="text-gray-600">Not sure if you need probate? Here's a quick guide.</p>
+          </div>
+          <div className="bg-gray-50 rounded-xl shadow-sm p-8 border border-gray-200">
+            <p className="text-lg text-gray-700 mb-6">
+              When someone passes away in California, their assets may need to go through probate court before they can be transferred to heirs.
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              {/* Full Probate */}
+              <div className="bg-blue-50 rounded-lg p-5 border border-blue-200">
+                <h3 className="font-bold text-blue-900 mb-3">Full Probate is typically required when:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Real estate valued over $750,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Total personal property exceeds $208,850</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">No living trust in place</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Simplified Process */}
+              <div className="bg-green-50 rounded-lg p-5 border border-green-200">
+                <h3 className="font-bold text-green-800 mb-3">Simplified Process may be available when:</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Primary residence valued under $750,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Personal property under $208,850</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" />
+                    <span className="text-gray-700">Effective for deaths on or after April 1, 2025</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="text-center pt-4 border-t border-gray-200">
+              <p className="text-gray-600">
+                <strong className="text-gray-900">Not sure which applies?</strong> Complete our intake questionnaire and we'll evaluate your situation.
+              </p>
             </div>
           </div>
         </div>
