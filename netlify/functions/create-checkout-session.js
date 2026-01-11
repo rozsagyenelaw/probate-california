@@ -335,7 +335,9 @@ exports.handler = async (event, context) => {
 
     // Determine success and cancel URLs
     const baseUrl = process.env.URL || 'https://probate-california.com';
-    const successUrl = `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
+    // Include amount for Google Ads conversion tracking
+    const totalAmountDollars = (totalAmountCents / 100).toFixed(2);
+    const successUrl = `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&amount=${totalAmountDollars}`;
     const cancelUrl = `${baseUrl}/payment?canceled=true`;
 
     // Validate promo code and get Stripe coupon if applicable

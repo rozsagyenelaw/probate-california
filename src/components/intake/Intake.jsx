@@ -259,6 +259,16 @@ const Intake = () => {
       await setDoc(caseRef, caseData);
       console.log('Intake: Case saved successfully!');
 
+      // Fire Google Ads lead conversion for questionnaire completion
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'conversion', {
+          'send_to': 'AW-989094207/LEAD_CONVERSION_LABEL',  // Replace with actual lead conversion label from Google Ads
+          'value': paymentInfo.totalAmount || 3995,
+          'currency': 'USD'
+        });
+        console.log('Google Ads lead conversion fired for questionnaire completion');
+      }
+
       // Save uploaded documents to the documents collection
       const documentCategoryMap = {
         'deathCertificate': 'death-certificate',

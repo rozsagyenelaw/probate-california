@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -17,8 +17,33 @@ const PaymentSuccess = () => {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const [countdown, setCountdown] = useState(10);
+  const conversionFired = useRef(false);
 
   const sessionId = searchParams.get('session_id');
+  // Get payment amount from URL params (set by checkout), default to full probate price
+  const paymentAmount = parseFloat(searchParams.get('amount')) || 3995;
+
+  // Fire Google Ads conversion tracking
+  useEffect(() => {
+    // Only fire once to prevent duplicate conversions
+    if (conversionFired.current) return;
+    conversionFired.current = true;
+
+    // Google Ads conversion tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-989094207/t7cOCJ6lr-gaEL_C0dcD',
+        'value': paymentAmount,
+        'currency': 'USD',
+        'transaction_id': sessionId || undefined
+      });
+      console.log('Google Ads conversion fired:', {
+        value: paymentAmount,
+        currency: 'USD',
+        transaction_id: sessionId
+      });
+    }
+  }, [paymentAmount, sessionId]);
 
   useEffect(() => {
     // Auto-redirect to dashboard after countdown

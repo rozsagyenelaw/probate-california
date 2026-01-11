@@ -1,36 +1,46 @@
 /**
  * Analytics Service
- * Initializes Google Analytics 4 and Microsoft Clarity
+ * Initializes Google Analytics 4, Google Ads, and Microsoft Clarity
  *
  * Set these environment variables in Netlify:
  * - VITE_GA_MEASUREMENT_ID: Your GA4 measurement ID (e.g., G-XXXXXXXXXX)
  * - VITE_CLARITY_ID: Your Microsoft Clarity ID (e.g., xxxxxxxxxx)
+ *
+ * Google Ads Conversion ID is hardcoded: AW-989094207
  */
 
-// Initialize Google Analytics 4
+// Google Ads Conversion ID
+const GOOGLE_ADS_ID = 'AW-989094207';
+
+// Initialize Google Analytics 4 and Google Ads
 export const initGA4 = () => {
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
-  if (!measurementId) {
-    console.log('GA4: Measurement ID not configured');
-    return;
-  }
-
-  // Load gtag.js script
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-  document.head.appendChild(script);
-
-  // Initialize dataLayer and gtag
+  // Initialize dataLayer and gtag first
   window.dataLayer = window.dataLayer || [];
   window.gtag = function() {
     window.dataLayer.push(arguments);
   };
   window.gtag('js', new Date());
-  window.gtag('config', measurementId);
 
-  console.log('GA4: Initialized with ID', measurementId);
+  // Load gtag.js script (use GA4 ID if available, otherwise Google Ads ID)
+  const primaryId = measurementId || GOOGLE_ADS_ID;
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${primaryId}`;
+  document.head.appendChild(script);
+
+  // Configure GA4 if available
+  if (measurementId) {
+    window.gtag('config', measurementId);
+    console.log('GA4: Initialized with ID', measurementId);
+  } else {
+    console.log('GA4: Measurement ID not configured');
+  }
+
+  // Always configure Google Ads for conversion tracking
+  window.gtag('config', GOOGLE_ADS_ID);
+  console.log('Google Ads: Initialized with ID', GOOGLE_ADS_ID);
 };
 
 // Initialize Microsoft Clarity
