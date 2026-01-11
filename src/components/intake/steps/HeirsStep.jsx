@@ -81,6 +81,9 @@ const HeirsStep = ({ formData, updateFormData }) => {
                 ? 'List all beneficiaries named in the will.'
                 : 'List all persons who may inherit under California intestate succession laws (spouse, children, parents, siblings, etc.).'}
             </p>
+            <p className="text-sm text-blue-800 mt-2 font-medium">
+              Important: After filling out each heir's information, make sure to press the "Add Heir" button to save them to your list.
+            </p>
           </div>
         </div>
       </div>

@@ -114,6 +114,9 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
               List all real estate owned by the decedent, including houses, land,
               commercial property, etc. Include properties held in the decedent's name alone.
             </p>
+            <p className="text-sm text-blue-800 mt-2 font-medium">
+              Important: After filling out each property's information, make sure to press the "Add Property" button to save it to your list.
+            </p>
           </div>
         </div>
       </div>

@@ -217,6 +217,9 @@ const DocumentsStep = ({ formData, updateFormData }) => {
               Upload your documents now or indicate which ones you'll need to obtain.
               You can also upload additional documents later through your dashboard.
             </p>
+            <p className="text-sm text-blue-800 mt-2 font-medium">
+              Tip: If you don't have a document yet, check the "I don't have this document yet" checkbox below the upload area. This lets us know you'll provide it later.
+            </p>
           </div>
         </div>
       </div>
