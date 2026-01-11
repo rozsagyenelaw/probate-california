@@ -555,6 +555,20 @@ const PaymentPage = () => {
               </div>
             </div>
 
+            {/* Klarna Info */}
+            <div className="mt-4 bg-pink-50 border border-pink-200 rounded-lg p-4">
+              <div className="flex items-center mb-2">
+                <span className="font-bold text-lg" style={{color: '#FFB3C7'}}>Klarna</span>
+                <span className="ml-2 bg-pink-100 text-pink-700 text-xs font-medium px-2 py-0.5 rounded">Buy now, pay later</span>
+              </div>
+              <p className="text-sm text-gray-700 mb-2">
+                <strong>4 interest-free payments</strong> of ${Math.ceil(totalPrice / 4).toLocaleString()} available at checkout
+              </p>
+              <p className="text-xs text-gray-500">
+                Select "Pay in Full" above, then choose Klarna on the next screen. Instant approval, no impact to credit score.
+              </p>
+            </div>
+
             {/* Promo Code */}
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">

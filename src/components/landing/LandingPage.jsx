@@ -482,7 +482,9 @@ const LandingPage = () => {
                   <p className="text-4xl font-bold text-gray-900">$2,495</p>
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
-                  <p className="text-xs text-gray-400 mt-1">Klarna: 4 payments of $624</p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    or 4 interest-free payments of $624 with <span className="font-bold" style={{color: '#FFB3C7'}}>Klarna</span>
+                  </p>
                 </div>
 
                 <div className="mb-6">
@@ -521,6 +523,12 @@ const LandingPage = () => {
                   >
                     Start Simplified Process
                   </button>
+                  <p className="text-xs text-center text-gray-500 mt-2">
+                    <span className="inline-flex items-center">
+                      <span className="bg-pink-100 text-pink-700 px-2 py-0.5 rounded text-xs font-medium mr-1">Buy now, pay later</span>
+                      available at checkout
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -539,7 +547,9 @@ const LandingPage = () => {
                   <p className="text-4xl font-bold text-gray-900">$3,995</p>
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
-                  <p className="text-xs text-gray-400 mt-1">Klarna: 4 payments of $999</p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    or 4 interest-free payments of $999 with <span className="font-bold" style={{color: '#FFB3C7'}}>Klarna</span>
+                  </p>
                 </div>
 
                 <div className="mb-6">
@@ -580,6 +590,12 @@ const LandingPage = () => {
                   >
                     Start Full Probate
                   </button>
+                  <p className="text-xs text-center text-gray-500 mt-2">
+                    <span className="inline-flex items-center">
+                      <span className="bg-pink-100 text-pink-700 px-2 py-0.5 rounded text-xs font-medium mr-1">Buy now, pay later</span>
+                      available at checkout
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>

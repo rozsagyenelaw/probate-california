@@ -340,6 +340,22 @@ const ReviewStep = ({ formData, onEditStep }) => {
         )}
       </Section>
 
+      {/* Payment Plans Available */}
+      <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
+        <div className="flex items-start">
+          <CreditCard className="h-5 w-5 mr-2 mt-0.5" style={{color: '#FFB3C7'}} />
+          <div>
+            <p className="font-medium text-gray-900">
+              Payment Plans Available with <span style={{color: '#FFB3C7'}} className="font-bold">Klarna</span>
+            </p>
+            <p className="text-sm text-gray-700 mt-1">
+              Split your payment into <strong>4 interest-free installments</strong>.
+              Select Klarna at checkout for instant approval with no impact to your credit score.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Confirmation */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
         <div className="flex items-start">
