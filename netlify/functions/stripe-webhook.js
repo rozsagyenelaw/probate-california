@@ -57,16 +57,40 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Build service description for emails
+function buildServiceDescription(serviceType, probateType, accountingAddon) {
+  let services = [];
+
+  if (serviceType === 'accounting_only') {
+    services.push(accountingAddon === 'simple' ? 'Simple Accounting ($995)' : 'Complex Accounting ($1,995)');
+  } else {
+    // Probate service
+    if (probateType === 'simplified') {
+      services.push('Simplified Probate ($2,495)');
+    } else {
+      services.push('Full Probate ($3,995)');
+    }
+    // Accounting add-on
+    if (accountingAddon === 'simple') {
+      services.push('Simple Accounting Add-on ($995)');
+    } else if (accountingAddon === 'complex') {
+      services.push('Complex Accounting Add-on ($1,995)');
+    }
+  }
+
+  return services.join(' + ');
+}
+
 // Send email notification to admin
-async function sendAdminNotification(customerEmail, customerName, probateType, paymentPlan, amount) {
+async function sendAdminNotification(customerEmail, customerName, serviceType, probateType, accountingAddon, paymentPlan, amount) {
   const adminEmail = 'rozsagyenelaw@yahoo.com';
-  const probateLabel = probateType === 'simplified' ? 'Simplified Probate ($2,495)' : 'Full Probate ($3,995)';
+  const serviceDescription = buildServiceDescription(serviceType, probateType, accountingAddon);
   const planLabel = paymentPlan === 'installments' ? '3 Monthly Installments' : 'Paid in Full';
 
   const mailOptions = {
     from: '"Probate California" <rozsagyenelaw1@gmail.com>',
     to: adminEmail,
-    subject: `New Payment Received - ${probateLabel}`,
+    subject: `New Payment Received - ${serviceDescription}`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -77,13 +101,14 @@ async function sendAdminNotification(customerEmail, customerName, probateType, p
           .header { background: #1e3a8a; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
           .content { background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; }
           .highlight { background: #dbeafe; padding: 15px; border-radius: 8px; margin: 15px 0; }
+          .addon { background: #f3e8ff; padding: 10px; border-radius: 6px; margin-top: 10px; }
           .footer { background: #f3f4f6; padding: 15px; text-align: center; font-size: 12px; color: #6b7280; border-radius: 0 0 8px 8px; }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h1>New Probate Payment Received!</h1>
+            <h1>New Payment Received!</h1>
           </div>
           <div class="content">
             <p>A new payment has been completed on Probate California.</p>
@@ -91,7 +116,11 @@ async function sendAdminNotification(customerEmail, customerName, probateType, p
             <div class="highlight">
               <p><strong>Customer Name:</strong> ${customerName || 'Not provided'}</p>
               <p><strong>Customer Email:</strong> ${customerEmail}</p>
-              <p><strong>Service Type:</strong> ${probateLabel}</p>
+              <p><strong>Services Purchased:</strong></p>
+              <ul>
+                ${serviceType !== 'accounting_only' ? `<li>${probateType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}</li>` : ''}
+                ${accountingAddon ? `<li>${accountingAddon === 'simple' ? 'Simple Accounting' : 'Complex Accounting'}${serviceType !== 'accounting_only' ? ' (Add-on)' : ''}</li>` : ''}
+              </ul>
               <p><strong>Payment Plan:</strong> ${planLabel}</p>
               <p><strong>Amount Paid:</strong> $${(amount / 100).toFixed(2)}</p>
               <p><strong>Date:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</p>
@@ -117,14 +146,37 @@ async function sendAdminNotification(customerEmail, customerName, probateType, p
 }
 
 // Send confirmation email to customer
-async function sendCustomerConfirmation(customerEmail, customerName, probateType, paymentPlan) {
-  const probateLabel = probateType === 'simplified' ? 'Simplified Probate' : 'Full Probate';
-  const planLabel = paymentPlan === 'installments' ? '(3-payment plan)' : '';
+async function sendCustomerConfirmation(customerEmail, customerName, serviceType, probateType, accountingAddon, paymentPlan) {
+  const isAccountingOnly = serviceType === 'accounting_only';
+  const serviceDescription = buildServiceDescription(serviceType, probateType, accountingAddon);
+  const planLabel = paymentPlan === 'installments' ? ' (3-payment plan)' : '';
+
+  // Customize message based on service type
+  let nextStepsHtml;
+  if (isAccountingOnly) {
+    nextStepsHtml = `
+      <ol>
+        <li><strong>Information Gathering</strong> - We'll reach out within 24-48 hours to collect the necessary financial information.</li>
+        <li><strong>Accounting Preparation</strong> - We'll prepare your court-formatted accounting document.</li>
+        <li><strong>Attorney Review</strong> - Attorney Rozsa Gyene will review the completed accounting.</li>
+        <li><strong>Delivery</strong> - You'll receive the finalized accounting document ready for court filing.</li>
+      </ol>
+    `;
+  } else {
+    nextStepsHtml = `
+      <ol>
+        <li><strong>Case Review</strong> - Our attorney will review your case information within 24-48 business hours.</li>
+        <li><strong>Document Preparation</strong> - We'll prepare all necessary court filings and documents for each phase.</li>
+        <li><strong>You'll Be Notified</strong> - You'll receive notifications at each step through your dashboard.</li>
+        <li><strong>Court Filings</strong> - We handle all 11 phases of the probate process on your behalf.</li>
+      </ol>
+    `;
+  }
 
   const mailOptions = {
     from: '"Probate California" <rozsagyenelaw1@gmail.com>',
     to: customerEmail,
-    subject: 'Payment Confirmed - Your Probate Case Has Been Activated',
+    subject: `Payment Confirmed - ${isAccountingOnly ? 'Your Accounting Service' : 'Your Probate Case'} Has Been Activated`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -139,6 +191,8 @@ async function sendCustomerConfirmation(customerEmail, customerName, probateType
           .content p { margin: 0 0 15px 0; color: #4a5568; }
           .highlight { background: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0; border-radius: 4px; }
           .highlight p { margin: 0; color: #065f46; }
+          .addon-highlight { background: #f3e8ff; border-left: 4px solid #9333ea; padding: 12px; margin: 10px 0; border-radius: 4px; }
+          .addon-highlight p { margin: 0; color: #6b21a8; font-size: 14px; }
           .steps { background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; }
           .steps h3 { margin: 0 0 15px 0; color: #374151; }
           .steps ol { margin: 0; padding-left: 20px; }
@@ -157,20 +211,21 @@ async function sendCustomerConfirmation(customerEmail, customerName, probateType
             <h2>Thank you for choosing us, ${customerName || 'Valued Client'}!</h2>
 
             <div class="highlight">
-              <p><strong>Your ${probateLabel} case ${planLabel} has been activated and assigned to Attorney Rozsa Gyene.</strong></p>
+              <p><strong>Your ${serviceDescription}${planLabel} has been activated and assigned to Attorney Rozsa Gyene.</strong></p>
             </div>
+
+            ${accountingAddon && !isAccountingOnly ? `
+            <div class="addon-highlight">
+              <p><strong>Accounting Add-on Included:</strong> ${accountingAddon === 'simple' ? 'Simple Accounting' : 'Complex Accounting'} service has been added to your probate case.</p>
+            </div>
+            ` : ''}
 
             <div class="steps">
               <h3>What Happens Next?</h3>
-              <ol>
-                <li><strong>Case Review</strong> - Our attorney will review your case information within 24-48 business hours.</li>
-                <li><strong>Document Preparation</strong> - We'll prepare all necessary court filings and documents for each phase.</li>
-                <li><strong>You'll Be Notified</strong> - You'll receive notifications at each step through your dashboard.</li>
-                <li><strong>Court Filings</strong> - We handle all 11 phases of the probate process on your behalf.</li>
-              </ol>
+              ${nextStepsHtml}
             </div>
 
-            <p>You can track the progress of your case anytime by logging into your dashboard:</p>
+            <p>You can track the progress of your ${isAccountingOnly ? 'service' : 'case'} anytime by logging into your dashboard:</p>
 
             <a href="https://probate-california.com/dashboard" class="button">View My Dashboard</a>
 
@@ -202,9 +257,9 @@ function generateOrderNumber() {
 }
 
 // Update user payment status in Firebase
-async function updateUserPaymentStatus(customerEmail, probateType, paymentPlan, sessionMetadata, amount) {
+async function updateUserPaymentStatus(customerEmail, serviceType, probateType, accountingAddon, paymentPlan, sessionMetadata, amount) {
   console.log('=== updateUserPaymentStatus called ===');
-  console.log('Email:', customerEmail, 'Type:', probateType, 'Plan:', paymentPlan);
+  console.log('Email:', customerEmail, 'ServiceType:', serviceType, 'ProbateType:', probateType, 'AccountingAddon:', accountingAddon);
 
   if (!initializeFirebase()) {
     console.error('Firebase not available');
@@ -219,37 +274,48 @@ async function updateUserPaymentStatus(customerEmail, probateType, paymentPlan, 
       .limit(1)
       .get();
 
+    const orderNumber = generateOrderNumber();
+
+    // Build the payment record
+    const paymentRecord = {
+      email: customerEmail.toLowerCase(),
+      serviceType: serviceType,
+      probateType: probateType || null,
+      addOns: {
+        accounting: accountingAddon || null,
+      },
+      paymentPlan: paymentPlan,
+      totalPaid: amount,
+      paymentStatus: paymentPlan === 'installments' ? 'installments_active' : 'paid',
+      orderNumber: orderNumber,
+      stripeSessionId: sessionMetadata.sessionId,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    };
+
     if (userSnapshot.empty) {
       console.warn('User not found for email:', customerEmail);
       // Create a payment record anyway
-      const orderNumber = generateOrderNumber();
-      await db.collection('payments').add({
-        email: customerEmail.toLowerCase(),
-        probateType: probateType,
-        paymentPlan: paymentPlan,
-        amount: amount,
-        status: 'completed',
-        orderNumber: orderNumber,
-        stripeSessionId: sessionMetadata.sessionId,
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      });
+      await db.collection('payments').add(paymentRecord);
       return { success: true, orderNumber: orderNumber, action: 'payment_recorded' };
     }
 
     const userDoc = userSnapshot.docs[0];
     const userData = userDoc.data();
-    const orderNumber = generateOrderNumber();
 
     // Update user record with payment info
     await userDoc.ref.update({
       paymentStatus: paymentPlan === 'installments' ? 'installments_active' : 'paid',
-      probateType: probateType,
+      serviceType: serviceType,
+      probateType: probateType || null,
+      addOns: {
+        accounting: accountingAddon || null,
+      },
       paymentPlan: paymentPlan,
       amountPaid: amount,
       orderNumber: orderNumber,
       paidAt: admin.firestore.FieldValue.serverTimestamp(),
       stripeSessionId: sessionMetadata.sessionId,
-      installmentsRemaining: paymentPlan === 'installments' ? 2 : 0, // 2 more after first
+      installmentsRemaining: paymentPlan === 'installments' ? 2 : 0,
     });
 
     console.log('User payment status updated for:', customerEmail);
@@ -261,7 +327,11 @@ async function updateUserPaymentStatus(customerEmail, probateType, paymentPlan, 
       if (caseDoc.exists) {
         await caseRef.update({
           paymentStatus: paymentPlan === 'installments' ? 'installments_active' : 'paid',
-          probateType: probateType,
+          serviceType: serviceType,
+          probateType: probateType || null,
+          addOns: {
+            accounting: accountingAddon || null,
+          },
           paidAt: admin.firestore.FieldValue.serverTimestamp(),
         });
         console.log('Case payment status updated:', sessionMetadata.caseId);
@@ -281,7 +351,7 @@ async function updateUserPaymentStatus(customerEmail, probateType, paymentPlan, 
 }
 
 // Handle subscription payment for installments
-async function handleSubscriptionPayment(customerEmail, paymentNumber) {
+async function handleSubscriptionPayment(customerEmail) {
   if (!initializeFirebase()) {
     console.error('Firebase not available');
     return;
@@ -373,7 +443,9 @@ exports.handler = async (event, context) => {
     const metadata = session.metadata || {};
 
     if (customerEmail) {
-      const probateType = metadata.probateType || 'full';
+      const serviceType = metadata.serviceType || 'full';
+      const probateType = metadata.probateType || null;
+      const accountingAddon = metadata.accountingAddon || null;
       const paymentPlan = metadata.paymentPlan || 'full';
       let customerName = null;
 
@@ -382,7 +454,9 @@ exports.handler = async (event, context) => {
       try {
         const updateResult = await updateUserPaymentStatus(
           customerEmail,
+          serviceType,
           probateType,
+          accountingAddon,
           paymentPlan,
           {
             sessionId: session.id,
@@ -429,7 +503,9 @@ exports.handler = async (event, context) => {
         await sendAdminNotification(
           customerEmail,
           customerName,
+          serviceType,
           probateType,
+          accountingAddon,
           paymentPlan,
           amountTotal
         );
@@ -441,7 +517,9 @@ exports.handler = async (event, context) => {
         await sendCustomerConfirmation(
           customerEmail,
           customerName,
+          serviceType,
           probateType,
+          accountingAddon,
           paymentPlan
         );
       } catch (emailError) {

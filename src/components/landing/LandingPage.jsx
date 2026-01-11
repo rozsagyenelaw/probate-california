@@ -639,6 +639,50 @@ const LandingPage = () => {
             </button>
           </div>
 
+          {/* Accounting Add-On Section */}
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 mb-12">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-purple-900 mb-2">Optional Add-On: Accounting Services</h3>
+              <p className="text-gray-600">Need help with court-required probate accounting? Add it to your order.</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Simple Accounting */}
+              <div className="bg-white rounded-lg p-5 border border-purple-200">
+                <div className="flex justify-between items-start mb-3">
+                  <h4 className="font-bold text-gray-900">Simple Accounting</h4>
+                  <span className="text-xl font-bold text-purple-600">+$995</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">Best for estates with:</p>
+                <ul className="text-sm text-gray-600 space-y-1 mb-3">
+                  <li className="flex items-center"><Check className="h-3 w-3 text-gray-400 mr-2" />Under 50 transactions</li>
+                  <li className="flex items-center"><Check className="h-3 w-3 text-gray-400 mr-2" />Basic income (interest, dividends)</li>
+                  <li className="flex items-center"><Check className="h-3 w-3 text-gray-400 mr-2" />Single property sale</li>
+                </ul>
+                <p className="text-xs text-gray-500">Includes court-formatted accounting, income/expense summary, and attorney review.</p>
+              </div>
+
+              {/* Complex Accounting */}
+              <div className="bg-white rounded-lg p-5 border border-purple-200">
+                <div className="flex justify-between items-start mb-3">
+                  <h4 className="font-bold text-gray-900">Complex Accounting</h4>
+                  <span className="text-xl font-bold text-purple-600">+$1,995</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-3">Best for estates with:</p>
+                <ul className="text-sm text-gray-600 space-y-1 mb-3">
+                  <li className="flex items-center"><Check className="h-3 w-3 text-gray-400 mr-2" />50+ transactions</li>
+                  <li className="flex items-center"><Check className="h-3 w-3 text-gray-400 mr-2" />Business or rental income</li>
+                  <li className="flex items-center"><Check className="h-3 w-3 text-gray-400 mr-2" />Multiple properties</li>
+                </ul>
+                <p className="text-xs text-gray-500">Includes everything in Simple, plus business reconciliation and tax allocation calculations.</p>
+              </div>
+            </div>
+
+            <p className="text-center text-sm text-gray-500 mt-4">
+              Available for both Simplified and Full Probate packages. Or purchase as a stand-alone service.
+            </p>
+          </div>
+
           {/* Payment Plan Callout */}
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-12">
             <div className="flex items-start">

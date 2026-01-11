@@ -119,22 +119,42 @@ exports.handler = async (event, context) => {
   try {
     // Parse request body
     const {
-      probateType,      // 'simplified' or 'full'
+      serviceType,      // 'simplified', 'full', or 'accounting_only'
+      probateType,      // 'simplified' or 'full' (null for accounting_only)
+      accountingAddon,  // null, 'simple', or 'complex'
       paymentPlan,      // 'full' or 'installments' (3 payments)
       customerEmail,
       caseId,
       promoCode
     } = JSON.parse(event.body);
 
-    console.log('Checkout request:', { probateType, paymentPlan, customerEmail, caseId, promoCode });
+    console.log('Checkout request:', { serviceType, probateType, accountingAddon, paymentPlan, customerEmail, caseId, promoCode });
 
-    // Validate probate type
-    const validTypes = ['simplified', 'full'];
-    if (!validTypes.includes(probateType)) {
+    // Validate service type
+    const validServiceTypes = ['simplified', 'full', 'accounting_only'];
+    if (!validServiceTypes.includes(serviceType)) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'Invalid probate type selected' }),
+        body: JSON.stringify({ error: 'Invalid service type selected' }),
+      };
+    }
+
+    // For accounting_only, must have an accounting addon
+    if (serviceType === 'accounting_only' && !accountingAddon) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Please select an accounting service' }),
+      };
+    }
+
+    // Validate accounting addon if provided
+    if (accountingAddon && !['simple', 'complex'].includes(accountingAddon)) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Invalid accounting service selected' }),
       };
     }
 
@@ -148,38 +168,109 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Price IDs from Stripe Dashboard
-    // For one-time payments
+    // Price IDs from Stripe Dashboard - One-time payments
     const oneTimePriceIds = {
       simplified: process.env.STRIPE_PRICE_SIMPLIFIED_PROBATE || 'price_REPLACE_ME',
       full: process.env.STRIPE_PRICE_FULL_PROBATE || 'price_REPLACE_ME',
+      simple_accounting: process.env.STRIPE_PRICE_SIMPLE_ACCOUNTING || 'price_REPLACE_ME',
+      complex_accounting: process.env.STRIPE_PRICE_COMPLEX_ACCOUNTING || 'price_REPLACE_ME',
     };
 
-    // For installment payments (subscription prices - billed 3 times)
-    const installmentPriceIds = {
-      simplified: process.env.STRIPE_PRICE_SIMPLIFIED_INSTALLMENT || 'price_REPLACE_ME', // $832/month x 3
-      full: process.env.STRIPE_PRICE_FULL_INSTALLMENT || 'price_REPLACE_ME', // $1,332/month x 3
+    // Prices in cents for calculating dynamic installment amounts
+    const pricesInCents = {
+      simplified: 249500,     // $2,495
+      full: 399500,           // $3,995
+      simple_accounting: 99500,   // $995
+      complex_accounting: 199500, // $1,995
     };
 
-    const priceIds = paymentPlan === 'full' ? oneTimePriceIds : installmentPriceIds;
+    // Calculate total amount
+    let totalAmountCents = 0;
 
-    // Check if price IDs are configured
-    if (priceIds[probateType].includes('REPLACE_ME')) {
-      console.error('Stripe price IDs not configured!');
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({
-          error: 'Payment system not configured. Please contact us at (818) 291-6217.'
-        }),
-      };
+    if (serviceType !== 'accounting_only') {
+      totalAmountCents += pricesInCents[serviceType];
     }
 
-    // Build line items array
-    const line_items = [{
-      price: priceIds[probateType],
-      quantity: 1,
-    }];
+    if (accountingAddon === 'simple') {
+      totalAmountCents += pricesInCents.simple_accounting;
+    } else if (accountingAddon === 'complex') {
+      totalAmountCents += pricesInCents.complex_accounting;
+    }
+
+    // Build line items array for one-time payment
+    const line_items = [];
+
+    if (paymentPlan === 'full') {
+      // One-time payment - use Stripe price IDs
+      if (serviceType !== 'accounting_only') {
+        const priceId = oneTimePriceIds[serviceType];
+        if (priceId.includes('REPLACE_ME')) {
+          console.error('Stripe probate price ID not configured!');
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: 'Payment system not configured. Please contact us at (818) 291-6217.'
+            }),
+          };
+        }
+        line_items.push({
+          price: priceId,
+          quantity: 1,
+        });
+      }
+
+      if (accountingAddon) {
+        const accountingPriceId = accountingAddon === 'simple'
+          ? oneTimePriceIds.simple_accounting
+          : oneTimePriceIds.complex_accounting;
+
+        if (accountingPriceId.includes('REPLACE_ME')) {
+          console.error('Stripe accounting price ID not configured!');
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: 'Payment system not configured. Please contact us at (818) 291-6217.'
+            }),
+          };
+        }
+        line_items.push({
+          price: accountingPriceId,
+          quantity: 1,
+        });
+      }
+    } else {
+      // Installment payment - create dynamic price for the installment amount
+      const installmentAmountCents = Math.ceil(totalAmountCents / 3);
+
+      // Build description
+      let description = '';
+      if (serviceType !== 'accounting_only') {
+        description = serviceType === 'simplified' ? 'Simplified Probate' : 'Full Probate';
+      }
+      if (accountingAddon) {
+        const accountingName = accountingAddon === 'simple' ? 'Simple Accounting' : 'Complex Accounting';
+        description = description ? `${description} + ${accountingName}` : accountingName;
+      }
+      description += ' (Payment 1 of 3)';
+
+      line_items.push({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: description,
+            description: `Monthly payment for probate services. Total: $${(totalAmountCents / 100).toLocaleString()}`,
+          },
+          unit_amount: installmentAmountCents,
+          recurring: {
+            interval: 'month',
+            interval_count: 1,
+          },
+        },
+        quantity: 1,
+      });
+    }
 
     console.log('Creating Stripe session with line items:', JSON.stringify(line_items, null, 2));
 
@@ -216,11 +307,14 @@ exports.handler = async (event, context) => {
       cancel_url: cancelUrl,
       customer_email: customerEmail || undefined,
       metadata: {
-        probateType: probateType,
+        serviceType: serviceType,
+        probateType: probateType || '',
+        accountingAddon: accountingAddon || '',
         paymentPlan: paymentPlan,
         caseId: caseId || '',
         customerEmail: customerEmail || '',
         promoCode: validatedPromoCode || '',
+        totalAmountCents: String(totalAmountCents),
       },
     };
 
@@ -235,11 +329,14 @@ exports.handler = async (event, context) => {
     if (mode === 'subscription') {
       sessionConfig.subscription_data = {
         metadata: {
-          probateType: probateType,
+          serviceType: serviceType,
+          probateType: probateType || '',
+          accountingAddon: accountingAddon || '',
           paymentPlan: paymentPlan,
           caseId: caseId || '',
           customerEmail: customerEmail || '',
           totalPayments: '3',
+          totalAmountCents: String(totalAmountCents),
         },
       };
     }
