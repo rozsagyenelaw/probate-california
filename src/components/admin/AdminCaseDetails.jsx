@@ -167,8 +167,9 @@ const AdminCaseDetails = () => {
       court_branch: ''
     };
 
-    // Encode data as base64 and open generator
-    const encodedData = btoa(JSON.stringify(generatorData));
+    // Encode data as base64 (Unicode-safe encoding)
+    const jsonString = JSON.stringify(generatorData);
+    const encodedData = btoa(unescape(encodeURIComponent(jsonString)));
     const url = `${GENERATOR_URL}?data=${encodedData}`;
 
     console.log('Opening generator with data:', generatorData);
