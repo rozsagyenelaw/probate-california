@@ -13,7 +13,8 @@ import { LandingPage } from './components/landing';
 // Main pages
 import Dashboard from './components/dashboard/Dashboard';
 import Intake from './components/intake/Intake';
-import PaymentPage from './components/common/PaymentPage';
+import PaymentPage from './components/PaymentPage';
+import PaymentSuccess from './components/PaymentSuccess';
 import { Documents } from './components/documents';
 import { PetitionGeneration } from './components/petition';
 import {
@@ -139,6 +140,11 @@ function App() {
         <Route path="/payment" element={
           <ProtectedRoute>
             <PaymentPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment-success" element={
+          <ProtectedRoute>
+            <PaymentSuccess />
           </ProtectedRoute>
         } />
         <Route path="/intake" element={
