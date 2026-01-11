@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../services/firebase';
-// Generator URL - update this if deployed URL changes
-const GENERATOR_URL = 'https://probatepetition.netlify.app';
+// Generator URL - probate-form-automation app
+const GENERATOR_URL = 'https://probateformautomation.netlify.app';
 import {
   ArrowLeft,
   Printer,
