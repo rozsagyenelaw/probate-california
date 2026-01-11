@@ -29,13 +29,60 @@ import {
   X,
   LogIn,
   LogOut,
-  LayoutDashboard
+  LayoutDashboard,
+  Building2,
+  Calculator,
+  ExternalLink
 } from 'lucide-react';
+
+// California Statutory Fee Calculator (Probate Code §10810)
+const calculateStatutoryFee = (estateValue) => {
+  let fee = 0;
+  let remaining = estateValue;
+
+  // 4% of first $100,000
+  if (remaining > 0) {
+    const bracket = Math.min(remaining, 100000);
+    fee += bracket * 0.04;
+    remaining -= bracket;
+  }
+
+  // 3% of next $100,000
+  if (remaining > 0) {
+    const bracket = Math.min(remaining, 100000);
+    fee += bracket * 0.03;
+    remaining -= bracket;
+  }
+
+  // 2% of next $800,000
+  if (remaining > 0) {
+    const bracket = Math.min(remaining, 800000);
+    fee += bracket * 0.02;
+    remaining -= bracket;
+  }
+
+  // 1% of next $9,000,000
+  if (remaining > 0) {
+    const bracket = Math.min(remaining, 9000000);
+    fee += bracket * 0.01;
+    remaining -= bracket;
+  }
+
+  // 0.5% of next $15,000,000
+  if (remaining > 0) {
+    const bracket = Math.min(remaining, 15000000);
+    fee += bracket * 0.005;
+    remaining -= bracket;
+  }
+
+  return Math.round(fee);
+};
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const { user, logout, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [estateValue, setEstateValue] = useState(750000);
 
   const handleLogout = async () => {
     try {
@@ -178,7 +225,7 @@ const LandingPage = () => {
                     onClick={handleStartCase}
                     className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium transition-colors"
                   >
-                    Start Your Case
+                    Check Eligibility
                   </button>
                 </>
               )}
@@ -255,7 +302,7 @@ const LandingPage = () => {
                       onClick={handleStartCase}
                       className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium w-full"
                     >
-                      Start Your Case
+                      Check Eligibility
                     </button>
                   </>
                 )}
@@ -318,14 +365,14 @@ const LandingPage = () => {
                   onClick={handleStartCase}
                   className="bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors flex items-center justify-center shadow-lg"
                 >
-                  Start Your Probate Case
+                  Check My Eligibility - Free
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
                 <button
-                  onClick={() => scrollToSection('how-it-works')}
+                  onClick={() => scrollToSection('pricing')}
                   className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white/10 transition-colors"
                 >
-                  See How It Works
+                  See If I Qualify
                 </button>
               </div>
 
@@ -338,65 +385,190 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Trust Badges Section */}
-      <section className="py-12 bg-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
-            {/* 5000+ Families */}
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <Users className="h-8 w-8 mx-auto mb-3 text-amber-700" />
-              <p className="font-bold text-gray-900">5000+ Families Served</p>
-              <p className="text-sm text-gray-500">Since 2001</p>
+      {/* Attorney Trust Badge Section */}
+      <section className="py-12 bg-white border-b">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-r from-blue-50 to-gray-50 rounded-2xl p-8 shadow-sm border border-gray-200">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              {/* Attorney Photo */}
+              <div className="flex-shrink-0">
+                <img
+                  src="/Rozsa-Gyene.jpg"
+                  alt="Rozsa Gyene, Esq."
+                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                />
+              </div>
+
+              {/* Credentials */}
+              <div className="text-center md:text-left flex-grow">
+                <h3 className="text-2xl font-bold text-gray-900">Rozsa Gyene, Esq.</h3>
+                <p className="text-lg text-blue-900 font-medium mt-1">Licensed California Probate Attorney</p>
+
+                <div className="flex flex-wrap gap-3 mt-4 justify-center md:justify-start">
+                  <a
+                    href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center bg-blue-900 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-800 transition-colors"
+                  >
+                    <Shield className="h-4 w-4 mr-2" />
+                    CA State Bar #208356
+                    <ExternalLink className="h-3 w-3 ml-2" />
+                  </a>
+                  <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+                    <Award className="h-4 w-4 mr-2" />
+                    25+ Years Experience
+                  </div>
+                  <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-medium">
+                    <Users className="h-4 w-4 mr-2" />
+                    500+ Cases Completed
+                  </div>
+                </div>
+
+                <p className="text-gray-600 mt-4 text-sm">
+                  Every document prepared by a licensed attorney. Every filing reviewed before submission.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Statutory Fee Calculator Section */}
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              See How Much You'll Save
+            </h2>
+            <p className="text-xl text-gray-600">
+              Compare our flat fee vs. California's statutory attorney fees
+            </p>
+          </div>
+
+          {/* Interactive Calculator */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-200">
+            <div className="flex items-center justify-center mb-6">
+              <Calculator className="h-6 w-6 text-blue-900 mr-2" />
+              <h3 className="text-xl font-bold text-gray-900">Fee Savings Calculator</h3>
             </div>
 
-            {/* CA State Bar */}
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <Award className="h-8 w-8 mx-auto mb-3 text-amber-700" />
-              <a
-                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold text-gray-900 hover:text-blue-600"
-              >
-                California State Bar #208356
-              </a>
-              <a
-                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-gray-500 hover:text-blue-600 flex items-center justify-center mt-1"
-              >
-                Licensed & Verified
-                <svg className="h-3 w-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
-              </a>
+            {/* Slider Input */}
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+                Enter your estimated estate value:
+              </label>
+              <div className="text-center mb-4">
+                <span className="text-4xl font-bold text-blue-900">
+                  ${estateValue.toLocaleString()}
+                </span>
+              </div>
+              <input
+                type="range"
+                min="100000"
+                max="5000000"
+                step="50000"
+                value={estateValue}
+                onChange={(e) => setEstateValue(parseInt(e.target.value))}
+                className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-900"
+              />
+              <div className="flex justify-between text-sm text-gray-500 mt-2">
+                <span>$100K</span>
+                <span>$1M</span>
+                <span>$2.5M</span>
+                <span>$5M</span>
+              </div>
             </div>
 
-            {/* A+ Rated */}
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <svg className="h-8 w-8 mx-auto mb-3 text-amber-700" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <p className="font-bold text-gray-900">A+ Rated</p>
-              <p className="text-sm text-gray-500">Better Business Bureau</p>
+            {/* Comparison Results */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Traditional Fee */}
+              <div className="bg-red-50 rounded-xl p-6 text-center border-2 border-red-200">
+                <p className="text-sm font-medium text-red-700 mb-2">Traditional Attorney Fee</p>
+                <p className="text-sm text-gray-500 mb-1">(Probate Code §10810)</p>
+                <p className="text-3xl font-bold text-red-600">
+                  ${calculateStatutoryFee(estateValue).toLocaleString()}
+                </p>
+                <p className="text-xs text-gray-500 mt-2">Percentage-based</p>
+              </div>
+
+              {/* Our Fee */}
+              <div className="bg-green-50 rounded-xl p-6 text-center border-2 border-green-300">
+                <p className="text-sm font-medium text-green-700 mb-2">Our Flat Fee</p>
+                <p className="text-sm text-gray-500 mb-1">(Full Probate)</p>
+                <p className="text-3xl font-bold text-green-600">$3,995</p>
+                <p className="text-xs text-gray-500 mt-2">Fixed price</p>
+              </div>
+
+              {/* Savings */}
+              <div className="bg-blue-900 rounded-xl p-6 text-center">
+                <p className="text-sm font-medium text-blue-200 mb-2">YOU SAVE</p>
+                <p className="text-sm text-blue-300 mb-1">&nbsp;</p>
+                <p className="text-3xl font-bold text-white">
+                  ${Math.max(0, calculateStatutoryFee(estateValue) - 3995).toLocaleString()}
+                </p>
+                <p className="text-xs text-blue-300 mt-2">
+                  {Math.round((1 - 3995 / calculateStatutoryFee(estateValue)) * 100)}% less
+                </p>
+              </div>
             </div>
 
-            {/* 25+ Years */}
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <svg className="h-8 w-8 mx-auto mb-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-              </svg>
-              <p className="font-bold text-gray-900">25+ Years Experience</p>
-              <p className="text-sm text-gray-500">Estate Planning Experts</p>
-            </div>
+            <p className="text-center text-sm text-gray-500 mt-6">
+              * California Probate Code §10810 allows attorneys to charge: 4% of first $100K, 3% of next $100K, 2% of next $800K, 1% of next $9M
+            </p>
+          </div>
 
-            {/* 100% Confidential */}
-            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
-              <Shield className="h-8 w-8 mx-auto mb-3 text-amber-700" />
-              <p className="font-bold text-gray-900">100% Confidential</p>
-              <p className="text-sm text-gray-500">Attorney-Client Privilege</p>
+          {/* Static Comparison Table */}
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+            <h4 className="text-lg font-bold text-gray-900 text-center mb-4">Common Estate Value Comparisons</h4>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b-2 border-gray-300">
+                    <th className="px-4 py-3 text-left font-semibold text-gray-700">Estate Value</th>
+                    <th className="px-4 py-3 text-center font-semibold text-red-600">Statutory Fee</th>
+                    <th className="px-4 py-3 text-center font-semibold text-green-600">Our Fee</th>
+                    <th className="px-4 py-3 text-center font-semibold text-blue-900">Your Savings</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  <tr className="border-b">
+                    <td className="px-4 py-3 font-medium">$500,000</td>
+                    <td className="px-4 py-3 text-center text-red-600">$13,000</td>
+                    <td className="px-4 py-3 text-center text-green-600 font-bold">$3,995</td>
+                    <td className="px-4 py-3 text-center text-blue-900 font-bold">$9,005</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-4 py-3 font-medium">$750,000</td>
+                    <td className="px-4 py-3 text-center text-red-600">$18,000</td>
+                    <td className="px-4 py-3 text-center text-green-600 font-bold">$3,995</td>
+                    <td className="px-4 py-3 text-center text-blue-900 font-bold">$14,005</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="px-4 py-3 font-medium">$1,000,000</td>
+                    <td className="px-4 py-3 text-center text-red-600">$23,000</td>
+                    <td className="px-4 py-3 text-center text-green-600 font-bold">$3,995</td>
+                    <td className="px-4 py-3 text-center text-blue-900 font-bold">$19,005</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-medium">$2,000,000</td>
+                    <td className="px-4 py-3 text-center text-red-600">$33,000</td>
+                    <td className="px-4 py-3 text-center text-green-600 font-bold">$3,995</td>
+                    <td className="px-4 py-3 text-center text-blue-900 font-bold">$29,005</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <button
+              onClick={handleStartCase}
+              className="bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center shadow-lg"
+            >
+              Check My Eligibility - Free
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
           </div>
         </div>
       </section>
@@ -521,7 +693,7 @@ const LandingPage = () => {
                     onClick={handleStartCase}
                     className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
                   >
-                    Start Simplified Process
+                    Check My Eligibility - Free
                   </button>
                   <p className="text-xs text-center text-gray-500 mt-2">
                     <span className="inline-flex items-center">
@@ -588,7 +760,7 @@ const LandingPage = () => {
                     onClick={handleStartCase}
                     className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
                   >
-                    Start Full Probate
+                    Check My Eligibility - Free
                   </button>
                   <p className="text-xs text-center text-gray-500 mt-2">
                     <span className="inline-flex items-center">
@@ -635,7 +807,7 @@ const LandingPage = () => {
               onClick={handleStartCase}
               className="bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors"
             >
-              Get Started — We'll Help You Decide
+              See If I Qualify - Free
             </button>
           </div>
         </div>
@@ -729,6 +901,77 @@ const LandingPage = () => {
             <div className="inline-block bg-blue-900 text-white px-8 py-4 rounded-lg">
               <p className="text-lg font-semibold">Every document <strong>attorney</strong>-prepared. Every filing <strong>attorney</strong>-reviewed.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Courthouse Coverage Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+              <Building2 className="h-8 w-8 text-blue-900" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              We Handle Probate in All California Courts
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Whether your case is in Los Angeles, San Diego, Orange County, or any California county,
+              we prepare all your documents and can appear remotely at your hearing.
+            </p>
+          </div>
+
+          {/* Major Courthouses Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            {[
+              { name: 'Stanley Mosk Courthouse', county: 'Los Angeles' },
+              { name: 'San Diego Central', county: 'San Diego' },
+              { name: 'Lamoreaux Justice Center', county: 'Orange County' },
+              { name: 'Hall of Justice', county: 'San Francisco' },
+              { name: 'Sacramento Superior', county: 'Sacramento' },
+              { name: 'Riverside Hall of Justice', county: 'Riverside' },
+              { name: 'San Bernardino Justice Center', county: 'San Bernardino' },
+              { name: 'Santa Clara Superior', county: 'Santa Clara' },
+              { name: 'Fresno County Courthouse', county: 'Fresno' },
+              { name: 'Ventura Superior Court', county: 'Ventura' }
+            ].map((court, index) => (
+              <div key={index} className="bg-white rounded-lg p-4 text-center shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                <Gavel className="h-5 w-5 mx-auto mb-2 text-blue-900" />
+                <p className="font-medium text-gray-900 text-sm">{court.name}</p>
+                <p className="text-xs text-gray-500">{court.county}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Additional Courts Note */}
+          <div className="bg-blue-50 rounded-xl p-6 border border-blue-200 text-center">
+            <p className="text-lg text-blue-900 font-medium mb-2">
+              Plus 48 additional California county courts
+            </p>
+            <p className="text-gray-600">
+              Our flat-fee service covers probate filings in <strong>all 58 California counties</strong>.
+              No matter where the decedent lived, we can help.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2 justify-center text-sm">
+              {['Alameda', 'Contra Costa', 'Kern', 'Monterey', 'Placer', 'San Joaquin', 'Santa Barbara', 'Solano', 'Sonoma', 'Stanislaus'].map((county, index) => (
+                <span key={index} className="bg-white px-3 py-1 rounded-full text-gray-600 border border-gray-200">
+                  {county}
+                </span>
+              ))}
+              <span className="bg-blue-900 px-3 py-1 rounded-full text-white">
+                + 38 more
+              </span>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <button
+              onClick={handleStartCase}
+              className="bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center"
+            >
+              Check My Eligibility - Free
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
           </div>
         </div>
       </section>
@@ -865,15 +1108,17 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Trust Signals Section */}
+      {/* Attorney Quote Section */}
       <section className="py-16 md:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="md:flex">
               <div className="md:w-1/3 bg-blue-900 p-8 flex flex-col items-center justify-center text-center">
-                <div className="w-32 h-32 bg-blue-800 rounded-full flex items-center justify-center mb-4">
-                  <Scale className="h-16 w-16 text-white" />
-                </div>
+                <img
+                  src="/Rozsa-Gyene.jpg"
+                  alt="Rozsa Gyene, Esq."
+                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mb-4"
+                />
                 <h3 className="text-xl font-bold text-white">Rozsa Gyene, Esq.</h3>
                 <p className="text-blue-200 mt-1">California State Bar #208356</p>
                 <p className="text-blue-300 text-sm mt-2">25+ years in estate & probate law</p>
@@ -993,17 +1238,17 @@ const LandingPage = () => {
       <section className="py-16 md:py-20 bg-blue-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Start Your Probate Case?
+            Ready to See If You Qualify?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Complete the intake questionnaire in about 30 minutes.<br />
+            Complete the free intake questionnaire in about 30 minutes.<br />
             No payment required until you're ready to proceed.
           </p>
           <button
             onClick={handleStartCase}
             className="bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition-colors inline-flex items-center"
           >
-            Start Your Case Now
+            Check My Eligibility - Free
             <ArrowRight className="ml-2 h-5 w-5" />
           </button>
           <p className="text-blue-200 mt-6">
