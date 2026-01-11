@@ -46,6 +46,7 @@ import {
   AdminHearings
 } from './components/admin';
 import ClientSignaturePage from './components/signature/ClientSignaturePage';
+import { TermsOfService, PrivacyPolicy } from './components/legal';
 
 // Loading component
 const LoadingSpinner = () => (
@@ -250,6 +251,10 @@ function App() {
 
         {/* Public signature page (no auth required) */}
         <Route path="/sign/:requestId" element={<ClientSignaturePage />} />
+
+        {/* Legal pages (public) */}
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />

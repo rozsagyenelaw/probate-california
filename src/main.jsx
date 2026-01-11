@@ -4,7 +4,11 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext'
 import { isFirebaseConfigured } from './services/firebase'
+import { initAnalytics } from './services/analytics'
 import './index.css'
+
+// Initialize analytics (GA4 + Clarity)
+initAnalytics();
 
 // Configuration error component
 const ConfigurationError = () => (

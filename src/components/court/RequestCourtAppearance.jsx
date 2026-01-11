@@ -105,11 +105,6 @@ const RequestCourtAppearance = () => {
   };
 
   const handlePurchase = async () => {
-    if (!probateCase) {
-      setError('No active case found. Please contact support.');
-      return;
-    }
-
     if (!isFormValid()) {
       setError('Please fill in all required hearing details.');
       return;
@@ -129,7 +124,7 @@ const RequestCourtAppearance = () => {
           courtAppearance: selectedType,
           paymentPlan: 'full',
           customerEmail: user.email,
-          caseId: probateCase.id,
+          caseId: probateCase?.id || '',
           hearingDetails: hearingDetails
         }),
       });
@@ -438,9 +433,9 @@ const RequestCourtAppearance = () => {
 
           <button
             onClick={handlePurchase}
-            disabled={submitting || !probateCase || !isFormValid()}
+            disabled={submitting || !isFormValid()}
             className={`w-full py-4 rounded-lg font-semibold text-white transition-colors ${
-              submitting || !probateCase || !isFormValid()
+              submitting || !isFormValid()
                 ? 'bg-gray-400 cursor-not-allowed'
                 : 'bg-blue-900 hover:bg-blue-800'
             }`}

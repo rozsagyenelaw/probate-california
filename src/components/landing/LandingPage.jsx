@@ -102,7 +102,7 @@ const LandingPage = () => {
     },
     {
       q: 'What payment options do you offer?',
-      a: 'We offer several ways to pay: Pay in full ($2,495 or $3,995), split into 3 monthly payments at no extra cost, or use Klarna/Afterpay for 4 interest-free payments (subject to approval). You can select your preferred payment method at checkout. Klarna and Afterpay approval is instant and doesn\'t affect your credit score for the initial check.'
+      a: 'We offer several ways to pay: Pay in full ($2,495 or $3,995), split into 3 monthly payments at no extra cost, or use Klarna for 4 interest-free payments (subject to approval). You can select your preferred payment method at checkout. Klarna approval is instant and doesn\'t affect your credit score for the initial check.'
     }
   ];
 
@@ -120,6 +120,10 @@ const LandingPage = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
+              <a href="tel:8182916217" className="flex items-center text-blue-900 font-semibold hover:text-blue-700">
+                <Phone className="h-4 w-4 mr-1" />
+                (818) 291-6217
+              </a>
               <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-blue-900 font-medium">
                 How It Works
               </button>
@@ -193,6 +197,10 @@ const LandingPage = () => {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t">
               <div className="flex flex-col space-y-4">
+                <a href="tel:8182916217" className="flex items-center text-blue-900 font-semibold">
+                  <Phone className="h-4 w-4 mr-2" />
+                  (818) 291-6217
+                </a>
                 <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-blue-900 font-medium text-left">
                   How It Works
                 </button>
@@ -462,10 +470,10 @@ const LandingPage = () => {
           </div>
 
           {/* Two-Tier Pricing Cards */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="grid md:grid-cols-2 gap-8 mb-12 items-start">
             {/* Simplified Probate */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-200">
-              <div className="bg-green-600 text-white p-4 text-center">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-200 mt-8">
+              <div className="bg-green-600 text-white p-4 pt-6 text-center">
                 <h3 className="text-xl font-bold">SIMPLIFIED PROBATE</h3>
                 <p className="text-green-100 text-sm">For primary residences under $750,000</p>
               </div>
@@ -474,7 +482,7 @@ const LandingPage = () => {
                   <p className="text-4xl font-bold text-gray-900">$2,495</p>
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
-                  <p className="text-xs text-gray-400 mt-1">Klarna/Afterpay: 4 payments of $624</p>
+                  <p className="text-xs text-gray-400 mt-1">Klarna: 4 payments of $624</p>
                 </div>
 
                 <div className="mb-6">
@@ -529,7 +537,7 @@ const LandingPage = () => {
                   <p className="text-4xl font-bold text-gray-900">$3,995</p>
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
-                  <p className="text-xs text-gray-400 mt-1">Klarna/Afterpay: 4 payments of $999</p>
+                  <p className="text-xs text-gray-400 mt-1">Klarna: 4 payments of $999</p>
                 </div>
 
                 <div className="mb-6">
@@ -579,7 +587,7 @@ const LandingPage = () => {
               <h3 className="text-lg font-bold text-gray-900 mb-2">Payment Options Available</h3>
               <p className="text-gray-600">Don't have the full amount today? No problem.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center max-w-2xl mx-auto">
               <div className="bg-white rounded-lg p-4 shadow-sm">
                 <CreditCard className="h-6 w-6 mx-auto mb-2 text-blue-600" />
                 <p className="font-semibold text-gray-900">3 Monthly Payments</p>
@@ -592,16 +600,9 @@ const LandingPage = () => {
                 <p className="font-semibold text-gray-900">4 Interest-Free Payments</p>
                 <p className="text-sm text-gray-500">Pay in 4 with Klarna — subject to approval</p>
               </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="h-6 flex items-center justify-center mb-2">
-                  <span className="text-teal-500 font-bold text-sm">Afterpay</span>
-                </div>
-                <p className="font-semibold text-gray-900">4 Interest-Free Payments</p>
-                <p className="text-sm text-gray-500">Pay in 4 with Afterpay — subject to approval</p>
-              </div>
             </div>
             <p className="text-center text-xs text-gray-500 mt-4">
-              Select your preferred payment method at checkout. Klarna and Afterpay approval is instant and doesn't affect your credit score.
+              Select your preferred payment method at checkout. Klarna approval is instant and doesn't affect your credit score.
             </p>
           </div>
 
@@ -870,6 +871,72 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Client Reviews Section */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What Our Clients Say</h2>
+            <p className="text-xl text-gray-600">Real experiences from families we've helped</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Review 1 */}
+            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+              <div className="flex items-center mb-4">
+                {[1,2,3,4,5].map((star) => (
+                  <svg key={star} className="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-4 italic">
+                "The online dashboard made everything so clear. I always knew exactly what step we were on and what needed to happen next. Rozsa was responsive to all my questions."
+              </p>
+              <div className="border-t pt-4">
+                <p className="font-semibold text-gray-900">Maria G.</p>
+                <p className="text-sm text-gray-500">Los Angeles County</p>
+              </div>
+            </div>
+
+            {/* Review 2 */}
+            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+              <div className="flex items-center mb-4">
+                {[1,2,3,4,5].map((star) => (
+                  <svg key={star} className="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-4 italic">
+                "As an out-of-state executor, I was worried about handling probate remotely. The flat fee gave me peace of mind and everything was handled professionally."
+              </p>
+              <div className="border-t pt-4">
+                <p className="font-semibold text-gray-900">Robert T.</p>
+                <p className="text-sm text-gray-500">Orange County (Executor from Texas)</p>
+              </div>
+            </div>
+
+            {/* Review 3 */}
+            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+              <div className="flex items-center mb-4">
+                {[1,2,3,4,5].map((star) => (
+                  <svg key={star} className="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                ))}
+              </div>
+              <p className="text-gray-700 mb-4 italic">
+                "After my mother passed, I had no idea where to start. The intake process was simple and within days I had all the paperwork ready to file. Highly recommend."
+              </p>
+              <div className="border-t pt-4">
+                <p className="font-semibold text-gray-900">Jennifer K.</p>
+                <p className="text-sm text-gray-500">San Bernardino County</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section id="faq" className="py-16 md:py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -982,8 +1049,8 @@ const LandingPage = () => {
               &copy; {new Date().getFullYear()} Law Offices of Rozsa Gyene. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-500 hover:text-white text-sm">Privacy Policy</a>
-              <a href="#" className="text-gray-500 hover:text-white text-sm">Terms of Service</a>
+              <button onClick={() => navigate('/privacy')} className="text-gray-500 hover:text-white text-sm">Privacy Policy</button>
+              <button onClick={() => navigate('/terms')} className="text-gray-500 hover:text-white text-sm">Terms of Service</button>
             </div>
           </div>
         </div>

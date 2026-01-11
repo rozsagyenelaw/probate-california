@@ -33,19 +33,49 @@ exports.handler = async (event, context) => {
 
     console.log('Generating forms for case:', caseData.estateName || 'Unknown');
 
-    // Call the external API
-    const response = await fetch(`${FORMS_API_URL}/.netlify/functions/process-form`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData)
-    });
+    // Try multiple possible API endpoints
+    const endpoints = [
+      `${FORMS_API_URL}/.netlify/functions/process-form`,
+      `${FORMS_API_URL}/api/generate`,
+      `${FORMS_API_URL}/.netlify/functions/generate`
+    ];
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('External API error:', errorText);
-      throw new Error(`Form generation failed: ${errorText}`);
+    let response = null;
+    let lastError = null;
+
+    for (const endpoint of endpoints) {
+      try {
+        console.log('Trying endpoint:', endpoint);
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          break;
+        }
+      } catch (err) {
+        lastError = err;
+        console.log('Endpoint failed:', endpoint, err.message);
+      }
+    }
+
+    if (!response || !response.ok) {
+      // Return the form data for manual use with the external generator
+      console.log('External API not available. Returning form data for manual processing.');
+      return {
+        statusCode: 200,
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          success: false,
+          message: 'External form generator not configured. Use the Manual Generator button instead.',
+          formData: formData,
+          openGeneratorUrl: `${FORMS_API_URL}?data=${encodeURIComponent(JSON.stringify(formData))}`
+        }),
+      };
     }
 
     const contentType = response.headers.get('content-type');

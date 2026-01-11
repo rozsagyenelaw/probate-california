@@ -132,9 +132,16 @@ const AdminCaseDetails = () => {
         const data = await response.json();
         if (data.downloadUrl) {
           window.open(data.downloadUrl, '_blank');
+        } else if (data.success === false && data.openGeneratorUrl) {
+          // External API not available - open generator with pre-filled data
+          setGenerateError('Auto-generate API not configured. Opening manual generator with pre-filled data...');
+          setTimeout(() => {
+            window.open(data.openGeneratorUrl, '_blank');
+            setGenerateError(null);
+          }, 1500);
         } else {
           console.log('Form generation response:', data);
-          alert('Forms generated. Check the console for details.');
+          setGenerateError('Form generation completed but no download available. Use the Manual Generator instead.');
         }
       }
     } catch (error) {

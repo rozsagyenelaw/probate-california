@@ -540,6 +540,20 @@ const Intake = () => {
             Fields marked with <span className="text-red-500">*</span> are required
           </p>
         )}
+
+        {/* Help Section */}
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <p>
+            Questions? Call{' '}
+            <a href="tel:8182916217" className="text-blue-900 font-medium hover:underline">
+              (818) 291-6217
+            </a>
+            {' '}or email{' '}
+            <a href="mailto:rozsagyenelaw@yahoo.com" className="text-blue-900 font-medium hover:underline">
+              rozsagyenelaw@yahoo.com
+            </a>
+          </p>
+        </div>
       </main>
     </div>
   );

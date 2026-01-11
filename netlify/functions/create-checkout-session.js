@@ -357,12 +357,11 @@ exports.handler = async (event, context) => {
     // Determine mode based on payment plan
     const mode = paymentPlan === 'full' ? 'payment' : 'subscription';
 
-    // Set payment methods - Klarna and Afterpay only work with one-time payments
+    // Set payment methods - Klarna only works with one-time payments
     const paymentMethodTypes = ['card'];
     if (mode === 'payment') {
-      // Add Klarna and Afterpay for one-time payments
-      // These need to be enabled in Stripe Dashboard
-      paymentMethodTypes.push('klarna', 'afterpay_clearpay');
+      // Add Klarna for one-time payments (must be enabled in Stripe Dashboard)
+      paymentMethodTypes.push('klarna');
     }
 
     // Create Stripe Checkout Session

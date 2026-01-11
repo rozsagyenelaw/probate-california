@@ -11,7 +11,9 @@ import {
   Menu,
   X,
   User,
-  CheckCircle
+  CheckCircle,
+  AlertCircle,
+  CreditCard
 } from 'lucide-react';
 
 // Dashboard Components
@@ -25,8 +27,36 @@ import QuickLinks from './QuickLinks';
 import { LandingPage } from '../landing';
 
 // Case dashboard view - shown when user has an active case
-const CaseDashboardView = ({ probateCase, unreadMessages }) => (
+const CaseDashboardView = ({ probateCase, unreadMessages, navigate }) => {
+  // Check if payment is incomplete
+  const paymentStatus = probateCase?.payment?.status;
+  const isPaid = paymentStatus === 'paid' || paymentStatus === 'completed';
+
+  return (
   <div className="space-y-6">
+    {/* Payment Reminder - shown if not paid */}
+    {!isPaid && (
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start sm:items-center flex-col sm:flex-row gap-4">
+        <div className="flex items-center flex-1">
+          <div className="bg-amber-100 rounded-full p-2 mr-3">
+            <CreditCard className="h-5 w-5 text-amber-600" />
+          </div>
+          <div>
+            <p className="font-semibold text-amber-800">Complete Your Payment</p>
+            <p className="text-sm text-amber-700">
+              Your case has been started. Complete payment to proceed with document preparation.
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => navigate('/payment')}
+          className="bg-amber-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-amber-700 transition-colors whitespace-nowrap"
+        >
+          Complete Payment
+        </button>
+      </div>
+    )}
+
     {/* Case Header */}
     <CaseHeader probateCase={probateCase} />
 
@@ -59,7 +89,8 @@ const CaseDashboardView = ({ probateCase, unreadMessages }) => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const Dashboard = () => {
   const { user, userProfile, logout } = useAuth();
@@ -283,7 +314,7 @@ const Dashboard = () => {
           </div>
         )}
 
-        <CaseDashboardView probateCase={probateCase} unreadMessages={unreadMessages} />
+        <CaseDashboardView probateCase={probateCase} unreadMessages={unreadMessages} navigate={navigate} />
 
         {/* Contact Section */}
         <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
