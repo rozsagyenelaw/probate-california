@@ -2,7 +2,7 @@ import React from 'react';
 import { FileText, Calendar, Shield, AlertCircle } from 'lucide-react';
 
 const WillStep = ({ formData, updateFormData }) => {
-  const { willExists, willDate, codicilExists, namedExecutor, bondWaivedInWill } = formData;
+  const { willExists, willDate, codicilExists, namedExecutor, bondWaivedInWill, survivedBySpouse, survivedByChildren, survivedByGrandchildren } = formData;
 
   const handleChange = (field, value) => {
     updateFormData({ [field]: value });
@@ -160,6 +160,108 @@ const WillStep = ({ formData, updateFormData }) => {
                   </p>
                 </div>
               </label>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Family Survivor Questions - show after will question is answered */}
+      {willExists !== null && (
+        <div className="space-y-6 pt-4 border-t">
+          <div className="bg-gray-50 rounded-lg p-4">
+            <p className="font-medium text-gray-900 mb-4">Family Survivor Information</p>
+            <p className="text-sm text-gray-600 mb-4">
+              This information helps determine who are the legal heirs of the estate.
+            </p>
+
+            {/* Survived by Spouse */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Was the decedent survived by a spouse? <span className="text-red-500">*</span>
+              </label>
+              <div className="flex space-x-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="survivedBySpouse"
+                    checked={survivedBySpouse === true}
+                    onChange={() => handleChange('survivedBySpouse', true)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">Yes</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="survivedBySpouse"
+                    checked={survivedBySpouse === false}
+                    onChange={() => handleChange('survivedBySpouse', false)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">No</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Survived by Children */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Was the decedent survived by children? <span className="text-red-500">*</span>
+              </label>
+              <div className="flex space-x-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="survivedByChildren"
+                    checked={survivedByChildren === true}
+                    onChange={() => handleChange('survivedByChildren', true)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">Yes</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="survivedByChildren"
+                    checked={survivedByChildren === false}
+                    onChange={() => handleChange('survivedByChildren', false)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">No</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Survived by Grandchildren (issue of predeceased children) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Was the decedent survived by issue of predeceased children (grandchildren)? <span className="text-red-500">*</span>
+              </label>
+              <p className="text-xs text-gray-500 mb-2">
+                Only include grandchildren whose parent (decedent's child) has passed away
+              </p>
+              <div className="flex space-x-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="survivedByGrandchildren"
+                    checked={survivedByGrandchildren === true}
+                    onChange={() => handleChange('survivedByGrandchildren', true)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">Yes</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="survivedByGrandchildren"
+                    checked={survivedByGrandchildren === false}
+                    onChange={() => handleChange('survivedByGrandchildren', false)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-gray-700">No</span>
+                </label>
+              </div>
             </div>
           </div>
         </div>

@@ -125,6 +125,11 @@ export const INITIAL_FORM_STATE = {
   namedExecutor: '',
   bondWaivedInWill: null,
 
+  // Family Survivor Information
+  survivedBySpouse: null,
+  survivedByChildren: null,
+  survivedByGrandchildren: null,
+
   // Heirs & Beneficiaries
   heirs: [],
 

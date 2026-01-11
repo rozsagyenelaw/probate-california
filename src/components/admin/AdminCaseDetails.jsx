@@ -154,6 +154,11 @@ const AdminCaseDetails = () => {
       will_date: caseData.willDate || '',
       will_self_proving: 'no',
 
+      // Family survivor info
+      has_spouse: caseData.survivedBySpouse ? 'yes' : 'no',
+      has_children: caseData.survivedByChildren ? 'yes' : 'no',
+      has_grandchildren: caseData.survivedByGrandchildren ? 'yes' : 'no',
+
       // Heirs
       heirs_list: heirsList,
 
