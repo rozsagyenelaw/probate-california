@@ -4,14 +4,10 @@
   functions = "netlify/functions"
 
 [[redirects]]
-  from = "/.netlify/*"
-  to = "/.netlify/:splat"
-  status = 200
-
-[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
 [build.environment]
   NODE_VERSION = "20"
