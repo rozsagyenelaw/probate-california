@@ -11,7 +11,6 @@ import {
   Clock,
   RefreshCw,
   Eye,
-  Briefcase,
   Trash2,
   AlertTriangle,
   X
@@ -54,10 +53,6 @@ const AdminClients = () => {
       unsubCases();
     };
   }, []);
-
-  const getCaseCountForUser = (userId) => {
-    return cases.filter(c => c.userId === userId).length;
-  };
 
   const getCaseForUser = (userId) => {
     return cases.find(c => c.userId === userId);
@@ -220,10 +215,10 @@ const AdminClients = () => {
                     Client
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contact
+                    Estate / Case
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Cases
+                    Contact
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Payment Status
@@ -257,14 +252,27 @@ const AdminClients = () => {
                           </div>
                         </div>
                       </td>
+                      <td className="px-6 py-4">
+                        {clientCase ? (
+                          <div>
+                            <p className="font-medium text-gray-900">
+                              {clientCase.estateName || 'Unnamed Estate'}
+                            </p>
+                            {clientCase.caseNumber && (
+                              <p className="text-sm text-gray-500">
+                                Case #{clientCase.caseNumber}
+                              </p>
+                            )}
+                            <p className="text-xs text-gray-400">
+                              Phase {clientCase.currentPhase || 1} of 11
+                            </p>
+                          </div>
+                        ) : (
+                          <span className="text-sm text-gray-400 italic">No case started</span>
+                        )}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="space-y-1">
-                          <div className="flex items-center text-sm text-gray-600">
-                            <Mail className="h-4 w-4 mr-2 text-gray-400" />
-                            <a href={`mailto:${client.email}`} className="hover:text-blue-600">
-                              {client.email}
-                            </a>
-                          </div>
                           {client.phone && (
                             <div className="flex items-center text-sm text-gray-600">
                               <Phone className="h-4 w-4 mr-2 text-gray-400" />
@@ -273,14 +281,12 @@ const AdminClients = () => {
                               </a>
                             </div>
                           )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <Briefcase className="h-4 w-4 mr-2 text-gray-400" />
-                          <span className="text-sm text-gray-900">
-                            {getCaseCountForUser(client.id)} case(s)
-                          </span>
+                          <div className="flex items-center text-sm text-gray-600">
+                            <Mail className="h-4 w-4 mr-2 text-gray-400" />
+                            <a href={`mailto:${client.email}`} className="hover:text-blue-600 truncate max-w-[150px]">
+                              {client.email}
+                            </a>
+                          </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -365,7 +371,7 @@ const AdminClients = () => {
                 <p className="text-sm text-red-800 font-medium mb-1">This action will permanently delete:</p>
                 <ul className="text-sm text-red-700 list-disc list-inside space-y-1">
                   <li>The client's user account</li>
-                  <li>All cases associated with this client ({getCaseCountForUser(deleteModal.client?.id)} case(s))</li>
+                  <li>All cases associated with this client</li>
                   <li>All uploaded documents</li>
                 </ul>
               </div>
