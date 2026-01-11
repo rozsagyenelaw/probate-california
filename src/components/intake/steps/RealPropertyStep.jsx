@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Plus, Trash2, DollarSign } from 'lucide-react';
+import { Home, Plus, Trash2, DollarSign, Building, MapPin } from 'lucide-react';
 
 const RealPropertyStep = ({ formData, updateFormData }) => {
   const { assets } = formData;
@@ -12,8 +12,20 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
     estimatedValue: '',
     titleHolding: '',
     mortgageBalance: '',
-    lender: ''
+    lender: '',
+    propertyType: '', // 'primary_residence', 'vacation', 'rental', 'investment', 'commercial', 'land', 'other'
+    isPrimaryResidence: false
   });
+
+  const propertyTypes = [
+    { value: 'primary_residence', label: "Primary Residence (Decedent's main home)" },
+    { value: 'vacation', label: 'Vacation Home / Second Home' },
+    { value: 'rental', label: 'Rental Property' },
+    { value: 'investment', label: 'Investment Property' },
+    { value: 'commercial', label: 'Commercial Property' },
+    { value: 'land', label: 'Vacant Land' },
+    { value: 'other', label: 'Other Real Estate' }
+  ];
 
   const resetForm = () => {
     setPropertyForm({
@@ -22,18 +34,21 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
       estimatedValue: '',
       titleHolding: '',
       mortgageBalance: '',
-      lender: ''
+      lender: '',
+      propertyType: '',
+      isPrimaryResidence: false
     });
     setShowForm(false);
     setEditingIndex(null);
   };
 
   const handleSave = () => {
-    if (!propertyForm.address) return;
+    if (!propertyForm.address || !propertyForm.propertyType) return;
 
     const newProperty = [...realProperty];
     const itemWithId = {
       ...propertyForm,
+      isPrimaryResidence: propertyForm.propertyType === 'primary_residence',
       id: editingIndex !== null ? realProperty[editingIndex].id : `prop-${Date.now()}`
     };
 
@@ -108,9 +123,27 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
         <div className="space-y-3">
           <h3 className="font-medium text-gray-900">Properties ({realProperty.length})</h3>
           {realProperty.map((property, index) => (
-            <div key={property.id} className="p-4 bg-gray-50 rounded-lg">
+            <div key={property.id} className={`p-4 rounded-lg ${
+              property.propertyType === 'primary_residence'
+                ? 'bg-green-50 border border-green-200'
+                : 'bg-gray-50'
+            }`}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    {property.propertyType === 'primary_residence' ? (
+                      <Home className="h-4 w-4 text-green-600" />
+                    ) : (
+                      <Building className="h-4 w-4 text-gray-500" />
+                    )}
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                      property.propertyType === 'primary_residence'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-gray-200 text-gray-600'
+                    }`}>
+                      {propertyTypes.find(t => t.value === property.propertyType)?.label?.split(' (')[0] || 'Real Property'}
+                    </span>
+                  </div>
                   <p className="font-medium text-gray-900">{property.address}</p>
                   {property.apn && (
                     <p className="text-sm text-gray-600">APN: {property.apn}</p>
@@ -163,6 +196,53 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
           <h4 className="font-medium text-gray-900">
             {editingIndex !== null ? 'Edit' : 'Add'} Property
           </h4>
+
+          {/* Property Type - Important for determining Simplified vs Full Probate */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <label className="block text-sm font-medium text-blue-900 mb-2">
+              What type of property is this? <span className="text-red-500">*</span>
+            </label>
+            <p className="text-xs text-blue-700 mb-3">
+              This helps determine your probate service tier
+            </p>
+            <div className="grid grid-cols-1 gap-2">
+              {propertyTypes.map((type) => (
+                <label
+                  key={type.value}
+                  className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${
+                    propertyForm.propertyType === type.value
+                      ? type.value === 'primary_residence'
+                        ? 'border-green-500 bg-green-50 ring-1 ring-green-500'
+                        : 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
+                      : 'border-gray-200 bg-white hover:border-gray-300'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="propertyType"
+                    value={type.value}
+                    checked={propertyForm.propertyType === type.value}
+                    onChange={(e) => setPropertyForm({
+                      ...propertyForm,
+                      propertyType: e.target.value,
+                      isPrimaryResidence: e.target.value === 'primary_residence'
+                    })}
+                    className="sr-only"
+                  />
+                  {type.value === 'primary_residence' ? (
+                    <Home className="h-5 w-5 text-green-600 mr-3" />
+                  ) : (
+                    <Building className="h-5 w-5 text-gray-400 mr-3" />
+                  )}
+                  <span className={`text-sm ${
+                    propertyForm.propertyType === type.value ? 'font-medium' : ''
+                  }`}>
+                    {type.label}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">

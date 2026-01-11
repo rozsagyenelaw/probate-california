@@ -1,60 +1,81 @@
-import React, { useState } from 'react';
-import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2 } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star } from 'lucide-react';
 
 const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
-  const [selectedPlan, setSelectedPlan] = useState('full');
+  const [selectedPaymentPlan, setSelectedPaymentPlan] = useState('full');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  // Calculate estate value for display
-  const calculateEstateValue = () => {
-    let total = 0;
+  // Calculate estate values for qualification
+  const estateAnalysis = useMemo(() => {
+    let primaryResidenceValue = 0;
+    let otherRealEstateValue = 0;
+    let otherRealEstateCount = 0;
+    let personalPropertyTotal = 0;
 
-    // Real property
-    formData.assets?.realProperty?.forEach(prop => {
-      total += parseFloat(prop.estimatedValue) || 0;
+    // Analyze real property - look for propertyType field
+    formData.assets?.realProperty?.forEach((prop) => {
+      const value = parseFloat(prop.estimatedValue) || 0;
+      // Check if this is the primary residence
+      if (prop.propertyType === 'primary_residence' || prop.isPrimaryResidence) {
+        primaryResidenceValue = value;
+      } else {
+        otherRealEstateValue += value;
+        otherRealEstateCount++;
+      }
     });
 
-    // Bank accounts
+    // Calculate personal property (bank accounts, investments, vehicles, other)
     formData.assets?.bankAccounts?.forEach(acc => {
-      total += parseFloat(acc.balance) || 0;
+      personalPropertyTotal += parseFloat(acc.balance) || 0;
     });
 
-    // Investments
     formData.assets?.investments?.forEach(inv => {
-      total += parseFloat(inv.value) || 0;
+      personalPropertyTotal += parseFloat(inv.value) || 0;
     });
 
-    // Vehicles
     formData.assets?.vehicles?.forEach(v => {
-      total += parseFloat(v.estimatedValue) || 0;
+      personalPropertyTotal += parseFloat(v.estimatedValue) || 0;
     });
 
-    return total;
-  };
+    formData.assets?.otherAssets?.forEach(asset => {
+      personalPropertyTotal += parseFloat(asset.value) || 0;
+    });
 
-  const estateValue = calculateEstateValue();
+    // Determine qualification for simplified probate
+    const qualifiesForSimplified =
+      primaryResidenceValue < 750000 &&
+      otherRealEstateCount === 0 &&
+      personalPropertyTotal < 208850;
+
+    return {
+      primaryResidenceValue,
+      otherRealEstateValue,
+      otherRealEstateCount,
+      personalPropertyTotal,
+      totalEstateValue: primaryResidenceValue + otherRealEstateValue + personalPropertyTotal,
+      qualifiesForSimplified,
+      reasons: qualifiesForSimplified ? [] : [
+        primaryResidenceValue >= 750000 ? `Primary residence value ($${primaryResidenceValue.toLocaleString()}) exceeds $750,000` : null,
+        otherRealEstateCount > 0 ? `Estate includes ${otherRealEstateCount} additional real property` : null,
+        personalPropertyTotal >= 208850 ? `Personal property ($${personalPropertyTotal.toLocaleString()}) exceeds $208,850 threshold` : null,
+      ].filter(Boolean)
+    };
+  }, [formData.assets]);
+
+  // Probate type selection - default to recommended
+  const [selectedProbateType, setSelectedProbateType] = useState(
+    estateAnalysis.qualifiesForSimplified ? 'simplified' : 'full'
+  );
+
   const decedentName = `${formData.decedent?.firstName || ''} ${formData.decedent?.lastName || ''}`.trim();
 
-  // Payment options
-  const paymentOptions = [
-    {
-      id: 'full',
-      label: 'Full Payment',
-      amount: 3995,
-      description: 'One-time payment - Best value',
-      savings: '$205 savings vs. payment plan'
-    },
-    {
-      id: 'payment_plan',
-      label: '3-Payment Plan',
-      amount: 1400,
-      totalAmount: 4200,
-      description: '3 payments of $1,400 each',
-      note: 'First payment due now, then monthly'
-    }
-  ];
+  // Pricing for each probate type
+  const probatePricing = {
+    simplified: { price: 2495, installment: 832 },
+    full: { price: 3995, installment: 1332 }
+  };
 
-  const selectedOption = paymentOptions.find(p => p.id === selectedPlan);
+  const currentPricing = probatePricing[selectedProbateType];
 
   const handleSubmit = () => {
     if (!agreedToTerms) {
@@ -64,9 +85,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
     console.log('PaymentStep: Submitting with payment info...');
     // Call the parent's submit function with payment info
     onSubmitCase({
-      paymentPlan: selectedPlan,
-      paymentAmount: selectedOption?.amount,
-      totalAmount: selectedOption?.totalAmount || selectedOption?.amount
+      probateType: selectedProbateType,
+      paymentPlan: selectedPaymentPlan,
+      paymentAmount: selectedPaymentPlan === 'full' ? currentPricing.price : currentPricing.installment,
+      totalAmount: currentPricing.price
     });
   };
 
@@ -93,16 +115,150 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
           <div>
             <p className="text-gray-500">Estimated Estate Value</p>
             <p className="font-medium text-gray-900">
-              ${estateValue.toLocaleString()}
+              ${estateAnalysis.totalEstateValue.toLocaleString()}
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Probate Type Recommendation */}
+      <div className={`border-2 rounded-lg p-6 ${
+        estateAnalysis.qualifiesForSimplified
+          ? 'bg-green-50 border-green-300'
+          : 'bg-blue-50 border-blue-300'
+      }`}>
+        <div className="flex items-start">
+          <div className={`p-2 rounded-full mr-4 ${
+            estateAnalysis.qualifiesForSimplified ? 'bg-green-100' : 'bg-blue-100'
+          }`}>
+            {estateAnalysis.qualifiesForSimplified ? (
+              <Home className="h-6 w-6 text-green-600" />
+            ) : (
+              <Building2 className="h-6 w-6 text-blue-600" />
+            )}
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center mb-2">
+              <h3 className={`text-lg font-bold ${
+                estateAnalysis.qualifiesForSimplified ? 'text-green-800' : 'text-blue-800'
+              }`}>
+                {estateAnalysis.qualifiesForSimplified
+                  ? 'You Qualify for Simplified Probate!'
+                  : 'Full Probate Recommended'}
+              </h3>
+              <span className={`ml-3 px-2 py-1 text-xs font-bold rounded-full ${
+                estateAnalysis.qualifiesForSimplified
+                  ? 'bg-green-200 text-green-800'
+                  : 'bg-blue-200 text-blue-800'
+              }`}>
+                RECOMMENDED
+              </span>
+            </div>
+
+            {estateAnalysis.qualifiesForSimplified ? (
+              <div className="text-sm text-green-700">
+                <p className="mb-2">Based on your answers, your estate qualifies for California's simplified probate process:</p>
+                <ul className="space-y-1">
+                  <li className="flex items-center">
+                    <Check className="h-4 w-4 mr-2 text-green-600" />
+                    Primary residence under $750,000 (${estateAnalysis.primaryResidenceValue.toLocaleString()})
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-4 w-4 mr-2 text-green-600" />
+                    No additional real estate
+                  </li>
+                  <li className="flex items-center">
+                    <Check className="h-4 w-4 mr-2 text-green-600" />
+                    Personal property under $208,850 (${estateAnalysis.personalPropertyTotal.toLocaleString()})
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="text-sm text-blue-700">
+                <p className="mb-2">Based on your answers, your estate requires full probate:</p>
+                <ul className="space-y-1">
+                  {estateAnalysis.reasons.map((reason, idx) => (
+                    <li key={idx} className="flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-2 text-blue-600" />
+                      {reason}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Probate Type Selection */}
+      <div>
+        <h4 className="text-sm font-medium text-gray-700 mb-3">Select Probate Service</h4>
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Simplified Probate */}
+          <button
+            onClick={() => setSelectedProbateType('simplified')}
+            disabled={!estateAnalysis.qualifiesForSimplified}
+            className={`p-4 border-2 rounded-lg text-left transition-all relative ${
+              selectedProbateType === 'simplified'
+                ? 'border-green-500 bg-green-50 ring-2 ring-green-500'
+                : estateAnalysis.qualifiesForSimplified
+                  ? 'border-gray-200 hover:border-green-300'
+                  : 'border-gray-200 bg-gray-100 opacity-60 cursor-not-allowed'
+            }`}
+          >
+            {estateAnalysis.qualifiesForSimplified && (
+              <div className="absolute -top-3 right-4">
+                <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+                  <Star className="h-3 w-3 mr-1" />
+                  BEST VALUE
+                </span>
+              </div>
+            )}
+            <div className="flex items-center mb-2">
+              <Home className="h-5 w-5 text-green-600 mr-2" />
+              <h4 className="font-bold text-gray-900">Simplified Probate</h4>
+            </div>
+            <p className="text-2xl font-bold text-green-600 mb-1">$2,495</p>
+            <p className="text-xs text-gray-500 mb-3">or 3 payments of $832/mo</p>
+            <p className="text-sm text-gray-600 mb-2">For primary residences under $750,000</p>
+            {!estateAnalysis.qualifiesForSimplified && (
+              <p className="text-xs text-red-600 mt-2">
+                Your estate does not qualify for simplified probate
+              </p>
+            )}
+          </button>
+
+          {/* Full Probate */}
+          <button
+            onClick={() => setSelectedProbateType('full')}
+            className={`p-4 border-2 rounded-lg text-left transition-all relative ${
+              selectedProbateType === 'full'
+                ? 'border-blue-900 bg-blue-50 ring-2 ring-blue-900'
+                : 'border-gray-200 hover:border-blue-300'
+            }`}
+          >
+            {!estateAnalysis.qualifiesForSimplified && (
+              <div className="absolute -top-3 right-4">
+                <span className="bg-blue-900 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  RECOMMENDED
+                </span>
+              </div>
+            )}
+            <div className="flex items-center mb-2">
+              <Building2 className="h-5 w-5 text-blue-900 mr-2" />
+              <h4 className="font-bold text-gray-900">Full Probate</h4>
+            </div>
+            <p className="text-2xl font-bold text-blue-900 mb-1">$3,995</p>
+            <p className="text-xs text-gray-500 mb-3">or 3 payments of $1,332/mo</p>
+            <p className="text-sm text-gray-600">For all estates requiring formal probate</p>
+          </button>
         </div>
       </div>
 
       {/* What's Included */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-blue-900 mb-4">
-          What's Included in Your Probate Service
+          What's Included in Your {selectedProbateType === 'simplified' ? 'Simplified' : 'Full'} Probate Service
         </h3>
         <ul className="space-y-2">
           {[
@@ -129,45 +285,54 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
       <div>
         <h4 className="text-sm font-medium text-gray-700 mb-3">Select Payment Option</h4>
         <div className="space-y-3">
-          {paymentOptions.map((option) => (
-            <button
-              key={option.id}
-              onClick={() => setSelectedPlan(option.id)}
-              className={`w-full p-4 border rounded-lg text-left transition-all ${
-                selectedPlan === option.id
-                  ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-500'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="font-medium text-gray-900">{option.label}</p>
-                  <p className="text-sm text-gray-600 mt-1">{option.description}</p>
-                  {option.savings && (
-                    <p className="text-xs text-green-600 mt-1 font-medium">
-                      {option.savings}
-                    </p>
-                  )}
-                  {option.note && (
-                    <p className="text-xs text-gray-500 mt-1 flex items-center">
-                      <Clock className="h-3 w-3 mr-1" />
-                      {option.note}
-                    </p>
-                  )}
-                </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold text-gray-900">
-                    ${option.amount.toLocaleString()}
-                  </p>
-                  {option.totalAmount && (
-                    <p className="text-xs text-gray-500">
-                      Total: ${option.totalAmount.toLocaleString()}
-                    </p>
-                  )}
-                </div>
+          <button
+            onClick={() => setSelectedPaymentPlan('full')}
+            className={`w-full p-4 border rounded-lg text-left transition-all ${
+              selectedPaymentPlan === 'full'
+                ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-500'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="font-medium text-gray-900">Pay in Full</p>
+                <p className="text-sm text-gray-600 mt-1">One-time payment</p>
               </div>
-            </button>
-          ))}
+              <div className="text-right">
+                <p className="text-xl font-bold text-gray-900">
+                  ${currentPricing.price.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setSelectedPaymentPlan('installments')}
+            className={`w-full p-4 border rounded-lg text-left transition-all ${
+              selectedPaymentPlan === 'installments'
+                ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-500'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="font-medium text-gray-900">3 Monthly Payments</p>
+                <p className="text-sm text-gray-600 mt-1">No extra charge - same total price</p>
+                <p className="text-xs text-gray-500 mt-1 flex items-center">
+                  <Clock className="h-3 w-3 mr-1" />
+                  First payment due now, then monthly
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-xl font-bold text-gray-900">
+                  ${currentPricing.installment.toLocaleString()}/mo
+                </p>
+                <p className="text-xs text-gray-500">
+                  Total: ${currentPricing.price.toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
 
@@ -204,12 +369,19 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
       <div className="border-t pt-4">
         <div className="flex justify-between items-center mb-4">
           <span className="text-lg font-medium text-gray-900">
-            {selectedPlan === 'full' ? 'Total Due Today' : 'First Payment Due Today'}
+            {selectedPaymentPlan === 'full' ? 'Total Due Today' : 'First Payment Due Today'}
           </span>
           <span className="text-2xl font-bold text-blue-900">
-            ${selectedOption?.amount.toLocaleString()}
+            ${selectedPaymentPlan === 'full'
+              ? currentPricing.price.toLocaleString()
+              : currentPricing.installment.toLocaleString()}
           </span>
         </div>
+        {selectedPaymentPlan === 'installments' && (
+          <p className="text-sm text-gray-500 text-center">
+            + 2 more payments of ${currentPricing.installment.toLocaleString()}/month
+          </p>
+        )}
       </div>
 
       {/* Submit Button */}
@@ -230,7 +402,9 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         ) : (
           <>
             <CheckCircle className="mr-2 h-5 w-5" />
-            Pay ${selectedOption?.amount.toLocaleString()} & Submit Case
+            Pay ${selectedPaymentPlan === 'full'
+              ? currentPricing.price.toLocaleString()
+              : currentPricing.installment.toLocaleString()} & Submit Case
           </>
         )}
       </button>
