@@ -218,7 +218,11 @@ const AdminOverview = () => {
               <div className="p-6 text-center text-gray-500">No cases yet</div>
             ) : (
               recentCases.map((caseItem) => (
-                <div key={caseItem.id} className="p-4 hover:bg-gray-50">
+                <div
+                  key={caseItem.id}
+                  onClick={() => navigate(`/admin/cases/${caseItem.id}`)}
+                  className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                >
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-gray-900">
@@ -230,9 +234,13 @@ const AdminOverview = () => {
                     </div>
                     <div className="text-right">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        caseItem.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                        caseItem.status === 'active'
+                          ? 'bg-green-100 text-green-800'
+                          : caseItem.status === 'pending_payment'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {caseItem.status || 'Active'}
+                        {caseItem.status === 'pending_payment' ? 'Pending Payment' : caseItem.status || 'Active'}
                       </span>
                       <p className="text-xs text-gray-400 mt-1">
                         Phase {caseItem.currentPhase || 1}: {PHASE_LABELS[caseItem.currentPhase || 1]}
