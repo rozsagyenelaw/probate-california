@@ -7,3 +7,4 @@ export { default as AdminDocuments } from './AdminDocuments';
 export { default as AdminSignatureRequests } from './AdminSignatureRequests';
 export { default as AdminPayments } from './AdminPayments';
 export { default as AdminMessages } from './AdminMessages';
+export { default as AdminHearings } from './AdminHearings';

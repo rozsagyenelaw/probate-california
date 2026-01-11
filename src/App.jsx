@@ -41,7 +41,8 @@ import {
   AdminDocuments,
   AdminSignatureRequests,
   AdminPayments,
-  AdminMessages
+  AdminMessages,
+  AdminHearings
 } from './components/admin';
 import ClientSignaturePage from './components/signature/ClientSignaturePage';
 
@@ -238,6 +239,7 @@ function App() {
           <Route path="signatures" element={<AdminSignatureRequests />} />
           <Route path="payments" element={<AdminPayments />} />
           <Route path="messages" element={<AdminMessages />} />
+          <Route path="hearings" element={<AdminHearings />} />
         </Route>
 
         {/* Public signature page (no auth required) */}

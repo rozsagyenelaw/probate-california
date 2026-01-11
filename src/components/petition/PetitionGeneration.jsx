@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { doc, getDoc, collection, query, where, getDocs, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
+import { generatePetition, downloadBlob } from '../../services/petitionService';
 import {
   ArrowLeft,
   Scale,
@@ -21,7 +22,10 @@ import {
   DollarSign,
   AlertCircle,
   Save,
-  ExternalLink
+  ExternalLink,
+  Wand2,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 // Forms that are typically required for California probate
@@ -115,6 +119,9 @@ const PetitionGeneration = () => {
   const [hearingDept, setHearingDept] = useState('');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState(null);
+  const [showCaseData, setShowCaseData] = useState(false);
 
   const searchParams = new URLSearchParams(location.search);
   const caseId = searchParams.get('caseId');
@@ -231,6 +238,80 @@ const PetitionGeneration = () => {
   const getCourtInfo = () => {
     const county = probateCase?.filingCounty;
     return COURT_ADDRESSES[county] || COURT_ADDRESSES['default'];
+  };
+
+  // Auto-generate forms from questionnaire data
+  const handleAutoGenerate = async () => {
+    if (!probateCase) return;
+
+    setGenerating(true);
+    setGenerateError(null);
+
+    try {
+      const result = await generatePetition(probateCase);
+
+      if (result.blob) {
+        // Download the generated file
+        downloadBlob(result.blob, result.filename || `${probateCase.estateName}-probate-forms.pdf`);
+      } else if (result.downloadUrl) {
+        // Open download URL
+        window.open(result.downloadUrl, '_blank');
+      } else {
+        // Log success message
+        console.log('Form generation successful:', result);
+        alert('Forms generated successfully! Check your downloads.');
+      }
+    } catch (error) {
+      console.error('Error generating forms:', error);
+      setGenerateError(error.message || 'Failed to generate forms. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // Format currency for display
+  const formatCurrency = (value) => {
+    if (!value) return '$0';
+    const numValue = parseFloat(String(value).replace(/[^0-9.]/g, ''));
+    if (isNaN(numValue)) return '$0';
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(numValue);
+  };
+
+  // Calculate totals for display
+  const calculateTotals = () => {
+    const assets = probateCase?.assets || {};
+    const realProperty = (assets.realProperty || []).reduce(
+      (sum, p) => sum + (parseFloat(p.estimatedValue) || 0), 0
+    );
+    const financial = (assets.financialAccounts || []).reduce(
+      (sum, a) => sum + (parseFloat(a.estimatedValue) || 0), 0
+    );
+    const vehicles = (assets.vehicles || []).reduce(
+      (sum, v) => sum + (parseFloat(v.estimatedValue) || 0), 0
+    );
+    const personal = (assets.personalProperty || []).reduce(
+      (sum, p) => sum + (parseFloat(p.estimatedValue) || 0), 0
+    );
+    const totalAssets = realProperty + financial + vehicles + personal;
+
+    const totalLiabilities = (probateCase?.liabilities || []).reduce(
+      (sum, l) => sum + (parseFloat(l.amountOwed) || 0), 0
+    );
+
+    return {
+      realProperty,
+      financial,
+      vehicles,
+      personal,
+      totalAssets,
+      totalLiabilities,
+      netEstate: totalAssets - totalLiabilities
+    };
   };
 
   // Check if documents are ready
@@ -353,6 +434,269 @@ const PetitionGeneration = () => {
             </div>
           </div>
         )}
+
+        {/* Auto-Generate Forms Section */}
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-6 border border-purple-200">
+          <div className="flex items-start justify-between">
+            <div className="flex items-start">
+              <div className="bg-purple-100 rounded-full p-3 mr-4">
+                <Wand2 className="h-6 w-6 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900 mb-1">
+                  Auto-Generate Forms
+                </h2>
+                <p className="text-gray-600 text-sm mb-3">
+                  Generate pre-filled court forms using your questionnaire data.
+                  Forms will be auto-populated with the information you provided during intake.
+                </p>
+                {generateError && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
+                    <p className="text-sm text-red-700 flex items-center">
+                      <AlertCircle className="h-4 w-4 mr-2" />
+                      {generateError}
+                    </p>
+                  </div>
+                )}
+                <button
+                  onClick={handleAutoGenerate}
+                  disabled={generating}
+                  className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                    generating
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-purple-600 text-white hover:bg-purple-700'
+                  }`}
+                >
+                  {generating ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Generating Forms...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="h-4 w-4 mr-2" />
+                      Generate Forms from Questionnaire
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Case Data Summary - Collapsible */}
+        <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
+          <button
+            onClick={() => setShowCaseData(!showCaseData)}
+            className="w-full px-6 py-4 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center">
+              <FileText className="h-5 w-5 text-blue-600 mr-2" />
+              <span className="font-semibold text-gray-900">Questionnaire Data Summary</span>
+            </div>
+            {showCaseData ? (
+              <ChevronUp className="h-5 w-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-gray-500" />
+            )}
+          </button>
+
+          {showCaseData && probateCase && (
+            <div className="p-6 space-y-6">
+              {/* Decedent Information */}
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3 pb-2 border-b">Decedent Information</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Full Name</p>
+                    <p className="font-medium">
+                      {[probateCase.decedent?.firstName, probateCase.decedent?.middleName, probateCase.decedent?.lastName]
+                        .filter(Boolean).join(' ') || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Date of Death</p>
+                    <p className="font-medium">{probateCase.decedent?.dateOfDeath || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Date of Birth</p>
+                    <p className="font-medium">{probateCase.decedent?.dateOfBirth || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Last Address</p>
+                    <p className="font-medium">
+                      {probateCase.decedent?.lastAddress?.street || 'Not provided'}
+                      {probateCase.decedent?.lastAddress?.city && `, ${probateCase.decedent.lastAddress.city}`}
+                      {probateCase.decedent?.lastAddress?.state && `, ${probateCase.decedent.lastAddress.state}`}
+                      {probateCase.decedent?.lastAddress?.zip && ` ${probateCase.decedent.lastAddress.zip}`}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">County</p>
+                    <p className="font-medium">{probateCase.decedent?.lastAddress?.county || probateCase.filingCounty || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Marital Status</p>
+                    <p className="font-medium">{probateCase.decedent?.maritalStatus || 'Not provided'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Petitioner Information */}
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3 pb-2 border-b">Petitioner Information</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Name</p>
+                    <p className="font-medium">
+                      {[probateCase.petitioner?.firstName, probateCase.petitioner?.lastName]
+                        .filter(Boolean).join(' ') || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Relationship</p>
+                    <p className="font-medium">{probateCase.petitioner?.relationship || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Phone</p>
+                    <p className="font-medium">{probateCase.petitioner?.phone || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Email</p>
+                    <p className="font-medium">{probateCase.petitioner?.email || 'Not provided'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Address</p>
+                    <p className="font-medium">
+                      {probateCase.petitioner?.address?.street || 'Not provided'}
+                      {probateCase.petitioner?.address?.city && `, ${probateCase.petitioner.address.city}`}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">CA Resident</p>
+                    <p className="font-medium">{probateCase.petitioner?.isCAResident ? 'Yes' : 'No'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Will Information */}
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3 pb-2 border-b">Will Information</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Will Exists</p>
+                    <p className="font-medium">{probateCase.willExists ? 'Yes (Testate)' : 'No (Intestate)'}</p>
+                  </div>
+                  {probateCase.willExists && (
+                    <>
+                      <div>
+                        <p className="text-gray-500">Will Date</p>
+                        <p className="font-medium">{probateCase.willDate || 'Not provided'}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Named Executor</p>
+                        <p className="font-medium">{probateCase.namedExecutor || 'Not specified'}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Heirs */}
+              {probateCase.heirs && probateCase.heirs.length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-3 pb-2 border-b">
+                    Heirs/Beneficiaries ({probateCase.heirs.length})
+                  </h3>
+                  <div className="space-y-2">
+                    {probateCase.heirs.map((heir, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-3 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium">
+                            {[heir.firstName, heir.lastName].filter(Boolean).join(' ')}
+                          </span>
+                          <span className="text-gray-500">{heir.relationship}</span>
+                        </div>
+                        {heir.address?.city && (
+                          <p className="text-gray-500 text-xs mt-1">
+                            {heir.address.city}, {heir.address.state}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Estate Summary */}
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3 pb-2 border-b">Estate Summary</h3>
+                {(() => {
+                  const totals = calculateTotals();
+                  return (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-blue-50 rounded-lg p-3">
+                        <p className="text-xs text-blue-600 font-medium">Real Property</p>
+                        <p className="text-lg font-bold text-blue-900">{formatCurrency(totals.realProperty)}</p>
+                      </div>
+                      <div className="bg-green-50 rounded-lg p-3">
+                        <p className="text-xs text-green-600 font-medium">Financial Accounts</p>
+                        <p className="text-lg font-bold text-green-900">{formatCurrency(totals.financial)}</p>
+                      </div>
+                      <div className="bg-purple-50 rounded-lg p-3">
+                        <p className="text-xs text-purple-600 font-medium">Vehicles</p>
+                        <p className="text-lg font-bold text-purple-900">{formatCurrency(totals.vehicles)}</p>
+                      </div>
+                      <div className="bg-amber-50 rounded-lg p-3">
+                        <p className="text-xs text-amber-600 font-medium">Personal Property</p>
+                        <p className="text-lg font-bold text-amber-900">{formatCurrency(totals.personal)}</p>
+                      </div>
+                      <div className="bg-gray-100 rounded-lg p-3 md:col-span-2">
+                        <p className="text-xs text-gray-600 font-medium">Total Assets</p>
+                        <p className="text-xl font-bold text-gray-900">{formatCurrency(totals.totalAssets)}</p>
+                      </div>
+                      <div className="bg-red-50 rounded-lg p-3">
+                        <p className="text-xs text-red-600 font-medium">Total Liabilities</p>
+                        <p className="text-lg font-bold text-red-900">{formatCurrency(totals.totalLiabilities)}</p>
+                      </div>
+                      <div className={`rounded-lg p-3 ${totals.netEstate >= 0 ? 'bg-green-100' : 'bg-red-100'}`}>
+                        <p className={`text-xs font-medium ${totals.netEstate >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          Net Estate Value
+                        </p>
+                        <p className={`text-xl font-bold ${totals.netEstate >= 0 ? 'text-green-900' : 'text-red-900'}`}>
+                          {formatCurrency(totals.netEstate)}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Real Property Details */}
+              {probateCase.assets?.realProperty && probateCase.assets.realProperty.length > 0 && (
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-3 pb-2 border-b">
+                    Real Property ({probateCase.assets.realProperty.length})
+                  </h3>
+                  <div className="space-y-2">
+                    {probateCase.assets.realProperty.map((prop, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-3 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium">{prop.address}</span>
+                          <span className="text-green-600 font-medium">{formatCurrency(prop.estimatedValue)}</span>
+                        </div>
+                        {prop.apn && <p className="text-gray-500 text-xs mt-1">APN: {prop.apn}</p>}
+                        {prop.mortgageBalance && (
+                          <p className="text-red-500 text-xs">Mortgage: {formatCurrency(prop.mortgageBalance)}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
 
         {/* Filing Instructions - Only show when documents are ready */}
         {documentsReady && (

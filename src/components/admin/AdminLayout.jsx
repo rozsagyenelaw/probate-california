@@ -13,7 +13,8 @@ import {
   Menu,
   X,
   ChevronLeft,
-  FileSignature
+  FileSignature,
+  Gavel
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -38,6 +39,7 @@ const AdminLayout = () => {
     { path: '/admin/documents', icon: FileText, label: 'Documents' },
     { path: '/admin/signatures', icon: FileSignature, label: 'Signatures' },
     { path: '/admin/payments', icon: CreditCard, label: 'Payments' },
+    { path: '/admin/hearings', icon: Gavel, label: 'Hearings' },
     { path: '/admin/messages', icon: MessageSquare, label: 'Messages' },
   ];
 

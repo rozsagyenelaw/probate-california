@@ -1,10 +1,30 @@
 import React, { useState, useMemo } from 'react';
-import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus } from 'lucide-react';
+import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus, Calendar, Gavel, Info } from 'lucide-react';
+import { CA_COUNTY_LIST } from '../../../data/californiaCourts';
+
+const HEARING_TYPES = [
+  'Petition for Probate',
+  'Accounting',
+  'Final Distribution',
+  'Status Conference',
+  'Motion Hearing',
+  'Other'
+];
 
 const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
   const [selectedPaymentPlan, setSelectedPaymentPlan] = useState('full');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [accountingAddon, setAccountingAddon] = useState(null); // null, 'simple', 'complex'
+  const [courtAppearance, setCourtAppearance] = useState(null); // null, 'remote', 'contested'
+  const [hearingDetails, setHearingDetails] = useState({
+    caseNumber: '',
+    county: formData.decedent?.lastAddress?.county || '',
+    hearingDate: '',
+    hearingTime: '',
+    department: '',
+    hearingType: '',
+    otherDescription: ''
+  });
 
   // Calculate estate values for qualification
   const estateAnalysis = useMemo(() => {
@@ -81,13 +101,37 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
     complex: { price: 1995, label: 'Complex Accounting' }
   };
 
-  // Calculate total with accounting add-on
+  const courtAppearancePricing = {
+    remote: { price: 500, label: 'Remote Court Appearance' },
+    contested: { price: 600, label: 'Contested/Complex Hearing (2-hr min)' }
+  };
+
+  // Calculate total with add-ons
   const calculateTotal = () => {
     let total = probatePricing[selectedProbateType].price;
     if (accountingAddon) {
       total += accountingPricing[accountingAddon].price;
     }
+    if (courtAppearance) {
+      total += courtAppearancePricing[courtAppearance].price;
+    }
     return total;
+  };
+
+  // Validate hearing date is at least 7 days out
+  const isHearingDateValid = () => {
+    if (!hearingDetails.hearingDate) return true; // No date selected yet
+    const hearingDate = new Date(hearingDetails.hearingDate);
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 7);
+    return hearingDate >= minDate;
+  };
+
+  // Get minimum date for hearing (7 days from now)
+  const getMinHearingDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    return date.toISOString().split('T')[0];
   };
 
   const totalPrice = calculateTotal();
@@ -98,11 +142,31 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
       alert('Please agree to the terms and conditions to proceed.');
       return;
     }
+    // Validate hearing details if court appearance selected
+    if (courtAppearance) {
+      if (!hearingDetails.caseNumber || !hearingDetails.county || !hearingDetails.hearingDate ||
+          !hearingDetails.hearingTime || !hearingDetails.hearingType) {
+        alert('Please fill in all required hearing information.');
+        return;
+      }
+      if (!isHearingDateValid()) {
+        alert('Hearing date must be at least 7 days from today.');
+        return;
+      }
+      if (hearingDetails.hearingType === 'Other' && !hearingDetails.otherDescription) {
+        alert('Please describe the type of hearing.');
+        return;
+      }
+    }
     console.log('PaymentStep: Submitting with payment info...');
     // Call the parent's submit function with payment info
     onSubmitCase({
       probateType: selectedProbateType,
       accountingAddon: accountingAddon,
+      courtAppearance: courtAppearance ? {
+        type: courtAppearance,
+        ...hearingDetails
+      } : null,
       paymentPlan: selectedPaymentPlan,
       paymentAmount: selectedPaymentPlan === 'full' ? totalPrice : installmentPrice,
       totalAmount: totalPrice
@@ -401,6 +465,208 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         )}
       </div>
 
+      {/* Court Appearance Add-On Section */}
+      <div className="border border-amber-200 rounded-lg p-6 bg-amber-50">
+        <div className="flex items-center mb-4">
+          <Gavel className="h-6 w-6 text-amber-700 mr-2" />
+          <h3 className="text-lg font-semibold text-amber-900">Optional Add-On: Remote Court Appearance</h3>
+        </div>
+        <p className="text-sm text-amber-700 mb-4">
+          Can't attend your hearing? Most California probate hearings allow remote appearances.
+          Attorney Rozsa Gyene can appear on your behalf from anywhere in California.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          {/* Remote Appearance */}
+          <button
+            type="button"
+            onClick={() => setCourtAppearance(courtAppearance === 'remote' ? null : 'remote')}
+            className={`p-4 border-2 rounded-lg text-left transition-all ${
+              courtAppearance === 'remote'
+                ? 'border-amber-500 bg-white ring-2 ring-amber-500'
+                : 'border-gray-200 bg-white hover:border-amber-300'
+            }`}
+          >
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center">
+                <Calendar className="h-5 w-5 text-amber-600 mr-2" />
+                <h4 className="font-bold text-gray-900">Remote Court Appearance</h4>
+              </div>
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                courtAppearance === 'remote' ? 'border-amber-500 bg-amber-500' : 'border-gray-300'
+              }`}>
+                {courtAppearance === 'remote' && <Check className="h-3 w-3 text-white" />}
+              </div>
+            </div>
+            <p className="text-xl font-bold text-amber-600 mb-2">+$500</p>
+            <p className="text-xs text-gray-600">
+              Standard probate hearings (petition approval, accounting, distribution)
+            </p>
+          </button>
+
+          {/* Contested Hearing */}
+          <button
+            type="button"
+            onClick={() => setCourtAppearance(courtAppearance === 'contested' ? null : 'contested')}
+            className={`p-4 border-2 rounded-lg text-left transition-all ${
+              courtAppearance === 'contested'
+                ? 'border-amber-500 bg-white ring-2 ring-amber-500'
+                : 'border-gray-200 bg-white hover:border-amber-300'
+            }`}
+          >
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center">
+                <Gavel className="h-5 w-5 text-amber-600 mr-2" />
+                <h4 className="font-bold text-gray-900">Contested/Complex Hearing</h4>
+              </div>
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                courtAppearance === 'contested' ? 'border-amber-500 bg-amber-500' : 'border-gray-300'
+              }`}>
+                {courtAppearance === 'contested' && <Check className="h-3 w-3 text-white" />}
+              </div>
+            </div>
+            <p className="text-xl font-bold text-amber-600 mb-2">+$600</p>
+            <p className="text-xs text-gray-600">
+              Hearings with objections or multiple issues (2-hour minimum at $300/hr)
+            </p>
+          </button>
+        </div>
+
+        {/* Hearing Details Form - Shows when court appearance is selected */}
+        {courtAppearance && (
+          <div className="bg-white border border-amber-200 rounded-lg p-4 mt-4">
+            <h4 className="font-medium text-gray-900 mb-4 flex items-center">
+              <Calendar className="h-5 w-5 text-amber-600 mr-2" />
+              Hearing Information
+            </h4>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Case Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={hearingDetails.caseNumber}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, caseNumber: e.target.value })}
+                  placeholder="e.g., 24STPB12345"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  County <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={hearingDetails.county}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, county: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                >
+                  <option value="">Select County</option>
+                  {CA_COUNTY_LIST.map(county => (
+                    <option key={county} value={county}>{county}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Hearing Date <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  value={hearingDetails.hearingDate}
+                  min={getMinHearingDate()}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, hearingDate: e.target.value })}
+                  className={`w-full px-3 py-2 border rounded-lg text-sm ${
+                    hearingDetails.hearingDate && !isHearingDateValid()
+                      ? 'border-red-500 bg-red-50'
+                      : 'border-gray-300'
+                  }`}
+                />
+                {hearingDetails.hearingDate && !isHearingDateValid() && (
+                  <p className="text-xs text-red-600 mt-1">Must be at least 7 days from today</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Hearing Time <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="time"
+                  value={hearingDetails.hearingTime}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, hearingTime: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Department
+                </label>
+                <input
+                  type="text"
+                  value={hearingDetails.department}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, department: e.target.value })}
+                  placeholder="e.g., Dept. 29"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Type of Hearing <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={hearingDetails.hearingType}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, hearingType: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                >
+                  <option value="">Select Type</option>
+                  {HEARING_TYPES.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {hearingDetails.hearingType === 'Other' && (
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Please describe the hearing <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={hearingDetails.otherDescription}
+                  onChange={(e) => setHearingDetails({ ...hearingDetails, otherDescription: e.target.value })}
+                  placeholder="Describe the type of hearing"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                />
+              </div>
+            )}
+
+            {/* Warning notice */}
+            <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3">
+              <div className="flex items-start">
+                <Info className="h-4 w-4 text-amber-600 mr-2 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-amber-700">
+                  Remote appearances are available for most hearings. Some evidentiary hearings may require
+                  in-person attendance. We will contact you if your hearing is not eligible for remote appearance.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {!courtAppearance && (
+          <p className="text-xs text-amber-600 mt-3 text-center">
+            No court appearance selected. You can add this later if needed.
+          </p>
+        )}
+      </div>
+
       {/* Order Summary */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-3">Order Summary</h4>
@@ -415,6 +681,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
             <div className="flex justify-between text-purple-700">
               <span>{accountingPricing[accountingAddon].label}</span>
               <span className="font-medium">+${accountingPricing[accountingAddon].price.toLocaleString()}</span>
+            </div>
+          )}
+          {courtAppearance && (
+            <div className="flex justify-between text-amber-700">
+              <span>{courtAppearancePricing[courtAppearance].label}</span>
+              <span className="font-medium">+${courtAppearancePricing[courtAppearance].price.toLocaleString()}</span>
             </div>
           )}
           <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">

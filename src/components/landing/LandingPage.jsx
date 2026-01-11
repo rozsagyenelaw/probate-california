@@ -321,6 +321,62 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Trust Badges Section */}
+      <section className="py-12 bg-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            {/* 5000+ Families */}
+            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
+              <Users className="h-8 w-8 mx-auto mb-3 text-amber-700" />
+              <p className="font-bold text-gray-900">5000+ Families Served</p>
+              <p className="text-sm text-gray-500">Since 2001</p>
+            </div>
+
+            {/* CA State Bar */}
+            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
+              <Award className="h-8 w-8 mx-auto mb-3 text-amber-700" />
+              <p className="font-bold text-gray-900">California State Bar #208356</p>
+              <a
+                href="https://www.calbar.ca.gov/Attorneys/Find-Lawyer/Member-Profile?memberId=208356"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-gray-500 hover:text-blue-600 flex items-center justify-center"
+              >
+                Licensed & Verified
+                <svg className="h-3 w-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </div>
+
+            {/* A+ Rated */}
+            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
+              <svg className="h-8 w-8 mx-auto mb-3 text-amber-700" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              <p className="font-bold text-gray-900">A+ Rated</p>
+              <p className="text-sm text-gray-500">Better Business Bureau</p>
+            </div>
+
+            {/* 25+ Years */}
+            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
+              <svg className="h-8 w-8 mx-auto mb-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+              <p className="font-bold text-gray-900">25+ Years Experience</p>
+              <p className="text-sm text-gray-500">Estate Planning Experts</p>
+            </div>
+
+            {/* 100% Confidential */}
+            <div className="bg-white rounded-xl p-6 text-center shadow-sm">
+              <Shield className="h-8 w-8 mx-auto mb-3 text-amber-700" />
+              <p className="font-bold text-gray-900">100% Confidential</p>
+              <p className="text-sm text-gray-500">Attorney-Client Privilege</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Is Probate Required Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

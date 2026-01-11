@@ -119,19 +119,20 @@ exports.handler = async (event, context) => {
   try {
     // Parse request body
     const {
-      serviceType,      // 'simplified', 'full', or 'accounting_only'
-      probateType,      // 'simplified' or 'full' (null for accounting_only)
+      serviceType,      // 'simplified', 'full', 'accounting_only', 'accounting_addon', or 'court_appearance'
+      probateType,      // 'simplified' or 'full' (null for standalone services)
       accountingAddon,  // null, 'simple', or 'complex'
+      courtAppearance,  // null, 'remote', or 'contested'
       paymentPlan,      // 'full' or 'installments' (3 payments)
       customerEmail,
       caseId,
       promoCode
     } = JSON.parse(event.body);
 
-    console.log('Checkout request:', { serviceType, probateType, accountingAddon, paymentPlan, customerEmail, caseId, promoCode });
+    console.log('Checkout request:', { serviceType, probateType, accountingAddon, courtAppearance, paymentPlan, customerEmail, caseId, promoCode });
 
     // Validate service type
-    const validServiceTypes = ['simplified', 'full', 'accounting_only', 'accounting_addon'];
+    const validServiceTypes = ['simplified', 'full', 'accounting_only', 'accounting_addon', 'court_appearance'];
     if (!validServiceTypes.includes(serviceType)) {
       return {
         statusCode: 400,
@@ -146,6 +147,15 @@ exports.handler = async (event, context) => {
         statusCode: 400,
         headers,
         body: JSON.stringify({ error: 'Please select an accounting service' }),
+      };
+    }
+
+    // For court_appearance standalone, must have courtAppearance type
+    if (serviceType === 'court_appearance' && !courtAppearance) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Please select a court appearance service' }),
       };
     }
 
@@ -174,6 +184,8 @@ exports.handler = async (event, context) => {
       full: process.env.STRIPE_PRICE_FULL_PROBATE || 'price_REPLACE_ME',
       simple_accounting: process.env.STRIPE_PRICE_SIMPLE_ACCOUNTING || 'price_REPLACE_ME',
       complex_accounting: process.env.STRIPE_PRICE_COMPLEX_ACCOUNTING || 'price_REPLACE_ME',
+      remote_appearance: process.env.STRIPE_PRICE_REMOTE_APPEARANCE || 'price_REPLACE_ME',
+      contested_hearing: process.env.STRIPE_PRICE_CONTESTED_HEARING || 'price_REPLACE_ME',
     };
 
     // Prices in cents for calculating dynamic installment amounts
@@ -182,12 +194,14 @@ exports.handler = async (event, context) => {
       full: 399500,           // $3,995
       simple_accounting: 99500,   // $995
       complex_accounting: 199500, // $1,995
+      remote_appearance: 50000,   // $500
+      contested_hearing: 60000,   // $600
     };
 
     // Calculate total amount
     let totalAmountCents = 0;
 
-    if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon') {
+    if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon' && serviceType !== 'court_appearance') {
       totalAmountCents += pricesInCents[serviceType];
     }
 
@@ -195,6 +209,13 @@ exports.handler = async (event, context) => {
       totalAmountCents += pricesInCents.simple_accounting;
     } else if (accountingAddon === 'complex') {
       totalAmountCents += pricesInCents.complex_accounting;
+    }
+
+    // Add court appearance pricing
+    if (courtAppearance === 'remote') {
+      totalAmountCents += pricesInCents.remote_appearance;
+    } else if (courtAppearance === 'contested') {
+      totalAmountCents += pricesInCents.contested_hearing;
     }
 
     // Build line items array for one-time payment
@@ -240,18 +261,56 @@ exports.handler = async (event, context) => {
           quantity: 1,
         });
       }
+
+      // Add court appearance line item
+      if (courtAppearance) {
+        const courtPriceId = courtAppearance === 'remote'
+          ? oneTimePriceIds.remote_appearance
+          : oneTimePriceIds.contested_hearing;
+
+        if (courtPriceId.includes('REPLACE_ME')) {
+          // Use dynamic pricing if Stripe price ID not configured
+          const courtAmount = courtAppearance === 'remote'
+            ? pricesInCents.remote_appearance
+            : pricesInCents.contested_hearing;
+          const courtLabel = courtAppearance === 'remote'
+            ? 'Remote Court Appearance'
+            : 'Contested/Complex Hearing (2-hr min)';
+
+          line_items.push({
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: courtLabel,
+                description: 'Court appearance representation service',
+              },
+              unit_amount: courtAmount,
+            },
+            quantity: 1,
+          });
+        } else {
+          line_items.push({
+            price: courtPriceId,
+            quantity: 1,
+          });
+        }
+      }
     } else {
       // Installment payment - create dynamic price for the installment amount
       const installmentAmountCents = Math.ceil(totalAmountCents / 3);
 
       // Build description
       let description = '';
-      if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon') {
+      if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon' && serviceType !== 'court_appearance') {
         description = serviceType === 'simplified' ? 'Simplified Probate' : 'Full Probate';
       }
       if (accountingAddon) {
         const accountingName = accountingAddon === 'simple' ? 'Simple Accounting' : 'Complex Accounting';
         description = description ? `${description} + ${accountingName}` : accountingName;
+      }
+      if (courtAppearance) {
+        const courtName = courtAppearance === 'remote' ? 'Remote Court Appearance' : 'Contested/Complex Hearing';
+        description = description ? `${description} + ${courtName}` : courtName;
       }
       description += ' (Payment 1 of 3)';
 
@@ -310,6 +369,7 @@ exports.handler = async (event, context) => {
         serviceType: serviceType,
         probateType: probateType || '',
         accountingAddon: accountingAddon || '',
+        courtAppearance: courtAppearance || '',
         paymentPlan: paymentPlan,
         caseId: caseId || '',
         customerEmail: customerEmail || '',
@@ -332,6 +392,7 @@ exports.handler = async (event, context) => {
           serviceType: serviceType,
           probateType: probateType || '',
           accountingAddon: accountingAddon || '',
+          courtAppearance: courtAppearance || '',
           paymentPlan: paymentPlan,
           caseId: caseId || '',
           customerEmail: customerEmail || '',
