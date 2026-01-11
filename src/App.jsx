@@ -29,6 +29,7 @@ import {
   CaseClosing
 } from './components/phases';
 import { Messages } from './components/messaging';
+import RequestAccounting from './components/accounting/RequestAccounting';
 
 // Admin pages
 import {
@@ -215,6 +216,11 @@ function App() {
         <Route path="/messages" element={
           <ProtectedRoute>
             <Messages />
+          </ProtectedRoute>
+        } />
+        <Route path="/request-accounting" element={
+          <ProtectedRoute>
+            <RequestAccounting />
           </ProtectedRoute>
         } />
 

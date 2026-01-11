@@ -8,11 +8,15 @@ import {
   Calendar,
   Phone,
   HelpCircle,
-  ExternalLink
+  ExternalLink,
+  Calculator
 } from 'lucide-react';
 
-const QuickLinks = ({ unreadMessages = 0 }) => {
+const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
   const navigate = useNavigate();
+
+  // Check if user already has accounting add-on
+  const hasAccounting = probateCase?.addOns?.accounting;
 
   const links = [
     {
@@ -93,6 +97,62 @@ const QuickLinks = ({ unreadMessages = 0 }) => {
             );
           })}
         </div>
+      </div>
+
+      {/* Accounting Services */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Accounting Services</h3>
+        {hasAccounting ? (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="flex items-center">
+              <Calculator className="h-5 w-5 text-green-600 mr-2" />
+              <span className="text-green-800 font-medium">
+                {hasAccounting === 'complex' ? 'Complex' : 'Simple'} Accounting Included
+              </span>
+            </div>
+            <p className="text-sm text-green-700 mt-1">
+              Your case includes {hasAccounting} accounting services.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p className="text-sm text-gray-600 mb-3">
+              Need help with your probate accounting? Add our professional accounting services.
+            </p>
+            <div className="space-y-2">
+              <button
+                onClick={() => navigate('/request-accounting?type=simple')}
+                className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors"
+              >
+                <div className="flex items-center">
+                  <div className="p-2 rounded-lg bg-green-100 mr-3">
+                    <Calculator className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-gray-900">Simple Accounting</p>
+                    <p className="text-xs text-gray-500">Basic estate accounting</p>
+                  </div>
+                </div>
+                <span className="text-sm font-semibold text-green-600">$995</span>
+              </button>
+              <button
+                onClick={() => navigate('/request-accounting?type=complex')}
+                className="w-full flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
+              >
+                <div className="flex items-center">
+                  <div className="p-2 rounded-lg bg-blue-100 mr-3">
+                    <Calculator className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-medium text-gray-900">Complex Accounting</p>
+                    <p className="text-xs text-gray-500">Detailed multi-asset accounting</p>
+                  </div>
+                </div>
+                <span className="text-sm font-semibold text-blue-600">$1,995</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Resources */}

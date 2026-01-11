@@ -131,7 +131,7 @@ exports.handler = async (event, context) => {
     console.log('Checkout request:', { serviceType, probateType, accountingAddon, paymentPlan, customerEmail, caseId, promoCode });
 
     // Validate service type
-    const validServiceTypes = ['simplified', 'full', 'accounting_only'];
+    const validServiceTypes = ['simplified', 'full', 'accounting_only', 'accounting_addon'];
     if (!validServiceTypes.includes(serviceType)) {
       return {
         statusCode: 400,
@@ -140,8 +140,8 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // For accounting_only, must have an accounting addon
-    if (serviceType === 'accounting_only' && !accountingAddon) {
+    // For accounting_only or accounting_addon, must have an accounting addon
+    if ((serviceType === 'accounting_only' || serviceType === 'accounting_addon') && !accountingAddon) {
       return {
         statusCode: 400,
         headers,
@@ -187,7 +187,7 @@ exports.handler = async (event, context) => {
     // Calculate total amount
     let totalAmountCents = 0;
 
-    if (serviceType !== 'accounting_only') {
+    if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon') {
       totalAmountCents += pricesInCents[serviceType];
     }
 
@@ -202,7 +202,7 @@ exports.handler = async (event, context) => {
 
     if (paymentPlan === 'full') {
       // One-time payment - use Stripe price IDs
-      if (serviceType !== 'accounting_only') {
+      if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon') {
         const priceId = oneTimePriceIds[serviceType];
         if (priceId.includes('REPLACE_ME')) {
           console.error('Stripe probate price ID not configured!');
@@ -246,7 +246,7 @@ exports.handler = async (event, context) => {
 
       // Build description
       let description = '';
-      if (serviceType !== 'accounting_only') {
+      if (serviceType !== 'accounting_only' && serviceType !== 'accounting_addon') {
         description = serviceType === 'simplified' ? 'Simplified Probate' : 'Full Probate';
       }
       if (accountingAddon) {
