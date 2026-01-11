@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star } from 'lucide-react';
+import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus } from 'lucide-react';
 
 const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
   const [selectedPaymentPlan, setSelectedPaymentPlan] = useState('full');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [accountingAddon, setAccountingAddon] = useState(null); // null, 'simple', 'complex'
 
   // Calculate estate values for qualification
   const estateAnalysis = useMemo(() => {
@@ -69,13 +70,28 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
 
   const decedentName = `${formData.decedent?.firstName || ''} ${formData.decedent?.lastName || ''}`.trim();
 
-  // Pricing for each probate type
+  // Pricing for each probate type and accounting
   const probatePricing = {
     simplified: { price: 2495, installment: 832 },
     full: { price: 3995, installment: 1332 }
   };
 
-  const currentPricing = probatePricing[selectedProbateType];
+  const accountingPricing = {
+    simple: { price: 995, label: 'Simple Accounting' },
+    complex: { price: 1995, label: 'Complex Accounting' }
+  };
+
+  // Calculate total with accounting add-on
+  const calculateTotal = () => {
+    let total = probatePricing[selectedProbateType].price;
+    if (accountingAddon) {
+      total += accountingPricing[accountingAddon].price;
+    }
+    return total;
+  };
+
+  const totalPrice = calculateTotal();
+  const installmentPrice = Math.ceil(totalPrice / 3);
 
   const handleSubmit = () => {
     if (!agreedToTerms) {
@@ -86,9 +102,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
     // Call the parent's submit function with payment info
     onSubmitCase({
       probateType: selectedProbateType,
+      accountingAddon: accountingAddon,
       paymentPlan: selectedPaymentPlan,
-      paymentAmount: selectedPaymentPlan === 'full' ? currentPricing.price : currentPricing.installment,
-      totalAmount: currentPricing.price
+      paymentAmount: selectedPaymentPlan === 'full' ? totalPrice : installmentPrice,
+      totalAmount: totalPrice
     });
   };
 
@@ -281,6 +298,132 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         </ul>
       </div>
 
+      {/* Accounting Add-On Section */}
+      <div className="border border-purple-200 rounded-lg p-6 bg-purple-50">
+        <div className="flex items-center mb-4">
+          <Calculator className="h-6 w-6 text-purple-600 mr-2" />
+          <h3 className="text-lg font-semibold text-purple-900">Optional Add-On: Probate Accounting</h3>
+        </div>
+        <p className="text-sm text-purple-700 mb-4">
+          Need help with court-required probate accounting? Add professional accounting services to your order.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* Simple Accounting */}
+          <button
+            type="button"
+            onClick={() => setAccountingAddon(accountingAddon === 'simple' ? null : 'simple')}
+            className={`p-4 border-2 rounded-lg text-left transition-all ${
+              accountingAddon === 'simple'
+                ? 'border-purple-500 bg-white ring-2 ring-purple-500'
+                : 'border-gray-200 bg-white hover:border-purple-300'
+            }`}
+          >
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center">
+                <FileSpreadsheet className="h-5 w-5 text-purple-600 mr-2" />
+                <h4 className="font-bold text-gray-900">Simple Accounting</h4>
+              </div>
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                accountingAddon === 'simple' ? 'border-purple-500 bg-purple-500' : 'border-gray-300'
+              }`}>
+                {accountingAddon === 'simple' && <Check className="h-3 w-3 text-white" />}
+              </div>
+            </div>
+            <p className="text-xl font-bold text-purple-600 mb-2">+$995</p>
+            <ul className="text-xs text-gray-600 space-y-1">
+              <li className="flex items-center">
+                <Check className="h-3 w-3 text-gray-400 mr-1" />
+                Under 50 transactions
+              </li>
+              <li className="flex items-center">
+                <Check className="h-3 w-3 text-gray-400 mr-1" />
+                Basic income (interest, dividends)
+              </li>
+              <li className="flex items-center">
+                <Check className="h-3 w-3 text-gray-400 mr-1" />
+                Single property sale
+              </li>
+            </ul>
+          </button>
+
+          {/* Complex Accounting */}
+          <button
+            type="button"
+            onClick={() => setAccountingAddon(accountingAddon === 'complex' ? null : 'complex')}
+            className={`p-4 border-2 rounded-lg text-left transition-all relative ${
+              accountingAddon === 'complex'
+                ? 'border-purple-500 bg-white ring-2 ring-purple-500'
+                : 'border-gray-200 bg-white hover:border-purple-300'
+            }`}
+          >
+            {selectedProbateType === 'full' && (
+              <div className="absolute -top-3 right-4">
+                <span className="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+                  <Star className="h-3 w-3 mr-1" />
+                  POPULAR
+                </span>
+              </div>
+            )}
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center">
+                <Calculator className="h-5 w-5 text-purple-600 mr-2" />
+                <h4 className="font-bold text-gray-900">Complex Accounting</h4>
+              </div>
+              <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                accountingAddon === 'complex' ? 'border-purple-500 bg-purple-500' : 'border-gray-300'
+              }`}>
+                {accountingAddon === 'complex' && <Check className="h-3 w-3 text-white" />}
+              </div>
+            </div>
+            <p className="text-xl font-bold text-purple-600 mb-2">+$1,995</p>
+            <ul className="text-xs text-gray-600 space-y-1">
+              <li className="flex items-center">
+                <Plus className="h-3 w-3 text-purple-500 mr-1" />
+                50+ transactions
+              </li>
+              <li className="flex items-center">
+                <Plus className="h-3 w-3 text-purple-500 mr-1" />
+                Business income/rental properties
+              </li>
+              <li className="flex items-center">
+                <Plus className="h-3 w-3 text-purple-500 mr-1" />
+                Multi-year accounting
+              </li>
+            </ul>
+          </button>
+        </div>
+
+        {!accountingAddon && (
+          <p className="text-xs text-purple-600 mt-3 text-center">
+            No accounting add-on selected. You can add this later if needed.
+          </p>
+        )}
+      </div>
+
+      {/* Order Summary */}
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+        <h4 className="font-medium text-gray-900 mb-3">Order Summary</h4>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-gray-600">
+              {selectedProbateType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}
+            </span>
+            <span className="font-medium">${probatePricing[selectedProbateType].price.toLocaleString()}</span>
+          </div>
+          {accountingAddon && (
+            <div className="flex justify-between text-purple-700">
+              <span>{accountingPricing[accountingAddon].label}</span>
+              <span className="font-medium">+${accountingPricing[accountingAddon].price.toLocaleString()}</span>
+            </div>
+          )}
+          <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">
+            <span>Total</span>
+            <span className="text-blue-900">${totalPrice.toLocaleString()}</span>
+          </div>
+        </div>
+      </div>
+
       {/* Payment Plan Selection */}
       <div>
         <h4 className="text-sm font-medium text-gray-700 mb-3">Select Payment Option</h4>
@@ -300,7 +443,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
               </div>
               <div className="text-right">
                 <p className="text-xl font-bold text-gray-900">
-                  ${currentPricing.price.toLocaleString()}
+                  ${totalPrice.toLocaleString()}
                 </p>
               </div>
             </div>
@@ -325,10 +468,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
               </div>
               <div className="text-right">
                 <p className="text-xl font-bold text-gray-900">
-                  ${currentPricing.installment.toLocaleString()}/mo
+                  ${installmentPrice.toLocaleString()}/mo
                 </p>
                 <p className="text-xs text-gray-500">
-                  Total: ${currentPricing.price.toLocaleString()}
+                  Total: ${totalPrice.toLocaleString()}
                 </p>
               </div>
             </div>
@@ -373,13 +516,13 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
           </span>
           <span className="text-2xl font-bold text-blue-900">
             ${selectedPaymentPlan === 'full'
-              ? currentPricing.price.toLocaleString()
-              : currentPricing.installment.toLocaleString()}
+              ? totalPrice.toLocaleString()
+              : installmentPrice.toLocaleString()}
           </span>
         </div>
         {selectedPaymentPlan === 'installments' && (
           <p className="text-sm text-gray-500 text-center">
-            + 2 more payments of ${currentPricing.installment.toLocaleString()}/month
+            + 2 more payments of ${installmentPrice.toLocaleString()}/month
           </p>
         )}
       </div>
@@ -403,8 +546,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
           <>
             <CheckCircle className="mr-2 h-5 w-5" />
             Pay ${selectedPaymentPlan === 'full'
-              ? currentPricing.price.toLocaleString()
-              : currentPricing.installment.toLocaleString()} & Submit Case
+              ? totalPrice.toLocaleString()
+              : installmentPrice.toLocaleString()} & Submit Case
           </>
         )}
       </button>

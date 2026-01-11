@@ -218,6 +218,12 @@ const Intake = () => {
           paidAt: null
         },
 
+        // Service selection
+        serviceType: paymentInfo.probateType || 'full',
+        addOns: {
+          accounting: paymentInfo.accountingAddon || null
+        },
+
         // Timestamps and metadata
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
@@ -298,8 +304,9 @@ const Intake = () => {
       console.log('Intake: Creating Stripe checkout session...');
       const stripePaymentPlan = paymentInfo.paymentPlan === 'full' ? 'full' : 'installments';
       const probateType = paymentInfo.probateType || 'full';
+      const accountingAddon = paymentInfo.accountingAddon || null;
 
-      console.log('Intake: Probate type:', probateType, 'Payment plan:', stripePaymentPlan);
+      console.log('Intake: Probate type:', probateType, 'Accounting:', accountingAddon, 'Payment plan:', stripePaymentPlan);
 
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
@@ -309,7 +316,7 @@ const Intake = () => {
         body: JSON.stringify({
           serviceType: probateType, // 'simplified' or 'full' from payment step
           probateType: probateType,
-          accountingAddon: null,
+          accountingAddon: accountingAddon, // 'simple', 'complex', or null
           paymentPlan: stripePaymentPlan,
           customerEmail: user.email,
           caseId: caseId,
