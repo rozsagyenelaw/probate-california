@@ -234,19 +234,24 @@ const AdminClients = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredClients.map((client) => {
                   const clientCase = getCaseForUser(client.id);
+                  // Get client name from user record OR from case petitioner data
+                  const clientFirstName = client.firstName || clientCase?.petitioner?.firstName || '';
+                  const clientLastName = client.lastName || clientCase?.petitioner?.lastName || '';
+                  const clientFullName = `${clientFirstName} ${clientLastName}`.trim() || 'Unknown';
+                  const clientInitials = `${clientFirstName?.[0] || ''}${clientLastName?.[0] || ''}`.toUpperCase() || '?';
+
                   return (
                     <tr key={client.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
                             <span className="text-blue-900 font-medium">
-                              {(client.firstName?.[0] || '').toUpperCase()}
-                              {(client.lastName?.[0] || '').toUpperCase()}
+                              {clientInitials}
                             </span>
                           </div>
                           <div className="ml-3">
                             <p className="font-medium text-gray-900">
-                              {client.firstName} {client.lastName}
+                              {clientFullName}
                             </p>
                             <p className="text-sm text-gray-500">{client.email}</p>
                           </div>
