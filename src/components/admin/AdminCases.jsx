@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, query, orderBy, onSnapshot, where } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, where, doc, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import {
   Users,
@@ -13,7 +13,10 @@ import {
   RefreshCw,
   AlertCircle,
   Filter,
-  Download
+  Download,
+  Trash2,
+  AlertTriangle,
+  X
 } from 'lucide-react';
 
 const PHASE_LABELS = {
@@ -44,6 +47,8 @@ const AdminCases = () => {
     pendingReview: 0
   });
   const [unreadMessages, setUnreadMessages] = useState({});
+  const [deleteModal, setDeleteModal] = useState({ show: false, caseItem: null });
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     console.log('AdminCases: Starting to load cases...');
@@ -113,6 +118,42 @@ const AdminCases = () => {
       unsubMessages();
     };
   }, []);
+
+  const handleDeleteCase = async () => {
+    if (!deleteModal.caseItem) return;
+
+    setDeleting(true);
+    const caseId = deleteModal.caseItem.id;
+
+    try {
+      // Delete all documents for this case
+      const docsQuery = query(collection(db, 'documents'), where('caseId', '==', caseId));
+      const docsSnapshot = await getDocs(docsQuery);
+      for (const docSnap of docsSnapshot.docs) {
+        await deleteDoc(doc(db, 'documents', docSnap.id));
+      }
+      console.log(`Deleted ${docsSnapshot.size} documents for case ${caseId}`);
+
+      // Delete all messages for this case
+      const messagesQuery = query(collection(db, 'messages'), where('caseId', '==', caseId));
+      const messagesSnapshot = await getDocs(messagesQuery);
+      for (const msgSnap of messagesSnapshot.docs) {
+        await deleteDoc(doc(db, 'messages', msgSnap.id));
+      }
+      console.log(`Deleted ${messagesSnapshot.size} messages for case ${caseId}`);
+
+      // Delete the case document
+      await deleteDoc(doc(db, 'cases', caseId));
+      console.log(`Deleted case ${caseId}`);
+
+      setDeleteModal({ show: false, caseItem: null });
+    } catch (error) {
+      console.error('Error deleting case:', error);
+      alert('Failed to delete case. Please try again.');
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const filteredCases = cases.filter(c => {
     const matchesSearch =
@@ -342,6 +383,13 @@ const AdminCases = () => {
                             </span>
                           )}
                         </button>
+                        <button
+                          onClick={() => setDeleteModal({ show: true, caseItem })}
+                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete Case"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -358,6 +406,73 @@ const AdminCases = () => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal.show && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden">
+            <div className="bg-red-50 px-6 py-4 flex items-center justify-between">
+              <div className="flex items-center">
+                <AlertTriangle className="h-6 w-6 text-red-600 mr-2" />
+                <h3 className="text-lg font-semibold text-red-900">Delete Case</h3>
+              </div>
+              <button
+                onClick={() => setDeleteModal({ show: false, caseItem: null })}
+                className="text-gray-400 hover:text-gray-600"
+                disabled={deleting}
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="px-6 py-4">
+              <p className="text-gray-700 mb-4">
+                Are you sure you want to delete{' '}
+                <span className="font-semibold">
+                  {deleteModal.caseItem?.estateName || 'this case'}
+                </span>
+                ?
+              </p>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+                <p className="text-sm text-red-800 font-medium mb-1">This action will permanently delete:</p>
+                <ul className="text-sm text-red-700 list-disc list-inside space-y-1">
+                  <li>The case record</li>
+                  <li>All uploaded documents</li>
+                  <li>All messages for this case</li>
+                </ul>
+              </div>
+              <p className="text-sm text-gray-500">
+                This action cannot be undone.
+              </p>
+            </div>
+            <div className="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
+              <button
+                onClick={() => setDeleteModal({ show: false, caseItem: null })}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteCase}
+                disabled={deleting}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center"
+              >
+                {deleting ? (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete Case
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
