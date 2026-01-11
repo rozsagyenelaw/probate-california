@@ -100,11 +100,12 @@ const AdminClients = () => {
   };
 
   const filteredClients = clients.filter(c => {
-    const matchesSearch =
-      c.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.phone?.includes(searchTerm);
+    // If no search term, match all
+    const matchesSearch = !searchTerm.trim() ||
+      (c.firstName?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (c.lastName?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (c.email?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (c.phone || '').includes(searchTerm);
 
     const matchesPayment =
       paymentFilter === 'all' ||
