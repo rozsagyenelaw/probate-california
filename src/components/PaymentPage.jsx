@@ -104,7 +104,9 @@ const PaymentPage = () => {
     }
   };
 
-  const handlePayment = async () => {
+  const handlePayment = async (e) => {
+    e.preventDefault();
+
     if (!user) {
       navigate('/login', { state: { from: '/payment' } });
       return;
@@ -136,17 +138,33 @@ const PaymentPage = () => {
         }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        console.error('Failed to parse response:', parseError);
+        setError('Server error. Please try again or contact us at (818) 291-6217.');
+        setIsLoading(false);
+        return;
+      }
 
-      if (data.url) {
+      if (!response.ok) {
+        console.error('API error:', response.status, data);
+        setError(data.error || `Server error (${response.status}). Please contact us at (818) 291-6217.`);
+        setIsLoading(false);
+        return;
+      }
+
+      if (data.url && typeof data.url === 'string' && data.url.startsWith('http')) {
         window.location.href = data.url;
       } else {
-        setError(data.error || 'Failed to create checkout session');
+        console.error('Invalid checkout URL:', data);
+        setError(data.error || 'Failed to create checkout session. Please contact us at (818) 291-6217.');
+        setIsLoading(false);
       }
     } catch (err) {
       console.error('Payment error:', err);
-      setError('An error occurred. Please try again or contact us at (818) 291-6217.');
-    } finally {
+      setError('Network error. Please check your connection and try again, or contact us at (818) 291-6217.');
       setIsLoading(false);
     }
   };
@@ -604,6 +622,7 @@ const PaymentPage = () => {
 
             {/* Pay Button */}
             <button
+              type="button"
               onClick={handlePayment}
               disabled={isLoading || (serviceType === 'accounting_only' && !accountingAddon)}
               className="w-full mt-6 bg-blue-900 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
