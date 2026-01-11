@@ -470,14 +470,14 @@ const LandingPage = () => {
           </div>
 
           {/* Two-Tier Pricing Cards */}
-          <div className="grid md:grid-cols-2 gap-8 mb-12 items-start">
+          <div className="grid md:grid-cols-2 gap-8 mb-12 items-stretch">
             {/* Simplified Probate */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-200 mt-8">
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-2 border-gray-200 mt-8 flex flex-col">
               <div className="bg-green-600 text-white p-4 pt-6 text-center">
                 <h3 className="text-xl font-bold">SIMPLIFIED PROBATE</h3>
                 <p className="text-green-100 text-sm">For primary residences under $750,000</p>
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <div className="text-center mb-6">
                   <p className="text-4xl font-bold text-gray-900">$2,495</p>
                   <p className="text-gray-500">flat fee</p>
@@ -495,7 +495,7 @@ const LandingPage = () => {
                   </ul>
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-6 flex-grow">
                   <p className="font-semibold text-gray-900 mb-2">What's included:</p>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span><strong>Attorney</strong> prepares Petition to Determine Succession</span></li>
@@ -507,24 +507,26 @@ const LandingPage = () => {
                   </ul>
                 </div>
 
-                <div className="text-center mb-4">
-                  <div className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-600">
-                    <Clock className="h-4 w-4 mr-1" />
-                    Timeline: 3-6 months typical
+                <div className="mt-auto">
+                  <div className="text-center mb-4">
+                    <div className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-600">
+                      <Clock className="h-4 w-4 mr-1" />
+                      Timeline: 3-6 months typical
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  onClick={handleStartCase}
-                  className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
-                >
-                  Start Simplified Process
-                </button>
+                  <button
+                    onClick={handleStartCase}
+                    className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                  >
+                    Start Simplified Process
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Full Probate */}
-            <div className="bg-white rounded-xl shadow-lg border-2 border-blue-900 relative mt-8">
+            <div className="bg-white rounded-xl shadow-lg border-2 border-blue-900 relative mt-8 flex flex-col">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
                 <span className="bg-orange-500 text-white text-sm font-bold px-5 py-2 rounded-full shadow-lg whitespace-nowrap">MOST COMMON</span>
               </div>
@@ -532,7 +534,7 @@ const LandingPage = () => {
                 <h3 className="text-xl font-bold">FULL PROBATE</h3>
                 <p className="text-blue-200 text-sm">For estates over $750,000 or complex situations</p>
               </div>
-              <div className="p-6">
+              <div className="p-6 flex flex-col flex-grow">
                 <div className="text-center mb-6">
                   <p className="text-4xl font-bold text-gray-900">$3,995</p>
                   <p className="text-gray-500">flat fee</p>
@@ -550,7 +552,7 @@ const LandingPage = () => {
                   </ul>
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-6 flex-grow">
                   <p className="font-semibold text-gray-900 mb-2">What's included:</p>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-0.5 flex-shrink-0" /><span>Everything in Simplified, <strong>PLUS:</strong></span></li>
@@ -564,19 +566,21 @@ const LandingPage = () => {
                   </ul>
                 </div>
 
-                <div className="text-center mb-4">
-                  <div className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-600">
-                    <Clock className="h-4 w-4 mr-1" />
-                    Timeline: 9-18 months typical
+                <div className="mt-auto">
+                  <div className="text-center mb-4">
+                    <div className="inline-flex items-center bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-600">
+                      <Clock className="h-4 w-4 mr-1" />
+                      Timeline: 9-18 months typical
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  onClick={handleStartCase}
-                  className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
-                >
-                  Start Full Probate
-                </button>
+                  <button
+                    onClick={handleStartCase}
+                    className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
+                  >
+                    Start Full Probate
+                  </button>
+                </div>
               </div>
             </div>
           </div>

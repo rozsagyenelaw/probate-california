@@ -29,13 +29,23 @@ import { LandingPage } from '../landing';
 // Case dashboard view - shown when user has an active case
 const CaseDashboardView = ({ probateCase, unreadMessages, navigate }) => {
   // Check if payment is incomplete
+  // Payment is pending if:
+  // 1. No payment object exists, OR
+  // 2. Payment status is 'pending' or undefined, OR
+  // 3. Case status is 'pending_payment'
   const paymentStatus = probateCase?.payment?.status;
-  const isPaid = paymentStatus === 'paid' || paymentStatus === 'completed';
+  const caseStatus = probateCase?.status;
+  const isPaid = paymentStatus === 'paid' || paymentStatus === 'completed' || caseStatus === 'active';
+  const showPaymentReminder = !isPaid && (
+    caseStatus === 'pending_payment' ||
+    paymentStatus === 'pending' ||
+    (!paymentStatus && probateCase?.currentPhase === 1)
+  );
 
   return (
   <div className="space-y-6">
-    {/* Payment Reminder - shown if not paid */}
-    {!isPaid && (
+    {/* Payment Reminder - shown if payment is pending */}
+    {showPaymentReminder && (
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start sm:items-center flex-col sm:flex-row gap-4">
         <div className="flex items-center flex-1">
           <div className="bg-amber-100 rounded-full p-2 mr-3">

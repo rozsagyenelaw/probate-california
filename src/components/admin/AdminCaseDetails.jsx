@@ -82,71 +82,86 @@ const AdminCaseDetails = () => {
   const [generating, setGenerating] = useState(false);
   const [generateError, setGenerateError] = useState(null);
 
-  // Auto-generate forms from case data
-  const handleAutoGenerate = async () => {
+  // Copy form data to clipboard for pasting into forms
+  const handleCopyFormData = () => {
     if (!caseData) return;
 
     setGenerating(true);
     setGenerateError(null);
 
     try {
-      const response = await fetch('/.netlify/functions/generate-forms', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(caseData),
+      // Format case data for copying
+      const decedent = caseData.decedent || {};
+      const petitioner = caseData.petitioner || {};
+      const heirs = caseData.heirs || [];
+      const assets = caseData.assets || {};
+
+      const formattedData = `
+=== PROBATE FORM DATA ===
+Estate of: ${caseData.estateName || 'N/A'}
+Case ID: ${caseData.id}
+Probate Type: ${caseData.willExists ? 'Testate (With Will)' : 'Intestate (No Will)'}
+
+--- DECEDENT INFORMATION ---
+Name: ${decedent.firstName || ''} ${decedent.middleName || ''} ${decedent.lastName || ''}
+Date of Birth: ${decedent.dateOfBirth || 'N/A'}
+Date of Death: ${decedent.dateOfDeath || 'N/A'}
+Place of Death: ${decedent.placeOfDeath || 'N/A'}
+SSN Last 4: ${decedent.ssnLast4 || 'N/A'}
+Marital Status: ${decedent.maritalStatus || 'N/A'}
+
+Last Address:
+${decedent.lastAddress?.street || ''}
+${decedent.lastAddress?.city || ''}, ${decedent.lastAddress?.state || 'CA'} ${decedent.lastAddress?.zip || ''}
+County: ${decedent.lastAddress?.county || 'N/A'}
+
+--- PETITIONER INFORMATION ---
+Name: ${petitioner.firstName || ''} ${petitioner.lastName || ''}
+Relationship: ${petitioner.relationship || 'N/A'}
+Phone: ${petitioner.phone || 'N/A'}
+Email: ${petitioner.email || 'N/A'}
+CA Resident: ${petitioner.isCAResident ? 'Yes' : 'No'}
+
+Address:
+${petitioner.address?.street || ''}
+${petitioner.address?.city || ''}, ${petitioner.address?.state || 'CA'} ${petitioner.address?.zip || ''}
+
+--- WILL INFORMATION ---
+Will Exists: ${caseData.willExists ? 'Yes' : 'No'}
+Will Date: ${caseData.willDate || 'N/A'}
+Named Executor: ${caseData.namedExecutor || 'N/A'}
+Bond Waived: ${caseData.bondWaivedInWill ? 'Yes' : 'No'}
+
+--- HEIRS/BENEFICIARIES ---
+${heirs.map((h, i) => `${i + 1}. ${h.firstName || ''} ${h.lastName || ''} - ${h.relationship || 'Unknown'} - ${h.age || 'Adult'}`).join('\n') || 'None listed'}
+
+--- REAL PROPERTY ---
+${(assets.realProperty || []).map((p, i) => `${i + 1}. ${p.address || 'No address'} - APN: ${p.apn || 'N/A'} - Value: $${p.estimatedValue?.toLocaleString() || 0}`).join('\n') || 'None listed'}
+
+--- FINANCIAL ACCOUNTS ---
+${(assets.financialAccounts || []).map((a, i) => `${i + 1}. ${a.institutionName || 'Unknown'} (${a.accountType || 'Account'}) - Value: $${a.estimatedValue?.toLocaleString() || 0}`).join('\n') || 'None listed'}
+
+--- VEHICLES ---
+${(assets.vehicles || []).map((v, i) => `${i + 1}. ${v.year || ''} ${v.make || ''} ${v.model || ''} - VIN: ${v.vin || 'N/A'} - Value: $${v.estimatedValue?.toLocaleString() || 0}`).join('\n') || 'None listed'}
+
+--- LIABILITIES ---
+${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unknown'} - ${l.debtType || 'Debt'} - $${l.amountOwed?.toLocaleString() || 0}`).join('\n') || 'None listed'}
+
+=== END OF FORM DATA ===
+      `.trim();
+
+      navigator.clipboard.writeText(formattedData).then(() => {
+        setGenerateError('Form data copied to clipboard! Paste into your document generator.');
+        setTimeout(() => setGenerateError(null), 3000);
+      }).catch(() => {
+        // Fallback: open in new window
+        const win = window.open('', '_blank');
+        win.document.write(`<pre style="font-family: monospace; white-space: pre-wrap;">${formattedData}</pre>`);
+        win.document.title = 'Form Data - ' + (caseData.estateName || 'Probate Case');
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to generate forms');
-      }
-
-      const contentType = response.headers.get('content-type');
-
-      if (contentType?.includes('application/pdf')) {
-        // Download PDF
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${caseData.estateName || 'probate'}-forms.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else if (contentType?.includes('application/zip')) {
-        // Download ZIP
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${caseData.estateName || 'probate'}-forms.zip`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        // JSON response
-        const data = await response.json();
-        if (data.downloadUrl) {
-          window.open(data.downloadUrl, '_blank');
-        } else if (data.success === false && data.openGeneratorUrl) {
-          // External API not available - open generator with pre-filled data
-          setGenerateError('Auto-generate API not configured. Opening manual generator with pre-filled data...');
-          setTimeout(() => {
-            window.open(data.openGeneratorUrl, '_blank');
-            setGenerateError(null);
-          }, 1500);
-        } else {
-          console.log('Form generation response:', data);
-          setGenerateError('Form generation completed but no download available. Use the Manual Generator instead.');
-        }
-      }
     } catch (error) {
-      console.error('Error generating forms:', error);
-      setGenerateError(error.message || 'Failed to generate forms. Please try again.');
+      console.error('Error copying form data:', error);
+      setGenerateError('Failed to copy form data. Please try again.');
     } finally {
       setGenerating(false);
     }
@@ -547,11 +562,11 @@ const AdminCaseDetails = () => {
           <div className="bg-white/10 rounded-lg p-4">
             <h3 className="text-white font-medium mb-2">Step 1: Generate Forms</h3>
             <p className="text-blue-100 text-sm mb-3">
-              Auto-generate court forms pre-filled with all questionnaire data, or use the manual generator.
+              Copy all case data to clipboard, then paste into your preferred document generator.
             </p>
             <div className="space-y-2">
               <button
-                onClick={handleAutoGenerate}
+                onClick={handleCopyFormData}
                 disabled={generating}
                 className={`w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors ${
                   generating
@@ -562,17 +577,21 @@ const AdminCaseDetails = () => {
                 {generating ? (
                   <>
                     <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                    Generating Forms...
+                    Copying...
                   </>
                 ) : (
                   <>
                     <Wand2 className="h-5 w-5 mr-2" />
-                    Auto-Generate Forms
+                    Copy Form Data
                   </>
                 )}
               </button>
               {generateError && (
-                <div className="bg-red-100 border border-red-300 text-red-700 px-3 py-2 rounded-lg text-sm">
+                <div className={`px-3 py-2 rounded-lg text-sm ${
+                  generateError.includes('copied')
+                    ? 'bg-green-100 border border-green-300 text-green-700'
+                    : 'bg-red-100 border border-red-300 text-red-700'
+                }`}>
                   {generateError}
                 </div>
               )}
@@ -581,7 +600,7 @@ const AdminCaseDetails = () => {
                 className="w-full flex items-center justify-center px-4 py-3 bg-white text-blue-900 rounded-lg hover:bg-blue-50 font-medium transition-colors"
               >
                 <ExternalLink className="h-5 w-5 mr-2" />
-                Manual Generator
+                Open Generator Site
               </button>
             </div>
           </div>
