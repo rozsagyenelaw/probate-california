@@ -79,9 +79,21 @@ const HeirsStep = ({ formData, updateFormData }) => {
             <p className="text-sm text-blue-700">
               {willExists
                 ? 'List all beneficiaries named in the will.'
-                : 'List all persons who may inherit under California intestate succession laws (spouse, children, parents, siblings, etc.).'}
+                : 'List all persons who may inherit under California intestate succession laws.'}
             </p>
-            <p className="text-sm text-blue-800 mt-2 font-medium">
+            {!willExists && (
+              <div className="mt-3 text-sm text-blue-800">
+                <p className="font-medium mb-2">Who to include as heirs (in order of priority):</p>
+                <ol className="list-decimal list-inside space-y-1 ml-2">
+                  <li><span className="font-medium">Surviving Spouse</span> — Always if alive</li>
+                  <li><span className="font-medium">Children</span> (including adopted) — Always if any exist</li>
+                  <li><span className="font-medium">Grandchildren</span> — Only if their parent (decedent's child) is deceased</li>
+                  <li><span className="font-medium">Parents</span> — Only if NO surviving spouse or children</li>
+                  <li><span className="font-medium">Siblings</span> — Only if NO spouse, children, or parents</li>
+                </ol>
+              </div>
+            )}
+            <p className="text-sm text-blue-800 mt-3 font-medium">
               Important: After filling out each heir's information, make sure to press the "Add Heir" button to save them to your list.
             </p>
           </div>
