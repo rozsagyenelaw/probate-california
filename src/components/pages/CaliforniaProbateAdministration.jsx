@@ -83,17 +83,20 @@ const CaliforniaProbateAdministration = () => {
     {
       num: 4,
       title: 'Bond Coordination',
-      desc: 'If the court requires a bond, we connect you with specialized sureties and prepare the necessary applications.'
+      desc: 'If the court requires a bond, we connect you with specialized sureties and prepare the necessary applications.',
+      link: '/learn-california-probate/probate-bond-requirements-california'
     },
     {
       num: 5,
       title: 'Issuance of Letters',
-      desc: 'We obtain the "Letters Testamentary" or "Letters of Administration" that grant you legal power to manage bank accounts and real estate.'
+      desc: 'We obtain the "Letters Testamentary" or "Letters of Administration" that grant you legal power to manage bank accounts and real estate.',
+      link: '/learn-california-probate/letters-testamentary-california-guide'
     },
     {
       num: 6,
       title: 'Inventory & Appraisal',
-      desc: 'We coordinate with the court-assigned Referee to value homes, business interests, and personal property.'
+      desc: 'We coordinate with the court-assigned Referee to value homes, business interests, and personal property.',
+      link: '/learn-california-probate/what-is-probate-referee-california'
     },
     {
       num: 7,
@@ -108,7 +111,8 @@ const CaliforniaProbateAdministration = () => {
     {
       num: 9,
       title: 'Clearing Court Notes (IGN Supplements)',
-      desc: 'We monitor the court portal, identify examiners\' concerns, and file Verified Supplements to clear notes before your hearing.'
+      desc: 'We monitor the court portal, identify examiners\' concerns, and file Verified Supplements to clear notes before your hearing.',
+      link: '/learn-california-probate/clear-ign-notes-stanley-mosk'
     },
     {
       num: 10,
@@ -627,6 +631,11 @@ const CaliforniaProbateAdministration = () => {
                       <div>
                         <h3 className="font-bold text-gray-900 mb-1">{phase.title}</h3>
                         <p className="text-gray-600 text-sm">{phase.desc}</p>
+                        {phase.link && (
+                          <Link to={phase.link} className="text-blue-600 hover:underline text-sm mt-1 inline-block">
+                            Learn more →
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -916,6 +925,69 @@ const CaliforniaProbateAdministration = () => {
                     <span className="text-gray-700 text-sm">{courthouse}</span>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Related Resources Section - Internal Linking */}
+        <section className="py-12 bg-gray-100">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                Learn More About California Probate
+              </h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Link
+                  to="/learn-california-probate/california-probate-fees-statutory-vs-flat"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <DollarSign className="h-8 w-8 text-green-600 mb-3" />
+                  <h3 className="font-bold text-gray-900 mb-2">Probate Fees Explained</h3>
+                  <p className="text-gray-600 text-sm">Why statutory fees cost $23,000+ and how to save $19,000.</p>
+                </Link>
+                <Link
+                  to="/learn-california-probate/clear-ign-notes-stanley-mosk"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <FileText className="h-8 w-8 text-blue-600 mb-3" />
+                  <h3 className="font-bold text-gray-900 mb-2">Clearing IGN Notes</h3>
+                  <p className="text-gray-600 text-sm">The 5-step process to clear examiner notes at Stanley Mosk.</p>
+                </Link>
+                <Link
+                  to="/learn-california-probate/letters-testamentary-california-guide"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <Award className="h-8 w-8 text-purple-600 mb-3" />
+                  <h3 className="font-bold text-gray-900 mb-2">Letters Testamentary</h3>
+                  <p className="text-gray-600 text-sm">Your "golden ticket" to access bank accounts and property.</p>
+                </Link>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <Link
+                  to="/probate-faq-california"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200 flex items-center"
+                >
+                  <div className="mr-4">
+                    <BookOpen className="h-8 w-8 text-amber-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">Probate FAQ</h3>
+                    <p className="text-gray-600 text-sm">50+ questions answered by Attorney Rozsa Gyene.</p>
+                  </div>
+                </Link>
+                <Link
+                  to="/probate-court-locations-california"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200 flex items-center"
+                >
+                  <div className="mr-4">
+                    <MapPin className="h-8 w-8 text-red-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900">35 Service Locations</h3>
+                    <p className="text-gray-600 text-sm">Find probate help in your California city.</p>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

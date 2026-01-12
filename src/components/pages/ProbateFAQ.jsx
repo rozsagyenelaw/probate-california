@@ -387,14 +387,14 @@ const ProbateFAQ = () => {
           {/* Featured Snippet Section - Cost */}
           <section className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg mb-12">
             <h2 className="text-xl font-bold text-blue-900 mb-3">How much does probate cost in California?</h2>
-            <p className="text-gray-700 mb-4">California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional <strong>statutory attorney fees</strong> are calculated as:</p>
+            <p className="text-gray-700 mb-4">California probate costs include court filing fees ($435-500), publication costs ($200-350), <Link to="/learn-california-probate/what-is-probate-referee-california" className="text-blue-600 hover:underline">probate referee fees</Link> (0.1% of assets), and attorney fees. Traditional <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline font-semibold">statutory attorney fees</Link> are calculated as:</p>
             <ul className="text-gray-700 mb-4 space-y-1 ml-4">
               <li>4% of the first $100,000</li>
               <li>3% of the next $100,000</li>
               <li>2% of the next $800,000</li>
               <li>1% of the next $9,000,000</li>
             </ul>
-            <p className="text-gray-700">For a <strong>$1 million estate</strong>, statutory fees total <strong>$23,000</strong>. MyProbateCA offers a flat fee of <strong>$3,995</strong> for complete attorney-supervised administration—saving you $19,000+.</p>
+            <p className="text-gray-700">For a <strong>$1 million estate</strong>, statutory fees total <strong>$23,000</strong>. MyProbateCA offers a flat fee of <strong>$3,995</strong> for complete attorney-supervised administration—saving you $19,000+. <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">See our full fee breakdown →</Link></p>
           </section>
 
           {/* ===================== CATEGORY 1: COST QUESTIONS ===================== */}
@@ -406,15 +406,15 @@ const ProbateFAQ = () => {
             <div className="space-y-6">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Is the $3,995 flat fee for probate real?</h3>
-                <p className="text-gray-700 mb-3">Yes. While most California attorneys charge "statutory fees" (a percentage of the estate value), MyProbateCA provides complete attorney-supervised probate administration for a <strong>flat fee of $3,995</strong>.</p>
+                <p className="text-gray-700 mb-3">Yes. While most California attorneys charge <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">"statutory fees"</Link> (a percentage of the estate value), MyProbateCA provides complete attorney-supervised probate administration for a <strong>flat fee of $3,995</strong>.</p>
                 <p className="text-gray-700 mb-3">This includes:</p>
                 <ul className="text-gray-700 mb-3 space-y-1 ml-4">
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Attorney preparation of all documents for all 11 phases</li>
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Review by California Bar Attorney #208356</li>
-                  <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> IGN note clearance and Verified Supplements</li>
+                  <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-blue-600 hover:underline">IGN note clearance</Link> and Verified Supplements</li>
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Dashboard tracking throughout the process</li>
                 </ul>
-                <p className="text-gray-700">It does <strong>not</strong> include third-party costs: court filing fees (~$465), publication (~$200-350), probate referee fees (0.1% of assets), or bond premiums if required.</p>
+                <p className="text-gray-700">It does <strong>not</strong> include third-party costs: court filing fees (~$465), publication (~$200-350), <Link to="/learn-california-probate/what-is-probate-referee-california" className="text-blue-600 hover:underline">probate referee fees</Link> (0.1% of assets), or <Link to="/learn-california-probate/probate-bond-requirements-california" className="text-blue-600 hover:underline">bond premiums</Link> if required.</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -535,7 +535,7 @@ const ProbateFAQ = () => {
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">What are Letters Testamentary?</h3>
-                <p className="text-gray-700 mb-3">Letters Testamentary (Form DE-150) are your legal proof of authority to act on behalf of the estate. Banks, title companies, and financial institutions require certified copies to:</p>
+                <p className="text-gray-700 mb-3"><Link to="/learn-california-probate/letters-testamentary-california-guide" className="text-blue-600 hover:underline">Letters Testamentary</Link> (Form DE-150) are your legal proof of authority to act on behalf of the estate. Banks, title companies, and financial institutions require certified copies to:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
                   <li>Access and close bank accounts</li>
                   <li>Sell real estate</li>
@@ -567,7 +567,7 @@ const ProbateFAQ = () => {
 
             <div className="space-y-6">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-3">What are IGN notes at the Stanley Mosk Courthouse?</h3>
+                <h3 className="font-bold text-lg text-gray-900 mb-3">What are <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-blue-600 hover:underline">IGN notes</Link> at the Stanley Mosk Courthouse?</h3>
                 <p className="text-gray-700 mb-3">IGN stands for "Incomplete," "Grant," or "Needs." These are notes posted by probate examiners 5-10 days before your hearing indicating problems with your filing.</p>
                 <p className="text-gray-700 mb-3">Common IGN note issues include:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
@@ -595,7 +595,7 @@ const ProbateFAQ = () => {
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Why do all Los Angeles probate cases go to Stanley Mosk?</h3>
                 <p className="text-gray-700 mb-3">Los Angeles County has centralized its probate division at the <a href="https://www.lacourt.org/courthouse/info/smm" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Stanley Mosk Courthouse</a> at 111 N. Hill Street in Downtown LA.</p>
-                <p className="text-gray-700 mb-3">Whether the decedent lived in Santa Monica, Glendale, Long Beach, or anywhere else in LA County, probate is filed at Stanley Mosk. This centralization means:</p>
+                <p className="text-gray-700 mb-3">Whether the decedent lived in <Link to="/locations/santa-monica-probate-attorney" className="text-blue-600 hover:underline">Santa Monica</Link>, <Link to="/locations/glendale-probate-attorney" className="text-blue-600 hover:underline">Glendale</Link>, <Link to="/locations/long-beach-probate-attorney" className="text-blue-600 hover:underline">Long Beach</Link>, or anywhere else in LA County, probate is filed at Stanley Mosk. This centralization means:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
                   <li>Very high case volume (longest backlogs in California)</li>
                   <li>Highly specialized examiners</li>
