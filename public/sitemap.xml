@@ -17,6 +17,11 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://myprobateca.com/probate-faq-california</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://myprobateca.com/terms</loc>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>

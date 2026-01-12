@@ -1285,6 +1285,11 @@ const LandingPage = () => {
               </div>
             ))}
           </div>
+          <p className="text-center mt-6">
+            <button onClick={() => navigate('/probate-faq-california')} className="text-blue-600 hover:underline font-medium">
+              View All 25+ Frequently Asked Questions →
+            </button>
+          </p>
         </div>
       </section>
 
@@ -1370,7 +1375,7 @@ const LandingPage = () => {
                 <li><button onClick={() => scrollToSection('how-it-works')} className="hover:text-white">How It Works</button></li>
                 <li><button onClick={() => scrollToSection('phases')} className="hover:text-white">The 11 Phases</button></li>
                 <li><button onClick={() => scrollToSection('pricing')} className="hover:text-white">Pricing</button></li>
-                <li><button onClick={() => scrollToSection('faq')} className="hover:text-white">FAQ</button></li>
+                <li><button onClick={() => navigate('/probate-faq-california')} className="hover:text-white">Probate FAQ</button></li>
                 <li><button onClick={() => navigate('/california-probate-administration')} className="hover:text-white">Probate Guide</button></li>
                 <li><button onClick={() => navigate('/login')} className="hover:text-white">Client Login</button></li>
               </ul>

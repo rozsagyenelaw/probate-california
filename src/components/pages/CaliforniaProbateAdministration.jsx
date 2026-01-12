@@ -424,9 +424,12 @@ const CaliforniaProbateAdministration = () => {
                 <button onClick={() => scrollToSection('pricing')} className="hover:text-blue-200 transition-colors">
                   Pricing
                 </button>
-                <button onClick={() => scrollToSection('faq')} className="hover:text-blue-200 transition-colors">
+                <Link to="/probate-court-locations-california" className="hover:text-blue-200 transition-colors">
+                  Locations
+                </Link>
+                <Link to="/probate-faq-california" className="hover:text-blue-200 transition-colors">
                   FAQ
-                </button>
+                </Link>
                 {user ? (
                   <div className="flex items-center space-x-4">
                     <button
@@ -494,9 +497,8 @@ const CaliforniaProbateAdministration = () => {
                   <button onClick={() => scrollToSection('pricing')} className="text-left hover:text-blue-200">
                     Pricing
                   </button>
-                  <button onClick={() => scrollToSection('faq')} className="text-left hover:text-blue-200">
-                    FAQ
-                  </button>
+                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
+                  <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                   {user ? (
                     <>
                       <button onClick={() => navigate('/dashboard')} className="text-left hover:text-blue-200">
@@ -952,8 +954,8 @@ const CaliforniaProbateAdministration = () => {
                 <h4 className="font-semibold text-white mb-4">Services</h4>
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/california-probate-administration" className="hover:text-white">Full Probate Administration</Link></li>
-                  <li><Link to="/" className="hover:text-white">Simplified Probate</Link></li>
-                  <li><Link to="/" className="hover:text-white">Small Estate Affidavit</Link></li>
+                  <li><Link to="/probate-court-locations-california" className="hover:text-white">All Locations</Link></li>
+                  <li><Link to="/probate-faq-california" className="hover:text-white">Probate FAQ</Link></li>
                 </ul>
               </div>
               <div>
