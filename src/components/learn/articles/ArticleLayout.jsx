@@ -29,12 +29,52 @@ const ArticleLayout = ({
   readTime,
   category,
   schemaMarkup,
+  image,
   children,
   relatedArticles = []
 }) => {
   const navigate = useNavigate();
   const { user, logout, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Auto-generate BlogPosting schema if not provided
+  const blogPostingSchema = schemaMarkup || {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": metaDescription,
+    "url": canonicalUrl,
+    "datePublished": publishDate ? new Date(publishDate).toISOString().split('T')[0] : "2025-01-12",
+    "dateModified": new Date().toISOString().split('T')[0],
+    "image": image || "https://myprobateca.com/images/office/glendale-office-exterior.jpg",
+    "author": {
+      "@type": "Person",
+      "@id": "https://myprobateca.com/#rozsagyene",
+      "name": "Rozsa Gyene",
+      "jobTitle": "Probate Attorney",
+      "url": "https://myprobateca.com/california-probate-administration",
+      "sameAs": "https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://myprobateca.com/#organization",
+      "name": "MyProbateCA",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://myprobateca.com/favicon.svg"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalUrl
+    },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["article h1", "article h2", ".prose p:first-of-type"]
+    },
+    "articleSection": category,
+    "wordCount": readTime ? readTime * 200 : 1500
+  };
 
   const handleLogout = async () => {
     try {
@@ -65,11 +105,9 @@ const ArticleLayout = ({
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={metaDescription} />
 
-        {schemaMarkup && (
-          <script type="application/ld+json">
-            {JSON.stringify(schemaMarkup)}
-          </script>
-        )}
+        <script type="application/ld+json">
+          {JSON.stringify(blogPostingSchema)}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-white">

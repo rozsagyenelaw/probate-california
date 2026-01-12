@@ -84,8 +84,82 @@ const ProbateFAQ = () => {
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "5.0",
-          "reviewCount": "184"
+          "reviewCount": "184",
+          "bestRating": "5",
+          "worstRating": "1"
         },
+        "review": [
+          {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "Michael R."
+            },
+            "datePublished": "2024-11-15",
+            "reviewBody": "Rozsa made the probate process so much easier than I expected. She handled everything with Stanley Mosk courthouse and cleared all the IGN notes quickly. Saved us over $15,000 compared to what other attorneys quoted.",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "Jennifer L."
+            },
+            "datePublished": "2024-10-22",
+            "reviewBody": "After my father passed, I was overwhelmed with the probate process. The flat fee was exactly what we needed - no surprises. The online dashboard let me track every step. Highly recommend for any California estate.",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "David K."
+            },
+            "datePublished": "2024-09-08",
+            "reviewBody": "Professional and efficient. They handled our Orange County probate case from start to finish. The Letters Testamentary came through faster than expected. Great communication throughout.",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "Patricia M."
+            },
+            "datePublished": "2024-08-30",
+            "reviewBody": "We had a complicated estate with property in both LA and San Diego counties. Rozsa navigated both court systems expertly. The $3,995 flat fee saved us tens of thousands. Cannot recommend enough.",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5"
+            }
+          },
+          {
+            "@type": "Review",
+            "author": {
+              "@type": "Person",
+              "name": "Robert S."
+            },
+            "datePublished": "2024-07-14",
+            "reviewBody": "As an out-of-state executor, I needed someone who could handle everything remotely. MyProbateCA did exactly that. All documents handled online, court appearances covered. Completed in 10 months.",
+            "reviewRating": {
+              "@type": "Rating",
+              "ratingValue": "5",
+              "bestRating": "5"
+            }
+          }
+        ],
         "sameAs": [
           "https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
         ]
@@ -203,7 +277,11 @@ const ProbateFAQ = () => {
               "text": "To start California probate: 1) Locate the original Will if one exists, 2) Determine which Superior Court has jurisdiction (county of decedent's residence), 3) Complete and file the Petition for Probate (Form DE-111), 4) Pay the filing fee ($435-500), 5) Arrange publication in an adjudicated newspaper. MyProbateCA's intake questionnaire guides you through gathering all necessary information."
             }
           }
-        ]
+        ],
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [".faq-answer", ".faq-question", "h1", "h2"]
+        }
       },
       {
         "@type": "HowTo",

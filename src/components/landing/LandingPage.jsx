@@ -154,7 +154,7 @@ const LandingPage = () => {
     }
   ];
 
-  // Schema markup for homepage
+  // Schema markup for homepage with Sitelinks Searchbox
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@graph": [
@@ -166,6 +166,14 @@ const LandingPage = () => {
         "description": "California probate services for a flat $3,995 fee",
         "publisher": {
           "@id": "https://myprobateca.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://myprobateca.com/probate-court-locations-california?search={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
         }
       },
       {
@@ -179,6 +187,10 @@ const LandingPage = () => {
         },
         "about": {
           "@id": "https://myprobateca.com/#organization"
+        },
+        "speakable": {
+          "@type": "SpeakableSpecification",
+          "cssSelector": [".hero-headline", ".hero-subheadline", ".pricing-highlight"]
         }
       }
     ]
