@@ -447,61 +447,148 @@ const LearnHub = () => {
             </div>
           </section>
 
-          {/* Featured Guides */}
+          {/* Featured Guides - Visual Cards */}
           <section id="featured-guides" className="mb-16">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">Featured Guides</h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Featured Article 1 */}
-              <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-                <div className="bg-red-600 text-white text-xs font-bold px-3 py-1">MOST POPULAR</div>
-                <div className="p-6">
-                  <span className="text-xs text-gray-500 uppercase tracking-wide">Court Procedures</span>
-                  <h3 className="font-bold text-lg text-gray-900 mt-1 mb-2">
-                    <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="hover:text-indigo-600">How to Clear IGN Notes at Stanley Mosk Courthouse</Link>
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4">The 5-step process for clearing probate examiner notes before your hearing—and avoiding 3-month continuances.</p>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By Rozsa Gyene, Esq.</span>
-                    <span className="mx-2">•</span>
-                    <span>12 min read</span>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Featured Article 1 - IGN Notes */}
+              <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="group">
+                <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                  <div className="relative">
+                    <img
+                      src="/images/courthouses/stanley-mosk-courthouse.jpg"
+                      alt="Stanley Mosk Courthouse - Los Angeles Probate Division"
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</span>
                   </div>
-                </div>
-              </article>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <span className="text-xs text-indigo-600 font-semibold uppercase tracking-wide mb-2">Court Procedures</span>
+                    <h3 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">
+                      How to Clear IGN Notes at Stanley Mosk Courthouse
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">The 5-step process for clearing probate examiner notes before your hearing—and avoiding 3-month continuances.</p>
+                    <div className="flex items-center text-sm text-gray-500 pt-4 border-t border-gray-100">
+                      <img src="/images/attorney/rozsa-gyene-probate-attorney.jpg" alt="Rozsa Gyene" className="w-8 h-8 rounded-full object-cover mr-3" />
+                      <div>
+                        <span className="font-medium text-gray-700">Rozsa Gyene, Esq.</span>
+                        <span className="mx-2">•</span>
+                        <span>12 min read</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </Link>
 
-              {/* Featured Article 2 */}
-              <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-                <div className="bg-green-600 text-white text-xs font-bold px-3 py-1">SAVE $19,000+</div>
-                <div className="p-6">
-                  <span className="text-xs text-gray-500 uppercase tracking-wide">Fees & Costs</span>
-                  <h3 className="font-bold text-lg text-gray-900 mt-1 mb-2">
-                    <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="hover:text-indigo-600">California Probate Fees Exposed: Statutory vs Flat Fee</Link>
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4">Why a $1M home with a $900K mortgage still costs $23,000 in statutory fees—and how to pay $3,995 instead.</p>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By Rozsa Gyene, Esq.</span>
-                    <span className="mx-2">•</span>
-                    <span>10 min read</span>
+              {/* Featured Article 2 - Fees */}
+              <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="group">
+                <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                  <div className="relative">
+                    <div className="w-full h-48 bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                      <div className="text-center text-white">
+                        <DollarSign className="h-16 w-16 mx-auto mb-2 opacity-90" />
+                        <span className="text-2xl font-bold">$23,000 → $3,995</span>
+                      </div>
+                    </div>
+                    <span className="absolute top-3 left-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">SAVE $19,000+</span>
                   </div>
-                </div>
-              </article>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <span className="text-xs text-green-600 font-semibold uppercase tracking-wide mb-2">Fees & Costs</span>
+                    <h3 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
+                      California Probate Fees Exposed: Statutory vs Flat Fee
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">Why a $1M home with a $900K mortgage still costs $23,000 in statutory fees—and how to pay $3,995 instead.</p>
+                    <div className="flex items-center text-sm text-gray-500 pt-4 border-t border-gray-100">
+                      <img src="/images/attorney/rozsa-gyene-probate-attorney.jpg" alt="Rozsa Gyene" className="w-8 h-8 rounded-full object-cover mr-3" />
+                      <div>
+                        <span className="font-medium text-gray-700">Rozsa Gyene, Esq.</span>
+                        <span className="mx-2">•</span>
+                        <span>10 min read</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </Link>
 
-              {/* Featured Article 3 */}
-              <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
-                <div className="bg-blue-600 text-white text-xs font-bold px-3 py-1">ESSENTIAL</div>
-                <div className="p-6">
-                  <span className="text-xs text-gray-500 uppercase tracking-wide">Forms & Documents</span>
-                  <h3 className="font-bold text-lg text-gray-900 mt-1 mb-2">
-                    <Link to="/learn-california-probate/letters-testamentary-california-guide" className="hover:text-indigo-600">Letters Testamentary California: Your Golden Ticket Explained</Link>
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4">What Letters Testamentary are, why you need certified copies, and how to use them to access estate assets.</p>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span>By Rozsa Gyene, Esq.</span>
-                    <span className="mx-2">•</span>
-                    <span>8 min read</span>
+              {/* Featured Article 3 - Letters Testamentary */}
+              <Link to="/learn-california-probate/letters-testamentary-california-guide" className="group">
+                <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+                  <div className="relative">
+                    <div className="w-full h-48 bg-gradient-to-br from-blue-600 to-indigo-800 flex items-center justify-center">
+                      <div className="text-center text-white">
+                        <FileText className="h-16 w-16 mx-auto mb-2 opacity-90" />
+                        <span className="text-xl font-bold">Form DE-150</span>
+                      </div>
+                    </div>
+                    <span className="absolute top-3 left-3 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">ESSENTIAL</span>
                   </div>
-                </div>
-              </article>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <span className="text-xs text-blue-600 font-semibold uppercase tracking-wide mb-2">Forms & Documents</span>
+                    <h3 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                      Letters Testamentary California: Your Golden Ticket Explained
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">What Letters Testamentary are, why you need certified copies, and how to use them to access estate assets.</p>
+                    <div className="flex items-center text-sm text-gray-500 pt-4 border-t border-gray-100">
+                      <img src="/images/attorney/rozsa-gyene-probate-attorney.jpg" alt="Rozsa Gyene" className="w-8 h-8 rounded-full object-cover mr-3" />
+                      <div>
+                        <span className="font-medium text-gray-700">Rozsa Gyene, Esq.</span>
+                        <span className="mx-2">•</span>
+                        <span>8 min read</span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            </div>
+
+            {/* Additional Articles Row */}
+            <div className="grid md:grid-cols-2 gap-8 mt-8">
+              {/* Article 4 - Probate Referee */}
+              <Link to="/learn-california-probate/what-is-probate-referee-california" className="group">
+                <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row">
+                  <div className="md:w-1/3 relative">
+                    <div className="w-full h-48 md:h-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+                      <Search className="h-12 w-12 text-white opacity-90" />
+                    </div>
+                  </div>
+                  <div className="p-6 md:w-2/3 flex flex-col">
+                    <span className="text-xs text-amber-600 font-semibold uppercase tracking-wide mb-2">Expert Guide</span>
+                    <h3 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-amber-600 transition-colors">
+                      What is a Probate Referee in California?
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">How court-appointed appraisers value estate assets and what to expect from the process.</p>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <span className="font-medium text-gray-700">Rozsa Gyene, Esq.</span>
+                      <span className="mx-2">•</span>
+                      <span>7 min read</span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+
+              {/* Article 5 - Probate Bond */}
+              <Link to="/learn-california-probate/probate-bond-requirements-california" className="group">
+                <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row">
+                  <div className="md:w-1/3 relative">
+                    <div className="w-full h-48 md:h-full bg-gradient-to-br from-purple-600 to-violet-800 flex items-center justify-center">
+                      <Shield className="h-12 w-12 text-white opacity-90" />
+                    </div>
+                  </div>
+                  <div className="p-6 md:w-2/3 flex flex-col">
+                    <span className="text-xs text-purple-600 font-semibold uppercase tracking-wide mb-2">Executor Guide</span>
+                    <h3 className="font-bold text-lg text-gray-900 mb-3 group-hover:text-purple-600 transition-colors">
+                      Probate Bond Requirements in California: When You Need One
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 flex-grow">When bonds are required, how much they cost, and when they can be waived.</p>
+                    <div className="flex items-center text-sm text-gray-500">
+                      <span className="font-medium text-gray-700">Rozsa Gyene, Esq.</span>
+                      <span className="mx-2">•</span>
+                      <span>6 min read</span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
             </div>
           </section>
 

@@ -362,15 +362,28 @@ const CityProbatePage = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
                 Where {city.name} Probate Cases Are Filed
               </h2>
-              {/* Courthouse Image */}
+              {/* Courthouse Image and Map */}
               {COURTHOUSE_IMAGES[city.county] && (
-                <div className="mb-6 rounded-lg overflow-hidden shadow-md">
-                  <img
-                    src={COURTHOUSE_IMAGES[city.county].image}
-                    alt={COURTHOUSE_IMAGES[city.county].alt}
-                    className="w-full h-48 object-cover"
-                    loading="lazy"
-                  />
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  <div className="rounded-lg overflow-hidden shadow-md">
+                    <img
+                      src={COURTHOUSE_IMAGES[city.county].image}
+                      alt={COURTHOUSE_IMAGES[city.county].alt}
+                      className="w-full h-64 object-contain bg-gray-100"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="rounded-lg overflow-hidden shadow-md h-64">
+                    <iframe
+                      src={`https://maps.google.com/maps?q=${encodeURIComponent(city.courthouse + ', ' + city.courthouseAddress)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen=""
+                      loading="lazy"
+                      title={`${city.courthouse} Location Map`}
+                    ></iframe>
+                  </div>
                 </div>
               )}
 
@@ -718,36 +731,53 @@ const CityProbatePage = () => {
           </div>
         </section>
 
-        {/* Credentials */}
+        {/* Credentials with Office */}
         <section className="py-12 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="max-w-2xl mx-auto text-center">
-              <div className="flex items-center justify-center mb-4">
-                <Award className="h-8 w-8 text-blue-900" />
+            <div className="max-w-4xl mx-auto">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                {/* Office Image */}
+                <div className="md:w-1/3">
+                  <div className="rounded-lg overflow-hidden shadow-lg">
+                    <img
+                      src="/images/office/glendale-office-exterior.jpg"
+                      alt="Law Offices of Rozsa Gyene, 655 N Central Ave Suite 1704, Glendale CA 91203"
+                      className="w-full"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                {/* Attorney Info */}
+                <div className="md:w-2/3 text-center md:text-left">
+                  <div className="flex items-center justify-center md:justify-start mb-4">
+                    <Award className="h-8 w-8 text-blue-900" />
+                  </div>
+                  <h3 className="font-bold text-xl text-gray-900 mb-2">Rozsa Gyene, Esq.</h3>
+                  <p className="text-gray-600 mb-4">655 N Central Ave, Suite 1704, Glendale, CA 91203</p>
+                  <ul className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-600 mb-4">
+                    <li className="flex items-center">
+                      <Check className="h-4 w-4 text-green-600 mr-1" />
+                      California State Bar #208356
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="h-4 w-4 text-green-600 mr-1" />
+                      25+ Years Experience
+                    </li>
+                    <li className="flex items-center">
+                      <Check className="h-4 w-4 text-green-600 mr-1" />
+                      500+ Cases
+                    </li>
+                  </ul>
+                  <a
+                    href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                  >
+                    Verify License <ExternalLink className="h-4 w-4 ml-1" />
+                  </a>
+                </div>
               </div>
-              <h3 className="font-bold text-xl text-gray-900 mb-2">Rozsa Gyene, Esq.</h3>
-              <ul className="flex flex-wrap justify-center gap-4 text-gray-600 mb-4">
-                <li className="flex items-center">
-                  <Check className="h-4 w-4 text-green-600 mr-1" />
-                  California State Bar #208356
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-4 w-4 text-green-600 mr-1" />
-                  25+ Years Experience
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-4 w-4 text-green-600 mr-1" />
-                  500+ Cases
-                </li>
-              </ul>
-              <a
-                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-              >
-                Verify License <ExternalLink className="h-4 w-4 ml-1" />
-              </a>
             </div>
           </div>
         </section>
