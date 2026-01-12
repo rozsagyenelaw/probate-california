@@ -47,7 +47,7 @@ import {
 } from './components/admin';
 import ClientSignaturePage from './components/signature/ClientSignaturePage';
 import { TermsOfService, PrivacyPolicy } from './components/legal';
-import { CaliforniaProbateAdministration } from './components/pages';
+import { CaliforniaProbateAdministration, ProbateCourtLocations, CityProbatePage } from './components/pages';
 
 // Loading component
 const LoadingSpinner = () => (
@@ -259,6 +259,8 @@ function App() {
 
         {/* SEO/Marketing pages (public) */}
         <Route path="/california-probate-administration" element={<CaliforniaProbateAdministration />} />
+        <Route path="/probate-court-locations-california" element={<ProbateCourtLocations />} />
+        <Route path="/locations/:citySlug" element={<CityProbatePage />} />
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />
