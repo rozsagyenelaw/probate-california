@@ -1,11 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Scale } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
 
   return (
+    <>
+      <Helmet>
+        <title>Privacy Policy | California Probate Services | MyProbateCA</title>
+        <meta name="description" content="Privacy Policy for MyProbateCA. Learn how we collect, use, and protect your personal information during the probate process. CCPA/CPRA compliant." />
+        <link rel="canonical" href="https://myprobateca.com/privacy" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
@@ -186,6 +194,7 @@ const PrivacyPolicy = () => {
         </div>
       </main>
     </div>
+    </>
   );
 };
 

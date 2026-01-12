@@ -1,11 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Scale } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const TermsOfService = () => {
   const navigate = useNavigate();
 
   return (
+    <>
+      <Helmet>
+        <title>Terms of Service | California Probate Services | MyProbateCA</title>
+        <meta name="description" content="Terms of Service for MyProbateCA flat-fee probate services. Learn about our limited scope representation, pricing, refund policy, and client responsibilities." />
+        <link rel="canonical" href="https://myprobateca.com/terms" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
@@ -146,6 +154,7 @@ const TermsOfService = () => {
         </div>
       </main>
     </div>
+    </>
   );
 };
 
