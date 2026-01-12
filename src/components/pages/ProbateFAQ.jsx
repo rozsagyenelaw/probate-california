@@ -811,24 +811,47 @@ const ProbateFAQ = () => {
 
           {/* Attorney Credentials */}
           <section className="bg-gray-50 p-8 rounded-lg mb-12">
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="w-32 h-32 bg-blue-100 rounded-full flex-shrink-0 flex items-center justify-center">
-                <Award className="h-16 w-16 text-blue-600" />
+            <div className="flex flex-col md:flex-row items-start gap-8">
+              <div className="md:w-1/3">
+                <div className="rounded-lg overflow-hidden shadow-lg mb-4">
+                  <img
+                    src="/images/attorney/rozsa-gyene-probate-attorney.jpg"
+                    alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Glendale Office"
+                    className="w-full"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="rounded-lg overflow-hidden shadow-md h-40">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3301.5!2d-118.2551!3d34.1425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c0f24e2d3c3d%3A0x9a5b8e2c3d4e5f6a!2s655%20N%20Central%20Ave%2C%20Glendale%2C%20CA%2091203!5e0!3m2!1sen!2sus!4v1704903600000"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    title="Law Offices of Rozsa Gyene - Glendale, California"
+                  ></iframe>
+                </div>
               </div>
-              <div>
+              <div className="md:w-2/3">
                 <h2 className="text-xl font-bold text-gray-900 mb-2">Answers Verified by Rozsa Gyene, Esq.</h2>
                 <p className="text-gray-600">California State Bar #208356</p>
                 <p className="text-gray-600">25+ Years Experience in Los Angeles Superior Court</p>
                 <p className="text-gray-600">Specialist: Clearing Stanley Mosk IGN Supplements</p>
                 <p className="text-gray-700 mt-3 italic">"Professional attorney oversight shouldn't cost $20,000."</p>
-                <a
-                  href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center mt-3 text-blue-600 hover:underline"
-                >
-                  Verify License <ExternalLink className="h-4 w-4 ml-1" />
-                </a>
+                <div className="flex flex-wrap gap-4 mt-4">
+                  <a
+                    href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-blue-600 hover:underline"
+                  >
+                    Verify License <ExternalLink className="h-4 w-4 ml-1" />
+                  </a>
+                  <span className="text-gray-400">|</span>
+                  <span className="text-gray-600 text-sm">655 N Central Ave, Suite 1704, Glendale, CA 91203</span>
+                </div>
+                <a href="tel:8182916217" className="inline-block mt-4 text-blue-600 hover:underline">(818) 291-6217</a>
               </div>
             </div>
           </section>

@@ -172,6 +172,56 @@ const LearnHub = () => {
         ]
       },
       {
+        "@type": "ImageObject",
+        "@id": "https://myprobateca.com/images/attorney/rozsa-gyene-probate-attorney.jpg",
+        "url": "https://myprobateca.com/images/attorney/rozsa-gyene-probate-attorney.jpg",
+        "contentUrl": "https://myprobateca.com/images/attorney/rozsa-gyene-probate-attorney.jpg",
+        "name": "California Probate Attorney Rozsa Gyene",
+        "description": "Rozsa Gyene, California State Bar #208356, Lead Probate Attorney at MyProbateCA",
+        "contentLocation": {
+          "@type": "Place",
+          "name": "Law Offices of Rozsa Gyene",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "655 N Central Ave, Suite 1704",
+            "addressLocality": "Glendale",
+            "addressRegion": "CA",
+            "postalCode": "91203",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "34.1425",
+            "longitude": "-118.2551"
+          }
+        }
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://myprobateca.com/images/courthouses/stanley-mosk-courthouse.jpg",
+        "url": "https://myprobateca.com/images/courthouses/stanley-mosk-courthouse.jpg",
+        "contentUrl": "https://myprobateca.com/images/courthouses/stanley-mosk-courthouse.jpg",
+        "name": "Stanley Mosk Courthouse - Los Angeles Probate Division",
+        "description": "Stanley Mosk Courthouse at 111 N Hill Street, Los Angeles CA 90012 - Central District Probate Division handling all LA County probate cases",
+        "contentLocation": {
+          "@type": "Place",
+          "name": "Stanley Mosk Courthouse",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "111 N Hill Street",
+            "addressLocality": "Los Angeles",
+            "addressRegion": "CA",
+            "postalCode": "90012",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "34.0560",
+            "longitude": "-118.2457"
+          }
+        }
+      },
+      {
         "@type": "HowTo",
         "name": "How to Clear Probate Notes (IGN) at Stanley Mosk Courthouse",
         "description": "Step-by-step guide to clearing examiner notes before your probate hearing",
@@ -801,22 +851,42 @@ const LearnHub = () => {
           {/* Attorney Bio */}
           <section className="mb-16">
             <div className="bg-gray-50 p-8 rounded-lg">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <div className="w-40 h-40 bg-indigo-100 rounded-full flex-shrink-0 flex items-center justify-center">
-                  <Award className="h-16 w-16 text-indigo-600" />
+              <div className="flex flex-col md:flex-row items-start gap-8">
+                <div className="md:w-1/3">
+                  <div className="rounded-lg overflow-hidden shadow-lg mb-4">
+                    <img
+                      src="/images/attorney/rozsa-gyene-probate-attorney.jpg"
+                      alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Glendale Office"
+                      className="w-full"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="rounded-lg overflow-hidden shadow-md h-40">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3301.5!2d-118.2551!3d34.1425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c0f24e2d3c3d%3A0x9a5b8e2c3d4e5f6a!2s655%20N%20Central%20Ave%2C%20Glendale%2C%20CA%2091203!5e0!3m2!1sen!2sus!4v1704903600000"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen=""
+                      loading="lazy"
+                      title="Law Offices of Rozsa Gyene - Glendale, California"
+                    ></iframe>
+                  </div>
                 </div>
-                <div>
+                <div className="md:w-2/3">
                   <p className="text-sm text-indigo-600 font-medium mb-1">ABOUT THE AUTHOR</p>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">Rozsa Gyene, Esq.</h2>
                   <p className="text-gray-600 mb-4">California State Bar #208356 • 25+ Years Experience</p>
                   <p className="text-gray-700 mb-4">Rozsa Gyene has spent over two decades appearing at the Stanley Mosk Courthouse and other California probate courts. She specializes in clearing complex examiner notes, handling contested estates, and helping out-of-state executors navigate the California probate system.</p>
                   <p className="text-gray-700 mb-4 italic">"Professional attorney oversight shouldn't cost $20,000. Technology allows us to provide the same rigorous legal review at a fraction of the traditional cost."</p>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-4 mb-4">
                     <a href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline text-sm flex items-center">
                       Verify License <ExternalLink className="h-3 w-3 ml-1" />
                     </a>
-                    <button onClick={handleStartCase} className="text-indigo-600 hover:underline text-sm">Start Your Case →</button>
+                    <span className="text-gray-400">|</span>
+                    <span className="text-gray-600 text-sm">655 N Central Ave, Suite 1704, Glendale, CA 91203</span>
                   </div>
+                  <button onClick={handleStartCase} className="bg-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-indigo-700 transition">Start Your Case →</button>
                 </div>
               </div>
             </div>

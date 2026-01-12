@@ -1107,28 +1107,75 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Attorney Quote Section */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="md:flex">
-              <div className="md:w-1/3 bg-blue-900 p-8 flex flex-col items-center justify-center text-center">
+      {/* Meet Your Attorney Section */}
+      <section className="py-16 md:py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet Your Probate Attorney</h2>
+            <p className="text-xl text-gray-600">Every case reviewed and approved by a licensed California attorney</p>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-start gap-8">
+            {/* Attorney Photo & Map */}
+            <div className="md:w-1/3">
+              <div className="rounded-lg overflow-hidden shadow-lg mb-4">
                 <img
-                  src="/Rozsa-Gyene.jpg"
-                  alt="Rozsa Gyene, Esq."
-                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mb-4"
+                  src="/images/attorney/rozsa-gyene-probate-attorney.jpg"
+                  alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Glendale Office"
+                  className="w-full"
+                  loading="lazy"
                 />
-                <h3 className="text-xl font-bold text-white">Rozsa Gyene, Esq.</h3>
-                <p className="text-blue-200 mt-1">California State Bar #208356</p>
-                <p className="text-blue-300 text-sm mt-2">25+ years in estate & probate law</p>
               </div>
-              <div className="md:w-2/3 p-8">
-                <blockquote className="text-xl text-gray-700 italic mb-6">
-                  "Probate doesn't have to be overwhelming. Our system breaks it into manageable steps so you always know exactly what to do next. I've helped hundreds of families through this process, and I've designed this service to give you professional guidance at a price that makes sense."
-                </blockquote>
-                <p className="text-gray-600">
-                  Practicing estate and probate law for over 25 years in Los Angeles County. Our office has successfully completed over 500 probate cases.
-                </p>
+              <div className="rounded-lg overflow-hidden shadow-md h-48">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3301.5!2d-118.2551!3d34.1425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c0f24e2d3c3d%3A0x9a5b8e2c3d4e5f6a!2s655%20N%20Central%20Ave%2C%20Glendale%2C%20CA%2091203!5e0!3m2!1sen!2sus!4v1704903600000"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  title="Law Offices of Rozsa Gyene - Glendale, California"
+                ></iframe>
+              </div>
+            </div>
+
+            {/* Bio */}
+            <div className="md:w-2/3">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Rozsa Gyene, Esq.</h3>
+              <p className="text-gray-600 mb-4">California State Bar #208356 • 25+ Years Experience</p>
+              <blockquote className="text-lg text-gray-700 italic mb-6 border-l-4 border-blue-900 pl-4">
+                "Probate doesn't have to be overwhelming. Our system breaks it into manageable steps so you always know exactly what to do next. I've helped hundreds of families through this process, and I've designed this service to give you professional guidance at a price that makes sense."
+              </blockquote>
+              <p className="text-gray-700 mb-4">
+                <strong>Rozsa Gyene</strong> has spent 25+ years navigating the California probate court system. She's appeared at the Stanley Mosk Courthouse hundreds of times and knows exactly what examiners look for.
+              </p>
+              <p className="text-gray-700 mb-6">
+                Every document prepared through MyProbateCA is reviewed and approved by Rozsa personally—not a paralegal, not an AI, but a licensed California attorney with real courtroom experience.
+              </p>
+
+              <div className="flex flex-wrap gap-4 mb-6">
+                <a
+                  href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-blue-600 hover:underline"
+                >
+                  <CheckCircle className="h-4 w-4 mr-1" />
+                  Verify Bar License
+                </a>
+                <span className="text-gray-400">|</span>
+                <span className="text-gray-600">655 N Central Ave, Suite 1704, Glendale, CA 91203</span>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <a href="tel:8182916217" className="inline-flex items-center text-gray-700 hover:text-blue-600">
+                  <Phone className="h-4 w-4 mr-2" />
+                  (818) 291-6217
+                </a>
+                <a href="mailto:rozsagyenelaw@yahoo.com" className="inline-flex items-center text-gray-700 hover:text-blue-600">
+                  <Mail className="h-4 w-4 mr-2" />
+                  rozsagyenelaw@yahoo.com
+                </a>
               </div>
             </div>
           </div>

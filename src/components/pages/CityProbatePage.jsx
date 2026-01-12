@@ -31,6 +31,55 @@ import {
   BarChart3
 } from 'lucide-react';
 
+// Courthouse images by county
+const COURTHOUSE_IMAGES = {
+  'Los Angeles': {
+    image: '/images/courthouses/stanley-mosk-courthouse.jpg',
+    alt: 'Stanley Mosk Courthouse, 111 N Hill Street, Los Angeles CA 90012 - Central District Probate Division',
+    geo: { lat: '34.0560', lng: '-118.2457' }
+  },
+  'Orange': {
+    image: '/images/courthouses/lamoreaux-justice-center.jpg',
+    alt: 'Lamoreaux Justice Center, 341 The City Drive, Orange CA 92868 - Orange County Probate Court',
+    geo: { lat: '33.7865', lng: '-117.8715' }
+  },
+  'Santa Barbara': {
+    image: '/images/courthouses/anacapa-courthouse.jpg',
+    alt: 'Santa Barbara Courthouse, 1100 Anacapa Street, Santa Barbara CA 93101 - Anacapa Division Probate',
+    geo: { lat: '34.4258', lng: '-119.7032' }
+  },
+  'San Francisco': {
+    image: '/images/courthouses/sf-civic-center-courthouse.jpg',
+    alt: 'San Francisco Civic Center Courthouse, 400 McAllister Street - Probate Division',
+    geo: { lat: '37.7807', lng: '-122.4180' }
+  },
+  'San Diego': {
+    image: '/images/courthouses/san-diego-courthouse.jpg',
+    alt: 'San Diego Central Courthouse, 1100 Union Street - Probate Division',
+    geo: { lat: '32.7197', lng: '-117.1628' }
+  },
+  'Riverside': {
+    image: '/images/courthouses/riverside-courthouse.jpg',
+    alt: 'Riverside Historic Courthouse, 4050 Main Street, Riverside CA 92501 - Probate Division',
+    geo: { lat: '33.9825', lng: '-117.3755' }
+  },
+  'Santa Clara': {
+    image: '/images/courthouses/santa-clara-courthouse.jpg',
+    alt: 'Santa Clara County Courthouse, 191 N First Street, San Jose CA 95113 - Probate Division',
+    geo: { lat: '37.3365', lng: '-121.8896' }
+  },
+  'Alameda': {
+    image: '/images/courthouses/rene-davidson-courthouse.jpg',
+    alt: 'Rene C. Davidson Courthouse, 1225 Fallon Street, Oakland CA 94612 - Probate Division',
+    geo: { lat: '37.7995', lng: '-122.2672' }
+  },
+  'Kern': {
+    image: '/images/courthouses/kern-county-courthouse.jpg',
+    alt: 'Kern County Superior Court, 1415 Truxtun Avenue, Bakersfield CA 93301 - Probate Division',
+    geo: { lat: '35.3743', lng: '-119.0182' }
+  }
+};
+
 const CityProbatePage = () => {
   const { citySlug } = useParams();
   const navigate = useNavigate();
@@ -149,7 +198,29 @@ const CityProbatePage = () => {
             "text": faq.a
           }
         }))
-      }
+      },
+      // Add ImageObject for courthouse if available
+      ...(COURTHOUSE_IMAGES[city.county] ? [{
+        "@type": "ImageObject",
+        "url": `https://myprobateca.com${COURTHOUSE_IMAGES[city.county].image}`,
+        "name": `${city.courthouse} - ${city.county} County Probate`,
+        "contentLocation": {
+          "@type": "Place",
+          "name": city.courthouse,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": city.courthouseAddress,
+            "addressLocality": city.name,
+            "addressRegion": "CA",
+            "addressCountry": "US"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": COURTHOUSE_IMAGES[city.county].geo.lat,
+            "longitude": COURTHOUSE_IMAGES[city.county].geo.lng
+          }
+        }
+      }] : [])
     ]
   };
 
@@ -291,6 +362,18 @@ const CityProbatePage = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-8">
                 Where {city.name} Probate Cases Are Filed
               </h2>
+              {/* Courthouse Image */}
+              {COURTHOUSE_IMAGES[city.county] && (
+                <div className="mb-6 rounded-lg overflow-hidden shadow-md">
+                  <img
+                    src={COURTHOUSE_IMAGES[city.county].image}
+                    alt={COURTHOUSE_IMAGES[city.county].alt}
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
               <div className="bg-gray-50 rounded-xl p-6 mb-8">
                 <div className="flex items-start">
                   <Building2 className="h-8 w-8 text-blue-900 mr-4 flex-shrink-0" />
