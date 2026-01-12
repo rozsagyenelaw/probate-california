@@ -3,6 +3,7 @@ import { useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
 import { getCityBySlug, calculateStatutoryFee, CITY_DATA } from '../../data/cityData';
+import { COMMON_ESTATE_TYPES, LOCAL_STATS, getPublicationInfo } from '../../data/cityDetailedData';
 import {
   Scale,
   MapPin,
@@ -25,7 +26,9 @@ import {
   Clock,
   FileText,
   Users,
-  Home
+  Home,
+  Lightbulb,
+  BarChart3
 } from 'lucide-react';
 
 const CityProbatePage = () => {
@@ -43,6 +46,11 @@ const CityProbatePage = () => {
   if (!city) {
     return <Navigate to="/probate-court-locations-california" replace />;
   }
+
+  // Get detailed city data
+  const estateTypes = COMMON_ESTATE_TYPES[cleanSlug];
+  const localStats = LOCAL_STATS[cleanSlug];
+  const publicationInfo = getPublicationInfo(city.county);
 
   const handleLogout = async () => {
     try {
@@ -65,7 +73,7 @@ const CityProbatePage = () => {
   const statutoryFee = calculateStatutoryFee(totalEstate);
   const savings = statutoryFee - 3995;
 
-  // FAQs specific to this city
+  // FAQs specific to this city - now 7 questions
   const faqs = [
     {
       q: `Where do ${city.name} probate cases get filed?`,
@@ -86,6 +94,14 @@ const CityProbatePage = () => {
     {
       q: `Can you appear in court for me in ${city.name}?`,
       a: `Yes. Attorney Rozsa Gyene can appear remotely at ${city.courthouse} hearings for $500. Most ${city.county} County probate hearings allow remote appearances.`
+    },
+    {
+      q: `What if I live out of state but need to probate an estate in ${city.name}?`,
+      a: `We specialize in helping out-of-state executors. Everything is handled remotely through our online platform, and Attorney Rozsa Gyene can appear at ${city.courthouse} hearings on your behalf for $500. You never need to travel to California.`
+    },
+    {
+      q: `How do I know if simplified probate is available for a ${city.name} estate?`,
+      a: `California simplified probate requires: primary residence under $750,000, total personal property under $208,850, and death after April 1, 2025. With ${city.name}'s median home price of ${city.medianHome}, most estates require full probate. Our free intake questionnaire automatically determines which option applies to your situation.`
     }
   ];
 
@@ -306,11 +322,55 @@ const CityProbatePage = () => {
                 </div>
               </div>
 
-              <div className="bg-amber-50 border-l-4 border-amber-500 p-4">
+              <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8">
                 <p className="text-gray-800">
                   We monitor the {city.courthouse} portal for examiner notes and file Verified Supplements
                   to clear any deficiencies before your hearing.
                 </p>
+              </div>
+
+              {/* NEW: Local Probate Timeline & Statistics */}
+              {localStats && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+                  <div className="flex items-center mb-4">
+                    <BarChart3 className="h-5 w-5 text-yellow-700 mr-2" />
+                    <h3 className="text-lg font-bold text-yellow-900">{city.name} Probate Timeline & Statistics</h3>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <span className="text-sm text-yellow-700 font-medium">Average Duration:</span>
+                      <p className="text-gray-800 font-semibold">{localStats.avgDuration}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-yellow-700 font-medium">Court Volume:</span>
+                      <p className="text-gray-800">{localStats.filingVolume}</p>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <span className="text-sm text-yellow-700 font-medium">Examiner Notes:</span>
+                    <p className="text-gray-700">{localStats.examinerNotes}</p>
+                  </div>
+                  <div className="bg-yellow-100 p-3 rounded">
+                    <div className="flex items-start">
+                      <Lightbulb className="h-4 w-4 text-yellow-800 mr-2 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <span className="text-sm text-yellow-800 font-medium">Local Tip:</span>
+                        <p className="text-gray-700 text-sm mt-1">{localStats.localTip}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* NEW: Publication Requirements */}
+              <div className="bg-gray-50 p-4 rounded-lg mb-6 text-sm">
+                <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
+                  <FileText className="h-4 w-4 mr-2 text-gray-600" />
+                  Publication Requirements for {city.county} County
+                </h4>
+                <p className="text-gray-600"><strong>Newspapers:</strong> {publicationInfo.newspapers}</p>
+                <p className="text-gray-600"><strong>Duration:</strong> {publicationInfo.duration}</p>
+                <p className="text-gray-500 text-xs mt-2 italic">{publicationInfo.note}</p>
               </div>
             </div>
           </div>
@@ -438,9 +498,7 @@ const CityProbatePage = () => {
                 {city.name} Probate Expertise
               </h2>
               <p className="text-gray-600 mb-6">
-                {city.localHook}. With property values in {city.name} typically at {city.medianHome} and above,
-                most estates require full probate administration. Our flat-fee service provides the same
-                quality representation as traditional law firms at a fraction of the cost.
+                {city.localHook}
               </p>
 
               <div className="bg-gray-50 rounded-xl p-6 mb-8">
@@ -472,6 +530,14 @@ const CityProbatePage = () => {
                   </li>
                 </ul>
               </div>
+
+              {/* NEW: Common Estate Types Section */}
+              {estateTypes && (
+                <div className="mb-10">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{estateTypes.title}</h2>
+                  <p className="text-gray-700 leading-relaxed">{estateTypes.content}</p>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -509,7 +575,7 @@ const CityProbatePage = () => {
           </div>
         </section>
 
-        {/* Local FAQ */}
+        {/* Local FAQ - Now 7 questions */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4">
             <div className="max-w-3xl mx-auto">
