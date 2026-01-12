@@ -187,6 +187,7 @@ const CityProbatePage = () => {
                 <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
                 <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
                 <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
+                <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                 {user ? (
                   <div className="flex items-center space-x-4">
                     <button onClick={() => navigate('/dashboard')} className="flex items-center space-x-1 hover:text-blue-200">
@@ -228,6 +229,7 @@ const CityProbatePage = () => {
                   <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
                   <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
+                  <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                   {user ? (
                     <>
                       <button onClick={() => navigate('/dashboard')} className="text-left hover:text-blue-200">Dashboard</button>
@@ -686,6 +688,7 @@ const CityProbatePage = () => {
                   <li><Link to="/california-probate-administration" className="hover:text-white">Full Probate</Link></li>
                   <li><Link to="/probate-court-locations-california" className="hover:text-white">All Locations</Link></li>
                   <li><Link to="/probate-faq-california" className="hover:text-white">Probate FAQ</Link></li>
+                  <li><Link to="/learn-california-probate" className="hover:text-white">Learn Center</Link></li>
                 </ul>
               </div>
               <div>

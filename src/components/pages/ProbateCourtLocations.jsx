@@ -185,6 +185,9 @@ const ProbateCourtLocations = () => {
                 <Link to="/probate-faq-california" className="hover:text-blue-200 transition-colors">
                   FAQ
                 </Link>
+                <Link to="/learn-california-probate" className="text-amber-300 transition-colors">
+                  Learn
+                </Link>
                 {user ? (
                   <div className="flex items-center space-x-4">
                     <button onClick={() => navigate('/dashboard')} className="flex items-center space-x-1 hover:text-blue-200">
@@ -226,6 +229,7 @@ const ProbateCourtLocations = () => {
                   <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
                   <Link to="/probate-court-locations-california" className="text-amber-400">Locations</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
+                  <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                   {user ? (
                     <>
                       <button onClick={() => navigate('/dashboard')} className="text-left hover:text-blue-200">Dashboard</button>
@@ -499,6 +503,7 @@ const ProbateCourtLocations = () => {
                   <li><Link to="/" className="hover:text-white transition">Home</Link></li>
                   <li><Link to="/california-probate-administration" className="hover:text-white transition">Probate Administration</Link></li>
                   <li><Link to="/probate-faq-california" className="hover:text-white transition">Probate FAQ</Link></li>
+                  <li><Link to="/learn-california-probate" className="hover:text-white transition">Learn Center</Link></li>
                   <li><Link to="/register" className="hover:text-white transition">Start Your Case</Link></li>
                 </ul>
               </div>

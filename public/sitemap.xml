@@ -21,6 +21,39 @@
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
+
+  <!-- Learn/Blog Section -->
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate</loc>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/what-is-probate-referee-california</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/letters-testamentary-california-guide</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/probate-bond-requirements-california</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
   <url>
     <loc>https://myprobateca.com/terms</loc>
     <priority>0.3</priority>

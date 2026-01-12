@@ -269,6 +269,7 @@ const ProbateFAQ = () => {
                 <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
                 <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
                 <Link to="/probate-faq-california" className="hover:text-blue-200 text-amber-300">FAQ</Link>
+                <Link to="/learn-california-probate" className="hover:text-blue-200">Learn</Link>
                 {user ? (
                   <div className="flex items-center space-x-4">
                     <button onClick={() => navigate('/dashboard')} className="flex items-center space-x-1 hover:text-blue-200">
@@ -310,6 +311,7 @@ const ProbateFAQ = () => {
                   <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
                   <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200 text-amber-300">FAQ</Link>
+                  <Link to="/learn-california-probate" className="hover:text-blue-200">Learn</Link>
                   {user ? (
                     <>
                       <button onClick={() => navigate('/dashboard')} className="text-left hover:text-blue-200">Dashboard</button>
@@ -848,11 +850,14 @@ const ProbateFAQ = () => {
             <h3 className="text-lg font-bold text-gray-900 mb-4">Related Resources</h3>
             <div className="grid md:grid-cols-3 gap-6 text-sm">
               <div>
-                <h4 className="font-semibold text-gray-800 mb-2">Service Pages</h4>
+                <h4 className="font-semibold text-gray-800 mb-2">Learning Center</h4>
                 <ul className="space-y-1 text-gray-600">
-                  <li><Link to="/" className="hover:text-blue-600">Home - Probate App Overview</Link></li>
-                  <li><Link to="/california-probate-administration" className="hover:text-blue-600">Probate Administration Service</Link></li>
-                  <li><button onClick={handleStartCase} className="hover:text-blue-600 text-left">Start Your Case</button></li>
+                  <li><Link to="/learn-california-probate" className="hover:text-blue-600">All Probate Guides</Link></li>
+                  <li><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="hover:text-blue-600">How to Clear IGN Notes</Link></li>
+                  <li><Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="hover:text-blue-600">Probate Fees Explained</Link></li>
+                  <li><Link to="/learn-california-probate/letters-testamentary-california-guide" className="hover:text-blue-600">Letters Testamentary Guide</Link></li>
+                  <li><Link to="/learn-california-probate/what-is-probate-referee-california" className="hover:text-blue-600">Probate Referee Explained</Link></li>
+                  <li><Link to="/learn-california-probate/probate-bond-requirements-california" className="hover:text-blue-600">Bond Requirements</Link></li>
                 </ul>
               </div>
               <div>
@@ -904,6 +909,7 @@ const ProbateFAQ = () => {
                   <li><Link to="/california-probate-administration" className="hover:text-white">Full Probate</Link></li>
                   <li><Link to="/" className="hover:text-white">Simplified Probate</Link></li>
                   <li><Link to="/probate-faq-california" className="hover:text-white">FAQ</Link></li>
+                  <li><Link to="/learn-california-probate" className="hover:text-white">Learn Center</Link></li>
                 </ul>
               </div>
               <div>

@@ -48,6 +48,14 @@ import {
 import ClientSignaturePage from './components/signature/ClientSignaturePage';
 import { TermsOfService, PrivacyPolicy } from './components/legal';
 import { CaliforniaProbateAdministration, ProbateCourtLocations, CityProbatePage, ProbateFAQ } from './components/pages';
+import {
+  LearnHub,
+  ClearIGNNotes,
+  CaliforniaProbateFees,
+  WhatIsProbateReferee,
+  LettersTestamentary,
+  ProbateBondRequirements
+} from './components/learn';
 
 // Loading component
 const LoadingSpinner = () => (
@@ -262,6 +270,14 @@ function App() {
         <Route path="/probate-court-locations-california" element={<ProbateCourtLocations />} />
         <Route path="/probate-faq-california" element={<ProbateFAQ />} />
         <Route path="/locations/:citySlug" element={<CityProbatePage />} />
+
+        {/* Learn/Blog pages (public) */}
+        <Route path="/learn-california-probate" element={<LearnHub />} />
+        <Route path="/learn-california-probate/clear-ign-notes-stanley-mosk" element={<ClearIGNNotes />} />
+        <Route path="/learn-california-probate/california-probate-fees-statutory-vs-flat" element={<CaliforniaProbateFees />} />
+        <Route path="/learn-california-probate/what-is-probate-referee-california" element={<WhatIsProbateReferee />} />
+        <Route path="/learn-california-probate/letters-testamentary-california-guide" element={<LettersTestamentary />} />
+        <Route path="/learn-california-probate/probate-bond-requirements-california" element={<ProbateBondRequirements />} />
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />

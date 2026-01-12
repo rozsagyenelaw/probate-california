@@ -186,6 +186,9 @@ const LandingPage = () => {
               <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-900 font-medium">
                 Contact
               </button>
+              <button onClick={() => navigate('/learn-california-probate')} className="text-amber-600 hover:text-amber-700 font-medium">
+                Learn
+              </button>
 
               {user ? (
                 <>
@@ -262,6 +265,9 @@ const LandingPage = () => {
                 </button>
                 <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-900 font-medium text-left">
                   Contact
+                </button>
+                <button onClick={() => { setMobileMenuOpen(false); navigate('/learn-california-probate'); }} className="text-amber-600 hover:text-amber-700 font-medium text-left">
+                  Learn
                 </button>
 
                 {user ? (
@@ -1377,6 +1383,7 @@ const LandingPage = () => {
                 <li><button onClick={() => scrollToSection('pricing')} className="hover:text-white">Pricing</button></li>
                 <li><button onClick={() => navigate('/probate-faq-california')} className="hover:text-white">Probate FAQ</button></li>
                 <li><button onClick={() => navigate('/california-probate-administration')} className="hover:text-white">Probate Guide</button></li>
+                <li><button onClick={() => navigate('/learn-california-probate')} className="hover:text-white">Learn Center</button></li>
                 <li><button onClick={() => navigate('/login')} className="hover:text-white">Client Login</button></li>
               </ul>
             </div>
