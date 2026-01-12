@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { Helmet } from 'react-helmet-async';
 import {
   Scale,
   Check,
@@ -153,7 +154,64 @@ const LandingPage = () => {
     }
   ];
 
+  // Schema markup for homepage
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://myprobateca.com/#website",
+        "name": "MyProbateCA",
+        "url": "https://myprobateca.com",
+        "description": "California probate services for a flat $3,995 fee",
+        "publisher": {
+          "@id": "https://myprobateca.com/#organization"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://myprobateca.com/#webpage",
+        "url": "https://myprobateca.com",
+        "name": "California Probate Services | Attorney-Led | Flat $3,995 Fee | MyProbateCA",
+        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat $3,995 fee. Save $10,000+ vs statutory fees.",
+        "isPartOf": {
+          "@id": "https://myprobateca.com/#website"
+        },
+        "about": {
+          "@id": "https://myprobateca.com/#organization"
+        }
+      }
+    ]
+  };
+
   return (
+    <>
+      <Helmet>
+        <title>California Probate Services | Attorney-Led | Flat $3,995 Fee | MyProbateCA</title>
+        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat $3,995 fee. Save $10,000+ compared to statutory fees. Free consultation available." />
+        <meta name="keywords" content="California probate, probate attorney, probate lawyer, estate administration, flat fee probate, Los Angeles probate, Glendale probate attorney" />
+        <link rel="canonical" href="https://myprobateca.com/" />
+
+        {/* Open Graph */}
+        <meta property="og:title" content="California Probate Services | Flat $3,995 Fee" />
+        <meta property="og:description" content="Professional attorney-led probate administration. Licensed attorney handles all 11 phases for a flat fee. Save $10,000+ vs statutory fees." />
+        <meta property="og:url" content="https://myprobateca.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="MyProbateCA" />
+        <meta property="og:image" content="https://myprobateca.com/images/office/glendale-office-exterior.jpg" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="California Probate Services | Flat $3,995 Fee" />
+        <meta name="twitter:description" content="Professional attorney-led probate administration. Save $10,000+ vs statutory fees." />
+        <meta name="twitter:image" content="https://myprobateca.com/images/office/glendale-office-exterior.jpg" />
+
+        {/* Schema Markup */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaMarkup)}
+        </script>
+      </Helmet>
+
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white shadow-sm">
@@ -400,7 +458,7 @@ const LandingPage = () => {
               <div className="flex-shrink-0">
                 <img
                   src="/Rozsa-Gyene.jpg"
-                  alt="Rozsa Gyene, Esq."
+                  alt="California Probate Attorney Rozsa Gyene, State Bar #208356"
                   className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                 />
               </div>
@@ -1479,6 +1537,7 @@ const LandingPage = () => {
         </div>
       </footer>
     </div>
+    </>
   );
 };
 

@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# Protected routes (auth required)
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /intake/
+Disallow: /payment/
+Disallow: /documents/
+Disallow: /messages/
+
 Sitemap: https://myprobateca.com/sitemap.xml

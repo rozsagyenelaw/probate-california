@@ -6,6 +6,7 @@ import { useAuth } from './contexts/AuthContext';
 import Login from './components/common/Login';
 import Register from './components/common/Register';
 import ForgotPassword from './components/common/ForgotPassword';
+import NotFound from './components/common/NotFound';
 
 // Landing page
 import { LandingPage } from './components/landing';
@@ -288,8 +289,8 @@ function App() {
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />
 
-        {/* Catch-all redirect */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* 404 Page */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
