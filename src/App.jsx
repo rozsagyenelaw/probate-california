@@ -47,6 +47,7 @@ import {
 } from './components/admin';
 import ClientSignaturePage from './components/signature/ClientSignaturePage';
 import { TermsOfService, PrivacyPolicy } from './components/legal';
+import { CaliforniaProbateAdministration } from './components/pages';
 
 // Loading component
 const LoadingSpinner = () => (
@@ -255,6 +256,9 @@ function App() {
         {/* Legal pages (public) */}
         <Route path="/terms" element={<TermsOfService />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+
+        {/* SEO/Marketing pages (public) */}
+        <Route path="/california-probate-administration" element={<CaliforniaProbateAdministration />} />
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />

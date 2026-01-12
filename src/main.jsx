@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext'
 import { isFirebaseConfigured } from './services/firebase'
@@ -40,14 +41,16 @@ const ConfigurationError = () => (
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {isFirebaseConfigured ? (
-      <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
-    ) : (
-      <ConfigurationError />
-    )}
+    <HelmetProvider>
+      {isFirebaseConfigured ? (
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      ) : (
+        <ConfigurationError />
+      )}
+    </HelmetProvider>
   </React.StrictMode>,
 )
