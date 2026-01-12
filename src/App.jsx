@@ -54,7 +54,10 @@ import {
   CaliforniaProbateFees,
   WhatIsProbateReferee,
   LettersTestamentary,
-  ProbateBondRequirements
+  ProbateBondRequirements,
+  HowToFileProbate,
+  SmallEstateAffidavit,
+  ProbateTimeline
 } from './components/learn';
 
 // Loading component
@@ -278,6 +281,9 @@ function App() {
         <Route path="/learn-california-probate/what-is-probate-referee-california" element={<WhatIsProbateReferee />} />
         <Route path="/learn-california-probate/letters-testamentary-california-guide" element={<LettersTestamentary />} />
         <Route path="/learn-california-probate/probate-bond-requirements-california" element={<ProbateBondRequirements />} />
+        <Route path="/learn-california-probate/how-to-file-probate-california" element={<HowToFileProbate />} />
+        <Route path="/learn-california-probate/small-estate-affidavit-california" element={<SmallEstateAffidavit />} />
+        <Route path="/learn-california-probate/probate-timeline-california-what-to-expect" element={<ProbateTimeline />} />
 
         {/* Home route - landing page or dashboard based on auth */}
         <Route path="/" element={<HomeRoute />} />

@@ -76,6 +76,39 @@ const ARTICLES = [
     date: 'January 2026',
     readTime: '6 min read',
     featured: false
+  },
+  {
+    id: 6,
+    slug: 'how-to-file-probate-california',
+    title: 'How to File Probate in California: Step-by-Step Guide',
+    description: 'Complete guide to filing for probate in California, from gathering documents to attending your first hearing.',
+    category: 'Getting Started',
+    image: '/images/blog/estate-planning-attorney.jpg',
+    date: 'January 2025',
+    readTime: '14 min read',
+    featured: false
+  },
+  {
+    id: 7,
+    slug: 'small-estate-affidavit-california',
+    title: 'Small Estate Affidavit California: When You Don\'t Need Probate',
+    description: 'Learn when California estates under $184,500 can skip probate entirely using the simplified affidavit process.',
+    category: 'Avoid Probate',
+    image: '/images/blog/avoid-probate1.jpg',
+    date: 'January 2025',
+    readTime: '10 min read',
+    featured: false
+  },
+  {
+    id: 8,
+    slug: 'probate-timeline-california-what-to-expect',
+    title: 'Probate Timeline California: What to Expect Each Month',
+    description: 'Month-by-month breakdown of the California probate process, from filing to final distribution.',
+    category: 'Timeline',
+    image: '/images/blog/best-online-living-trust-california.jpg',
+    date: 'January 2025',
+    readTime: '15 min read',
+    featured: false
   }
 ];
 

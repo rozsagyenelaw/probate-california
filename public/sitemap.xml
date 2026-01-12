@@ -3,21 +3,25 @@
   <!-- Main Pages -->
   <url>
     <loc>https://myprobateca.com/</loc>
+    <lastmod>2025-01-12</lastmod>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/california-probate-administration</loc>
+    <lastmod>2025-01-12</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/probate-court-locations-california</loc>
+    <lastmod>2025-01-12</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/probate-faq-california</loc>
+    <lastmod>2025-01-12</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -25,42 +29,68 @@
   <!-- Learn/Blog Section -->
   <url>
     <loc>https://myprobateca.com/learn-california-probate</loc>
+    <lastmod>2025-01-12</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk</loc>
+    <lastmod>2025-01-10</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat</loc>
+    <lastmod>2025-01-10</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/learn-california-probate/what-is-probate-referee-california</loc>
+    <lastmod>2025-01-10</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/learn-california-probate/letters-testamentary-california-guide</loc>
+    <lastmod>2025-01-10</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/learn-california-probate/probate-bond-requirements-california</loc>
+    <lastmod>2025-01-10</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/how-to-file-probate-california</loc>
+    <lastmod>2025-01-12</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/small-estate-affidavit-california</loc>
+    <lastmod>2025-01-12</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://myprobateca.com/learn-california-probate/probate-timeline-california-what-to-expect</loc>
+    <lastmod>2025-01-12</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://myprobateca.com/terms</loc>
+    <lastmod>2025-01-10</lastmod>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/privacy</loc>
+    <lastmod>2025-01-10</lastmod>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>
@@ -68,36 +98,43 @@
   <!-- Los Angeles County Cities -->
   <url>
     <loc>https://myprobateca.com/locations/glendale-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/los-angeles-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/burbank-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/pasadena-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/santa-monica-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/long-beach-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/santa-clarita-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -105,26 +142,31 @@
   <!-- San Fernando Valley Cities -->
   <url>
     <loc>https://myprobateca.com/locations/encino-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/sherman-oaks-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/woodland-hills-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/tarzana-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/calabasas-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -132,21 +174,25 @@
   <!-- Orange County Cities -->
   <url>
     <loc>https://myprobateca.com/locations/anaheim-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/irvine-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/newport-beach-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/huntington-beach-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -154,26 +200,31 @@
   <!-- Santa Barbara County Cities -->
   <url>
     <loc>https://myprobateca.com/locations/santa-barbara-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/montecito-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/goleta-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/carpinteria-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/isla-vista-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -181,21 +232,25 @@
   <!-- Bay Area Cities -->
   <url>
     <loc>https://myprobateca.com/locations/san-francisco-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/san-jose-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/oakland-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/fremont-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -203,51 +258,61 @@
   <!-- Other Major Cities -->
   <url>
     <loc>https://myprobateca.com/locations/san-diego-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/sacramento-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/riverside-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/fresno-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/bakersfield-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/stockton-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/modesto-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/fontana-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/oxnard-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://myprobateca.com/locations/moreno-valley-probate-attorney</loc>
+    <lastmod>2025-01-11</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>

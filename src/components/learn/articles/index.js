@@ -4,3 +4,6 @@ export { default as CaliforniaProbateFees } from './CaliforniaProbateFees';
 export { default as WhatIsProbateReferee } from './WhatIsProbateReferee';
 export { default as LettersTestamentary } from './LettersTestamentary';
 export { default as ProbateBondRequirements } from './ProbateBondRequirements';
+export { default as HowToFileProbate } from './HowToFileProbate';
+export { default as SmallEstateAffidavit } from './SmallEstateAffidavit';
+export { default as ProbateTimeline } from './ProbateTimeline';
