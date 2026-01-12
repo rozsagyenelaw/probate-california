@@ -106,7 +106,7 @@ const CityProbatePage = () => {
         "name": `${city.name} Probate Attorney - MyProbateCA`,
         "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat $3,995 fee includes all 11 phases of probate.`,
         "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney/`,
-        "telephone": "+1-818-334-2021",
+        "telephone": "+1-818-291-6217",
         "priceRange": "$3,995",
         "areaServed": {
           "@type": "City",
@@ -370,18 +370,60 @@ const CityProbatePage = () => {
                 </div>
               </div>
 
+              {/* Fee Comparison Table */}
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+                <div className="bg-gray-800 text-white p-4">
+                  <h3 className="font-bold text-lg text-center">Fee Comparison: Traditional vs MyProbateCA</h3>
+                </div>
+                <div className="p-6">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b-2">
+                        <th className="py-2 text-left text-gray-600">Fee Type</th>
+                        <th className="py-2 text-center text-gray-600">Traditional Attorney</th>
+                        <th className="py-2 text-center text-blue-900 font-bold">MyProbateCA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b">
+                        <td className="py-3 text-gray-600">Attorney Fee</td>
+                        <td className="py-3 text-center text-red-600 font-bold">$23,000</td>
+                        <td className="py-3 text-center text-green-600 font-bold">$3,995</td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="py-3 text-gray-600">Executor Fee (if waived)</td>
+                        <td className="py-3 text-center text-gray-500">$0 (typically waived)</td>
+                        <td className="py-3 text-center text-gray-500">$0</td>
+                      </tr>
+                      <tr className="bg-amber-50">
+                        <td className="py-3 font-bold text-gray-900">Total Attorney Cost</td>
+                        <td className="py-3 text-center">
+                          <span className="text-red-600 font-bold text-xl line-through">$23,000</span>
+                        </td>
+                        <td className="py-3 text-center">
+                          <span className="text-green-600 font-bold text-xl">$3,995</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-gray-100 rounded-lg p-4 text-center">
-                  <p className="text-sm text-gray-500 mb-1">Statutory Attorney Fee</p>
-                  <p className="text-xl font-bold text-gray-400 line-through">${statutoryFee.toLocaleString()}</p>
+                <div className="bg-red-50 rounded-lg p-4 text-center border border-red-200">
+                  <p className="text-sm text-red-600 mb-1">Statutory Attorney Fee</p>
+                  <p className="text-xl font-bold text-red-500 line-through">$23,000</p>
+                  <p className="text-xs text-gray-500 mt-1">(Based on $1M estate)</p>
                 </div>
                 <div className="bg-blue-900 text-white rounded-lg p-4 text-center">
                   <p className="text-sm text-blue-200 mb-1">Our Flat Fee</p>
                   <p className="text-xl font-bold">$3,995</p>
+                  <p className="text-xs text-blue-200 mt-1">Same quality, fixed price</p>
                 </div>
-                <div className="bg-green-100 rounded-lg p-4 text-center">
+                <div className="bg-green-100 rounded-lg p-4 text-center border border-green-200">
                   <p className="text-sm text-green-600 mb-1">You Save</p>
-                  <p className="text-xl font-bold text-green-700">${savings.toLocaleString()}</p>
+                  <p className="text-xl font-bold text-green-700">$19,005+</p>
+                  <p className="text-xs text-gray-500 mt-1">83% less than statutory</p>
                 </div>
               </div>
             </div>
@@ -590,11 +632,11 @@ const CityProbatePage = () => {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    (818) 334-2021
+                    (818) 291-6217
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
-                    admin@myprobateca.com
+                    rozsagyenelaw@yahoo.com
                   </li>
                   <li className="flex items-start">
                     <MapPin className="h-4 w-4 mr-2 mt-1" />

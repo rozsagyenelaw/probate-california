@@ -192,8 +192,8 @@ const CaliforniaProbateAdministration = () => {
         "name": "MyProbateCA - California Probate Administration",
         "description": "Professional attorney-led probate administration service in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee.",
         "url": "https://myprobateca.com/california-probate-administration",
-        "telephone": "+1-818-334-2021",
-        "email": "admin@myprobateca.com",
+        "telephone": "+1-818-291-6217",
+        "email": "rozsagyenelaw@yahoo.com",
         "priceRange": "$3,995",
         "areaServed": {
           "@type": "State",
@@ -968,11 +968,11 @@ const CaliforniaProbateAdministration = () => {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    (818) 334-2021
+                    (818) 291-6217
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
-                    admin@myprobateca.com
+                    rozsagyenelaw@yahoo.com
                   </li>
                   <li className="flex items-start">
                     <MapPin className="h-4 w-4 mr-2 mt-1" />

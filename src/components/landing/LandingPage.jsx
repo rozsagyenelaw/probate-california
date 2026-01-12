@@ -1315,14 +1315,14 @@ const LandingPage = () => {
       {/* Footer */}
       <footer id="contact" className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-5 gap-8">
             {/* Logo & Description */}
-            <div className="md:col-span-2">
+            <div className="md:col-span-1">
               <div className="flex items-center mb-4">
                 <Scale className="h-8 w-8 text-white" />
                 <span className="ml-2 text-xl font-bold">California Probate</span>
               </div>
-              <p className="text-gray-400 mb-4">
+              <p className="text-gray-400 mb-4 text-sm">
                 Professional probate services for California residents. Flat fee pricing with attorney oversight at every step.
               </p>
               <p className="text-gray-500 text-sm">
@@ -1334,7 +1334,7 @@ const LandingPage = () => {
             {/* Contact Info */}
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-3 text-gray-400">
+              <ul className="space-y-3 text-gray-400 text-sm">
                 <li className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
                   <a href="tel:+18182916217" className="hover:text-white">(818) 291-6217</a>
@@ -1345,20 +1345,58 @@ const LandingPage = () => {
                 </li>
                 <li className="flex items-start">
                   <MapPin className="h-4 w-4 mr-2 mt-1" />
-                  <span>Los Angeles, California</span>
+                  <span>655 N Central Ave, Suite 1704<br />Glendale, CA 91203</span>
                 </li>
+              </ul>
+            </div>
+
+            {/* Los Angeles Area Locations */}
+            <div>
+              <h4 className="font-semibold mb-4">Los Angeles Area</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><button onClick={() => navigate('/locations/glendale-probate-attorney')} className="hover:text-white">Glendale</button></li>
+                <li><button onClick={() => navigate('/locations/los-angeles-probate-attorney')} className="hover:text-white">Los Angeles</button></li>
+                <li><button onClick={() => navigate('/locations/burbank-probate-attorney')} className="hover:text-white">Burbank</button></li>
+                <li><button onClick={() => navigate('/locations/pasadena-probate-attorney')} className="hover:text-white">Pasadena</button></li>
+                <li><button onClick={() => navigate('/locations/encino-probate-attorney')} className="hover:text-white">Encino</button></li>
+                <li><button onClick={() => navigate('/probate-court-locations-california')} className="hover:text-white text-blue-400">View All 35 Cities →</button></li>
               </ul>
             </div>
 
             {/* Quick Links */}
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 text-gray-400 text-sm">
                 <li><button onClick={() => scrollToSection('how-it-works')} className="hover:text-white">How It Works</button></li>
                 <li><button onClick={() => scrollToSection('phases')} className="hover:text-white">The 11 Phases</button></li>
                 <li><button onClick={() => scrollToSection('pricing')} className="hover:text-white">Pricing</button></li>
                 <li><button onClick={() => scrollToSection('faq')} className="hover:text-white">FAQ</button></li>
+                <li><button onClick={() => navigate('/california-probate-administration')} className="hover:text-white">Probate Guide</button></li>
                 <li><button onClick={() => navigate('/login')} className="hover:text-white">Client Login</button></li>
+              </ul>
+            </div>
+
+            {/* Related Services & Legal */}
+            <div>
+              <h4 className="font-semibold mb-4">Related Services</h4>
+              <ul className="space-y-2 text-gray-400 text-sm mb-6">
+                <li>
+                  <a href="https://livingtrustcalifornia.com" target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center">
+                    Living Trust California
+                    <ExternalLink className="h-3 w-3 ml-1" />
+                  </a>
+                </li>
+                <li>
+                  <a href="https://livingtrust-attorneys.com" target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center">
+                    Living Trust Attorneys
+                    <ExternalLink className="h-3 w-3 ml-1" />
+                  </a>
+                </li>
+              </ul>
+              <h4 className="font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><button onClick={() => navigate('/terms')} className="hover:text-white">Terms of Service</button></li>
+                <li><button onClick={() => navigate('/privacy')} className="hover:text-white">Privacy Policy</button></li>
               </ul>
             </div>
           </div>
@@ -1368,8 +1406,14 @@ const LandingPage = () => {
               &copy; {new Date().getFullYear()} Law Offices of Rozsa Gyene. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <button onClick={() => navigate('/privacy')} className="text-gray-500 hover:text-white text-sm">Privacy Policy</button>
-              <button onClick={() => navigate('/terms')} className="text-gray-500 hover:text-white text-sm">Terms of Service</button>
+              <a
+                href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-white text-sm"
+              >
+                Verify CA State Bar #208356
+              </a>
             </div>
           </div>
         </div>
