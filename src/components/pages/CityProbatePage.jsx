@@ -31,6 +31,32 @@ import {
   BarChart3
 } from 'lucide-react';
 
+// H1 variations to avoid duplicate title patterns across 35+ location pages
+const getH1Variation = (city, index) => {
+  const variations = [
+    `${city.name} Probate Attorney | Flat Fee Estate Administration`,
+    `Probate Services in ${city.name}, California | $3,995 Flat Fee`,
+    `${city.name} Estate Probate | Attorney-Supervised for $3,995`,
+    `Affordable Probate Attorney Serving ${city.name} Residents`,
+    `${city.county} County Probate Help | ${city.name} Estate Services`,
+    `${city.name} Probate Lawyer | Complete Estate Administration`
+  ];
+  return variations[index % variations.length];
+};
+
+// Meta description variations
+const getMetaDescriptionVariation = (city, index) => {
+  const variations = [
+    `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. Save thousands vs statutory fees.`,
+    `Need probate help in ${city.name}? Attorney-supervised estate administration for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
+    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 25+ years experience. Free eligibility check.`,
+    `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
+    `Probate attorney serving ${city.name}. Fixed $3,995 fee vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,
+    `${city.county} County probate for ${city.name} families. Flat $3,995 includes all documents, court prep, and IGN note clearance.`
+  ];
+  return variations[index % variations.length];
+};
+
 // Courthouse images by county
 const COURTHOUSE_IMAGES = {
   'Los Angeles': {
@@ -100,6 +126,10 @@ const CityProbatePage = () => {
   const estateTypes = COMMON_ESTATE_TYPES[cleanSlug];
   const localStats = LOCAL_STATS[cleanSlug];
   const publicationInfo = getPublicationInfo(city.county);
+
+  // Get city index for H1/meta variations (to avoid duplicate patterns)
+  const cityKeys = Object.keys(CITY_DATA);
+  const cityIndex = cityKeys.indexOf(cleanSlug);
 
   const handleLogout = async () => {
     try {
@@ -228,7 +258,7 @@ const CityProbatePage = () => {
     <>
       <Helmet>
         <title>{city.name} Probate Attorney | Flat Fee $3,995 | MyProbateCA</title>
-        <meta name="description" content={`${city.name} probate attorney services. Flat $3,995 fee includes all 11 phases. Cases filed at ${city.courthouse}. Bar #208356. Save $10,000+ vs statutory fees.`} />
+        <meta name="description" content={getMetaDescriptionVariation(city, cityIndex)} />
         <link rel="canonical" href={`https://myprobateca.com/locations/${city.slug}-probate-attorney/`} />
 
         <meta property="og:title" content={`${city.name} Probate Attorney | Flat Fee $3,995`} />
@@ -338,7 +368,7 @@ const CityProbatePage = () => {
           <div className="max-w-7xl mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-3xl md:text-5xl font-bold mb-6">
-                {city.name} Probate Attorney | Flat Fee Probate Administration
+                {getH1Variation(city, cityIndex)}
               </h1>
               <p className="text-xl text-blue-100 mb-8">
                 Licensed California attorney handles {city.name} probate cases for a flat $3,995.
@@ -706,6 +736,63 @@ const CityProbatePage = () => {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Related Resources - Internal Linking for SEO */}
+        <section className="py-12 bg-gray-100">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Helpful Probate Resources for {city.name} Executors
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {city.county === 'Los Angeles' && (
+                  <Link
+                    to="/learn-california-probate/clear-ign-notes-stanley-mosk"
+                    className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                  >
+                    <h3 className="font-bold text-blue-900 mb-2">How to Clear IGN Notes at Stanley Mosk</h3>
+                    <p className="text-gray-600 text-sm">Essential guide for {city.name} executors filing at the LA courthouse.</p>
+                  </Link>
+                )}
+                <Link
+                  to="/learn-california-probate/california-probate-fees-statutory-vs-flat"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <h3 className="font-bold text-blue-900 mb-2">Probate Fees Explained: Save $19,000+</h3>
+                  <p className="text-gray-600 text-sm">Why statutory fees on a {city.medianHome} home cost $23,000—and how to pay $3,995.</p>
+                </Link>
+                <Link
+                  to="/learn-california-probate/letters-testamentary-california-guide"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <h3 className="font-bold text-blue-900 mb-2">Letters Testamentary: Your Legal Authority</h3>
+                  <p className="text-gray-600 text-sm">How to use Letters from {city.courthouse} to access bank accounts and transfer property.</p>
+                </Link>
+                <Link
+                  to="/learn-california-probate/what-is-probate-referee-california"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <h3 className="font-bold text-blue-900 mb-2">Probate Referee: Asset Appraisal Process</h3>
+                  <p className="text-gray-600 text-sm">What to expect when the {city.county} County probate referee values estate assets.</p>
+                </Link>
+                <Link
+                  to="/learn-california-probate/probate-bond-requirements-california"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <h3 className="font-bold text-blue-900 mb-2">Probate Bond Requirements</h3>
+                  <p className="text-gray-600 text-sm">When {city.county} County requires a bond and when it can be waived.</p>
+                </Link>
+                <Link
+                  to="/probate-faq-california"
+                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                >
+                  <h3 className="font-bold text-blue-900 mb-2">California Probate FAQ</h3>
+                  <p className="text-gray-600 text-sm">50+ common questions about probate answered by Attorney Rozsa Gyene.</p>
+                </Link>
               </div>
             </div>
           </div>

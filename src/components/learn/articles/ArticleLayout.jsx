@@ -221,6 +221,31 @@ const ArticleLayout = ({
             </button>
           </div>
 
+          {/* Quick Service Links - Internal Linking Hierarchy */}
+          <div className="mt-12 bg-blue-50 p-6 rounded-lg">
+            <h3 className="text-lg font-bold text-blue-900 mb-4">Explore Our Probate Services</h3>
+            <div className="grid md:grid-cols-3 gap-4 text-sm">
+              <Link to="/california-probate-administration" className="text-blue-700 hover:text-blue-900 hover:underline">
+                → How Our Process Works
+              </Link>
+              <Link to="/probate-faq-california" className="text-blue-700 hover:text-blue-900 hover:underline">
+                → Probate FAQ (50+ Questions)
+              </Link>
+              <Link to="/probate-court-locations-california" className="text-blue-700 hover:text-blue-900 hover:underline">
+                → 35 California Locations
+              </Link>
+              <Link to="/locations/los-angeles-probate-attorney" className="text-blue-700 hover:text-blue-900 hover:underline">
+                → Los Angeles Probate
+              </Link>
+              <Link to="/locations/san-francisco-probate-attorney" className="text-blue-700 hover:text-blue-900 hover:underline">
+                → San Francisco Probate
+              </Link>
+              <Link to="/locations/san-diego-probate-attorney" className="text-blue-700 hover:text-blue-900 hover:underline">
+                → San Diego Probate
+              </Link>
+            </div>
+          </div>
+
           {/* Related Articles */}
           {relatedArticles.length > 0 && (
             <div className="mt-12">
