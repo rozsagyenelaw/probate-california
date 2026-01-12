@@ -573,7 +573,8 @@ const LandingPage = () => {
             </div>
 
             <p className="text-center text-sm text-gray-500 mt-6">
-              * California Probate Code §10810 allows attorneys to charge: 4% of first $100K, 3% of next $100K, 2% of next $800K, 1% of next $9M
+              * California Probate Code §10810 allows attorneys to charge: 4% of first $100K, 3% of next $100K, 2% of next $800K, 1% of next $9M.{' '}
+              <a href="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">Learn more about probate fees →</a>
             </p>
           </div>
 

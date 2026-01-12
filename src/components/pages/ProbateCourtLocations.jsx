@@ -416,6 +416,29 @@ const ProbateCourtLocations = () => {
           </div>
         </section>
 
+        {/* Learn More Section - Internal Links */}
+        <section className="py-16 bg-gray-100">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Learn About California Probate</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
+                  <h3 className="font-bold text-lg text-green-600 mb-2">Save $19,000+ on Fees</h3>
+                  <p className="text-gray-600 text-sm">Why statutory fees cost $23,000 and how our flat fee saves you money.</p>
+                </Link>
+                <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
+                  <h3 className="font-bold text-lg text-blue-600 mb-2">Clear IGN Notes</h3>
+                  <p className="text-gray-600 text-sm">The 5-step process to clear examiner notes at Stanley Mosk Courthouse.</p>
+                </Link>
+                <Link to="/probate-faq-california" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
+                  <h3 className="font-bold text-lg text-purple-600 mb-2">Probate FAQ</h3>
+                  <p className="text-gray-600 text-sm">50+ questions answered by Attorney Rozsa Gyene.</p>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Related Services Section */}
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4">
