@@ -308,6 +308,8 @@ const LandingPage = () => {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 text-gray-600"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -480,7 +482,7 @@ const LandingPage = () => {
 
               {/* Credentials */}
               <div className="text-center md:text-left flex-grow">
-                <h3 className="text-2xl font-bold text-gray-900">Rozsa Gyene, Esq.</h3>
+                <h2 className="text-2xl font-bold text-gray-900">Rozsa Gyene, Esq.</h2>
                 <p className="text-lg text-blue-900 font-medium mt-1">Licensed California Probate Attorney</p>
 
                 <div className="flex flex-wrap gap-3 mt-4 justify-center md:justify-start">
@@ -587,7 +589,7 @@ const LandingPage = () => {
 
             {/* Slider Input */}
             <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+              <label htmlFor="estate-value-slider" className="block text-sm font-medium text-gray-700 mb-2 text-center">
                 Enter your estimated estate value:
               </label>
               <div className="text-center mb-4">
@@ -596,6 +598,7 @@ const LandingPage = () => {
                 </span>
               </div>
               <input
+                id="estate-value-slider"
                 type="range"
                 min="100000"
                 max="5000000"
@@ -603,6 +606,10 @@ const LandingPage = () => {
                 value={estateValue}
                 onChange={(e) => setEstateValue(parseInt(e.target.value))}
                 className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-900"
+                aria-valuemin={100000}
+                aria-valuemax={5000000}
+                aria-valuenow={estateValue}
+                aria-valuetext={`$${estateValue.toLocaleString()}`}
               />
               <div className="flex justify-between text-sm text-gray-500 mt-2">
                 <span>$100K</span>
@@ -728,7 +735,7 @@ const LandingPage = () => {
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
                   <p className="text-sm text-gray-600 mt-2">
-                    or 4 interest-free payments of $624 with <span className="font-bold" style={{color: '#FFB3C7'}}>Klarna</span>
+                    or 4 interest-free payments of $624 with <span className="font-bold" className="text-pink-600">Klarna</span>
                   </p>
                 </div>
 
@@ -793,7 +800,7 @@ const LandingPage = () => {
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
                   <p className="text-sm text-gray-600 mt-2">
-                    or 4 interest-free payments of $999 with <span className="font-bold" style={{color: '#FFB3C7'}}>Klarna</span>
+                    or 4 interest-free payments of $999 with <span className="font-bold" className="text-pink-600">Klarna</span>
                   </p>
                 </div>
 
@@ -1465,7 +1472,7 @@ const LandingPage = () => {
 
             {/* Contact Info */}
             <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
+              <h3 className="font-semibold mb-4">Contact</h3>
               <ul className="space-y-3 text-gray-400 text-sm">
                 <li className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
@@ -1484,7 +1491,7 @@ const LandingPage = () => {
 
             {/* Los Angeles Area Locations */}
             <div>
-              <h4 className="font-semibold mb-4">Los Angeles Area</h4>
+              <h3 className="font-semibold mb-4">Los Angeles Area</h3>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><button onClick={() => navigate('/locations/glendale-probate-attorney')} className="hover:text-white">Glendale</button></li>
                 <li><button onClick={() => navigate('/locations/los-angeles-probate-attorney')} className="hover:text-white">Los Angeles</button></li>
@@ -1497,7 +1504,7 @@ const LandingPage = () => {
 
             {/* Quick Links */}
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <h3 className="font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><button onClick={() => scrollToSection('how-it-works')} className="hover:text-white">How It Works</button></li>
                 <li><button onClick={() => scrollToSection('phases')} className="hover:text-white">The 11 Phases</button></li>
@@ -1511,7 +1518,7 @@ const LandingPage = () => {
 
             {/* Related Services & Legal */}
             <div>
-              <h4 className="font-semibold mb-4">Related Services</h4>
+              <h3 className="font-semibold mb-4">Related Services</h3>
               <ul className="space-y-2 text-gray-400 text-sm mb-6">
                 <li>
                   <a href="https://livingtrustcalifornia.com" target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center">
@@ -1526,7 +1533,7 @@ const LandingPage = () => {
                   </a>
                 </li>
               </ul>
-              <h4 className="font-semibold mb-4">Legal</h4>
+              <h3 className="font-semibold mb-4">Legal</h3>
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><button onClick={() => navigate('/terms')} className="hover:text-white">Terms of Service</button></li>
                 <li><button onClick={() => navigate('/privacy')} className="hover:text-white">Privacy Policy</button></li>
