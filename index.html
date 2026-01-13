@@ -5,6 +5,10 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Preload critical resources for LCP -->
+    <link rel="preload" href="/lady-justice.jpg" as="image" fetchpriority="high" />
+    <link rel="preload" href="/Rozsa-Gyene.jpg" as="image" />
+
     <!-- SEO Meta Tags -->
     <title>California Probate for $3,995 | Attorney-Supervised Process | Law Offices of Rozsa Gyene</title>
     <meta name="description" content="Complete California probate for a flat fee of $3,995. Attorney-supervised process handles all 11 phases. Save thousands compared to hourly rates. Free consultation available." />
@@ -33,10 +37,11 @@
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="msapplication-TileColor" content="#1e3a8a" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts - Non-blocking with preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
     <!-- Structured Data -->
     <script type="application/ld+json">

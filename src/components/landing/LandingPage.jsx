@@ -472,6 +472,9 @@ const LandingPage = () => {
                   src="/Rozsa-Gyene.jpg"
                   alt="California Probate Attorney Rozsa Gyene, State Bar #208356"
                   className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                  width="128"
+                  height="128"
+                  fetchpriority="high"
                 />
               </div>
 
