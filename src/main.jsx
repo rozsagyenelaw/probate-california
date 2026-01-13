@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext'
-import { isFirebaseConfigured } from './services/firebase'
+import { isFirebaseConfigured } from './services/firebaseLazy'
 import { initAnalytics } from './services/analytics'
 import './index.css'
 

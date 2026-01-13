@@ -1,13 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  sendPasswordResetEmail
-} from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../services/firebase';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { isFirebaseConfigured, getAuthMethods, getFirestoreMethods } from '../services/firebaseLazy';
 
 const AuthContext = createContext({});
 
@@ -21,112 +13,158 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Start with false for instant render
   const [isAdmin, setIsAdmin] = useState(false);
+  const [firebaseReady, setFirebaseReady] = useState(false);
+  const authMethodsRef = useRef(null);
+  const firestoreMethodsRef = useRef(null);
+  const unsubscribeRef = useRef(null);
 
+  // Initialize Firebase lazily
   useEffect(() => {
-    // If auth is not available, stop loading immediately
-    if (!auth) {
-      setLoading(false);
-      return;
-    }
+    if (!isFirebaseConfigured) return;
 
-    // Very short timeout - show UI quickly, don't make users wait
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 1500); // 1.5 second max wait
+    let mounted = true;
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      clearTimeout(timeout);
+    const initFirebase = async () => {
+      try {
+        // Load Firebase in background
+        const authMethods = await getAuthMethods();
+        if (!mounted) return;
 
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        setIsAdmin(ADMIN_EMAILS.includes(firebaseUser.email));
-        setLoading(false); // Stop loading immediately once we have user
+        authMethodsRef.current = authMethods;
+        setFirebaseReady(true);
 
-        // Load profile in background - don't block
-        if (db) {
-          getDoc(doc(db, 'users', firebaseUser.uid))
-            .then(userDoc => {
-              if (userDoc.exists()) {
+        // Set up auth state listener
+        unsubscribeRef.current = authMethods.onAuthStateChanged(authMethods.auth, async (firebaseUser) => {
+          if (!mounted) return;
+
+          if (firebaseUser) {
+            setUser(firebaseUser);
+            setIsAdmin(ADMIN_EMAILS.includes(firebaseUser.email));
+
+            // Load profile in background
+            try {
+              const fsModule = await getFirestoreMethods();
+              if (!mounted) return;
+              firestoreMethodsRef.current = fsModule;
+
+              const userDoc = await fsModule.getDoc(fsModule.doc(fsModule.db, 'users', firebaseUser.uid));
+              if (userDoc.exists() && mounted) {
                 setUserProfile({ id: userDoc.id, ...userDoc.data() });
               }
-            })
-            .catch(err => console.warn('Profile load error:', err));
-        }
-      } else {
-        setUser(null);
-        setUserProfile(null);
-        setIsAdmin(false);
-        setLoading(false);
+            } catch (err) {
+              console.warn('Profile load error:', err);
+            }
+          } else {
+            setUser(null);
+            setUserProfile(null);
+            setIsAdmin(false);
+          }
+          setLoading(false);
+        });
+      } catch (err) {
+        console.error('Firebase init error:', err);
+        if (mounted) setLoading(false);
       }
-    });
+    };
+
+    initFirebase();
 
     return () => {
-      clearTimeout(timeout);
-      unsubscribe();
+      mounted = false;
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
     };
   }, []);
 
   // Login function
-  const login = async (email, password) => {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-    return result.user;
-  };
+  const login = useCallback(async (email, password) => {
+    setLoading(true);
+    try {
+      const authMethods = authMethodsRef.current || await getAuthMethods();
+      authMethodsRef.current = authMethods;
+      const result = await authMethods.signInWithEmailAndPassword(authMethods.auth, email, password);
+      return result.user;
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
+  }, []);
 
   // Register function
-  const register = async (email, password, additionalData = {}) => {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
+  const register = useCallback(async (email, password, additionalData = {}) => {
+    setLoading(true);
+    try {
+      const [authMethods, fsModule] = await Promise.all([
+        authMethodsRef.current ? Promise.resolve(authMethodsRef.current) : getAuthMethods(),
+        firestoreMethodsRef.current ? Promise.resolve(firestoreMethodsRef.current) : getFirestoreMethods()
+      ]);
+      authMethodsRef.current = authMethods;
+      firestoreMethodsRef.current = fsModule;
 
-    // Create user document in Firestore
-    await setDoc(doc(db, 'users', result.user.uid), {
-      uid: result.user.uid,
-      email: result.user.email,
-      firstName: additionalData.firstName || '',
-      lastName: additionalData.lastName || '',
-      phone: additionalData.phone || '',
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    });
+      const result = await authMethods.createUserWithEmailAndPassword(authMethods.auth, email, password);
 
-    return result.user;
-  };
+      // Create user document in Firestore
+      await fsModule.setDoc(fsModule.doc(fsModule.db, 'users', result.user.uid), {
+        uid: result.user.uid,
+        email: result.user.email,
+        firstName: additionalData.firstName || '',
+        lastName: additionalData.lastName || '',
+        phone: additionalData.phone || '',
+        createdAt: fsModule.serverTimestamp(),
+        updatedAt: fsModule.serverTimestamp()
+      });
+
+      return result.user;
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
+  }, []);
 
   // Logout function
-  const logout = async () => {
-    await signOut(auth);
+  const logout = useCallback(async () => {
+    const authMethods = authMethodsRef.current || await getAuthMethods();
+    await authMethods.signOut(authMethods.auth);
     setUser(null);
     setUserProfile(null);
     setIsAdmin(false);
-  };
+  }, []);
 
   // Password reset function
-  const resetPassword = async (email) => {
-    await sendPasswordResetEmail(auth, email);
-  };
+  const resetPassword = useCallback(async (email) => {
+    const authMethods = authMethodsRef.current || await getAuthMethods();
+    await authMethods.sendPasswordResetEmail(authMethods.auth, email);
+  }, []);
 
   // Update user profile
-  const updateProfile = async (data) => {
+  const updateProfile = useCallback(async (data) => {
     if (!user) return;
 
-    const userRef = doc(db, 'users', user.uid);
-    await setDoc(userRef, {
+    const fsModule = firestoreMethodsRef.current || await getFirestoreMethods();
+    firestoreMethodsRef.current = fsModule;
+
+    const userRef = fsModule.doc(fsModule.db, 'users', user.uid);
+    await fsModule.setDoc(userRef, {
       ...data,
-      updatedAt: serverTimestamp()
+      updatedAt: fsModule.serverTimestamp()
     }, { merge: true });
 
     // Refresh local profile
-    const updatedDoc = await getDoc(userRef);
+    const updatedDoc = await fsModule.getDoc(userRef);
     if (updatedDoc.exists()) {
       setUserProfile({ id: updatedDoc.id, ...updatedDoc.data() });
     }
-  };
+  }, [user]);
 
   const value = {
     user,
     userProfile,
     loading,
     isAdmin,
+    firebaseReady,
     login,
     register,
     logout,

@@ -735,7 +735,7 @@ const LandingPage = () => {
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
                   <p className="text-sm text-gray-600 mt-2">
-                    or 4 interest-free payments of $624 with <span className="font-bold" className="text-pink-600">Klarna</span>
+                    or 4 interest-free payments of $624 with <span className="font-bold text-pink-600">Klarna</span>
                   </p>
                 </div>
 
@@ -800,7 +800,7 @@ const LandingPage = () => {
                   <p className="text-gray-500">flat fee</p>
                   <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
                   <p className="text-sm text-gray-600 mt-2">
-                    or 4 interest-free payments of $999 with <span className="font-bold" className="text-pink-600">Klarna</span>
+                    or 4 interest-free payments of $999 with <span className="font-bold text-pink-600">Klarna</span>
                   </p>
                 </div>
 
