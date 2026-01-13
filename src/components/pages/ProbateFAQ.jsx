@@ -429,7 +429,7 @@ const ProbateFAQ = () => {
             <p className="text-xl text-blue-100 mb-6">Attorney-verified answers to your California probate questions. Understand fees, timelines, court procedures, and how to protect yourself as executor.</p>
             <div className="flex flex-wrap gap-4">
               <button onClick={handleStartCase} className="inline-block bg-white text-blue-900 px-6 py-3 rounded-lg font-bold hover:bg-blue-50 transition">
-                Check My Eligibility - Free
+                Start Your Case - Free
               </button>
               <a href="#cost-questions" className="inline-block border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-900 transition">
                 Jump to Cost Questions
@@ -937,12 +937,12 @@ const ProbateFAQ = () => {
           {/* Final CTA */}
           <section className="bg-gradient-to-r from-green-600 to-green-500 text-white p-8 rounded-lg text-center mb-12">
             <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg mb-6 text-green-100">Our free intake questionnaire takes about 30 minutes. We'll determine if you qualify for simplified probate and give you a clear path forward.</p>
+            <p className="text-lg mb-6 text-green-100">Our free intake questionnaire takes about 30 minutes. We'll recommend simplified or full probate based on your estate and give you a clear path forward.</p>
             <button
               onClick={handleStartCase}
               className="inline-block bg-white text-green-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-50 transition"
             >
-              Check My Eligibility - Free
+              Start Your Case - Free
             </button>
           </section>
 

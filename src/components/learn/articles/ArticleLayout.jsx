@@ -255,7 +255,7 @@ const ArticleLayout = ({
             <h3 className="text-xl font-bold mb-2">Need Help With Your Probate Case?</h3>
             <p className="text-green-100 mb-4">Get attorney oversight for a flat $3,995 fee—save $19,000+ compared to statutory fees.</p>
             <button onClick={handleStartCase} className="bg-white text-green-700 px-6 py-3 rounded-lg font-bold hover:bg-green-50 transition">
-              Check My Eligibility - Free
+              Start Your Case - Free
             </button>
           </div>
 

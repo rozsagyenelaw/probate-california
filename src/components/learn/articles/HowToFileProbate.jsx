@@ -274,7 +274,7 @@ const HowToFileProbate = () => {
           MyProbateCA handles all 11 phases of California probate for a flat fee of $3,995 — saving you $19,000+ compared to statutory attorney fees. We prepare all documents, clear IGN notes, and guide you through every step.
         </p>
         <Link to="/register" className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition">
-          Check My Eligibility - Free
+          Start Your Case - Free
         </Link>
       </div>
 

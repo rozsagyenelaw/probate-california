@@ -455,7 +455,7 @@ const LearnHub = () => {
               onClick={handleStartCase}
               className="inline-flex items-center bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition"
             >
-              Check My Eligibility - Free
+              Start Your Case - Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
           </div>

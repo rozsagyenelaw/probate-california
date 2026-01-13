@@ -550,7 +550,7 @@ const CaliforniaProbateAdministration = () => {
                 onClick={handleStartCase}
                 className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all transform hover:scale-105 inline-flex items-center"
               >
-                Check My Eligibility - Free
+                Start Your Case - Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
               <p className="mt-4 text-blue-200 text-sm">
@@ -858,7 +858,7 @@ const CaliforniaProbateAdministration = () => {
                   onClick={handleStartCase}
                   className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center"
                 >
-                  Check My Eligibility - Free
+                  Start Your Case - Free
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
               </div>
@@ -1006,7 +1006,7 @@ const CaliforniaProbateAdministration = () => {
                 onClick={handleStartCase}
                 className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all transform hover:scale-105 inline-flex items-center"
               >
-                Check My Eligibility - Free
+                Start Your Case - Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
             </div>

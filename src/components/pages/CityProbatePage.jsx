@@ -49,7 +49,7 @@ const getMetaDescriptionVariation = (city, index) => {
   const variations = [
     `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. Save thousands vs statutory fees.`,
     `Need probate help in ${city.name}? Attorney-supervised estate administration for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
-    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 25+ years experience. Free eligibility check.`,
+    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 25+ years experience. Start your case free.`,
     `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
     `Probate attorney serving ${city.name}. Fixed $3,995 fee vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,
     `${city.county} County probate for ${city.name} families. Flat $3,995 includes all documents, court prep, and IGN note clearance.`
@@ -378,7 +378,7 @@ const CityProbatePage = () => {
                 onClick={handleStartCase}
                 className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center"
               >
-                Check My Eligibility - Free
+                Start Your Case - Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
             </div>
@@ -804,14 +804,14 @@ const CityProbatePage = () => {
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Start Your {city.name} Probate Case</h2>
               <p className="text-blue-100 text-lg mb-8">
-                Complete the free intake questionnaire in about 30 minutes. We'll evaluate whether you
-                qualify for simplified probate ($2,495) or need full administration ($3,995).
+                Complete the free intake questionnaire in about 30 minutes. We'll recommend
+                simplified probate ($2,495) or full administration ($3,995) based on your estate.
               </p>
               <button
                 onClick={handleStartCase}
                 className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center"
               >
-                Check My Eligibility - Free
+                Start Your Case - Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
             </div>
