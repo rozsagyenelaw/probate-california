@@ -419,19 +419,19 @@ const LandingPage = () => {
 
               {/* Trust Badges */}
               <div className="flex flex-wrap gap-3 mb-8">
-                <div className="flex items-center bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
                   <Shield className="h-4 w-4 mr-2 text-white" />
                   <span className="text-sm font-medium text-white">CA Bar #208356</span>
                 </div>
-                <div className="flex items-center bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
                   <Award className="h-4 w-4 mr-2 text-white" />
                   <span className="text-sm font-medium text-white">25+ Years Experience</span>
                 </div>
-                <div className="flex items-center bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
                   <Users className="h-4 w-4 mr-2 text-white" />
                   <span className="text-sm font-medium text-white">500+ Cases Completed</span>
                 </div>
-                <div className="flex items-center bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
                   <DollarSign className="h-4 w-4 mr-2 text-white" />
                   <span className="text-sm font-medium text-white">Flat Fee - No Surprises</span>
                 </div>
