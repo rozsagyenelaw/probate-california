@@ -1205,6 +1205,8 @@ const LandingPage = () => {
                   alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Glendale Office"
                   className="w-full"
                   loading="lazy"
+                  width="255"
+                  height="256"
                 />
               </div>
               <div className="rounded-lg overflow-hidden shadow-md h-48">
