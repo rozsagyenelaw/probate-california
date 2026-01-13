@@ -394,7 +394,7 @@ const LandingPage = () => {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(/lady-justice.jpg)',
+            backgroundImage: 'url(/lady-justice.webp)',
             filter: 'brightness(0.85)'
           }}
         />
@@ -469,7 +469,7 @@ const LandingPage = () => {
               {/* Attorney Photo */}
               <div className="flex-shrink-0">
                 <img
-                  src="/Rozsa-Gyene.jpg"
+                  src="/Rozsa-Gyene.webp"
                   alt="California Probate Attorney Rozsa Gyene, State Bar #208356"
                   className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                   width="128"
@@ -1194,7 +1194,7 @@ const LandingPage = () => {
             <div className="md:w-1/3">
               <div className="rounded-lg overflow-hidden shadow-lg mb-4">
                 <img
-                  src="/images/attorney/rozsa-gyene-probate-attorney.jpg"
+                  src="/images/attorney/rozsa-gyene-probate-attorney.webp"
                   alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Glendale Office"
                   className="w-full"
                   loading="lazy"
