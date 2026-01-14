@@ -417,7 +417,7 @@ const LandingPage = () => {
                 We Do It for $3,995 — Full Attorney Service
               </p>
               <p className="text-lg md:text-xl text-white/90 mb-8 hero-subheadline">
-                Not DIY forms. Not a document generator. <strong className="text-white">Real attorney-guided probate</strong> from first filing to final distribution.
+                Not DIY forms. Not a document generator. <strong className="text-white">Real attorney-prepared probate</strong> from first filing to final distribution.
               </p>
 
               {/* Trust Badges */}
