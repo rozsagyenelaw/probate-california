@@ -628,7 +628,7 @@ const AdminAssetDiscoveryPage = () => {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold text-gray-900 flex items-center">
                     <Search className="h-5 w-5 mr-2 text-blue-600" />
-                    Analyze Documents
+                    Analyze Documents ({documents.length} available)
                   </h3>
                   {results && (
                     <button
@@ -641,71 +641,78 @@ const AdminAssetDiscoveryPage = () => {
                   )}
                 </div>
 
-                {!results && (
+                {/* Always show document list */}
+                {documents.length === 0 ? (
+                  <div className="bg-gray-50 rounded-lg p-6 text-center">
+                    <FileText className="h-10 w-10 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-600">No financial documents for this case yet.</p>
+                    <p className="text-sm text-gray-500 mt-1">Upload documents above to get started.</p>
+                  </div>
+                ) : (
                   <>
-                    {documents.length === 0 ? (
-                      <div className="bg-gray-50 rounded-lg p-6 text-center">
-                        <FileText className="h-10 w-10 text-gray-400 mx-auto mb-3" />
-                        <p className="text-gray-600">No financial documents for this case yet.</p>
-                        <p className="text-sm text-gray-500 mt-1">Upload documents above to get started.</p>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="border rounded-lg divide-y max-h-64 overflow-y-auto mb-4">
-                          {documents.map(docItem => (
-                            <label
-                              key={docItem.id}
-                              className="flex items-center p-3 hover:bg-gray-50 cursor-pointer"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={selectedDocs.includes(docItem.id)}
-                                onChange={() => toggleDocSelection(docItem.id)}
-                                className="h-4 w-4 text-blue-600 rounded"
-                                disabled={analyzing}
-                              />
-                              <FileText className="h-4 w-4 text-gray-400 ml-3 mr-2" />
-                              <span className="flex-1 text-sm">{docItem.fileName}</span>
-                              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                                {DOCUMENT_TYPE_MAP[docItem.category] || docItem.category || 'Document'}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-
-                        {error && (
-                          <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 flex items-center">
-                            <AlertCircle className="h-4 w-4 mr-2" />
-                            {error}
-                          </div>
-                        )}
-
-                        {progress && (
-                          <div className="bg-blue-50 text-blue-700 p-3 rounded-lg mb-4 flex items-center">
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            {progress}
-                          </div>
-                        )}
-
-                        <button
-                          onClick={runAnalysis}
-                          disabled={analyzing || selectedDocs.length === 0}
-                          className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center"
+                    <div className="border rounded-lg divide-y max-h-64 overflow-y-auto mb-4">
+                      {documents.map(docItem => (
+                        <label
+                          key={docItem.id}
+                          className="flex items-center p-3 hover:bg-gray-50 cursor-pointer"
                         >
-                          {analyzing ? (
-                            <>
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Analyzing...
-                            </>
-                          ) : (
-                            <>
-                              <Search className="h-4 w-4 mr-2" />
-                              Run AI Asset Discovery ({selectedDocs.length} documents)
-                            </>
-                          )}
-                        </button>
-                      </>
+                          <input
+                            type="checkbox"
+                            checked={selectedDocs.includes(docItem.id)}
+                            onChange={() => toggleDocSelection(docItem.id)}
+                            className="h-4 w-4 text-blue-600 rounded"
+                            disabled={analyzing}
+                          />
+                          <FileText className="h-4 w-4 text-gray-400 ml-3 mr-2" />
+                          <span className="flex-1 text-sm">{docItem.fileName}</span>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                            {DOCUMENT_TYPE_MAP[docItem.category] || docItem.category || 'Document'}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+
+                    {error && (
+                      <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-2" />
+                        {error}
+                      </div>
                     )}
+
+                    {progress && (
+                      <div className="bg-blue-50 text-blue-700 p-3 rounded-lg mb-4 flex items-center">
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        {progress}
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => { setResults(null); }}
+                      className={`w-full mb-2 py-2 rounded-lg font-medium flex items-center justify-center ${
+                        results ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'hidden'
+                      }`}
+                    >
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Clear Results & Re-analyze
+                    </button>
+
+                    <button
+                      onClick={runAnalysis}
+                      disabled={analyzing || selectedDocs.length === 0}
+                      className="w-full bg-blue-900 text-white py-3 rounded-lg font-medium hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                      {analyzing ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Analyzing...
+                        </>
+                      ) : (
+                        <>
+                          <Search className="h-4 w-4 mr-2" />
+                          {results ? 'Run New Analysis' : 'Run AI Asset Discovery'} ({selectedDocs.length} documents)
+                        </>
+                      )}
+                    </button>
                   </>
                 )}
 
