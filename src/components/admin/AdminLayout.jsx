@@ -15,7 +15,8 @@ import {
   ChevronLeft,
   FileSignature,
   Gavel,
-  Search
+  Search,
+  Lock
 } from 'lucide-react';
 
 const AdminLayout = () => {
@@ -39,6 +40,7 @@ const AdminLayout = () => {
     { path: '/admin/clients', icon: Users, label: 'Clients' },
     { path: '/admin/documents', icon: FileText, label: 'Documents' },
     { path: '/admin/asset-discovery', icon: Search, label: 'Asset Discovery' },
+    { path: '/admin/vaults', icon: Lock, label: 'Digital Vaults' },
     { path: '/admin/signatures', icon: FileSignature, label: 'Signatures' },
     { path: '/admin/payments', icon: CreditCard, label: 'Payments' },
     { path: '/admin/hearings', icon: Gavel, label: 'Hearings' },

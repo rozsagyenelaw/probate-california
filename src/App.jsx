@@ -51,6 +51,7 @@ const AdminPayments = lazy(() => import('./components/admin/AdminPayments'));
 const AdminMessages = lazy(() => import('./components/admin/AdminMessages'));
 const AdminHearings = lazy(() => import('./components/admin/AdminHearings'));
 const AdminAssetDiscoveryPage = lazy(() => import('./components/admin/AdminAssetDiscoveryPage'));
+const AdminVaults = lazy(() => import('./components/admin/AdminVaults'));
 
 // Lazy load - Signature page
 const ClientSignaturePage = lazy(() => import('./components/signature/ClientSignaturePage'));
@@ -283,6 +284,7 @@ function App() {
             <Route path="clients" element={<AdminClients />} />
             <Route path="documents" element={<AdminDocuments />} />
             <Route path="asset-discovery" element={<AdminAssetDiscoveryPage />} />
+            <Route path="vaults" element={<AdminVaults />} />
             <Route path="signatures" element={<AdminSignatureRequests />} />
             <Route path="payments" element={<AdminPayments />} />
             <Route path="messages" element={<AdminMessages />} />
