@@ -413,8 +413,11 @@ const LandingPage = () => {
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white leading-tight hero-headline">
                 Don't Pay $46,000 for California Probate
               </h1>
-              <p className="text-2xl md:text-3xl font-bold text-amber-300 mb-6">
-                We Do It for $3,995 — Full Attorney Service
+              <p className="text-2xl md:text-3xl font-bold text-amber-300 mb-2">
+                Simplified Probate $2,495 | Full Service $3,995
+              </p>
+              <p className="text-lg text-white/80 mb-6">
+                Save $20,000+ compared to traditional attorney fees
               </p>
               <p className="text-lg md:text-xl text-white/90 mb-8 hero-subheadline">
                 Not DIY forms. Not a document generator. <strong className="text-white">Real attorney-prepared probate</strong> from first filing to final distribution.
