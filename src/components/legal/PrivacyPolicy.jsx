@@ -140,7 +140,7 @@ const PrivacyPolicy = () => {
                 <li><strong>Opt-out:</strong> Opt out of marketing communications</li>
               </ul>
               <p className="text-gray-700 mb-4">
-                To exercise these rights, contact us at <a href="mailto:rozsagyenelaw@yahoo.com" className="text-blue-600 hover:underline">rozsagyenelaw@yahoo.com</a> or call <a href="tel:8182916217" className="text-blue-600 hover:underline">(818) 291-6217</a>.
+                To exercise these rights, contact us at <a href="mailto:rozsa@myprobateca.com" className="text-blue-600 hover:underline">rozsa@myprobateca.com</a> or call <a href="tel:8182916217" className="text-blue-600 hover:underline">(818) 291-6217</a>.
               </p>
             </section>
 
@@ -184,7 +184,7 @@ const PrivacyPolicy = () => {
                 <p className="font-semibold text-gray-900 mb-2">Law Offices of Rozsa Gyene</p>
                 <p className="text-gray-700">California State Bar #208356</p>
                 <p className="text-gray-700">Phone: <a href="tel:8182916217" className="text-blue-600 hover:underline">(818) 291-6217</a></p>
-                <p className="text-gray-700">Email: <a href="mailto:rozsagyenelaw@yahoo.com" className="text-blue-600 hover:underline">rozsagyenelaw@yahoo.com</a></p>
+                <p className="text-gray-700">Email: <a href="mailto:rozsa@myprobateca.com" className="text-blue-600 hover:underline">rozsa@myprobateca.com</a></p>
                 <p className="text-gray-700 mt-4 text-sm">
                   For privacy-related inquiries, please include "Privacy Request" in the subject line.
                 </p>

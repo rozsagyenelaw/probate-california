@@ -580,7 +580,7 @@ const ProbateCourtLocations = () => {
               <p className="mb-2">
                 <a href="tel:8182916217" className="hover:text-white">(818) 291-6217</a>
                 {' | '}
-                <a href="mailto:rozsagyenelaw@yahoo.com" className="hover:text-white">rozsagyenelaw@yahoo.com</a>
+                <a href="mailto:rozsa@myprobateca.com" className="hover:text-white">rozsa@myprobateca.com</a>
               </p>
               <p className="text-sm">&copy; {new Date().getFullYear()} MyProbateCA. All rights reserved.</p>
             </div>

@@ -172,11 +172,11 @@ const PaymentSuccess = () => {
               (818) 291-6217
             </a>
             <a
-              href="mailto:rozsagyenelaw@yahoo.com"
+              href="mailto:rozsa@myprobateca.com"
               className="flex items-center text-blue-900 hover:text-blue-700"
             >
               <Mail className="h-5 w-5 mr-2" />
-              rozsagyenelaw@yahoo.com
+              rozsa@myprobateca.com
             </a>
           </div>
           <p className="text-gray-500 text-sm mt-4">

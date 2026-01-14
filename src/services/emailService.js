@@ -122,7 +122,7 @@ export async function sendDeadlineReminder(userEmail, deadline) {
  * Notify admin of new case
  */
 export async function notifyAdminNewCase(caseData) {
-  const adminEmail = 'rozsagyenelaw@yahoo.com';
+  const adminEmail = 'rozsa@myprobateca.com';
   return sendEmail({
     to: adminEmail,
     subject: `New Probate Case - ${caseData.estateName}`,

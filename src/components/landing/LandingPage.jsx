@@ -1432,9 +1432,9 @@ const LandingPage = () => {
                   <Phone className="h-4 w-4 mr-2" />
                   (818) 291-6217
                 </a>
-                <a href="mailto:rozsagyenelaw@yahoo.com" className="inline-flex items-center text-gray-700 hover:text-blue-600">
+                <a href="mailto:rozsa@myprobateca.com" className="inline-flex items-center text-gray-700 hover:text-blue-600">
                   <Mail className="h-4 w-4 mr-2" />
-                  rozsagyenelaw@yahoo.com
+                  rozsa@myprobateca.com
                 </a>
               </div>
             </div>
@@ -1625,7 +1625,7 @@ const LandingPage = () => {
           </button>
           <p className="text-blue-200 mt-6">
             Questions? Call <a href="tel:+18182916217" className="underline">(818) 291-6217</a> or email{' '}
-            <a href="mailto:rozsagyenelaw@yahoo.com" className="underline">rozsagyenelaw@yahoo.com</a>
+            <a href="mailto:rozsa@myprobateca.com" className="underline">rozsa@myprobateca.com</a>
           </p>
         </div>
       </section>
@@ -1659,7 +1659,7 @@ const LandingPage = () => {
                 </li>
                 <li className="flex items-center">
                   <Mail className="h-4 w-4 mr-2" />
-                  <a href="mailto:rozsagyenelaw@yahoo.com" className="hover:text-white">rozsagyenelaw@yahoo.com</a>
+                  <a href="mailto:rozsa@myprobateca.com" className="hover:text-white">rozsa@myprobateca.com</a>
                 </li>
                 <li className="flex items-start">
                   <MapPin className="h-4 w-4 mr-2 mt-1" />

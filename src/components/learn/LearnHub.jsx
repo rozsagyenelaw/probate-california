@@ -170,7 +170,7 @@ const LearnHub = () => {
         "name": "MyProbateCA - Law Offices of Rozsa Gyene",
         "url": "https://myprobateca.com/",
         "telephone": "+1-818-291-6217",
-        "email": "rozsagyenelaw@yahoo.com",
+        "email": "rozsa@myprobateca.com",
         "priceRange": "$3,995"
       },
       {
@@ -499,7 +499,7 @@ const LearnHub = () => {
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
-                    rozsagyenelaw@yahoo.com
+                    rozsa@myprobateca.com
                   </li>
                   <li className="flex items-start">
                     <MapPin className="h-4 w-4 mr-2 mt-1" />

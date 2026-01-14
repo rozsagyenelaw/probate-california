@@ -559,8 +559,8 @@ const Intake = () => {
               (818) 291-6217
             </a>
             {' '}or email{' '}
-            <a href="mailto:rozsagyenelaw@yahoo.com" className="text-blue-900 font-medium hover:underline">
-              rozsagyenelaw@yahoo.com
+            <a href="mailto:rozsa@myprobateca.com" className="text-blue-900 font-medium hover:underline">
+              rozsa@myprobateca.com
             </a>
           </p>
         </div>

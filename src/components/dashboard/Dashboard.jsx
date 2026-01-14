@@ -349,8 +349,8 @@ const Dashboard = () => {
               <Mail className="h-5 w-5 text-blue-900 mr-3" />
               <div>
                 <p className="text-sm text-gray-500">Email Us</p>
-                <a href="mailto:rozsagyenelaw@yahoo.com" className="font-medium text-blue-900 hover:text-blue-700">
-                  rozsagyenelaw@yahoo.com
+                <a href="mailto:rozsa@myprobateca.com" className="font-medium text-blue-900 hover:text-blue-700">
+                  rozsa@myprobateca.com
                 </a>
               </div>
             </div>

@@ -322,8 +322,8 @@ const PublicationSetup = () => {
         <div className="mt-6 text-center">
           <p className="text-gray-600">
             Questions about publication? Contact us at{' '}
-            <a href="mailto:rozsagyenelaw@yahoo.com" className="text-blue-600 hover:text-blue-800">
-              rozsagyenelaw@yahoo.com
+            <a href="mailto:rozsa@myprobateca.com" className="text-blue-600 hover:text-blue-800">
+              rozsa@myprobateca.com
             </a>
           </p>
         </div>
