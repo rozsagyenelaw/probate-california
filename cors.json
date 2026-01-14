@@ -1,15 +1,8 @@
 [
   {
-    "origin": [
-      "https://cute-kitten-b6cf51.netlify.app",
-      "https://probate.livingtrust-attorneys.com",
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175"
-    ],
+    "origin": ["https://myprobateca.com", "https://www.myprobateca.com", "http://localhost:5173", "https://probate-california.netlify.app"],
     "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
     "maxAgeSeconds": 3600,
-    "responseHeader": ["Content-Type", "Authorization", "Content-Length", "User-Agent", "x-goog-resumable"]
+    "responseHeader": ["Content-Type", "Content-Length", "Content-Disposition"]
   }
 ]
