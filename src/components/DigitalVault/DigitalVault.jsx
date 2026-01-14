@@ -493,7 +493,7 @@ const DigitalVault = ({ caseId, userId }) => {
           <Shield className="h-10 w-10 mx-auto mb-4 opacity-90" />
           <h3 className="text-xl font-bold mb-3">Protect Your Family's Future</h3>
           <p className="opacity-90 mb-2">
-            Now that probate is handled, make sure your own estate is protected. Avoid putting your family through probate.
+            Once probate is over, make sure your own estate is protected. Avoid putting your family through probate.
           </p>
           <p className="text-lg mb-6">
             Living Trust Package starting at <span className="font-bold text-2xl">$400</span>

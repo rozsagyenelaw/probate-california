@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../services/firebase';
 // Generator URL - probate-form-automation app
@@ -37,7 +37,9 @@ import {
   Newspaper,
   Save,
   Wand2,
-  Search
+  Search,
+  Lock,
+  FolderOpen
 } from 'lucide-react';
 import AdminAssetDiscovery from './AdminAssetDiscovery';
 
@@ -85,6 +87,10 @@ const AdminCaseDetails = () => {
   // Form generation state
   const [generating, setGenerating] = useState(false);
   const [generateError, setGenerateError] = useState(null);
+
+  // Vault state
+  const [vaultDocuments, setVaultDocuments] = useState([]);
+  const [vaultLoading, setVaultLoading] = useState(false);
 
   // Map case data to generator format and open generator
   const openGenerator = (prefill = true) => {
@@ -375,6 +381,33 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
       unsubDocs();
     };
   }, [caseId]);
+
+  // Load vault documents when caseData is available
+  useEffect(() => {
+    const loadVaultDocuments = async () => {
+      if (!caseData?.userId) return;
+
+      setVaultLoading(true);
+      try {
+        const vaultRef = doc(db, 'vaults', caseData.userId);
+        const vaultDoc = await getDoc(vaultRef);
+
+        if (vaultDoc.exists()) {
+          const data = vaultDoc.data();
+          setVaultDocuments(data.documents || []);
+        } else {
+          setVaultDocuments([]);
+        }
+      } catch (error) {
+        console.error('Error loading vault:', error);
+        setVaultDocuments([]);
+      } finally {
+        setVaultLoading(false);
+      }
+    };
+
+    loadVaultDocuments();
+  }, [caseData?.userId]);
 
   // Save publication info
   const handleSavePublication = async () => {
@@ -774,6 +807,62 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
 
       {/* AI Asset Discovery - Prominent Admin Tool */}
       <AdminAssetDiscovery caseId={caseId} caseData={caseData} />
+
+      {/* Digital Vault */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-700 rounded-xl shadow-sm p-6 print:hidden">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <Lock className="h-6 w-6 text-white mr-2" />
+            <h2 className="text-lg font-semibold text-white">Client Digital Vault</h2>
+          </div>
+          <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full">
+            {vaultDocuments.length} documents
+          </span>
+        </div>
+
+        <div className="bg-white rounded-lg p-4">
+          {vaultLoading ? (
+            <div className="text-center py-6">
+              <RefreshCw className="h-6 w-6 text-blue-500 animate-spin mx-auto mb-2" />
+              <p className="text-gray-500 text-sm">Loading vault documents...</p>
+            </div>
+          ) : vaultDocuments.length === 0 ? (
+            <div className="text-center py-6">
+              <FolderOpen className="h-10 w-10 text-gray-300 mx-auto mb-3" />
+              <p className="text-gray-500 font-medium">No vault documents yet</p>
+              <p className="text-sm text-gray-400 mt-1">Client has not uploaded any documents to their vault</p>
+            </div>
+          ) : (
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {vaultDocuments.map((vaultDoc) => (
+                <div key={vaultDoc.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div className="flex items-center min-w-0 flex-1">
+                    <FileText className="h-5 w-5 text-gray-400 mr-3 flex-shrink-0" />
+                    <div className="min-w-0">
+                      <p className="font-medium text-gray-900 truncate">{vaultDoc.name}</p>
+                      <p className="text-xs text-gray-500">
+                        {vaultDoc.category?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} •{' '}
+                        {vaultDoc.uploadedAt?.toDate ? vaultDoc.uploadedAt.toDate().toLocaleDateString() : 'Unknown date'}
+                      </p>
+                    </div>
+                  </div>
+                  {vaultDoc.downloadURL && (
+                    <a
+                      href={vaultDoc.downloadURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-3 p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+                      title="View/Download"
+                    >
+                      <Eye className="h-5 w-5" />
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Publication Management */}
       {caseData.caseNumber && (
