@@ -28,6 +28,13 @@ service firebase.storage {
       allow delete: if isAuthenticated() || isAdmin();
     }
 
+    // Documents collection - for financial docs upload (asset discovery)
+    match /documents/{caseId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+
     // Signature request documents - admin can upload, public can read for signing
     match /signature-requests/{allPaths=**} {
       allow read: if true;  // Public access for signing page
