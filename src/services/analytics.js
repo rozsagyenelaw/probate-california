@@ -2,6 +2,8 @@
  * Analytics Service
  * Initializes Google Analytics 4, Google Ads, and Microsoft Clarity
  *
+ * DEFERRED LOADING: Analytics loads after page is interactive to improve LCP
+ *
  * Set these environment variables in Netlify:
  * - VITE_GA_MEASUREMENT_ID: Your GA4 measurement ID (e.g., G-XXXXXXXXXX)
  * - VITE_CLARITY_ID: Your Microsoft Clarity ID (e.g., xxxxxxxxxx)
@@ -11,6 +13,9 @@
 
 // Google Ads Conversion ID
 const GOOGLE_ADS_ID = 'AW-989094207';
+
+// Track if analytics has been initialized
+let analyticsInitialized = false;
 
 // Initialize Google Analytics 4 and Google Ads
 export const initGA4 = () => {
@@ -33,14 +38,10 @@ export const initGA4 = () => {
   // Configure GA4 if available
   if (measurementId) {
     window.gtag('config', measurementId);
-    console.log('GA4: Initialized with ID', measurementId);
-  } else {
-    console.log('GA4: Measurement ID not configured');
   }
 
   // Always configure Google Ads for conversion tracking
   window.gtag('config', GOOGLE_ADS_ID);
-  console.log('Google Ads: Initialized with ID', GOOGLE_ADS_ID);
 };
 
 // Initialize Microsoft Clarity
@@ -48,7 +49,6 @@ export const initClarity = () => {
   const clarityId = import.meta.env.VITE_CLARITY_ID;
 
   if (!clarityId) {
-    console.log('Clarity: ID not configured');
     return;
   }
 
@@ -62,21 +62,39 @@ export const initClarity = () => {
     y = l.getElementsByTagName(r)[0];
     y.parentNode.insertBefore(t, y);
   })(window, document, "clarity", "script", clarityId);
-
-  console.log('Clarity: Initialized with ID', clarityId);
 };
 
-// Initialize all analytics
+// Deferred initialization - waits for page to be interactive
+const deferredInit = (callback) => {
+  // Use requestIdleCallback if available, otherwise setTimeout
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(callback, { timeout: 3000 });
+  } else {
+    // Fallback: wait for load event + small delay
+    if (document.readyState === 'complete') {
+      setTimeout(callback, 100);
+    } else {
+      window.addEventListener('load', () => setTimeout(callback, 100));
+    }
+  }
+};
+
+// Initialize all analytics (deferred to not block main thread)
 export const initAnalytics = () => {
-  initGA4();
-  initClarity();
+  if (analyticsInitialized) return;
+  analyticsInitialized = true;
+
+  // Defer analytics loading until page is idle
+  deferredInit(() => {
+    initGA4();
+    initClarity();
+  });
 };
 
 // Track custom events
 export const trackEvent = (eventName, params = {}) => {
   if (window.gtag) {
     window.gtag('event', eventName, params);
-    console.log('GA4 Event:', eventName, params);
   }
 };
 
