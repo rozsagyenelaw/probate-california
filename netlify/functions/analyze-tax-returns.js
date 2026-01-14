@@ -17,13 +17,13 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const { taxReturnText, year } = JSON.parse(event.body);
+    const { documentText, documentType, documentName } = JSON.parse(event.body);
 
-    if (!taxReturnText) {
+    if (!documentText) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'No tax return text provided' })
+        body: JSON.stringify({ error: 'No document text provided' })
       };
     }
 
@@ -31,69 +31,94 @@ exports.handler = async (event, context) => {
       apiKey: process.env.ANTHROPIC_API_KEY
     });
 
-    const prompt = `You are an expert estate planning assistant analyzing tax returns to discover potential assets for probate administration.
+    const prompt = `You are an expert estate planning assistant analyzing financial documents to discover potential assets for probate administration.
 
-Analyze the following tax return text and identify ALL potential assets. Look for:
+You are analyzing a ${documentType || 'financial document'}: "${documentName || 'Unknown'}"
 
-1. **Bank Accounts** - Look for:
-   - Schedule B interest income (Form 1099-INT)
-   - Bank names and implied account types
-   - Any interest over $10 suggests an account
+Analyze the following document text and identify ALL potential assets. Based on the document type, look for:
 
-2. **Investment/Brokerage Accounts** - Look for:
-   - Schedule B dividend income (Form 1099-DIV)
-   - Schedule D capital gains/losses
-   - Brokerage firm names (Fidelity, Schwab, Vanguard, etc.)
+**For Tax Returns:**
+- Schedule B interest income (bank accounts)
+- Schedule B dividend income (investments)
+- Schedule D capital gains/losses (brokerage accounts)
+- Form 1099-R distributions (retirement accounts)
+- Schedule E rental income (real estate)
+- Schedule C business income
+- Schedule K-1 partnership/S-corp income
+- Mortgage interest deductions
+- Property tax deductions
 
-3. **Retirement Accounts** - Look for:
-   - Form 1099-R distributions (IRA, 401k, pension)
-   - Employer names that might have old 401(k)s
-   - Pension income sources
+**For Bank Statements:**
+- Account numbers and types (checking, savings, money market)
+- Bank name and branch
+- Average balance or ending balance
+- Linked accounts mentioned
+- Automatic transfers to/from other institutions
+- Direct deposits from employers or pensions
 
-4. **Real Estate** - Look for:
-   - Schedule E rental income/expenses
-   - Property addresses
-   - Mortgage interest deductions (Schedule A)
-   - Property tax deductions
+**For Investment/Brokerage Statements:**
+- Account numbers
+- Brokerage firm name
+- Holdings (stocks, bonds, mutual funds, ETFs)
+- Account value/balance
+- Dividend and interest income
+- Cost basis information
 
-5. **Business Interests** - Look for:
-   - Schedule C business income
-   - Schedule K-1 partnership/S-corp income
-   - Business names and EINs
+**For Retirement Account Statements (401k, IRA, Pension):**
+- Account type (Traditional IRA, Roth IRA, 401k, 403b, pension)
+- Custodian/administrator name
+- Account balance
+- Beneficiary information if shown
+- Employer name (for 401k/pension)
+- Vesting information
 
-6. **Life Insurance** - Look for:
-   - Life insurance premium deductions
-   - Employer-provided life insurance
+**For Property Documents:**
+- Property addresses
+- Ownership type (sole, joint, trust)
+- Assessed value or market value
+- Mortgage holder if any
+- Property tax information
 
-7. **Other Assets** - Look for:
-   - Royalty income (oil, gas, intellectual property)
-   - Trust income
-   - Annuity payments
-   - Social Security (indicates possible survivor benefits)
+**For Life Insurance Statements:**
+- Policy number
+- Insurance company
+- Policy type (term, whole life, universal)
+- Death benefit amount
+- Cash value if applicable
+- Beneficiary information
 
-TAX RETURN TEXT:
-${taxReturnText}
+**For Any Financial Document:**
+- Institution names
+- Account numbers (partial is fine)
+- Balances or values
+- Other accounts mentioned or referenced
+- Contact information for institutions
+
+DOCUMENT TEXT:
+${documentText}
 
 Respond in this exact JSON format:
 {
   "assets": [
     {
-      "type": "Bank Account|Investment|Retirement|Real Estate|Business|Life Insurance|Other",
+      "type": "Bank Account|Investment|Retirement|Real Estate|Business|Life Insurance|Vehicle|Other",
       "institution": "Name of bank/company/entity",
+      "accountNumber": "Full or partial account number if visible, otherwise null",
       "description": "Brief description of what was found",
-      "evidence": "The specific line item or text that indicates this asset",
-      "estimatedValue": "If determinable from the return, otherwise null",
+      "evidence": "The specific text that indicates this asset",
+      "estimatedValue": "Dollar amount if shown, otherwise null",
       "actionRequired": "What the executor should do to investigate this"
     }
   ],
-  "summary": {
-    "totalAssetsFound": 0,
-    "highPriorityItems": ["List items that need immediate attention"],
-    "recommendations": ["General recommendations for the executor"]
+  "documentSummary": {
+    "documentType": "What type of document this appears to be",
+    "institution": "Primary institution this document is from",
+    "dateRange": "Date range covered if visible",
+    "keyFindings": "Brief summary of what was found"
   }
 }
 
-Be thorough. It's better to flag a potential asset that turns out to be nothing than to miss a real asset. If you see any financial institution name, flag it.`;
+Be thorough. It's better to flag a potential asset that turns out to be nothing than to miss a real asset. Extract every financial institution name, account reference, and monetary value you can find.`;
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
@@ -122,10 +147,11 @@ Be thorough. It's better to flag a potential asset that turns out to be nothing 
       // If parsing fails, return the raw text
       analysisResult = {
         assets: [],
-        summary: {
-          totalAssetsFound: 0,
-          highPriorityItems: [],
-          recommendations: ['Manual review required - AI could not parse return']
+        documentSummary: {
+          documentType: documentType || 'Unknown',
+          institution: 'Unknown',
+          dateRange: 'Unknown',
+          keyFindings: 'Manual review required - AI could not parse document'
         },
         rawResponse: responseText
       };
@@ -136,18 +162,19 @@ Be thorough. It's better to flag a potential asset that turns out to be nothing 
       headers,
       body: JSON.stringify({
         success: true,
-        year: year,
+        documentName: documentName,
+        documentType: documentType,
         analysis: analysisResult
       })
     };
 
   } catch (error) {
-    console.error('Error analyzing tax return:', error);
+    console.error('Error analyzing document:', error);
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
-        error: 'Failed to analyze tax return',
+        error: 'Failed to analyze document',
         details: error.message
       })
     };

@@ -36,8 +36,10 @@ import {
   Trash2,
   Newspaper,
   Save,
-  Wand2
+  Wand2,
+  Search
 } from 'lucide-react';
+import AdminAssetDiscovery from './AdminAssetDiscovery';
 
 const PHASE_LABELS = {
   1: 'Intake',
@@ -1369,6 +1371,9 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
           </div>
         </div>
       )}
+
+      {/* AI Asset Discovery */}
+      <AdminAssetDiscovery caseId={caseId} caseData={caseData} />
 
       {/* Payment Information */}
       {caseData.payment && (

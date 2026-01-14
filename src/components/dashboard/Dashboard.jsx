@@ -22,6 +22,7 @@ import PhaseTracker from './PhaseTracker';
 import ActionRequired from './ActionRequired';
 import KeyDates from './KeyDates';
 import QuickLinks from './QuickLinks';
+import FinancialDocsUpload from './FinancialDocsUpload';
 
 // Landing page for users without a case
 import { LandingPage } from '../landing';
@@ -98,6 +99,13 @@ const CaseDashboardView = ({ probateCase, unreadMessages, navigate }) => {
         />
       </div>
     </div>
+
+    {/* Financial Documents Upload for Asset Discovery */}
+    {isPaid && (
+      <div className="mt-6">
+        <FinancialDocsUpload caseId={probateCase?.id} />
+      </div>
+    )}
   </div>
   );
 };
