@@ -772,6 +772,9 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
         )}
       </div>
 
+      {/* AI Asset Discovery - Prominent Admin Tool */}
+      <AdminAssetDiscovery caseId={caseId} caseData={caseData} />
+
       {/* Publication Management */}
       {caseData.caseNumber && (
         <div className="bg-gradient-to-r from-orange-600 to-orange-500 rounded-xl shadow-sm p-6 print:hidden">
@@ -1371,9 +1374,6 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
           </div>
         </div>
       )}
-
-      {/* AI Asset Discovery */}
-      <AdminAssetDiscovery caseId={caseId} caseData={caseData} />
 
       {/* Payment Information */}
       {caseData.payment && (

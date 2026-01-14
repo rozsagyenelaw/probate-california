@@ -101,11 +101,9 @@ const CaseDashboardView = ({ probateCase, unreadMessages, navigate }) => {
     </div>
 
     {/* Financial Documents Upload for Asset Discovery */}
-    {isPaid && (
-      <div className="mt-6">
-        <FinancialDocsUpload caseId={probateCase?.id} />
-      </div>
-    )}
+    <div className="mt-6">
+      <FinancialDocsUpload caseId={probateCase?.id} />
+    </div>
   </div>
   );
 };
