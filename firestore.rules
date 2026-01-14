@@ -80,5 +80,13 @@ service cloud.firestore {
       allow update: if true;  // Allow clients to update when signing
       allow delete: if isAdmin();
     }
+
+    // Vaults collection - users can only access their own vault
+    match /vaults/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
   }
 }

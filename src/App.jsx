@@ -36,6 +36,9 @@ const CaseClosing = lazy(() => import('./components/phases/CaseClosing'));
 // Lazy load - Asset Discovery
 const AssetDiscovery = lazy(() => import('./components/AssetDiscovery/AssetDiscovery'));
 
+// Lazy load - Digital Vault
+const DigitalVault = lazy(() => import('./components/DigitalVault'));
+
 // Lazy load - Admin components (direct imports for better splitting)
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
 const AdminOverview = lazy(() => import('./components/admin/AdminOverview'));
@@ -260,6 +263,11 @@ function App() {
           <Route path="/asset-discovery" element={
             <ProtectedRoute>
               <AssetDiscovery />
+            </ProtectedRoute>
+          } />
+          <Route path="/vault" element={
+            <ProtectedRoute>
+              <DigitalVault />
             </ProtectedRoute>
           } />
 

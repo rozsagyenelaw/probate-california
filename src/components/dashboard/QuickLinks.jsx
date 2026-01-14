@@ -12,7 +12,8 @@ import {
   Calculator,
   Gavel,
   Video,
-  Users
+  Users,
+  Lock
 } from 'lucide-react';
 
 const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
@@ -221,6 +222,25 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
             );
           })}
         </div>
+      </div>
+
+      {/* Digital Vault */}
+      <div className="bg-gradient-to-br from-blue-900 to-blue-700 rounded-lg shadow-sm p-6 text-white">
+        <div className="flex items-center mb-3">
+          <div className="p-2 bg-white/20 rounded-lg mr-3">
+            <Lock className="h-5 w-5" />
+          </div>
+          <h3 className="text-lg font-semibold">Digital Vault</h3>
+        </div>
+        <p className="text-sm text-blue-100 mb-4">
+          Securely store your important documents forever — even after probate closes.
+        </p>
+        <button
+          onClick={() => navigate('/vault')}
+          className="w-full bg-white text-blue-900 py-2 px-4 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+        >
+          Access Your Vault
+        </button>
       </div>
     </div>
   );

@@ -48,5 +48,12 @@ service firebase.storage {
       allow write: if true;  // Cloud function needs to write
       allow delete: if isAdmin();
     }
+
+    // Vault documents - users can only access their own vault
+    match /vaults/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+    }
   }
 }
