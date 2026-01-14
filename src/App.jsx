@@ -33,6 +33,9 @@ const CreditorManagement = lazy(() => import('./components/phases/CreditorManage
 const FinalPetition = lazy(() => import('./components/phases/FinalPetition'));
 const CaseClosing = lazy(() => import('./components/phases/CaseClosing'));
 
+// Lazy load - Asset Discovery
+const AssetDiscovery = lazy(() => import('./components/AssetDiscovery/AssetDiscovery'));
+
 // Lazy load - Admin components (direct imports for better splitting)
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
 const AdminOverview = lazy(() => import('./components/admin/AdminOverview'));
@@ -251,6 +254,11 @@ function App() {
           <Route path="/request-court-appearance" element={
             <ProtectedRoute>
               <RequestCourtAppearance />
+            </ProtectedRoute>
+          } />
+          <Route path="/asset-discovery" element={
+            <ProtectedRoute>
+              <AssetDiscovery />
             </ProtectedRoute>
           } />
 
