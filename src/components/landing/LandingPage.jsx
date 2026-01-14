@@ -33,7 +33,10 @@ import {
   LayoutDashboard,
   Building2,
   Calculator,
-  ExternalLink
+  ExternalLink,
+  Search,
+  Lock,
+  BarChart3
 } from 'lucide-react';
 
 // California Statutory Fee Calculator (Probate Code §10810)
@@ -181,7 +184,7 @@ const LandingPage = () => {
         "@id": "https://myprobateca.com/#webpage",
         "url": "https://myprobateca.com",
         "name": "California Probate Services | Attorney-Led | Flat $3,995 Fee | MyProbateCA",
-        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat $3,995 fee. Save $10,000+ vs statutory fees.",
+        "description": "California probate for $3,995 flat fee. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. Save $42,000+ vs traditional attorneys.",
         "isPartOf": {
           "@id": "https://myprobateca.com/#website"
         },
@@ -200,13 +203,13 @@ const LandingPage = () => {
     <>
       <Helmet>
         <title>California Probate Services | Attorney-Led | Flat $3,995 Fee | MyProbateCA</title>
-        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat $3,995 fee. Save $10,000+ compared to statutory fees. Free consultation available." />
+        <meta name="description" content="California probate for $3,995 flat fee — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. Save $42,000+ vs traditional attorneys." />
         <meta name="keywords" content="California probate, probate attorney, probate lawyer, estate administration, flat fee probate, Los Angeles probate, Glendale probate attorney" />
         <link rel="canonical" href="https://myprobateca.com/" />
 
         {/* Open Graph */}
-        <meta property="og:title" content="California Probate Services | Flat $3,995 Fee" />
-        <meta property="og:description" content="Professional attorney-led probate administration. Licensed attorney handles all 11 phases for a flat fee. Save $10,000+ vs statutory fees." />
+        <meta property="og:title" content="Don't Pay $46,000 for California Probate | We Do It for $3,995" />
+        <meta property="og:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. Save $42,000+ vs traditional attorneys." />
         <meta property="og:url" content="https://myprobateca.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyProbateCA" />
@@ -214,8 +217,8 @@ const LandingPage = () => {
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="California Probate Services | Flat $3,995 Fee" />
-        <meta name="twitter:description" content="Professional attorney-led probate administration. Save $10,000+ vs statutory fees." />
+        <meta name="twitter:title" content="Don't Pay $46,000 for California Probate | We Do It for $3,995" />
+        <meta name="twitter:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. Save $42,000+." />
         <meta name="twitter:image" content="https://myprobateca.com/images/office/glendale-office-exterior.jpg" />
 
         {/* Schema Markup */}
@@ -407,14 +410,14 @@ const LandingPage = () => {
           <div className="max-w-2xl">
             {/* Glassmorphic Box */}
             <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 md:p-10 shadow-2xl">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-                California Probate Made Simple
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white leading-tight hero-headline">
+                Don't Pay $46,000 for California Probate
               </h1>
-              <p className="text-lg md:text-xl text-white/90 mb-8">
-                Every form prepared by a licensed California <strong className="text-white">attorney</strong>. Every filing reviewed before submission.
+              <p className="text-2xl md:text-3xl font-bold text-amber-300 mb-6">
+                We Do It for $3,995 — Full Attorney Service
               </p>
-              <p className="text-2xl md:text-3xl font-bold text-white mb-8">
-                Flat fee of $3,995 — no percentage of estate, no hourly billing, no surprises.
+              <p className="text-lg md:text-xl text-white/90 mb-8 hero-subheadline">
+                Not DIY forms. Not a document generator. <strong className="text-white">Real attorney-guided probate</strong> from first filing to final distribution.
               </p>
 
               {/* Trust Badges */}
@@ -427,13 +430,9 @@ const LandingPage = () => {
                   <Award className="h-4 w-4 mr-2 text-white" />
                   <span className="text-sm font-medium text-white">25+ Years Experience</span>
                 </div>
-                <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
-                  <Users className="h-4 w-4 mr-2 text-white" />
-                  <span className="text-sm font-medium text-white">500+ Cases Completed</span>
-                </div>
-                <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
-                  <DollarSign className="h-4 w-4 mr-2 text-white" />
-                  <span className="text-sm font-medium text-white">Flat Fee - No Surprises</span>
+                <div className="flex items-center bg-amber-600/90 px-3 py-1.5 rounded-full">
+                  <CheckCircle className="h-4 w-4 mr-2 text-white" />
+                  <span className="text-sm font-medium text-white">Not a Form Generator — Real Legal Service</span>
                 </div>
               </div>
 
@@ -459,6 +458,184 @@ const LandingPage = () => {
                 Payment plans available — pay over time with no extra fees
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included Section */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Everything You Need — One Flat Fee
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              We don't just file forms. We handle the entire probate process.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Feature 1: All Court Documents */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">📋</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">All Court Documents</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                We prepare every form: DE-111 Petition, DE-120 Notice, DE-140 Order, DE-150 Letters, DE-160 Inventory, DE-161 Final Distribution — all attorney-reviewed.
+              </p>
+            </div>
+
+            {/* Feature 2: AI Asset Discovery - HIGHLIGHT */}
+            <div className="bg-blue-50 rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border-2 border-blue-200 relative">
+              <div className="absolute -top-3 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                NEW
+              </div>
+              <div className="text-3xl mb-4">🔍</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">AI Asset Discovery</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Upload tax returns and our AI finds hidden assets — forgotten 401(k)s, old bank accounts, life insurance policies. Never miss an asset.
+              </p>
+            </div>
+
+            {/* Feature 3: Death Notifications */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">📨</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Automated Death Notifications</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                We notify Social Security, DMV, credit bureaus (Equifax, Experian, TransUnion), and other agencies. You don't make the calls.
+              </p>
+            </div>
+
+            {/* Feature 4: Bank Communication Kit */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">🏦</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Bank Communication Kit</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Step-by-step scripts, letter templates, and checklists for dealing with banks and financial institutions. Know exactly what to say.
+              </p>
+            </div>
+
+            {/* Feature 5: Hearing Preparation */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">⚖️</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Hearing Preparation</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                We prepare you for your court hearing — what to expect, what to bring, how to respond to the examiner's questions.
+              </p>
+            </div>
+
+            {/* Feature 6: Creditor Management */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">📝</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Creditor Management</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                We track the 4-month creditor period, help you evaluate claims, and prepare rejection letters for invalid claims.
+              </p>
+            </div>
+
+            {/* Feature 7: Digital Vault */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">🔐</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Digital Vault</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Once probate closes, store all your documents securely forever — Order of Final Distribution, Letters, death certificates, everything.
+              </p>
+            </div>
+
+            {/* Feature 8: Progress Dashboard */}
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div className="text-3xl mb-4">📊</div>
+              <h3 className="text-lg font-bold text-blue-900 mb-2">Progress Dashboard</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Track every phase of your probate in real-time. Always know where you are, what's next, and what's needed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why We're Different - Comparison Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Why Families Choose MyProbateCA
+            </h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr>
+                  <th className="py-4 px-4 text-left font-semibold text-gray-700 bg-gray-50 rounded-tl-lg">Feature</th>
+                  <th className="py-4 px-4 text-center font-semibold text-gray-700 bg-gray-50">Traditional Attorney</th>
+                  <th className="py-4 px-4 text-center font-semibold text-gray-700 bg-gray-50">DIY / LegalZoom</th>
+                  <th className="py-4 px-4 text-center font-semibold text-white bg-blue-900 rounded-tr-lg">MyProbateCA</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">Cost ($1M Estate)</td>
+                  <td className="py-4 px-4 text-center text-red-600 font-semibold">$46,000+</td>
+                  <td className="py-4 px-4 text-center text-gray-600">$200-500</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">$3,995</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">Attorney Prepared</td>
+                  <td className="py-4 px-4 text-center text-green-600">✓</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">✓</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">Attorney Guidance</td>
+                  <td className="py-4 px-4 text-center text-green-600">✓</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">✓</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">AI Asset Discovery</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">✓</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">Death Notifications</td>
+                  <td className="py-4 px-4 text-center text-gray-500">Sometimes</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">✓ Automated</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">Progress Dashboard</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-gray-500">Basic</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">✓ 11 Phases</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800">Bank Guidance Kit</td>
+                  <td className="py-4 px-4 text-center text-gray-500">Verbal only</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50">✓ Templates</td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="py-4 px-4 font-medium text-gray-800 rounded-bl-lg">Digital Vault</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-red-600">✗</td>
+                  <td className="py-4 px-4 text-center text-green-600 font-bold bg-blue-50 rounded-br-lg">✓ Forever</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="text-center mt-10">
+            <p className="text-lg text-gray-600 mb-6">
+              Get full attorney service at a fraction of the cost.
+            </p>
+            <button
+              onClick={handleStartCase}
+              className="bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center"
+            >
+              Start Your Probate — Free Consultation
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </button>
           </div>
         </div>
       </section>
