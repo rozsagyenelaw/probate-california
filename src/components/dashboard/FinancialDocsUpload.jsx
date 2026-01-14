@@ -251,6 +251,14 @@ const FinancialDocsUpload = ({ caseId }) => {
             </div>
           )}
 
+          {/* Validation Message */}
+          {files.length > 0 && !category && (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3 flex items-center">
+              <AlertCircle className="h-4 w-4 text-amber-600 mr-2 flex-shrink-0" />
+              <span className="text-sm text-amber-700">Please select a document type above to continue</span>
+            </div>
+          )}
+
           {/* Upload Button */}
           <button
             onClick={uploadFiles}
@@ -261,6 +269,11 @@ const FinancialDocsUpload = ({ caseId }) => {
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 Uploading...
+              </>
+            ) : !category && files.length > 0 ? (
+              <>
+                <AlertCircle className="h-4 w-4 mr-2" />
+                Select Document Type First
               </>
             ) : (
               <>
