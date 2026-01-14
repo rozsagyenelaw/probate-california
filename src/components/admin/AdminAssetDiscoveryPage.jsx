@@ -122,11 +122,13 @@ const AdminAssetDiscoveryPage = () => {
           d.category === 'retirement-statement' ||
           d.category === 'property-document' ||
           d.category === 'insurance-document' ||
+          d.subcategory === 'asset-discovery' ||
           d.fileName?.toLowerCase().includes('tax') ||
           d.fileName?.toLowerCase().includes('statement') ||
           d.fileName?.toLowerCase().includes('1099') ||
           d.fileName?.toLowerCase().includes('w-2')
         );
+        console.log('Initial load - all docs:', docs.length, 'financial docs:', financialDocs.length);
 
         setDocuments(financialDocs);
         setSelectedDocs(financialDocs.map(d => d.id));
@@ -224,29 +226,39 @@ const AdminAssetDiscoveryPage = () => {
 
     setUploading(false);
 
-    // Reload documents
-    const docsQuery = query(
-      collection(db, 'documents'),
-      where('caseId', '==', selectedCase.id)
-    );
-    const snapshot = await getDocs(docsQuery);
-    const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-    const financialDocs = docs.filter(d =>
-      d.category === 'financial' ||
-      d.category === 'tax-return' ||
-      d.category === 'bank-statement' ||
-      d.category === 'investment-statement' ||
-      d.category === 'retirement-statement' ||
-      d.category === 'property-document' ||
-      d.category === 'insurance-document'
-    );
-    setDocuments(financialDocs);
-    setSelectedDocs(financialDocs.map(d => d.id));
-
-    // Reset upload form
+    // Reset upload form first
     setUploadFiles([]);
     setUploadCategory('');
     if (fileInputRef.current) fileInputRef.current.value = '';
+
+    // Small delay to ensure Firestore has committed, then reload documents
+    setTimeout(async () => {
+      try {
+        const docsQuery = query(
+          collection(db, 'documents'),
+          where('caseId', '==', selectedCase.id)
+        );
+        const snapshot = await getDocs(docsQuery);
+        console.log('Reloaded documents count:', snapshot.size);
+        const docs = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        console.log('All docs for case:', docs);
+        const financialDocs = docs.filter(d =>
+          d.category === 'financial' ||
+          d.category === 'tax-return' ||
+          d.category === 'bank-statement' ||
+          d.category === 'investment-statement' ||
+          d.category === 'retirement-statement' ||
+          d.category === 'property-document' ||
+          d.category === 'insurance-document' ||
+          d.subcategory === 'asset-discovery'
+        );
+        console.log('Financial docs:', financialDocs);
+        setDocuments(financialDocs);
+        setSelectedDocs(financialDocs.map(d => d.id));
+      } catch (err) {
+        console.error('Error reloading documents:', err);
+      }
+    }, 1000);
   };
 
   const toggleDocSelection = (docId) => {
