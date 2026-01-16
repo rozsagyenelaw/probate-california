@@ -262,6 +262,15 @@ const LandingPage = () => {
               <button onClick={() => navigate('/learn-california-probate')} className="text-amber-600 hover:text-amber-700 font-medium">
                 Learn
               </button>
+              <a
+                href="https://portal.myprobateca.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-900 hover:text-blue-700 font-medium flex items-center"
+              >
+                <ExternalLink className="h-4 w-4 mr-1" />
+                Client Portal
+              </a>
 
               {user ? (
                 <>
@@ -344,6 +353,15 @@ const LandingPage = () => {
                 <button onClick={() => { setMobileMenuOpen(false); navigate('/learn-california-probate'); }} className="text-amber-600 hover:text-amber-700 font-medium text-left">
                   Learn
                 </button>
+                <a
+                  href="https://portal.myprobateca.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-900 hover:text-blue-700 font-medium text-left flex items-center"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Client Portal
+                </a>
 
                 {user ? (
                   <>
