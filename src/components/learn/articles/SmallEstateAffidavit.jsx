@@ -22,7 +22,7 @@ const SmallEstateAffidavit = () => {
     },
     "datePublished": "2026-01-12",
     "dateModified": "2026-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/small-estate-affidavit-california/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/small-estate-affidavit-california"
   };
 
   const relatedArticles = [
@@ -35,7 +35,7 @@ const SmallEstateAffidavit = () => {
     <ArticleLayout
       title="Small Estate Affidavit California: When You Don't Need Probate"
       metaDescription="Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $184,500 limit, requirements, and step-by-step process."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/small-estate-affidavit-california/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/small-estate-affidavit-california"
       publishDate="January 12, 2026"
       readTime="10"
       category="Avoid Probate"

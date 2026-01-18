@@ -22,7 +22,7 @@ const IntestateSuccession = () => {
     },
     "datePublished": "2026-01-18",
     "dateModified": "2026-01-18",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/dying-without-will-california-intestate-succession/",
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/dying-without-will-california-intestate-succession",
     "image": "https://myprobateca.com/images/blog/dying-without-will.jpg"
   };
 
@@ -75,7 +75,7 @@ const IntestateSuccession = () => {
     <ArticleLayout
       title="What Happens If You Die Without a Will in California? Intestate Succession Explained"
       metaDescription="Learn how California distributes your estate if you die without a will. Understand intestate succession laws, who inherits, and why probate is still required."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/dying-without-will-california-intestate-succession/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/dying-without-will-california-intestate-succession"
       publishDate="January 18, 2026"
       readTime="12"
       category="Intestate Succession"

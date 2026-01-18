@@ -21,7 +21,7 @@ const CaliforniaProbateFees = () => {
     },
     "datePublished": "2025-01-12",
     "dateModified": "2025-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat"
   };
 
   const relatedArticles = [
@@ -34,7 +34,7 @@ const CaliforniaProbateFees = () => {
     <ArticleLayout
       title="California Probate Fees Exposed: Statutory vs Flat Fee"
       metaDescription="Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees—and how to pay $3,995 instead."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat"
       publishDate="January 12, 2025"
       readTime="10"
       category="Fees & Costs"

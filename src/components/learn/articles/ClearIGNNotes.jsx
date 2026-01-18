@@ -22,7 +22,7 @@ const ClearIGNNotes = () => {
     },
     "datePublished": "2025-01-12",
     "dateModified": "2025-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk"
   };
 
   const relatedArticles = [
@@ -35,7 +35,7 @@ const ClearIGNNotes = () => {
     <ArticleLayout
       title="How to Clear IGN Notes at Stanley Mosk Courthouse"
       metaDescription="Step-by-step guide to clearing probate examiner notes (IGN) at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk"
       publishDate="January 12, 2025"
       readTime="12"
       category="Court Procedures"

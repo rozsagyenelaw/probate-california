@@ -21,7 +21,7 @@ const ProbateBondRequirements = () => {
     },
     "datePublished": "2025-01-12",
     "dateModified": "2025-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/probate-bond-requirements-california/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/probate-bond-requirements-california"
   };
 
   const relatedArticles = [
@@ -34,7 +34,7 @@ const ProbateBondRequirements = () => {
     <ArticleLayout
       title="Probate Bond Requirements in California: When You Need One"
       metaDescription="When California probate courts require bonds, how much they cost (0.5-1%), and when bonds can be waived. Complete executor guide."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/probate-bond-requirements-california/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/probate-bond-requirements-california"
       publishDate="January 12, 2025"
       readTime="10"
       category="Executor Guide"

@@ -61,7 +61,7 @@ const HowToFileProbate = () => {
     },
     "datePublished": "2026-01-12",
     "dateModified": "2026-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/how-to-file-probate-california/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/how-to-file-probate-california"
   };
 
   const relatedArticles = [
@@ -74,7 +74,7 @@ const HowToFileProbate = () => {
     <ArticleLayout
       title="How to File Probate in California: Step-by-Step Guide"
       metaDescription="Complete guide to filing probate in California. Learn what documents you need, where to file, court fees, and how to navigate the 11-phase process successfully."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/how-to-file-probate-california/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/how-to-file-probate-california"
       publishDate="January 12, 2026"
       readTime="15"
       category="Step-by-Step Guide"

@@ -21,7 +21,7 @@ const WhatIsProbateReferee = () => {
     },
     "datePublished": "2025-01-12",
     "dateModified": "2025-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/what-is-probate-referee-california/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/what-is-probate-referee-california"
   };
 
   const relatedArticles = [
@@ -34,7 +34,7 @@ const WhatIsProbateReferee = () => {
     <ArticleLayout
       title="What is a Probate Referee in California?"
       metaDescription="Learn about California's court-appointed probate referees. How they're assigned, what they appraise, fees (0.1%), and how to work with them."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/what-is-probate-referee-california/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/what-is-probate-referee-california"
       publishDate="January 12, 2025"
       readTime="8"
       category="Process"

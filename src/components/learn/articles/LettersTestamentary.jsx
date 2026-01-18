@@ -21,7 +21,7 @@ const LettersTestamentary = () => {
     },
     "datePublished": "2025-01-12",
     "dateModified": "2025-01-12",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/letters-testamentary-california-guide/"
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/letters-testamentary-california-guide"
   };
 
   const relatedArticles = [
@@ -34,7 +34,7 @@ const LettersTestamentary = () => {
     <ArticleLayout
       title="Letters Testamentary California: Your Golden Ticket Explained"
       metaDescription="What Letters Testamentary are, how to get certified copies, and how to use them with banks and title companies. Form DE-150 explained."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/letters-testamentary-california-guide/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/letters-testamentary-california-guide"
       publishDate="January 12, 2025"
       readTime="8"
       category="Forms & Documents"

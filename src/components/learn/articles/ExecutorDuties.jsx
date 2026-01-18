@@ -22,7 +22,7 @@ const ExecutorDuties = () => {
     },
     "datePublished": "2026-01-18",
     "dateModified": "2026-01-18",
-    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/executor-duties-california-probate/",
+    "mainEntityOfPage": "https://myprobateca.com/learn-california-probate/executor-duties-california-probate",
     "image": "https://myprobateca.com/images/blog/executor-duties.jpg"
   };
 
@@ -75,7 +75,7 @@ const ExecutorDuties = () => {
     <ArticleLayout
       title="Executor Duties in California Probate: Complete Responsibilities Guide"
       metaDescription="Comprehensive guide to executor duties in California. Learn your legal responsibilities, timeline, potential liabilities, and how to fulfill your role properly."
-      canonicalUrl="https://myprobateca.com/learn-california-probate/executor-duties-california-probate/"
+      canonicalUrl="https://myprobateca.com/learn-california-probate/executor-duties-california-probate"
       publishDate="January 18, 2026"
       readTime="14"
       category="Executor Guide"
