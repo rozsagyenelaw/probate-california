@@ -126,7 +126,7 @@ async function sendAdminNotification(customerEmail, customerName, serviceType, p
               <p><strong>Date:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</p>
             </div>
 
-            <p><strong>Action Required:</strong> Please log into the <a href="https://probate-california.com/admin">Admin Panel</a> to view the case details.</p>
+            <p><strong>Action Required:</strong> Please log into the <a href="https://myprobateca.com/admin">Admin Panel</a> to view the case details.</p>
           </div>
           <div class="footer">
             <p>Probate California - Automated Notification</p>
@@ -227,7 +227,7 @@ async function sendCustomerConfirmation(customerEmail, customerName, serviceType
 
             <p>You can track the progress of your ${isAccountingOnly ? 'service' : 'case'} anytime by logging into your dashboard:</p>
 
-            <a href="https://probate-california.com/dashboard" class="button">View My Dashboard</a>
+            <a href="https://myprobateca.com/dashboard" class="button">View My Dashboard</a>
 
             <p>If you have any questions, please don't hesitate to contact us:</p>
             <p><strong>Phone:</strong> (818) 291-6217<br>

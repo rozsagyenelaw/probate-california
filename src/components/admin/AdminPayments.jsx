@@ -54,10 +54,11 @@ const AdminPayments = () => {
       c.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.email?.toLowerCase().includes(searchTerm.toLowerCase());
 
+    const isPaid = c.paymentStatus === 'paid' || c.paymentStatus === 'installments_active';
     const matchesStatus =
       statusFilter === 'all' ||
-      (statusFilter === 'paid' && c.paymentStatus === 'paid') ||
-      (statusFilter === 'pending' && c.paymentStatus !== 'paid');
+      (statusFilter === 'paid' && isPaid) ||
+      (statusFilter === 'pending' && !isPaid);
 
     return matchesSearch && matchesStatus;
   });
@@ -76,8 +77,8 @@ const AdminPayments = () => {
     }).format(amount);
   };
 
-  const paidClients = clients.filter(c => c.paymentStatus === 'paid');
-  const pendingClients = clients.filter(c => c.paymentStatus !== 'paid');
+  const paidClients = clients.filter(c => c.paymentStatus === 'paid' || c.paymentStatus === 'installments_active');
+  const pendingClients = clients.filter(c => c.paymentStatus !== 'paid' && c.paymentStatus !== 'installments_active');
 
   const stats = {
     totalRevenue: paidClients.length * FLAT_FEE,
@@ -255,12 +256,19 @@ const AdminPayments = () => {
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         client.paymentStatus === 'paid'
                           ? 'bg-green-100 text-green-700'
+                          : client.paymentStatus === 'installments_active'
+                          ? 'bg-blue-100 text-blue-700'
                           : 'bg-yellow-100 text-yellow-700'
                       }`}>
                         {client.paymentStatus === 'paid' ? (
                           <>
                             <CheckCircle className="h-3 w-3 mr-1" />
                             Paid
+                          </>
+                        ) : client.paymentStatus === 'installments_active' ? (
+                          <>
+                            <RefreshCw className="h-3 w-3 mr-1" />
+                            Installments ({3 - (client.installmentsRemaining || 0)}/3)
                           </>
                         ) : (
                           <>
@@ -271,8 +279,8 @@ const AdminPayments = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {client.paymentStatus === 'paid'
-                        ? formatDate(client.paymentDate)
+                      {client.paymentStatus === 'paid' || client.paymentStatus === 'installments_active'
+                        ? formatDate(client.paidAt)
                         : '-'
                       }
                     </td>

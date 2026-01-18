@@ -334,7 +334,7 @@ exports.handler = async (event, context) => {
     console.log('Creating Stripe session with line items:', JSON.stringify(line_items, null, 2));
 
     // Determine success and cancel URLs
-    const baseUrl = process.env.URL || 'https://probate-california.com';
+    const baseUrl = process.env.URL || 'https://myprobateca.com';
     // Include amount for Google Ads conversion tracking
     const totalAmountDollars = (totalAmountCents / 100).toFixed(2);
     const successUrl = `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&amount=${totalAmountDollars}`;
