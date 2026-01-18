@@ -375,6 +375,7 @@ exports.handler = async (event, context) => {
       cancel_url: cancelUrl,
       customer_email: customerEmail || undefined,
       metadata: {
+        app: 'probate',
         serviceType: serviceType,
         probateType: probateType || '',
         accountingAddon: accountingAddon || '',
@@ -398,6 +399,7 @@ exports.handler = async (event, context) => {
     if (mode === 'subscription') {
       sessionConfig.subscription_data = {
         metadata: {
+          app: 'probate',
           serviceType: serviceType,
           probateType: probateType || '',
           accountingAddon: accountingAddon || '',

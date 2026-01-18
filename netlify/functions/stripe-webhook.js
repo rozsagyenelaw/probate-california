@@ -442,6 +442,16 @@ exports.handler = async (event, context) => {
     const amountTotal = session.amount_total;
     const metadata = session.metadata || {};
 
+    // Only process payments for the probate app
+    if (metadata.app !== 'probate') {
+      console.log('Skipping non-probate payment (app:', metadata.app || 'not set', ')');
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ received: true, skipped: 'not a probate payment' }),
+      };
+    }
+
     if (customerEmail) {
       const serviceType = metadata.serviceType || 'full';
       const probateType = metadata.probateType || null;
