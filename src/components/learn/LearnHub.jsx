@@ -109,6 +109,28 @@ const ARTICLES = [
     date: 'January 2025',
     readTime: '15 min read',
     featured: false
+  },
+  {
+    id: 9,
+    slug: 'dying-without-will-california-intestate-succession',
+    title: 'What Happens If You Die Without a Will in California?',
+    description: 'Learn how California distributes your estate through intestate succession laws when there is no will.',
+    category: 'Intestate Succession',
+    image: '/images/blog/dying-without-will.jpg',
+    date: 'January 2026',
+    readTime: '12 min read',
+    featured: false
+  },
+  {
+    id: 10,
+    slug: 'executor-duties-california-probate',
+    title: 'Executor Duties in California Probate: Complete Guide',
+    description: 'Comprehensive guide to executor responsibilities, timeline, compensation, and how to avoid personal liability.',
+    category: 'Executor Guide',
+    image: '/images/blog/executor-duties.jpg',
+    date: 'January 2026',
+    readTime: '14 min read',
+    featured: false
   }
 ];
 

@@ -76,6 +76,8 @@ const ProbateBondRequirements = lazy(() => import('./components/learn/articles/P
 const HowToFileProbate = lazy(() => import('./components/learn/articles/HowToFileProbate'));
 const SmallEstateAffidavit = lazy(() => import('./components/learn/articles/SmallEstateAffidavit'));
 const ProbateTimeline = lazy(() => import('./components/learn/articles/ProbateTimeline'));
+const IntestateSuccession = lazy(() => import('./components/learn/articles/IntestateSuccession'));
+const ExecutorDuties = lazy(() => import('./components/learn/articles/ExecutorDuties'));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -314,6 +316,8 @@ function App() {
           <Route path="/learn-california-probate/how-to-file-probate-california" element={<HowToFileProbate />} />
           <Route path="/learn-california-probate/small-estate-affidavit-california" element={<SmallEstateAffidavit />} />
           <Route path="/learn-california-probate/probate-timeline-california-what-to-expect" element={<ProbateTimeline />} />
+          <Route path="/learn-california-probate/dying-without-will-california-intestate-succession" element={<IntestateSuccession />} />
+          <Route path="/learn-california-probate/executor-duties-california-probate" element={<ExecutorDuties />} />
 
           {/* Home route - landing page or dashboard based on auth */}
           <Route path="/" element={<HomeRoute />} />
