@@ -1,10 +1,13 @@
 const Anthropic = require('@anthropic-ai/sdk');
+const { verifyRequest, isAdminToken, userOwnsCase } = require('../lib/firebaseAuth');
+
+const MAX_DOCUMENT_CHARS = 200000;
 
 exports.handler = async (event, context) => {
   // CORS headers
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Origin': 'https://myprobateca.com',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'POST, OPTIONS'
   };
 
@@ -16,8 +19,22 @@ exports.handler = async (event, context) => {
     return { statusCode: 405, headers, body: 'Method Not Allowed' };
   }
 
+  // Only a signed-in client analyzing their own case, or the attorney
+  const decoded = await verifyRequest(event);
+  if (!decoded) {
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sign-in required' }) };
+  }
+
   try {
-    const { documentText, documentType, documentName } = JSON.parse(event.body);
+    const { documentText, documentType, documentName, caseId } = JSON.parse(event.body);
+
+    if (!isAdminToken(decoded) && !(await userOwnsCase(decoded.uid, caseId))) {
+      return { statusCode: 403, headers, body: JSON.stringify({ error: 'Not allowed for this case' }) };
+    }
+
+    if (typeof documentText === 'string' && documentText.length > MAX_DOCUMENT_CHARS) {
+      return { statusCode: 413, headers, body: JSON.stringify({ error: 'Document is too large to analyze' }) };
+    }
 
     if (!documentText) {
       return {

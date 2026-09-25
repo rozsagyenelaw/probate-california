@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { doc, updateDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../../services/firebase';
+import { db, auth } from '../../services/firebase';
 import { extractTextFromPDF } from '../../utils/pdfExtractor';
 import AssetReport from './AssetReport';
 import './AssetDiscovery.css';
@@ -84,14 +84,18 @@ const AssetDiscovery = ({ caseId, onComplete }) => {
         ));
 
         // Send to AI for analysis
+        const idToken = await auth.currentUser?.getIdToken();
         const response = await fetch('/.netlify/functions/analyze-tax-returns', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`
           },
           body: JSON.stringify({
-            taxReturnText: pdfText,
-            year: upload.year
+            documentText: pdfText,
+            documentType: `Tax Return (${upload.year})`,
+            documentName: upload.name,
+            caseId
           })
         });
 

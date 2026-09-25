@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Shield, FileText, AlertCircle, CheckCircle, Loader2, Trash2, X } from 'lucide-react';
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { db, functions } from '../../services/firebase';
+import { functions } from '../../services/firebase';
 import * as pdfjsLib from 'pdfjs-dist';
 
 // Set worker
@@ -193,18 +192,13 @@ const ClientSignaturePage = () => {
           return;
         }
 
-        // Fetch the signature request from Firestore
-        const docRef = doc(db, 'signatureRequests', requestId);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setSignatureRequest({ id: docSnap.id, ...docSnap.data() });
-        } else {
-          setError('Signature request not found');
-        }
+        // Signature requests are private in Firestore; the signing link is read through a Cloud Function
+        const getSignatureRequest = httpsCallable(functions, 'getSignatureRequestForSigning');
+        const result = await getSignatureRequest({ requestId });
+        setSignatureRequest(result.data);
       } catch (err) {
         console.error('Error fetching signature request:', err);
-        setError('Failed to load signature request');
+        setError(err.code === 'functions/not-found' ? 'Signature request not found' : 'Failed to load signature request');
       } finally {
         setLoading(false);
       }
@@ -329,35 +323,19 @@ const ClientSignaturePage = () => {
 
     setSigning(true);
     try {
-      const generateSignedPdf = httpsCallable(functions, 'generateSignedPdf');
-
-      console.log('Generating signed PDF...');
-      const result = await generateSignedPdf({
-        originalPdfUrl: signatureRequest.documentUrl,
-        signatures: signedFields,
-        signatureFields: signatureRequest.signatureFields,
-        requestId: signatureRequest.id
-      });
-
-      const signedPdfUrl = result.data.signedPdfUrl;
-      console.log('Signed PDF generated:', signedPdfUrl);
-
-      // Update Firestore with signed status and signed PDF URL
-      const docRef = doc(db, 'signatureRequests', signatureRequest.id);
-      await updateDoc(docRef, {
-        signed: true,
-        signatures: signedFields,
-        signedPdfUrl: signedPdfUrl,
-        signedAt: serverTimestamp(),
-        status: 'signed'
+      // The function builds the signed PDF from the stored request and marks it signed
+      const submitSignature = httpsCallable(functions, 'submitSignature');
+      const result = await submitSignature({
+        requestId: signatureRequest.id,
+        signatures: signedFields
       });
 
       setSignatureRequest({
         ...signatureRequest,
         signed: true,
-        signatures: signedFields,
-        signedPdfUrl: signedPdfUrl,
-        signedAt: new Date()
+        status: 'signed',
+        signedPdfUrl: result.data.signedPdfUrl,
+        signedAt: result.data.signedAt
       });
 
       alert('Document signed successfully! Thank you.');
@@ -421,7 +399,7 @@ const ClientSignaturePage = () => {
               <div>
                 <p className="font-medium text-green-900">Document Already Signed</p>
                 <p className="text-sm text-green-700">
-                  This document was signed on {signatureRequest.signedAt?.toDate?.()?.toLocaleDateString() || 'recently'}
+                  This document was signed on {signatureRequest.signedAt ? new Date(signatureRequest.signedAt).toLocaleDateString() : 'recently'}
                 </p>
               </div>
             </div>

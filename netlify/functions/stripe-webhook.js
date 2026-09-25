@@ -407,17 +407,21 @@ exports.handler = async (event, context) => {
   const sig = event.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+  // Every event must carry a valid Stripe signature; nothing is processed otherwise
+  if (!webhookSecret || !sig) {
+    console.error('Rejected webhook: missing', !webhookSecret ? 'STRIPE_WEBHOOK_SECRET' : 'stripe-signature header');
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: 'Webhook Error: missing signature' }),
+    };
+  }
+
   let stripeEvent;
 
   try {
-    // Verify the webhook signature
-    if (webhookSecret && sig) {
-      stripeEvent = stripe.webhooks.constructEvent(event.body, sig, webhookSecret);
-    } else {
-      // For testing without signature verification
-      stripeEvent = JSON.parse(event.body);
-      console.warn('Warning: Webhook signature not verified');
-    }
+    const rawBody = event.isBase64Encoded ? Buffer.from(event.body, 'base64').toString('utf8') : event.body;
+    stripeEvent = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
     return {

@@ -7,11 +7,13 @@ service firebase.storage {
       return request.auth != null;
     }
 
-    // Helper function to check if user is admin
+    // Helper function to check if user is admin: `admin` custom claim on a verified email,
+    // with the two existing admin accounts as a temporary fallback until the claim is set
     function isAdmin() {
       return isAuthenticated() &&
-        (request.auth.token.email == 'rozsagyenelaw@yahoo.com' ||
-         request.auth.token.email == 'rozsagyenelaw1@gmail.com');
+        ((request.auth.token.get('admin', false) == true &&
+          request.auth.token.get('email_verified', false) == true) ||
+         request.auth.token.email in ['rozsagyenelaw@yahoo.com', 'rozsagyenelaw1@gmail.com']);
     }
 
     // Intake documents - users can only access their own uploads
@@ -43,10 +45,11 @@ service firebase.storage {
     }
 
     // Signed documents - cloud function uploads, public can read
+    // Only the attorney writes here directly; the signing Cloud Function uses the
+    // Admin SDK, which bypasses these rules. Clients never upload to this path.
     match /signed-documents/{allPaths=**} {
       allow read: if true;  // Public access to download signed docs
-      allow write: if true;  // Cloud function needs to write
-      allow delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
     // Vault documents - users can only access their own vault

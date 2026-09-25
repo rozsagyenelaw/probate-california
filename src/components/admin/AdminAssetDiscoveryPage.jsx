@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { collection, query, getDocs, where, doc, updateDoc, Timestamp, orderBy } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../../services/firebase';
+import { db, storage, auth } from '../../services/firebase';
 import { extractTextFromPDF } from '../../utils/pdfExtractor';
 import {
   Search,
@@ -303,9 +303,10 @@ const AdminAssetDiscoveryPage = () => {
           const pdfText = await extractTextFromPDF(file);
 
           setProgress(`Analyzing ${docItem.fileName} with AI...`);
+          const idToken = await auth.currentUser?.getIdToken();
           const aiResponse = await fetch('/.netlify/functions/analyze-tax-returns', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
             body: JSON.stringify({
               documentText: pdfText,
               documentType: DOCUMENT_TYPE_MAP[docItem.category] || 'Financial Document',
