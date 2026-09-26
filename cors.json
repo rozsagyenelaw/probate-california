@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["https://myprobateca.com", "https://www.myprobateca.com", "http://localhost:5173", "https://probate-california.netlify.app"],
+    "origin": ["https://myprobateca.com", "https://www.myprobateca.com", "https://portal.myprobateca.com", "https://probateclientportal.netlify.app", "http://localhost:5173", "https://probate-california.netlify.app"],
     "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
     "maxAgeSeconds": 3600,
     "responseHeader": ["Content-Type", "Content-Length", "Content-Disposition"]

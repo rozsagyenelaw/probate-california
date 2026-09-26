@@ -7,14 +7,11 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Helper function to check if user is admin: `admin` custom claim on a verified email.
-    // The two email addresses are a temporary fallback until the claim is set; both already
-    // have accounts, so nobody else can register them.
+    // Helper function to check if user is admin: `admin` custom claim on a verified email
     function isAdmin() {
       return isAuthenticated() &&
-        ((request.auth.token.get('admin', false) == true &&
-          request.auth.token.get('email_verified', false) == true) ||
-         request.auth.token.email in ['rozsagyenelaw@yahoo.com', 'rozsagyenelaw1@gmail.com']);
+        request.auth.token.get('admin', false) == true &&
+        request.auth.token.get('email_verified', false) == true;
     }
 
     // True when the signed-in user owns the case
@@ -69,10 +66,16 @@ service cloud.firestore {
     }
 
     // Messages collection - users can only access their own messages
+    // Owner = userId / clientId on the message, or the owner of the message's case
     match /messages/{messageId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update: if isAuthenticated();
+      allow read, update: if isAdmin() ||
+        (isAuthenticated() &&
+         (resource.data.userId == request.auth.uid ||
+          resource.data.clientId == request.auth.uid ||
+          ownsCase(resource.data.caseId)));
+      allow create: if isAdmin() ||
+        (isAuthenticated() && request.resource.data.senderId == request.auth.uid &&
+         ownsCase(request.resource.data.caseId));
       allow delete: if isAdmin();
     }
 
@@ -125,27 +128,32 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Clients collection
+    // Clients collection - the client's own record and the attorney
     match /clients/{clientId} {
-      allow read: if isAuthenticated();
+      allow read: if isAdmin() ||
+        (isAuthenticated() &&
+         (clientId == request.auth.uid ||
+          resource.data.clientId == request.auth.uid ||
+          resource.data.userId == request.auth.uid));
       allow write: if isAdmin();
     }
 
-    // Matters collection
+    // Matters, billings and tasks - the client they belong to and the attorney
     match /matters/{matterId} {
-      allow read: if isAuthenticated();
+      allow read: if isAdmin() ||
+        (isAuthenticated() && resource.data.clientId == request.auth.uid);
       allow write: if isAdmin();
     }
 
-    // Billings collection
     match /billings/{billingId} {
-      allow read: if isAuthenticated();
+      allow read: if isAdmin() ||
+        (isAuthenticated() && resource.data.clientId == request.auth.uid);
       allow write: if isAdmin();
     }
 
-    // Tasks collection
     match /tasks/{taskId} {
-      allow read: if isAuthenticated();
+      allow read: if isAdmin() ||
+        (isAuthenticated() && resource.data.clientId == request.auth.uid);
       allow write: if isAdmin();
     }
 

@@ -7,13 +7,18 @@ service firebase.storage {
       return request.auth != null;
     }
 
-    // Helper function to check if user is admin: `admin` custom claim on a verified email,
-    // with the two existing admin accounts as a temporary fallback until the claim is set
+    // Admin = `admin` custom claim on a verified email
     function isAdmin() {
       return isAuthenticated() &&
-        ((request.auth.token.get('admin', false) == true &&
-          request.auth.token.get('email_verified', false) == true) ||
-         request.auth.token.email in ['rozsagyenelaw@yahoo.com', 'rozsagyenelaw1@gmail.com']);
+        request.auth.token.get('admin', false) == true &&
+        request.auth.token.get('email_verified', false) == true;
+    }
+
+    // True when the signed-in user owns the case in Firestore
+    // (needs roles/firebaserules.firestoreServiceAgent on the Storage service agent)
+    function ownsCase(caseId) {
+      return isAuthenticated() &&
+        firestore.get(/databases/(default)/documents/cases/$(caseId)).data.userId == request.auth.uid;
     }
 
     // Intake documents - users can only access their own uploads
@@ -23,17 +28,15 @@ service firebase.storage {
       allow delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
     }
 
-    // Case documents - users can only access their own case documents
+    // Case documents - the client who owns the case and the attorney
     match /cases/{caseId}/documents/{allPaths=**} {
-      allow read: if isAuthenticated();
-      allow write: if isAuthenticated();
-      allow delete: if isAuthenticated() || isAdmin();
+      allow read, write: if isAdmin() || ownsCase(caseId);
     }
 
     // Documents collection - for financial docs upload (asset discovery)
     match /documents/{caseId}/{allPaths=**} {
-      allow read: if isAuthenticated();
-      allow write: if isAuthenticated();
+      allow read: if isAdmin() || ownsCase(caseId);
+      allow create, update: if isAdmin() || ownsCase(caseId);
       allow delete: if isAdmin();
     }
 
@@ -44,11 +47,13 @@ service firebase.storage {
       allow delete: if isAdmin();
     }
 
-    // Signed documents - cloud function uploads, public can read
-    // Only the attorney writes here directly; the signing Cloud Function uses the
-    // Admin SDK, which bypasses these rules. Clients never upload to this path.
-    match /signed-documents/{allPaths=**} {
-      allow read: if true;  // Public access to download signed docs
+    // Signed documents - the client the request belongs to and the attorney.
+    // The signing Cloud Function writes with the Admin SDK (bypasses rules) and hands the
+    // signer a tokenized download link through the signing page.
+    match /signed-documents/{requestId}/{allPaths=**} {
+      allow read: if isAdmin() ||
+        (isAuthenticated() &&
+         firestore.get(/databases/(default)/documents/signatureRequests/$(requestId)).data.clientId == request.auth.uid);
       allow write: if isAdmin();
     }
 

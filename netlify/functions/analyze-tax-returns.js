@@ -3,10 +3,6 @@ const admin = require('firebase-admin');
 
 const MAX_DOCUMENT_CHARS = 200000;
 
-// Temporary fallback until the `admin` custom claim is set on the attorney's accounts.
-// Both addresses already have accounts, so nobody else can register them.
-const LEGACY_ADMIN_EMAILS = ['rozsagyenelaw@yahoo.com', 'rozsagyenelaw1@gmail.com'];
-
 function getAdminApp() {
   if (!admin.apps.length) {
     const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
@@ -18,9 +14,9 @@ function getAdminApp() {
   return admin;
 }
 
+// Admin = `admin` custom claim on a verified email (same check as the security rules)
 function isAdminToken(decoded) {
-  if (decoded.admin === true && decoded.email_verified === true) return true;
-  return LEGACY_ADMIN_EMAILS.includes(decoded.email);
+  return decoded.admin === true && decoded.email_verified === true;
 }
 
 // Returns the decoded Firebase ID token, or null when missing or invalid

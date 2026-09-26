@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// Set worker - use local copy from public directory
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+// Worker is bundled from the installed pdfjs-dist so its version always matches the library
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 const PdfViewer = ({ pdfUrl, onPageClick, signaturePlacements, onLoadSuccess }) => {
   const containerRef = useRef(null);

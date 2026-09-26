@@ -4,7 +4,15 @@ import { isFirebaseConfigured, getAuthMethods, getFirestoreMethods } from '../se
 const AuthContext = createContext({});
 
 // Admin emails that have access to admin dashboard
-const ADMIN_EMAILS = ['rozsagyenelaw@yahoo.com', 'rozsagyenelaw1@gmail.com'];
+// Admin = `admin` custom claim on a verified email (same check as the security rules)
+async function hasAdminClaim(firebaseUser) {
+  try {
+    const { claims } = await firebaseUser.getIdTokenResult(true);
+    return claims.admin === true && claims.email_verified === true;
+  } catch {
+    return false;
+  }
+}
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -41,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
           if (firebaseUser) {
             setUser(firebaseUser);
-            setIsAdmin(ADMIN_EMAILS.includes(firebaseUser.email));
+            setIsAdmin(await hasAdminClaim(firebaseUser));
 
             // Load profile in background
             try {

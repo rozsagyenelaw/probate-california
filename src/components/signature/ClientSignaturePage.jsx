@@ -3,9 +3,11 @@ import { Shield, FileText, AlertCircle, CheckCircle, Loader2, Trash2, X } from '
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../services/firebase';
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
 // Set worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+// Worker is bundled from the installed pdfjs-dist so its version always matches the library
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 // PDF Viewer component with signature field overlays
 const PdfViewerWithSignatures = ({ pdfUrl, signatureFields, signedFields, onSignField }) => {
