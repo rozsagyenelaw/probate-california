@@ -209,6 +209,7 @@ const PaymentPage = () => {
             <button type="submit" disabled={guestBusy} className="w-full py-3 rounded-lg bg-blue-900 text-white font-semibold disabled:opacity-50">{guestBusy ? 'One moment…' : 'Continue to payment'}</button>
           </form>
           <p className="mt-5 text-center text-sm text-gray-600">Already a client? <Link to="/login" state={{ from: '/payment' }} className="text-blue-700 font-medium">Sign in</Link></p>
+          <p className="mt-6 text-center text-xs text-gray-500">Law Offices of Rozsa Gyene · 3500 W. Olive Ave., Suite 300, Burbank, CA 91505 · 818-337-4071</p>
         </div>
       </div>
     );

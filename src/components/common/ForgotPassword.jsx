@@ -122,6 +122,7 @@ const ForgotPassword = () => {
             Back to sign in
           </Link>
         </div>
+        <p className="text-center text-xs text-gray-500">Law Offices of Rozsa Gyene · 3500 W. Olive Ave., Suite 300, Burbank, CA 91505 · 818-337-4071</p>
       </div>
     </div>
   );
