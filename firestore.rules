@@ -95,6 +95,12 @@ service cloud.firestore {
 
     // Signature Requests collection - the client it belongs to and the attorney.
     // The public /sign/{id} link reads and signs through Cloud Functions.
+    // Signing audit trail: written only by Cloud Functions, readable by the attorney
+    match /signatureRequests/{requestId}/events/{eventId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
     match /signatureRequests/{requestId} {
       allow read, update: if isAdmin() ||
         (isAuthenticated() && resource.data.clientId == request.auth.uid);

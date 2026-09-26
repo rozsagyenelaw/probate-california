@@ -141,10 +141,14 @@ export const AuthProvider = ({ children }) => {
     setIsAdmin(false);
   }, []);
 
-  // Password reset function
+  // Password reset: branded email whose link opens the portal's "Set your password" page.
+  // Same response whether or not the email has an account.
   const resetPassword = useCallback(async (email) => {
-    const authMethods = authMethodsRef.current || await getAuthMethods();
-    await authMethods.sendPasswordResetEmail(authMethods.auth, email);
+    const [{ httpsCallable }, { functions }] = await Promise.all([
+      import('firebase/functions'),
+      import('../services/firebase')
+    ]);
+    await httpsCallable(functions, 'sendPasswordResetEmail')({ email });
   }, []);
 
   // Update user profile

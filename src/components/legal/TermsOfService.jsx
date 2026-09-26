@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Scale } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import ClientLoginButton from '../common/ClientLoginButton';
 
 const TermsOfService = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const TermsOfService = () => {
               </div>
               <span className="font-semibold text-gray-900">California Probate</span>
             </div>
+            <ClientLoginButton tone="light" compact />
           </div>
         </div>
       </header>

@@ -296,6 +296,14 @@ async function updateUserPaymentStatus(customerEmail, serviceType, probateType, 
       console.warn('User not found for email:', customerEmail);
       // Create a payment record anyway
       await db.collection('payments').add(paymentRecord);
+      // Ask the portal to create the client's account (one per email) and send the welcome email
+      await db.collection('accountRequests').add({
+        email: customerEmail.toLowerCase(),
+        name: sessionMetadata.customerName || '',
+        source: 'payment',
+        orderNumber,
+        createdAt: admin.firestore.FieldValue.serverTimestamp()
+      });
       return { success: true, orderNumber: orderNumber, action: 'payment_recorded' };
     }
 

@@ -1,1 +1,5 @@
+# Firebase Auth handler on this domain (Google/Apple sign-in shows myprobateca.com)
+/__/*    https://probate-california.firebaseapp.com/__/:splat    200!
+# One signing flow, on the client portal
+/sign/*    https://portal.myprobateca.com/sign/:splat    301!
 /*    /index.html   200

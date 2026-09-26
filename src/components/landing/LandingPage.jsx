@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
+import ClientLoginButton from '../common/ClientLoginButton';
 import {
   Scale,
   Check,
@@ -299,13 +300,7 @@ const LandingPage = () => {
                 </>
               ) : (
                 <>
-                  <button
-                    onClick={() => navigate('/login')}
-                    className="text-gray-600 hover:text-blue-900 font-medium flex items-center"
-                  >
-                    <LogIn className="h-4 w-4 mr-1" />
-                    Login
-                  </button>
+                  <ClientLoginButton tone="light" />
                   <button
                     onClick={handleStartCase}
                     className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium transition-colors"
@@ -317,6 +312,7 @@ const LandingPage = () => {
             </div>
 
             {/* Mobile menu button */}
+            <div className="md:hidden ml-auto mr-1"><ClientLoginButton tone="light" compact /></div>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 text-gray-600"
@@ -390,13 +386,7 @@ const LandingPage = () => {
                   </>
                 ) : (
                   <>
-                    <button
-                      onClick={() => { setMobileMenuOpen(false); navigate('/login'); }}
-                      className="text-gray-600 hover:text-blue-900 font-medium text-left flex items-center"
-                    >
-                      <LogIn className="h-4 w-4 mr-2" />
-                      Login
-                    </button>
+                    <ClientLoginButton tone="light" compact onNavigate={() => setMobileMenuOpen(false)} />
                     <button
                       onClick={handleStartCase}
                       className="bg-blue-900 text-white px-5 py-2 rounded-lg hover:bg-blue-800 font-medium w-full"

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Scale, Home, Phone, BookOpen, MapPin, HelpCircle } from 'lucide-react';
+import ClientLoginButton from './ClientLoginButton';
 
 const NotFound = () => {
   return (
@@ -15,11 +16,12 @@ const NotFound = () => {
       <div className="min-h-screen bg-gray-50">
         {/* Navigation */}
         <nav className="bg-blue-900 text-white">
-          <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
               <Scale className="h-8 w-8" />
               <span className="font-bold text-xl">MyProbateCA</span>
             </Link>
+            <ClientLoginButton tone="dark" compact />
           </div>
         </nav>
 

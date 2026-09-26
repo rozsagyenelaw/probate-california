@@ -1,4 +1,5 @@
 import React from 'react';
+import ClientLoginButton from '../common/ClientLoginButton';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
@@ -263,16 +264,15 @@ const LearnHub = () => {
                   </div>
                 ) : (
                   <div className="flex items-center space-x-4">
-                    <button onClick={() => navigate('/login')} className="flex items-center space-x-1 hover:text-blue-200">
-                      <LogIn className="h-4 w-4" />
-                      <span>Login</span>
-                    </button>
+                    <ClientLoginButton tone="dark" />
                     <button onClick={handleStartCase} className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded-lg font-semibold">
                       Get Started
                     </button>
                   </div>
                 )}
               </div>
+
+              <div className="md:hidden ml-auto mr-2"><ClientLoginButton tone="dark" compact /></div>
 
               <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2">
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -293,7 +293,7 @@ const LearnHub = () => {
                     </>
                   ) : (
                     <>
-                      <button onClick={() => navigate('/login')} className="text-left hover:text-blue-200">Login</button>
+                      <ClientLoginButton tone="dark" compact onNavigate={() => setMobileMenuOpen(false)} />
                       <button onClick={handleStartCase} className="bg-amber-500 px-4 py-2 rounded-lg font-semibold text-center">
                         Get Started
                       </button>
