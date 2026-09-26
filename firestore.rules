@@ -26,8 +26,13 @@ service cloud.firestore {
     }
 
     // Users collection - users can only read/write their own profile
+    // The portal looks a client's profile up by its uid or email field, so those match too
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
+      allow read: if isOwner(userId) || isAdmin() ||
+        (isAuthenticated() &&
+         (resource.data.uid == request.auth.uid ||
+          (resource.data.email == request.auth.token.email &&
+           request.auth.token.get('email_verified', false) == true)));
       allow create: if isOwner(userId);
       allow update: if isOwner(userId) || isAdmin();
       allow delete: if isAdmin();
