@@ -350,13 +350,13 @@ const AdminSignatureRequests = () => {
                             <Eye className="h-5 w-5" />
                           </a>
                         )}
-                        {request.signedPdfUrl && (
+                        {(request.signed || request.status === 'signed') && (
                           <a
-                            href={request.signedPdfUrl}
+                            href={`https://portal.myprobateca.com/sign/${request.id}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 text-green-600 hover:bg-green-50 rounded-lg"
-                            title="View Signed Document"
+                            title="View signed copy and Certificate of Completion"
                           >
                             <Download className="h-5 w-5" />
                           </a>
