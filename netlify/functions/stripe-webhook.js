@@ -328,6 +328,35 @@ async function updateUserPaymentStatus(customerEmail, serviceType, probateType, 
 
     console.log('User payment status updated for:', customerEmail);
 
+    // Payment record tied to the client's account, so it shows in their dashboard
+    await db.collection('payments').add({ ...paymentRecord, userId: userDoc.id });
+
+    // Paid without a case yet (e.g. paid from the pricing page): open one for them
+    if (!sessionMetadata.caseId) {
+      const existingCases = await db.collection('cases').where('userId', '==', userDoc.id).limit(1).get();
+      if (existingCases.empty) {
+        await db.collection('cases').add({
+          userId: userDoc.id,
+          clientEmail: customerEmail.toLowerCase(),
+          status: 'intake_pending',
+          paymentStatus: paymentPlan === 'installments' ? 'installments_active' : 'paid',
+          serviceType,
+          probateType: probateType || null,
+          addOns: { accounting: accountingAddon || null },
+          orderNumber,
+          source: 'payment',
+          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          paidAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+      } else {
+        await existingCases.docs[0].ref.update({
+          paymentStatus: paymentPlan === 'installments' ? 'installments_active' : 'paid',
+          serviceType,
+          paidAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }
+
     // Also update the case if caseId was provided
     if (sessionMetadata.caseId) {
       const caseRef = db.collection('cases').doc(sessionMetadata.caseId);

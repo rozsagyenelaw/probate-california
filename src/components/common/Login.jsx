@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Scale, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, linkWithCredential } from 'firebase/auth';
+import { linkWithCredential, linkWithPopup } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
-import { auth, functions } from '../../services/firebase';
-
-// Apple appears once Sign in with Apple is configured for the Firebase project
-const APPLE_ENABLED = import.meta.env.VITE_APPLE_SIGN_IN === 'true';
-
-const GoogleIcon = () => (
-  <svg className="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
-    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
-    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
-    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
-    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 38.2 44 33 44 24c0-1.3-.1-2.4-.4-3.5z"/>
-  </svg>
-);
-
-const AppleIcon = () => (
-  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M16.37 12.62c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-2.99-.79-1.54.02-2.96.9-3.75 2.27-1.6 2.78-.41 6.89 1.15 9.14.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.23-.02 2.01-1.12 2.76-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.39-.92-2.4-3.66zM14.1 5.86c.63-.77 1.06-1.83.94-2.89-.91.04-2.01.61-2.66 1.37-.58.67-1.1 1.76-.96 2.79 1.01.08 2.05-.51 2.68-1.27z"/>
-  </svg>
-);
+import { functions } from '../../services/firebase';
+import ProviderButtons, { AppleIcon, appleProvider, CONNECT_APPLE_FLAG } from './ProviderButtons';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -33,6 +16,9 @@ const Login = () => {
   const [pending, setPending] = useState(null); // Google/Apple credential waiting to be linked
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Back to the page that sent the client here (e.g. payment), otherwise the dashboard
+  const destination = typeof location.state?.from === 'string' && location.state.from.startsWith('/') ? location.state.from : '/dashboard';
 
   // One email is one account: link a pending Google/Apple sign-in, make sure the profile exists
   const afterSignIn = async (user) => {
@@ -43,26 +29,23 @@ const Login = () => {
     try { await httpsCallable(functions, 'ensureMyProfile')(); } catch (err) { console.error('Profile check failed:', err); }
   };
 
-  const handleProvider = async (providerName) => {
-    setError('');
-    const provider = providerName === 'Apple' ? new OAuthProvider('apple.com') : new GoogleAuthProvider();
-    if (providerName === 'Apple') { provider.addScope('email'); provider.addScope('name'); }
-    else provider.setCustomParameters({ prompt: 'select_account' });
-    try {
-      const cred = await signInWithPopup(auth, provider);
-      await afterSignIn(cred.user);
-      navigate('/dashboard');
-    } catch (err) {
-      if (err.code === 'auth/account-exists-with-different-credential') {
-        const credential = providerName === 'Apple' ? OAuthProvider.credentialFromError(err) : GoogleAuthProvider.credentialFromError(err);
-        setPending({ credential, email: err.customData?.email || '', providerName });
-        setEmail(err.customData?.email || '');
-      } else if (err.code === 'auth/popup-blocked') {
-        await signInWithRedirect(auth, provider);
-      } else if (!['auth/popup-closed-by-user', 'auth/cancelled-popup-request'].includes(err.code)) {
-        setError('Sign-in did not complete. Please try again, or call 818-337-4071.');
-      }
+  const [relayExisting, setRelayExisting] = useState(false);
+  const [connectAppleUser, setConnectAppleUser] = useState(null);
+
+  // After a Hide My Email "Yes, I have an account": once signed in, offer to connect Apple
+  const finish = async (user) => {
+    await afterSignIn(user);
+    if (sessionStorage.getItem(CONNECT_APPLE_FLAG)) {
+      setConnectAppleUser(user);
+      return;
     }
+    navigate(destination);
+  };
+
+  const connectApple = async () => {
+    try { await linkWithPopup(connectAppleUser, appleProvider()); } catch (err) { console.error('Apple not connected:', err); }
+    sessionStorage.removeItem(CONNECT_APPLE_FLAG);
+    navigate(destination);
   };
 
   const handleSubmit = async (e) => {
@@ -72,8 +55,8 @@ const Login = () => {
 
     try {
       const signedIn = await login(email, password);
-      if (signedIn) await afterSignIn(signedIn);
-      navigate('/dashboard');
+      if (signedIn) await finish(signedIn);
+      else navigate(destination);
     } catch (err) {
       console.error('Login error:', err);
       if (['auth/user-not-found', 'auth/wrong-password', 'auth/invalid-credential'].includes(err.code)) {
@@ -123,18 +106,26 @@ const Login = () => {
           </div>
         )}
 
+        {connectAppleUser && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900 space-y-3" data-testid="connect-apple">
+            <p>You are signed in as <strong>{connectAppleUser.email}</strong>. Connect Apple so you can use it next time.</p>
+            <button type="button" onClick={connectApple} className="w-full flex items-center justify-center gap-3 py-3 rounded-lg bg-black text-white font-medium"><AppleIcon /> Connect Apple</button>
+          </div>
+        )}
+        {relayExisting && !connectAppleUser && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900">
+            Sign in with your email and password, or with Google. Then we will connect Apple to that same account.
+          </div>
+        )}
+
         {/* Google / Apple */}
         <div className="mt-6 space-y-3">
-          <button type="button" onClick={() => handleProvider('Google')}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-300 rounded-lg bg-white text-gray-800 font-medium hover:bg-gray-50">
-            <GoogleIcon /> Continue with Google
-          </button>
-          {APPLE_ENABLED && (
-            <button type="button" onClick={() => handleProvider('Apple')}
-              className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-black text-white font-medium hover:bg-gray-900">
-              <AppleIcon /> Continue with Apple
-            </button>
-          )}
+          <ProviderButtons
+            onSignedIn={finish}
+            onAccountExists={(p) => { setPending(p); setEmail(p.email); }}
+            onRelayExisting={() => setRelayExisting(true)}
+            onError={setError}
+          />
           <div className="flex items-center gap-3 pt-2">
             <div className="flex-1 h-px bg-gray-200" />
             <span className="text-xs uppercase tracking-wide text-gray-500">or use your email</span>

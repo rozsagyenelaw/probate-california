@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { startGuestAccount } from '../utils/guestAccount';
+import { Link } from 'react-router-dom';
 import {
   CreditCard,
   Check,
@@ -40,11 +42,26 @@ const PaymentPage = () => {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate('/login', { state: { from: '/payment' } });
+  // Guests: name, email and phone first (no password). A new email gets its account now;
+  // an email that already has an account signs in instead.
+  const [guest, setGuest] = useState({ name: '', email: '', phone: '' });
+  const [guestBusy, setGuestBusy] = useState(false);
+  const [guestError, setGuestError] = useState('');
+  const [guestExists, setGuestExists] = useState(false);
+  const startAsGuest = async (e) => {
+    e.preventDefault();
+    setGuestError('');
+    setGuestExists(false);
+    setGuestBusy(true);
+    try {
+      const status = await startGuestAccount({ ...guest, source: 'payment' });
+      if (status === 'exists') setGuestExists(true);
+    } catch (err) {
+      setGuestError(err.message);
+    } finally {
+      setGuestBusy(false);
     }
-  }, [user, authLoading, navigate]);
+  };
 
   // Pricing structure
   const prices = {
@@ -168,6 +185,34 @@ const PaymentPage = () => {
       setIsLoading(false);
     }
   };
+
+  if (!authLoading && !user) {
+    const inputClass = 'mt-1 block w-full px-3 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-600';
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-10 px-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow p-6 sm:p-8" data-testid="guest-step">
+          <h1 className="text-2xl font-bold text-gray-900">Your details</h1>
+          <p className="mt-1 text-sm text-gray-600">We use your email to set up your secure client account, so you can always get back to your case and receipt. No password needed now.</p>
+          {guestExists && (
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900" data-testid="account-exists">
+              <strong>{guest.email}</strong> already has an account. <Link to="/login" state={{ from: '/payment' }} className="font-semibold underline">Sign in</Link> to pay, so the payment goes into your account. If you never set a password, use "Forgot password?".
+            </div>
+          )}
+          {guestError && <p className="mt-4 text-sm bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg">{guestError}</p>}
+          <form onSubmit={startAsGuest} className="mt-5 space-y-4">
+            <div><label className="block text-sm font-medium text-gray-700">Full name</label>
+              <input required value={guest.name} onChange={(e) => setGuest({ ...guest, name: e.target.value })} autoComplete="name" className={inputClass} /></div>
+            <div><label className="block text-sm font-medium text-gray-700">Email</label>
+              <input required type="email" value={guest.email} onChange={(e) => setGuest({ ...guest, email: e.target.value })} autoComplete="email" className={inputClass} /></div>
+            <div><label className="block text-sm font-medium text-gray-700">Phone</label>
+              <input type="tel" value={guest.phone} onChange={(e) => setGuest({ ...guest, phone: e.target.value })} autoComplete="tel" className={inputClass} /></div>
+            <button type="submit" disabled={guestBusy} className="w-full py-3 rounded-lg bg-blue-900 text-white font-semibold disabled:opacity-50">{guestBusy ? 'One moment…' : 'Continue to payment'}</button>
+          </form>
+          <p className="mt-5 text-center text-sm text-gray-600">Already a client? <Link to="/login" state={{ from: '/payment' }} className="text-blue-700 font-medium">Sign in</Link></p>
+        </div>
+      </div>
+    );
+  }
 
   if (authLoading) {
     return (

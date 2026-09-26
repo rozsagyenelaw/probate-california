@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import AccountSetup from './common/AccountSetup';
 import {
   CheckCircle,
   ArrowRight,
@@ -76,6 +77,13 @@ const PaymentSuccess = () => {
             Thank you for choosing the Law Offices of Rozsa Gyene
           </p>
         </div>
+
+        {/* One step to finish the account created at checkout (hidden once a password, Google or Apple exists) */}
+        {user && (
+          <div className="mb-8">
+            <AccountSetup email={user.email} />
+          </div>
+        )}
 
         {/* Confirmation Box */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">

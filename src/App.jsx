@@ -173,11 +173,8 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path="/payment" element={
-            <ProtectedRoute>
-              <PaymentPage />
-            </ProtectedRoute>
-          } />
+          {/* Open to guests: the first step creates or finds their account from their email */}
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/payment-success" element={
             <ProtectedRoute>
               <PaymentSuccess />

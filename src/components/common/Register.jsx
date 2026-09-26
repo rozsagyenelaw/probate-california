@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, Scale, AlertCircle, CheckCircle } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { Scale, AlertCircle, CheckCircle } from 'lucide-react';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../../services/firebase';
+import { startGuestAccount } from '../../utils/guestAccount';
+import ProviderButtons from './ProviderButtons';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
-    password: '',
-    confirmPassword: ''
+    phone: ''
   });
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { register } = useAuth();
+  // The email already has an account: sign in instead of creating another one
+  const [exists, setExists] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,45 +26,36 @@ const Register = () => {
     });
   };
 
+  // No password here: the account is created from the email, and the client sets a
+  // password (or connects Google/Apple) after paying, or from the "Set Your Password" email
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    // Validation
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
+    setExists(false);
     setLoading(true);
-
     try {
-      await register(formData.email, formData.password, {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone
+      const status = await startGuestAccount({
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        source: 'intake'
       });
-      // Redirect to intake questionnaire after registration (payment is at the end)
+      if (status === 'exists') {
+        setExists(true);
+        return;
+      }
       navigate('/intake');
     } catch (err) {
       console.error('Registration error:', err);
-      if (err.code === 'auth/email-already-in-use') {
-        setError('An account with this email already exists');
-      } else if (err.code === 'auth/invalid-email') {
-        setError('Invalid email address');
-      } else if (err.code === 'auth/weak-password') {
-        setError('Password is too weak');
-      } else {
-        setError('Failed to create account. Please try again.');
-      }
+      setError(err.message || 'Failed to start your case. Please try again.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const afterProvider = async () => {
+    try { await httpsCallable(functions, 'ensureMyProfile')(); } catch (err) { console.error('Profile check failed:', err); }
+    navigate('/intake');
   };
 
   return (
@@ -109,6 +101,25 @@ const Register = () => {
             <span className="text-red-700">{error}</span>
           </div>
         )}
+
+        {exists && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900" data-testid="account-exists">
+            <strong>{formData.email}</strong> already has an account. <Link to="/login" className="font-semibold underline">Sign in</Link> to continue your case. If you never set a password, use "Forgot password?" on the sign-in page.
+          </div>
+        )}
+
+        {/* Google / Apple */}
+        <ProviderButtons
+          onSignedIn={afterProvider}
+          onAccountExists={() => setExists(true)}
+          onRelayExisting={() => navigate('/login')}
+          onError={setError}
+        />
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-gray-200" />
+          <span className="text-xs uppercase tracking-wide text-gray-500">or continue with your email</span>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
 
         {/* Register Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -174,50 +185,6 @@ const Register = () => {
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <div className="relative mt-1">
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 pr-10"
-                placeholder="Min. 6 characters"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5 text-gray-400" />
-                ) : (
-                  <Eye className="h-5 w-5 text-gray-400" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-              Confirm Password
-            </label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              required
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
           <button
             type="submit"
             disabled={loading}
@@ -229,10 +196,10 @@ const Register = () => {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Creating account...
+                Starting…
               </div>
             ) : (
-              'Create Account'
+              'Continue'
             )}
           </button>
         </form>
