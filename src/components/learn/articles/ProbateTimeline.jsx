@@ -637,10 +637,10 @@ const ProbateTimeline = () => {
                 Schedule Free Consultation
               </Link>
               <a
-                href="tel:+18182916217"
+                href="tel:+18183374071"
                 className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold text-center hover:bg-white/10 transition-colors"
               >
-                Call (818) 291-6217
+                Call 818-337-4071
               </a>
             </div>
           </section>

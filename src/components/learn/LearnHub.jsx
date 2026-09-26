@@ -51,7 +51,7 @@ const ARTICLES = [
     title: 'Letters Testamentary California: Your Golden Ticket Explained',
     description: 'What Letters Testamentary are, why you need certified copies, and how to use them to access estate assets.',
     category: 'Forms & Documents',
-    image: '/images/office/glendale-office-exterior.jpg',
+    image: '/Rozsa-Gyene.jpg',
     date: 'January 2026',
     readTime: '8 min read',
     featured: false
@@ -192,7 +192,7 @@ const LearnHub = () => {
         "@id": "https://myprobateca.com/#organization",
         "name": "MyProbateCA - Law Offices of Rozsa Gyene",
         "url": "https://myprobateca.com/",
-        "telephone": "+1-818-291-6217",
+        "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
         "priceRange": "$3,995"
       },
@@ -517,7 +517,7 @@ const LearnHub = () => {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    (818) 291-6217
+                    818-337-4071
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
@@ -525,7 +525,7 @@ const LearnHub = () => {
                   </li>
                   <li className="flex items-start">
                     <MapPin className="h-4 w-4 mr-2 mt-1" />
-                    <span>655 N Central Ave, Suite 1704<br />Glendale, CA 91203</span>
+                    <span>3500 W. Olive Ave., Suite 300<br />Burbank, CA 91505</span>
                   </li>
                 </ul>
               </div>

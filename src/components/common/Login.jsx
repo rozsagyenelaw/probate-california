@@ -223,10 +223,10 @@ const Login = () => {
         {/* Contact Info */}
         <div className="mt-6 pt-6 border-t border-gray-200 text-center">
           <p className="text-xs text-gray-500">
-            Questions? Call (818) 291-6217
+            Questions? Call 818-337-4071
           </p>
           <p className="text-xs text-gray-500 mt-1">
-            Law Offices of Rozsa Gyene | 450 N Brand Blvd Suite 600, Glendale, CA 91203
+            Law Offices of Rozsa Gyene | 3500 W. Olive Ave., Suite 300, Burbank, CA 91505
           </p>
         </div>
       </div>

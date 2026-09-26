@@ -57,7 +57,7 @@ const ProbateCourtLocations = () => {
         "name": "MyProbateCA - California Probate Locations",
         "description": "Professional attorney-led probate administration across 35 California cities. Flat $3,995 fee.",
         "url": "https://myprobateca.com/probate-court-locations-california",
-        "telephone": "+1-818-291-6217",
+        "telephone": "+1-818-337-4071",
         "priceRange": "$3,995",
         "areaServed": {
           "@type": "State",
@@ -475,7 +475,7 @@ const ProbateCourtLocations = () => {
                 </li>
                 <li className="flex items-center justify-center">
                   <Check className="h-4 w-4 text-green-600 mr-2" />
-                  25+ Years Experience
+                  26+ Years Experience
                 </li>
                 <li className="flex items-center justify-center">
                   <Check className="h-4 w-4 text-green-600 mr-2" />
@@ -561,10 +561,9 @@ const ProbateCourtLocations = () => {
 
               {/* Column 4: Related & Legal */}
               <div>
-                <h4 className="font-bold text-lg mb-4">Related Services</h4>
+                <h4 className="font-bold text-lg mb-4">Our Firm</h4>
                 <ul className="space-y-2 text-gray-400 mb-6">
-                  <li><a href="https://livingtrustcalifornia.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Living Trust California ($400)</a></li>
-                  <li><a href="https://livingtrust-attorneys.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Full-Service Estate Planning</a></li>
+                  <li><a href="https://livingtrust-attorneys.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">Law Offices of Rozsa Gyene</a></li>
                 </ul>
                 <h4 className="font-bold text-lg mb-4">Legal</h4>
                 <ul className="space-y-2 text-gray-400">
@@ -578,7 +577,7 @@ const ProbateCourtLocations = () => {
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
               <p className="mb-2">Law Offices of Rozsa Gyene | California State Bar #208356</p>
               <p className="mb-2">
-                <a href="tel:8182916217" className="hover:text-white">(818) 291-6217</a>
+                <a href="tel:+18183374071" className="hover:text-white">818-337-4071</a>
                 {' | '}
                 <a href="mailto:rozsa@myprobateca.com" className="hover:text-white">rozsa@myprobateca.com</a>
               </p>

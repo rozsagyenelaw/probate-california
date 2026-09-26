@@ -6,6 +6,7 @@ const CaseHeader = ({ probateCase }) => {
   if (!probateCase) return null;
 
   const { decedent, court, status, currentPhase, filingCounty } = probateCase;
+  const hasDecedent = !!(decedent?.firstName || decedent?.lastName);
 
   // Get county - from court object or filingCounty (for backwards compatibility)
   const county = court?.county || filingCounty || decedent?.lastAddress?.county;
@@ -36,15 +37,24 @@ const CaseHeader = ({ probateCase }) => {
           <div className="bg-white/10 p-3 rounded-lg mr-4">
             <Scale className="h-8 w-8" />
           </div>
-          <div>
-            <p className="text-blue-200 text-sm mb-1">Estate of</p>
-            <h1 className="text-2xl font-bold">
-              {decedent?.firstName} {decedent?.middleName ? `${decedent.middleName} ` : ''}{decedent?.lastName}
-            </h1>
-            <p className="text-blue-200 text-sm mt-1">
-              Decedent
-            </p>
-          </div>
+          {hasDecedent ? (
+            <div>
+              <p className="text-blue-200 text-sm mb-1">Estate of</p>
+              <h1 className="text-2xl font-bold">
+                {decedent.firstName} {decedent?.middleName ? `${decedent.middleName} ` : ''}{decedent?.lastName}
+              </h1>
+              <p className="text-blue-200 text-sm mt-1">
+                Decedent
+              </p>
+            </div>
+          ) : (
+            <div>
+              <h1 className="text-2xl font-bold">Your probate case</h1>
+              <p className="text-blue-200 text-sm mt-1">
+                The details of the person who passed away have not been entered yet. Complete your intake questionnaire to add them.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="mt-4 md:mt-0 flex flex-col items-end space-y-2">
@@ -65,7 +75,7 @@ const CaseHeader = ({ probateCase }) => {
             <p className="font-medium">
               {decedent?.dateOfDeath
                 ? new Date(decedent.dateOfDeath).toLocaleDateString()
-                : 'Not specified'}
+                : 'Not entered yet'}
             </p>
           </div>
         </div>
@@ -74,7 +84,7 @@ const CaseHeader = ({ probateCase }) => {
           <MapPin className="h-5 w-5 text-blue-300 mr-2" />
           <div>
             <p className="text-blue-300 text-xs">County</p>
-            <p className="font-medium">{county || 'Not specified'}</p>
+            <p className="font-medium">{county || 'Not entered yet'}</p>
           </div>
         </div>
 
@@ -91,7 +101,7 @@ const CaseHeader = ({ probateCase }) => {
           <div>
             <p className="text-blue-300 text-xs">Court</p>
             <p className="font-medium text-sm truncate max-w-[150px]" title={courthouse}>
-              {courthouse || 'TBD'}
+              {courthouse || 'Assigned after intake'}
             </p>
           </div>
         </div>

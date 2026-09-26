@@ -214,13 +214,13 @@ const LandingPage = () => {
         <meta property="og:url" content="https://myprobateca.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyProbateCA" />
-        <meta property="og:image" content="https://myprobateca.com/images/office/glendale-office-exterior.jpg" />
+        <meta property="og:image" content="https://myprobateca.com/Rozsa-Gyene.jpg" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Don't Pay $46,000 for California Probate | We Do It for $3,995" />
         <meta name="twitter:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. Save $42,000+." />
-        <meta name="twitter:image" content="https://myprobateca.com/images/office/glendale-office-exterior.jpg" />
+        <meta name="twitter:image" content="https://myprobateca.com/Rozsa-Gyene.jpg" />
 
         {/* Schema Markup */}
         <script type="application/ld+json">
@@ -241,9 +241,9 @@ const LandingPage = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="tel:8182916217" className="flex items-center text-blue-900 font-semibold hover:text-blue-700">
+              <a href="tel:+18183374071" className="flex items-center text-blue-900 font-semibold hover:text-blue-700">
                 <Phone className="h-4 w-4 mr-1" />
-                (818) 291-6217
+                818-337-4071
               </a>
               <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-blue-900 font-medium">
                 How It Works
@@ -327,9 +327,9 @@ const LandingPage = () => {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t">
               <div className="flex flex-col space-y-4">
-                <a href="tel:8182916217" className="flex items-center text-blue-900 font-semibold">
+                <a href="tel:+18183374071" className="flex items-center text-blue-900 font-semibold">
                   <Phone className="h-4 w-4 mr-2" />
-                  (818) 291-6217
+                  818-337-4071
                 </a>
                 <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-blue-900 font-medium text-left">
                   How It Works
@@ -439,7 +439,7 @@ const LandingPage = () => {
                 </div>
                 <div className="flex items-center bg-blue-900/80 px-3 py-1.5 rounded-full">
                   <Award className="h-4 w-4 mr-2 text-white" />
-                  <span className="text-sm font-medium text-white">25+ Years Experience</span>
+                  <span className="text-sm font-medium text-white">26+ Years Experience</span>
                 </div>
                 <div className="flex items-center bg-amber-600/90 px-3 py-1.5 rounded-full">
                   <CheckCircle className="h-4 w-4 mr-2 text-white" />
@@ -686,7 +686,7 @@ const LandingPage = () => {
                   </a>
                   <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
                     <Award className="h-4 w-4 mr-2" />
-                    25+ Years Experience
+                    26+ Years Experience
                   </div>
                   <div className="inline-flex items-center bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-medium">
                     <Users className="h-4 w-4 mr-2" />
@@ -737,12 +737,12 @@ const LandingPage = () => {
               <p className="text-xs text-gray-500">Better Business Bureau</p>
             </div>
 
-            {/* 25+ Years */}
+            {/* 26+ Years */}
             <div className="bg-white rounded-xl p-5 text-center shadow-sm">
               <svg className="h-7 w-7 mx-auto mb-2 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
               </svg>
-              <p className="font-bold text-gray-900 text-sm">25+ Years</p>
+              <p className="font-bold text-gray-900 text-sm">26+ Years</p>
               <p className="text-xs text-gray-500">Estate Law Experience</p>
             </div>
 
@@ -1390,7 +1390,7 @@ const LandingPage = () => {
               <div className="rounded-lg overflow-hidden shadow-lg mb-4">
                 <img
                   src="/images/attorney/rozsa-gyene-probate-attorney.webp"
-                  alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Glendale Office"
+                  alt="California Probate Attorney Rozsa Gyene, State Bar #208356, Burbank Office"
                   className="w-full"
                   loading="lazy"
                   width="255"
@@ -1399,13 +1399,13 @@ const LandingPage = () => {
               </div>
               <div className="rounded-lg overflow-hidden shadow-md h-48">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3301.5!2d-118.2551!3d34.1425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c0f24e2d3c3d%3A0x9a5b8e2c3d4e5f6a!2s655%20N%20Central%20Ave%2C%20Glendale%2C%20CA%2091203!5e0!3m2!1sen!2sus!4v1704903600000"
+                  src="https://www.google.com/maps?q=3500+W.+Olive+Ave.,+Suite+300,+Burbank,+CA+91505&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
-                  title="Law Offices of Rozsa Gyene - Glendale, California"
+                  title="Law Offices of Rozsa Gyene - Burbank, California"
                 ></iframe>
               </div>
             </div>
@@ -1413,12 +1413,12 @@ const LandingPage = () => {
             {/* Bio */}
             <div className="md:w-2/3">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Rozsa Gyene, Esq.</h3>
-              <p className="text-gray-600 mb-4">California State Bar #208356 • 25+ Years Experience</p>
+              <p className="text-gray-600 mb-4">California State Bar #208356 • 26+ Years Experience</p>
               <blockquote className="text-lg text-gray-700 italic mb-6 border-l-4 border-blue-900 pl-4">
                 "Probate doesn't have to be overwhelming. Our system breaks it into manageable steps so you always know exactly what to do next. I've helped hundreds of families through this process, and I've designed this service to give you professional guidance at a price that makes sense."
               </blockquote>
               <p className="text-gray-700 mb-4">
-                <strong>Rozsa Gyene</strong> has spent 25+ years navigating the California probate court system. She's appeared at the Stanley Mosk Courthouse hundreds of times and knows exactly what examiners look for.
+                <strong>Rozsa Gyene</strong> has spent 26+ years navigating the California probate court system. She's appeared at the Stanley Mosk Courthouse hundreds of times and knows exactly what examiners look for.
               </p>
               <p className="text-gray-700 mb-6">
                 Every document prepared through MyProbateCA is reviewed and approved by Rozsa personally—not a paralegal, not an AI, but a licensed California attorney with real courtroom experience.
@@ -1435,13 +1435,13 @@ const LandingPage = () => {
                   Verify Bar License
                 </a>
                 <span className="text-gray-400">|</span>
-                <span className="text-gray-600">655 N Central Ave, Suite 1704, Glendale, CA 91203</span>
+                <span className="text-gray-600">3500 W. Olive Ave., Suite 300, Burbank, CA 91505</span>
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <a href="tel:8182916217" className="inline-flex items-center text-gray-700 hover:text-blue-600">
+                <a href="tel:+18183374071" className="inline-flex items-center text-gray-700 hover:text-blue-600">
                   <Phone className="h-4 w-4 mr-2" />
-                  (818) 291-6217
+                  818-337-4071
                 </a>
                 <a href="mailto:rozsa@myprobateca.com" className="inline-flex items-center text-gray-700 hover:text-blue-600">
                   <Mail className="h-4 w-4 mr-2" />
@@ -1635,7 +1635,7 @@ const LandingPage = () => {
             <ArrowRight className="ml-2 h-5 w-5" />
           </button>
           <p className="text-blue-200 mt-6">
-            Questions? Call <a href="tel:+18182916217" className="underline">(818) 291-6217</a> or email{' '}
+            Questions? Call <a href="tel:+18183374071" className="underline">818-337-4071</a> or email{' '}
             <a href="mailto:rozsa@myprobateca.com" className="underline">rozsa@myprobateca.com</a>
           </p>
         </div>
@@ -1666,7 +1666,7 @@ const LandingPage = () => {
               <ul className="space-y-3 text-gray-400 text-sm">
                 <li className="flex items-center">
                   <Phone className="h-4 w-4 mr-2" />
-                  <a href="tel:+18182916217" className="hover:text-white">(818) 291-6217</a>
+                  <a href="tel:+18183374071" className="hover:text-white">818-337-4071</a>
                 </li>
                 <li className="flex items-center">
                   <Mail className="h-4 w-4 mr-2" />
@@ -1674,7 +1674,7 @@ const LandingPage = () => {
                 </li>
                 <li className="flex items-start">
                   <MapPin className="h-4 w-4 mr-2 mt-1" />
-                  <span>655 N Central Ave, Suite 1704<br />Glendale, CA 91203</span>
+                  <span>3500 W. Olive Ave., Suite 300<br />Burbank, CA 91505</span>
                 </li>
               </ul>
             </div>
@@ -1708,17 +1708,11 @@ const LandingPage = () => {
 
             {/* Related Services & Legal */}
             <div>
-              <h3 className="font-semibold mb-4">Related Services</h3>
+              <h3 className="font-semibold mb-4">Our Firm</h3>
               <ul className="space-y-2 text-gray-400 text-sm mb-6">
                 <li>
-                  <a href="https://livingtrustcalifornia.com" target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center">
-                    Living Trust California
-                    <ExternalLink className="h-3 w-3 ml-1" />
-                  </a>
-                </li>
-                <li>
                   <a href="https://livingtrust-attorneys.com" target="_blank" rel="noopener noreferrer" className="hover:text-white flex items-center">
-                    Living Trust Attorneys
+                    Law Offices of Rozsa Gyene
                     <ExternalLink className="h-3 w-3 ml-1" />
                   </a>
                 </li>

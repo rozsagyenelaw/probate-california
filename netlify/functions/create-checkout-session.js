@@ -231,7 +231,7 @@ exports.handler = async (event, context) => {
             statusCode: 500,
             headers,
             body: JSON.stringify({
-              error: 'Payment system not configured. Please contact us at (818) 291-6217.'
+              error: 'Payment system not configured. Please contact us at 818-337-4071.'
             }),
           };
         }
@@ -252,7 +252,7 @@ exports.handler = async (event, context) => {
             statusCode: 500,
             headers,
             body: JSON.stringify({
-              error: 'Payment system not configured. Please contact us at (818) 291-6217.'
+              error: 'Payment system not configured. Please contact us at 818-337-4071.'
             }),
           };
         }
@@ -439,13 +439,13 @@ exports.handler = async (event, context) => {
     console.error('Error type:', error.type);
     console.error('Error message:', error.message);
 
-    let errorMessage = 'An error occurred processing your request. Please try again or contact us at (818) 291-6217.';
+    let errorMessage = 'An error occurred processing your request. Please try again or contact us at 818-337-4071.';
 
     if (error.type === 'StripeInvalidRequestError') {
       if (error.message && error.message.includes('coupon')) {
-        errorMessage = 'Promo code configuration error. Please try without the promo code or contact us at (818) 291-6217.';
+        errorMessage = 'Promo code configuration error. Please try without the promo code or contact us at 818-337-4071.';
       } else {
-        errorMessage = 'Invalid payment configuration. Please contact us at (818) 291-6217.';
+        errorMessage = 'Invalid payment configuration. Please contact us at 818-337-4071.';
       }
     }
 

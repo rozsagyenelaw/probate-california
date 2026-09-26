@@ -21,7 +21,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
-  const [loading, setLoading] = useState(false); // Start with false for instant render
+  // Loading until Firebase reports the saved sign-in; otherwise a refresh on a protected page
+  // briefly looks signed out and bounces the client to /login and then to the dashboard
+  const [loading, setLoading] = useState(isFirebaseConfigured);
   const [isAdmin, setIsAdmin] = useState(false);
   const [firebaseReady, setFirebaseReady] = useState(false);
   const authMethodsRef = useRef(null);

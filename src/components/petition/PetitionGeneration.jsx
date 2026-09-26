@@ -833,8 +833,10 @@ const PetitionGeneration = () => {
               </p>
             </div>
             <div>
-              <p className="text-gray-500">Intake Completed</p>
-              <p className="font-medium text-gray-900">{formatDate(probateCase.createdAt)}</p>
+              <p className="text-gray-500">Intake</p>
+              <p className="font-medium text-gray-900">
+                {probateCase.intakeCompletedAt ? `Completed ${formatDate(probateCase.intakeCompletedAt)}` : 'Not completed yet'}
+              </p>
             </div>
           </div>
         </div>
@@ -1012,8 +1014,8 @@ const PetitionGeneration = () => {
               rozsa@myprobateca.com
             </a>
             {' '}or{' '}
-            <a href="tel:+18182916217" className="text-blue-600 hover:text-blue-800">
-              (818) 291-6217
+            <a href="tel:+18183374071" className="text-blue-600 hover:text-blue-800">
+              818-337-4071
             </a>
           </p>
         </div>

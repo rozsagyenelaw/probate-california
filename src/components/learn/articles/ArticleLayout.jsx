@@ -47,7 +47,7 @@ const ArticleLayout = ({
     "url": canonicalUrl,
     "datePublished": publishDate ? new Date(publishDate).toISOString().split('T')[0] : "2025-01-12",
     "dateModified": new Date().toISOString().split('T')[0],
-    "image": image || "https://myprobateca.com/images/office/glendale-office-exterior.jpg",
+    "image": image || "https://myprobateca.com/Rozsa-Gyene.jpg",
     "author": {
       "@type": "Person",
       "@id": "https://myprobateca.com/#rozsagyene",
@@ -92,8 +92,10 @@ const ArticleLayout = ({
 
   return (
     <>
+      {/* Articles that set their own head (e.g. the timeline article) pass no title */}
+      {title && (
       <Helmet>
-        <title>{title} | MyProbateCA</title>
+        <title>{`${title} | MyProbateCA`}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
 
@@ -110,6 +112,7 @@ const ArticleLayout = ({
           {JSON.stringify(blogPostingSchema)}
         </script>
       </Helmet>
+      )}
 
       <div className="min-h-screen bg-white">
         {/* Navigation */}
@@ -236,7 +239,7 @@ const ArticleLayout = ({
               </div>
               <div>
                 <p className="font-bold text-gray-900">Rozsa Gyene, Esq.</p>
-                <p className="text-sm text-gray-600 mb-2">California State Bar #208356 • 25+ Years Experience</p>
+                <p className="text-sm text-gray-600 mb-2">California State Bar #208356 • 26+ Years Experience</p>
                 <p className="text-sm text-gray-700">Rozsa Gyene specializes in California probate administration, with extensive experience at the Stanley Mosk Courthouse in Los Angeles.</p>
                 <a
                   href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
@@ -346,7 +349,7 @@ const ArticleLayout = ({
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    (818) 291-6217
+                    818-337-4071
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />

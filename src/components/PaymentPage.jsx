@@ -160,14 +160,14 @@ const PaymentPage = () => {
         data = await response.json();
       } catch (parseError) {
         console.error('Failed to parse response:', parseError);
-        setError('Server error. Please try again or contact us at (818) 291-6217.');
+        setError('Server error. Please try again or contact us at 818-337-4071.');
         setIsLoading(false);
         return;
       }
 
       if (!response.ok) {
         console.error('API error:', response.status, data);
-        setError(data.error || `Server error (${response.status}). Please contact us at (818) 291-6217.`);
+        setError(data.error || `Server error (${response.status}). Please contact us at 818-337-4071.`);
         setIsLoading(false);
         return;
       }
@@ -176,12 +176,12 @@ const PaymentPage = () => {
         window.location.href = data.url;
       } else {
         console.error('Invalid checkout URL:', data);
-        setError(data.error || 'Failed to create checkout session. Please contact us at (818) 291-6217.');
+        setError(data.error || 'Failed to create checkout session. Please contact us at 818-337-4071.');
         setIsLoading(false);
       }
     } catch (err) {
       console.error('Payment error:', err);
-      setError('Network error. Please check your connection and try again, or contact us at (818) 291-6217.');
+      setError('Network error. Please check your connection and try again, or contact us at 818-337-4071.');
       setIsLoading(false);
     }
   };
@@ -761,7 +761,7 @@ const PaymentPage = () => {
         <div className="mt-6 text-center text-gray-600">
           <p className="flex items-center justify-center">
             <Phone className="h-4 w-4 mr-2" />
-            Questions? Call us at <a href="tel:818-291-6217" className="text-blue-900 font-medium ml-1">(818) 291-6217</a>
+            Questions? Call us at <a href="tel:+18183374071" className="text-blue-900 font-medium ml-1">818-337-4071</a>
           </p>
         </div>
       </div>

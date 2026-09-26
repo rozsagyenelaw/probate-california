@@ -230,8 +230,8 @@ async function sendCustomerConfirmation(customerEmail, customerName, serviceType
             <a href="https://myprobateca.com/dashboard" class="button">View My Dashboard</a>
 
             <p>If you have any questions, please don't hesitate to contact us:</p>
-            <p><strong>Phone:</strong> (818) 291-6217<br>
-            <strong>Email:</strong> rozsagyenelaw@yahoo.com</p>
+            <p><strong>Phone:</strong> 818-337-4071<br>
+            <strong>Email:</strong> rozsa@myprobateca.com</p>
           </div>
           <div class="footer">
             <p>&copy; ${new Date().getFullYear()} Law Offices of Rozsa Gyene. All rights reserved.</p>

@@ -128,7 +128,7 @@ exports.handler = async (event, context) => {
       headers,
       body: JSON.stringify({
         error: error.message || 'Failed to generate forms',
-        details: 'Please contact support at (818) 291-6217'
+        details: 'Please contact support at 818-337-4071'
       }),
     };
   }

@@ -170,7 +170,7 @@ const StripePayment = () => {
         <p className="text-xs text-gray-500">
           Full refund available within 7 days if no forms have been filed.
           <br />
-          Questions? Call (818) 291-6217
+          Questions? Call 818-337-4071
         </p>
       </div>
     </div>

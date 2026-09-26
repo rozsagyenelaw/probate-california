@@ -488,7 +488,7 @@ const ClientSignaturePage = () => {
         {/* Footer */}
         <div className="text-center mt-8 text-sm text-gray-500">
           <p>California Probate Services - Law Offices of Rozsa Gyene</p>
-          <p className="mt-1">Estate Planning & Probate Attorney</p>
+          <p className="mt-1">Probate Attorney</p>
         </div>
       </div>
 

@@ -197,7 +197,7 @@ const CaliforniaProbateAdministration = () => {
         "name": "MyProbateCA - California Probate Administration",
         "description": "Professional attorney-led probate administration service in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee.",
         "url": "https://myprobateca.com/california-probate-administration",
-        "telephone": "+1-818-291-6217",
+        "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
         "priceRange": "$3,995",
         "areaServed": {
@@ -219,10 +219,10 @@ const CaliforniaProbateAdministration = () => {
         },
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "655 N Central Ave, Suite 1704",
-          "addressLocality": "Glendale",
+          "streetAddress": "3500 W. Olive Ave., Suite 300",
+          "addressLocality": "Burbank",
           "addressRegion": "CA",
-          "postalCode": "91203",
+          "postalCode": "91505",
           "addressCountry": "US"
         }
       },
@@ -231,7 +231,7 @@ const CaliforniaProbateAdministration = () => {
         "@id": "https://myprobateca.com/#attorney",
         "name": "Rozsa Gyene",
         "jobTitle": "Probate Attorney",
-        "description": "California licensed attorney with 25+ years experience in estate and probate law. Over 500 probate cases completed.",
+        "description": "California licensed attorney with 26+ years experience in estate and probate law. Over 500 probate cases completed.",
         "url": "https://myprobateca.com/california-probate-administration",
         "sameAs": "https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356",
         "knowsAbout": [
@@ -706,7 +706,7 @@ const CaliforniaProbateAdministration = () => {
                     </li>
                     <li className="flex items-center text-gray-700">
                       <Check className="h-5 w-5 text-green-600 mr-3" />
-                      25+ Years Experience in Estate & Probate Law
+                      26+ Years Experience in Estate & Probate Law
                     </li>
                     <li className="flex items-center text-gray-700">
                       <Check className="h-5 w-5 text-green-600 mr-3" />
@@ -731,8 +731,8 @@ const CaliforniaProbateAdministration = () => {
                       <div>
                         <p className="font-medium text-gray-900">Our Office</p>
                         <p className="text-gray-600">Law Offices of Rozsa Gyene</p>
-                        <p className="text-gray-600">655 N Central Ave, Suite 1704</p>
-                        <p className="text-gray-600">Glendale, CA 91203</p>
+                        <p className="text-gray-600">3500 W. Olive Ave., Suite 300</p>
+                        <p className="text-gray-600">Burbank, CA 91505</p>
                       </div>
                     </div>
                     <div className="flex items-start">
@@ -1041,7 +1041,7 @@ const CaliforniaProbateAdministration = () => {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    (818) 291-6217
+                    818-337-4071
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
@@ -1049,7 +1049,7 @@ const CaliforniaProbateAdministration = () => {
                   </li>
                   <li className="flex items-start">
                     <MapPin className="h-4 w-4 mr-2 mt-1" />
-                    <span>655 N Central Ave, Suite 1704<br />Glendale, CA 91203</span>
+                    <span>3500 W. Olive Ave., Suite 300<br />Burbank, CA 91505</span>
                   </li>
                 </ul>
               </div>

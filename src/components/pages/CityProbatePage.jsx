@@ -50,7 +50,7 @@ const getMetaDescriptionVariation = (city, index) => {
   const variations = [
     `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. Save thousands vs statutory fees.`,
     `Need probate help in ${city.name}? Attorney-supervised estate administration for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
-    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 25+ years experience. Start your case free.`,
+    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case free.`,
     `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
     `Probate attorney serving ${city.name}. Fixed $3,995 fee vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,
     `${city.county} County probate for ${city.name} families. Flat $3,995 includes all documents, court prep, and IGN note clearance.`
@@ -202,7 +202,7 @@ const CityProbatePage = () => {
         "name": `${city.name} Probate Attorney - MyProbateCA`,
         "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat $3,995 fee includes all 11 phases of probate.`,
         "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney/`,
-        "telephone": "+1-818-291-6217",
+        "telephone": "+1-818-337-4071",
         "priceRange": "$3,995",
         "areaServed": {
           "@type": "City",
@@ -827,8 +827,8 @@ const CityProbatePage = () => {
                 <div className="md:w-1/3">
                   <div className="rounded-lg overflow-hidden shadow-lg">
                     <img
-                      src="/images/office/glendale-office-exterior.jpg"
-                      alt="Law Offices of Rozsa Gyene, 655 N Central Ave Suite 1704, Glendale CA 91203"
+                      src="/Rozsa-Gyene.jpg"
+                      alt="Law Offices of Rozsa Gyene, 3500 W. Olive Ave., Suite 300, Burbank, CA 91505"
                       className="w-full"
                       loading="lazy"
                     />
@@ -840,7 +840,7 @@ const CityProbatePage = () => {
                     <Award className="h-8 w-8 text-blue-900" />
                   </div>
                   <h3 className="font-bold text-xl text-gray-900 mb-2">Rozsa Gyene, Esq.</h3>
-                  <p className="text-gray-600 mb-4">655 N Central Ave, Suite 1704, Glendale, CA 91203</p>
+                  <p className="text-gray-600 mb-4">3500 W. Olive Ave., Suite 300, Burbank, CA 91505</p>
                   <ul className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-600 mb-4">
                     <li className="flex items-center">
                       <Check className="h-4 w-4 text-green-600 mr-1" />
@@ -848,7 +848,7 @@ const CityProbatePage = () => {
                     </li>
                     <li className="flex items-center">
                       <Check className="h-4 w-4 text-green-600 mr-1" />
-                      25+ Years Experience
+                      26+ Years Experience
                     </li>
                     <li className="flex items-center">
                       <Check className="h-4 w-4 text-green-600 mr-1" />
@@ -903,7 +903,7 @@ const CityProbatePage = () => {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center">
                     <Phone className="h-4 w-4 mr-2" />
-                    (818) 291-6217
+                    818-337-4071
                   </li>
                   <li className="flex items-center">
                     <Mail className="h-4 w-4 mr-2" />
@@ -911,7 +911,7 @@ const CityProbatePage = () => {
                   </li>
                   <li className="flex items-start">
                     <MapPin className="h-4 w-4 mr-2 mt-1" />
-                    <span>655 N Central Ave, Suite 1704<br />Glendale, CA 91203</span>
+                    <span>3500 W. Olive Ave., Suite 300<br />Burbank, CA 91505</span>
                   </li>
                 </ul>
               </div>

@@ -148,7 +148,7 @@ const TermsOfService = () => {
               <div className="bg-gray-50 rounded-lg p-6">
                 <p className="font-semibold text-gray-900 mb-2">Law Offices of Rozsa Gyene</p>
                 <p className="text-gray-700">California State Bar #208356</p>
-                <p className="text-gray-700">Phone: <a href="tel:8182916217" className="text-blue-600 hover:underline">(818) 291-6217</a></p>
+                <p className="text-gray-700">Phone: <a href="tel:+18183374071" className="text-blue-600 hover:underline">818-337-4071</a></p>
                 <p className="text-gray-700">Email: <a href="mailto:rozsa@myprobateca.com" className="text-blue-600 hover:underline">rozsa@myprobateca.com</a></p>
               </div>
             </section>

@@ -102,11 +102,11 @@ const NotFound = () => {
                 Get Started - Free Consultation
               </Link>
               <a
-                href="tel:+18182916217"
+                href="tel:+18183374071"
                 className="flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
               >
                 <Phone className="h-5 w-5" />
-                (818) 291-6217
+                818-337-4071
               </a>
             </div>
           </div>

@@ -49,7 +49,7 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
       icon: Calendar,
       label: 'View Timeline',
       description: 'See all deadlines',
-      action: () => navigate('/timeline'),
+      action: () => document.getElementById('case-timeline')?.scrollIntoView({ behavior: 'smooth' }),
       color: 'bg-orange-100 text-orange-600'
     }
   ];
@@ -62,8 +62,8 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
     },
     {
       icon: Phone,
-      label: 'Call (818) 291-6217',
-      href: 'tel:+18182916217'
+      label: 'Call 818-337-4071',
+      href: 'tel:+18183374071'
     },
     {
       icon: ExternalLink,

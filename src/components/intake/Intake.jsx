@@ -351,14 +351,14 @@ const Intake = () => {
         data = await response.json();
       } catch (parseError) {
         console.error('Intake: Failed to parse Stripe response:', parseError);
-        setError('Payment system error. Please contact us at (818) 291-6217.');
+        setError('Payment system error. Please contact us at 818-337-4071.');
         setIsSubmitting(false);
         return;
       }
 
       if (!response.ok) {
         console.error('Intake: Stripe API error:', response.status, data);
-        setError(data.error || 'Payment system error. Please contact us at (818) 291-6217.');
+        setError(data.error || 'Payment system error. Please contact us at 818-337-4071.');
         setIsSubmitting(false);
         return;
       }
@@ -368,7 +368,7 @@ const Intake = () => {
         window.location.href = data.url;
       } else {
         console.error('Intake: Invalid Stripe checkout URL:', data);
-        setError('Failed to start payment. Please contact us at (818) 291-6217.');
+        setError('Failed to start payment. Please contact us at 818-337-4071.');
         setIsSubmitting(false);
       }
     } catch (err) {
@@ -555,8 +555,8 @@ const Intake = () => {
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>
             Questions? Call{' '}
-            <a href="tel:8182916217" className="text-blue-900 font-medium hover:underline">
-              (818) 291-6217
+            <a href="tel:+18183374071" className="text-blue-900 font-medium hover:underline">
+              818-337-4071
             </a>
             {' '}or email{' '}
             <a href="mailto:rozsa@myprobateca.com" className="text-blue-900 font-medium hover:underline">

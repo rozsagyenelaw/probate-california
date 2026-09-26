@@ -71,7 +71,8 @@ const CaseDashboardView = ({ probateCase, unreadMessages, navigate }) => {
     {/* Case Header */}
     <CaseHeader probateCase={probateCase} />
 
-    {/* Phase Tracker */}
+    {/* Phase Tracker ("View Timeline" scrolls here) */}
+    <div id="case-timeline" className="scroll-mt-24" />
     <PhaseTracker
       currentPhase={probateCase?.currentPhase || 1}
       phases={probateCase?.phases || {}}
@@ -340,8 +341,8 @@ const Dashboard = () => {
               <Phone className="h-5 w-5 text-blue-900 mr-3" />
               <div>
                 <p className="text-sm text-gray-500">Call Us</p>
-                <a href="tel:+18182916217" className="font-medium text-blue-900 hover:text-blue-700">
-                  (818) 291-6217
+                <a href="tel:+18183374071" className="font-medium text-blue-900 hover:text-blue-700">
+                  818-337-4071
                 </a>
               </div>
             </div>

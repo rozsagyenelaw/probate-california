@@ -173,11 +173,11 @@ const PaymentSuccess = () => {
           <h3 className="font-semibold text-gray-900 mb-4">Questions? We're Here to Help</h3>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
-              href="tel:818-291-6217"
+              href="tel:+18183374071"
               className="flex items-center text-blue-900 hover:text-blue-700"
             >
               <Phone className="h-5 w-5 mr-2" />
-              (818) 291-6217
+              818-337-4071
             </a>
             <a
               href="mailto:rozsa@myprobateca.com"
