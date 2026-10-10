@@ -60,7 +60,7 @@ service firebase.storage {
       allow write: if isAdmin();
     }
 
-    // ================= W3-cockpit section (attorney cockpit) ==========
+    // ================= W3-cockpit section (attorney cockpit) =================
     // Owner: W3-cockpit. The attorney uploads here first; nothing here is visible to clients.
     // Sending copies the file (Cloud Function) to cases/{caseId}/documents/attorney/..., which the case owner can read.
     match /cockpit-uploads/{caseId}/{allPaths=**} {
@@ -73,7 +73,7 @@ service firebase.storage {
       allow write: if isAdmin();
     }
     // ================= end W3-cockpit section =================
-=======
+
     // Client uploads before a case exists (W3-home item 54). Clients add files; they never
     // overwrite or delete them. With a case, uploads go to cases/{caseId}/documents/client/.
     match /client-uploads/{userId}/{fileName} {
