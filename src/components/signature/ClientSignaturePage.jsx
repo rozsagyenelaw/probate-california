@@ -32,7 +32,7 @@ const PdfViewerWithSignatures = ({ pdfUrl, signatureFields, signedFields, onSign
     setLoading(true);
     setError(null);
     try {
-      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const loadingTask = pdfjsLib.getDocument({ url: pdfUrl, isEvalSupported: false });
       const pdfDoc = await loadingTask.promise;
       setPdf(pdfDoc);
       setLoading(false);

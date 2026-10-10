@@ -27,7 +27,7 @@ const PdfViewer = ({ pdfUrl, onPageClick, signaturePlacements, onLoadSuccess }) 
     setLoading(true);
     setError(null);
     try {
-      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      const loadingTask = pdfjsLib.getDocument({ url: pdfUrl, isEvalSupported: false });
       const pdfDoc = await loadingTask.promise;
       setPdf(pdfDoc);
       if (onLoadSuccess) {
