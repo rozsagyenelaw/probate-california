@@ -1,5 +1,6 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const admin = require('firebase-admin');
+const { alertFailure } = require('./lib/alert');
 
 const MAX_DOCUMENT_CHARS = 200000;
 
@@ -222,6 +223,7 @@ Be thorough. It's better to flag a potential asset that turns out to be nothing 
 
   } catch (error) {
     console.error('Error analyzing document:', error);
+    await alertFailure('function_error', 'Tax return analysis failed', { fn: 'analyze-tax-returns', error: String(error && error.message).slice(0, 300) });
     return {
       statusCode: 500,
       headers,
