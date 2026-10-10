@@ -18,12 +18,13 @@ import {
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const conversionStarted = useRef(false);
   // The page stays until the client can come back: a password, Google or Apple on the account
-  const [accountReady, setAccountReady] = useState(() => !user || (user.providerData || []).length > 0);
-  useEffect(() => { if (user && (user.providerData || []).length > 0) setAccountReady(true); }, [user]);
+  const [setupDone, setSetupDone] = useState(false);
+  // Ready = a password, Google or Apple is on the account (or the visitor is signed out and signs in at the client home)
+  const accountReady = setupDone || (!authLoading && (!user || (user.providerData || []).length > 0));
 
   const sessionId = searchParams.get('session_id');
   // Guests come back from checkout signed out; the email they paid with was kept for this page
@@ -73,7 +74,7 @@ const PaymentSuccess = () => {
         {/* One step to finish the account created at checkout (hidden once a password, Google or Apple exists) */}
         {user ? (
           <div className="mb-8">
-            <AccountSetup email={user.email} onDone={() => setAccountReady(true)} />
+            <AccountSetup email={user.email} onDone={() => setSetupDone(true)} />
           </div>
         ) : (
           <div className="mb-8">
@@ -89,7 +90,7 @@ const PaymentSuccess = () => {
               <div>
                 <h3 className="font-bold text-green-800">Your Case Has Been Activated</h3>
                 <p className="text-green-700 text-sm mt-1">
-                  A confirmation email has been sent to <strong>{shownEmail || 'your email'}</strong>
+                  A confirmation email has been sent to <strong className="break-all">{shownEmail || 'your email'}</strong>
                 </p>
                 {sessionId && (
                   <p className="text-green-800 text-xs mt-2">
