@@ -20,8 +20,10 @@ const PaymentSuccess = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
-  const [countdown, setCountdown] = useState(10);
   const conversionStarted = useRef(false);
+  // The page stays until the client can come back: a password, Google or Apple on the account
+  const [accountReady, setAccountReady] = useState(() => !user || (user.providerData || []).length > 0);
+  useEffect(() => { if (user && (user.providerData || []).length > 0) setAccountReady(true); }, [user]);
 
   const sessionId = searchParams.get('session_id');
   // Guests come back from checkout signed out; the email they paid with was kept for this page
@@ -52,24 +54,6 @@ const PaymentSuccess = () => {
     })();
   }, [sessionId, searchParams]);
 
-  useEffect(() => {
-    // Signed-out guests stay here to sign in first
-    if (!user) return undefined;
-    // Auto-redirect to dashboard after countdown
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          navigate('/dashboard');
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [navigate, user]);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
@@ -89,7 +73,7 @@ const PaymentSuccess = () => {
         {/* One step to finish the account created at checkout (hidden once a password, Google or Apple exists) */}
         {user ? (
           <div className="mb-8">
-            <AccountSetup email={user.email} />
+            <AccountSetup email={user.email} onDone={() => setAccountReady(true)} />
           </div>
         ) : (
           <div className="mb-8">
@@ -159,26 +143,27 @@ const PaymentSuccess = () => {
                   Ongoing Support
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">
-                  Track your case progress online, request signature documents, and communicate with our team throughout the entire process.
+                  Your client home shows your next step, the documents to read and sign, and your messages with our office.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Dashboard Button (signed-in clients; guests sign in above first) */}
-        {user && <div className="text-center mb-8">
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="inline-flex items-center bg-blue-900 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-800 transition-colors"
-          >
-            Go to Your Dashboard
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </button>
-          <p className="text-gray-500 text-sm mt-3">
-            Redirecting automatically in {countdown} seconds...
-          </p>
-        </div>}
+        {/* Client home button: only once the client can sign in again (password, Google or Apple) */}
+        <div className="text-center mb-8" data-testid="client-home-cta">
+          {accountReady ? (
+            <a
+              href="https://portal.myprobateca.com/?tab=intake"
+              className="inline-flex items-center bg-blue-900 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-800 transition-colors"
+            >
+              Go to your client home
+              <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+            </a>
+          ) : (
+            <p className="text-gray-700">Set your password above, or continue with Google or Apple, so you can sign in to your client home from any device.</p>
+          )}
+        </div>
 
         {/* Contact Info */}
         <div className="bg-gray-50 rounded-xl p-6 text-center">

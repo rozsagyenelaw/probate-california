@@ -109,7 +109,7 @@ const LandingPage = () => {
 
   // Navigate to intake if logged in, otherwise to register
   const handleStartCase = () => {
-    navigate(user ? '/intake' : '/register');
+    window.location.href = user ? 'https://portal.myprobateca.com/?tab=intake' : 'https://portal.myprobateca.com/start';
   };
 
   const scrollToSection = (sectionId) => {
@@ -248,7 +248,7 @@ const LandingPage = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="tel:+18183374071" className="flex items-center text-blue-900 font-semibold hover:text-blue-700">
+              <a href="tel:+18183374071" className="flex items-center whitespace-nowrap shrink-0 text-blue-900 font-semibold hover:text-blue-700">
                 <Phone className="h-4 w-4 mr-1" />
                 818-337-4071
               </a>
@@ -270,15 +270,6 @@ const LandingPage = () => {
               <button onClick={() => navigate('/learn-california-probate')} className="text-amber-600 hover:text-amber-700 font-medium">
                 Learn
               </button>
-              <a
-                href="https://portal.myprobateca.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-900 hover:text-blue-700 font-medium flex items-center"
-              >
-                <ExternalLink className="h-4 w-4 mr-1" />
-                Client Portal
-              </a>
 
               {user ? (
                 <>
@@ -293,9 +284,9 @@ const LandingPage = () => {
                   )}
                   <button
                     onClick={() => navigate('/dashboard')}
-                    className="text-gray-600 hover:text-blue-900 font-medium"
+                    className="text-gray-600 hover:text-blue-900 font-medium whitespace-nowrap"
                   >
-                    Dashboard
+                    My case
                   </button>
                   <button
                     onClick={handleLogout}
@@ -358,15 +349,6 @@ const LandingPage = () => {
                 <button onClick={() => { setMobileMenuOpen(false); navigate('/learn-california-probate'); }} className="text-amber-600 hover:text-amber-700 font-medium text-left">
                   Learn
                 </button>
-                <a
-                  href="https://portal.myprobateca.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-900 hover:text-blue-700 font-medium text-left flex items-center"
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  Client Portal
-                </a>
 
                 {user ? (
                   <>
@@ -383,7 +365,7 @@ const LandingPage = () => {
                       onClick={() => { setMobileMenuOpen(false); navigate('/dashboard'); }}
                       className="text-gray-600 hover:text-blue-900 font-medium text-left"
                     >
-                      Dashboard
+                      My case
                     </button>
                     <button
                       onClick={() => { setMobileMenuOpen(false); handleLogout(); }}
@@ -1708,7 +1690,7 @@ const LandingPage = () => {
                 <li><button onClick={() => navigate('/probate-faq-california')} className="hover:text-white">Probate FAQ</button></li>
                 <li><button onClick={() => navigate('/california-probate-administration')} className="hover:text-white">Probate Guide</button></li>
                 <li><button onClick={() => navigate('/learn-california-probate')} className="hover:text-white">Learn Center</button></li>
-                <li><button onClick={() => navigate('/login')} className="hover:text-white">Client Login</button></li>
+                <li><a href="https://portal.myprobateca.com/" className="hover:text-white">Client Login</a></li>
               </ul>
             </div>
 
