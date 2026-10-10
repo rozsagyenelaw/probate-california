@@ -14,7 +14,10 @@ process.env.FIREBASE_SERVICE_ACCOUNT = JSON.stringify({ project_id: process.env.
 process.env.STRIPE_SECRET_KEY = 'sk_test_fake';
 process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_fake';
 const stripe = require('stripe')('sk_test_fake');
-const { handler } = require('../stripe-webhook.js');
+const wh = require('../stripe-webhook.js');
+const { handler } = wh;
+// No network to Stripe: line items are MyProbateCA-tagged products
+wh._setStripeForTests(Object.assign(require('stripe')('sk_test_fake'), { checkout: { sessions: { listLineItems: async () => ({ data: [{ price: { id: 'price_inline', product: { metadata: { site: 'myprobateca' } } } }] }) } } }));
 // (W2-payments) the webhook now checks line items against MyProbateCA prices; stub that one Stripe call
 require('../stripe-webhook.js')._setStripeForTests(Object.assign(require('stripe')('sk_test_fake'), {
   checkout: { sessions: { listLineItems: async () => ({ data: [{ price: { id: 'price_x', product: { metadata: { site: 'myprobateca' } } } }] }) } }
@@ -27,7 +30,7 @@ test('checkout.session.completed queues the client and office emails, with the p
   const email = 'rozsagyenelaw1+w2hook@gmail.com';
   await db.collection('users').doc('hookuser').set({ uid: 'hookuser', email, firstName: 'Tess', lastName: 'Hook' });
   const payload = JSON.stringify({ id: 'evt_test', object: 'event', type: 'checkout.session.completed', data: { object: {
-    id: 'cs_test_w2hook', object: 'checkout.session', customer_email: email, amount_total: 399500,
+    id: 'cs_test_w2hook', object: 'checkout.session', success_url: 'https://myprobateca.com/payment-success', payment_status: 'paid', customer_email: email, amount_total: 399500,
     customer_details: { email, name: '' },
     success_url: 'https://myprobateca.com/payment-success?session_id={CHECKOUT_SESSION_ID}',
     metadata: { app: 'probate', site: 'myprobateca', serviceType: 'full', probateType: 'full', paymentPlan: 'full' }
@@ -53,9 +56,9 @@ test('court appearance purchase also goes through the outbox, with description a
   const email = 'rozsagyenelaw1+w2court@gmail.com';
   const hearing = JSON.stringify({ d: '2026-11-18', t: '08:30', dept: '9', co: 'Los Angeles' });
   const payload = JSON.stringify({ id: 'evt_test2', object: 'event', type: 'checkout.session.completed', data: { object: {
-    id: 'cs_test_w2court', object: 'checkout.session', customer_email: email, amount_total: 50000, payment_status: 'paid',
+    id: 'cs_test_w2court', object: 'checkout.session', success_url: 'https://myprobateca.com/payment-success', customer_email: email, amount_total: 50000, payment_status: 'paid',
     customer_details: { email, name: 'Tess Court' },
-    metadata: { app: 'probate', serviceType: 'court_appearance', courtAppearance: 'remote', hearing, paymentPlan: 'full' }
+    metadata: { app: 'probate', site: 'myprobateca', serviceType: 'court_appearance', courtAppearance: 'remote', hearing, paymentPlan: 'full' }
   } } });
   const sig = stripe.webhooks.generateTestHeaderString({ payload, secret: 'whsec_test_fake' });
   const res = await handler({ httpMethod: 'POST', headers: { 'stripe-signature': sig }, body: payload, isBase64Encoded: false });
