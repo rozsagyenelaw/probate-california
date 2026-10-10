@@ -114,12 +114,12 @@ const RequestCourtAppearance = () => {
     setError(null);
 
     try {
-      const idToken = await user.getIdToken();
+      const idToken = user ? await user.getIdToken().catch(() => null) : null;
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
+          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
         },
         body: JSON.stringify({
           serviceType: 'court_appearance',

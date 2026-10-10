@@ -183,10 +183,10 @@ const Intake = () => {
     try {
       const filingCounty = formData.decedent.lastAddress.county;
       const courtInfo = getCourtByCounty(filingCounty);
-      const idToken = await user.getIdToken();
+      const idToken = user ? await user.getIdToken().catch(() => null) : null;
       const response = await fetch('/.netlify/functions/submit-intake', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+        headers: { 'Content-Type': 'application/json', ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}) },
         body: JSON.stringify({
           formData,
           courtInfo: courtInfo ? { name: courtInfo.name, address: courtInfo.address, phone: courtInfo.phone } : null,

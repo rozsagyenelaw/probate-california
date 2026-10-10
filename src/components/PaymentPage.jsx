@@ -145,7 +145,8 @@ const PaymentPage = () => {
     setError(null);
 
     try {
-      const idToken = await user.getIdToken().catch(() => null);
+      // Guests pay without being signed in (W1-security's guest step), so there may be no user here
+      const idToken = user ? await user.getIdToken().catch(() => null) : null;
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
@@ -407,6 +408,10 @@ const PaymentPage = () => {
                 </div>
               </div>
 
+              {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
+
+              {settings.accountingTierRule && (<>
+
               <p className="text-sm text-gray-700 font-medium mb-2">Best for estates with:</p>
               <ul className="text-sm text-gray-600 space-y-1 mb-3">
                 {accountingTierNote(settings.accountingTierRule, 'simple') && (
@@ -428,6 +433,8 @@ const PaymentPage = () => {
                   Straightforward distribution
                 </li>
               </ul>
+
+              </>)}
 
               <div className="border-t pt-3">
                 <p className="text-sm text-gray-700 font-medium mb-2">Includes:</p>
@@ -486,6 +493,10 @@ const PaymentPage = () => {
                 </div>
               </div>
 
+              {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
+
+              {settings.accountingTierRule && (<>
+
               <p className="text-sm text-gray-700 font-medium mb-2">Best for estates with:</p>
               <ul className="text-sm text-gray-600 space-y-1 mb-3">
                 {accountingTierNote(settings.accountingTierRule, 'complex') && (
@@ -507,6 +518,8 @@ const PaymentPage = () => {
                   Multi-year accounting
                 </li>
               </ul>
+
+              </>)}
 
               <div className="border-t pt-3">
                 <p className="text-sm text-gray-700 font-medium mb-2">Includes everything in Simple, PLUS:</p>

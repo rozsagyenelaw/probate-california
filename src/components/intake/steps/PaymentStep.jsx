@@ -373,6 +373,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               </div>
             </div>
             <p className="text-xl font-bold text-purple-600 mb-2">+$995</p>
+            {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
+            {settings.accountingTierRule && (<>
             <ul className="text-xs text-gray-600 space-y-1">
               {accountingTierNote(settings.accountingTierRule, 'simple') && (
                 <li className="flex items-center">
@@ -389,6 +391,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
                 Single property sale
               </li>
             </ul>
+            </>)}
           </button>
 
           {/* Complex Accounting */}
@@ -421,6 +424,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               </div>
             </div>
             <p className="text-xl font-bold text-purple-600 mb-2">+$1,995</p>
+            {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
+            {settings.accountingTierRule && (<>
             <ul className="text-xs text-gray-600 space-y-1">
               {accountingTierNote(settings.accountingTierRule, 'complex') && (
                 <li className="flex items-center">
@@ -437,6 +442,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
                 Multi-year accounting
               </li>
             </ul>
+            </>)}
           </button>
         </div>
 

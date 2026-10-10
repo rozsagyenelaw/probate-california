@@ -65,12 +65,12 @@ const RequestAccounting = () => {
 
     try {
       // Create Stripe checkout session for accounting addon
-      const idToken = await user.getIdToken();
+      const idToken = user ? await user.getIdToken().catch(() => null) : null;
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
+          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
         },
         body: JSON.stringify({
           serviceType: 'accounting_addon',
