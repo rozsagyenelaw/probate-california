@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { doc, onSnapshot, collection, query, where, setDoc, serverTimestamp, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../../services/firebase';
+import { openFormsForCase } from '../../services/petitionService';
 // Generator URL - probate-form-automation app
 const GENERATOR_URL = 'https://probateformautomation.netlify.app';
 import {
@@ -93,7 +94,15 @@ const AdminCaseDetails = () => {
   const [vaultLoading, setVaultLoading] = useState(false);
 
   // Map case data to generator format and open generator
-  const openGenerator = (prefill = true) => {
+  // Court forms are generated in the portal admin (one generator for every form). The address
+  // carries only the case id, never client data. The old prefill mapping is kept below, unused,
+  // for reference (it sent wrong values: report D2, D3).
+  const openGenerator = () => {
+    if (!caseData) return;
+    openFormsForCase(caseId || caseData.id);
+  };
+  // eslint-disable-next-line no-unused-vars
+  const legacyOpenGenerator = (prefill = true) => {
     if (!caseData) return;
 
     if (!prefill) {
@@ -696,7 +705,7 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
           <div className="bg-white/10 rounded-lg p-4">
             <h3 className="text-white font-medium mb-2">Step 1: Generate Forms</h3>
             <p className="text-blue-100 text-sm mb-3">
-              Open the form generator to create California probate court forms (DE-111, DE-140, DE-147, etc.)
+              Opens the court forms page for this case in the portal admin (DE-111, DE-121, DE-140, DE-147, DE-150 and every other procedure form)
             </p>
             <div className="space-y-2">
               <button
@@ -704,7 +713,7 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
                 className="w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-colors bg-green-500 text-white hover:bg-green-600"
               >
                 <Wand2 className="h-5 w-5 mr-2" />
-                Auto Generate Forms
+                Open Court Forms
               </button>
               <button
                 onClick={() => openGenerator(false)}
@@ -714,7 +723,7 @@ ${(caseData.liabilities || []).map((l, i) => `${i + 1}. ${l.creditorName || 'Unk
                 Manual Fill Forms
               </button>
               <p className="text-blue-200 text-xs text-center mt-2">
-                Auto Generate = Pre-filled with case data | Manual Fill = Empty form
+                Every value comes from the case file; anything missing is asked, never guessed
               </p>
             </div>
           </div>

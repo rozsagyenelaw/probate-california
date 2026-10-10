@@ -226,6 +226,18 @@ service cloud.firestore {
     }
     // ================= end W3-cockpit section =================
 
+    // ================= W3-forms section (court forms) =================
+    // Owner: W3-forms. Shapes: notes/shared-data-model.md (W3-forms section).
+    // Rozsa's answers to the generator's "needs your answer" questions, and the saved
+    // versions of each generated form. The attorney only; clients can never read them.
+    match /cases/{caseId}/formAnswers/{docId} {
+      allow read, write: if isAdmin();
+    }
+    match /cases/{caseId}/formDrafts/{formKey} {
+      allow read, write: if isAdmin();
+    }
+    // ================= end W3-forms section =================
+
     // Email Sequences collection - managed by Cloud Functions
     match /emailSequences/{sequenceId} {
       allow read: if isAdmin();

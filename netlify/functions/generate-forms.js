@@ -1,259 +1,29 @@
 /**
- * Proxy function for form generation to avoid CORS issues
- * Calls the external probate petition API server-side
+ * Court-form generation for the main site, routed to the MyProbateCA form generator
+ * (probate-form-automation, function `generate`), the same engine the portal admin uses.
+ * Attorney sign-in required: the caller's Firebase ID token is passed through and checked by
+ * the generator (admin claim on a verified email). No client data goes in a web address.
+ * The previous implementation (which posted to a site with no functions) is kept in
+ * generate-forms.legacy.txt.
  */
+const GENERATOR = process.env.FORMS_GENERATOR_URL || 'https://probateformautomation.netlify.app/.netlify/functions/generate';
+const ORIGINS = ['https://myprobateca.com', 'https://www.myprobateca.com', 'http://localhost:8290'];
 
-const FORMS_API_URL = process.env.PROBATE_FORMS_URL || 'https://probatepetition.netlify.app';
-
-exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
-
-  // Handle preflight
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      headers,
-      body: JSON.stringify({ error: 'Method not allowed' }),
-    };
-  }
-
+exports.handler = async (event) => {
+  const origin = event.headers.origin || event.headers.Origin || '';
+  const headers = { 'Access-Control-Allow-Origin': ORIGINS.includes(origin) ? origin : ORIGINS[0], 'Access-Control-Allow-Headers': 'Content-Type, Authorization', 'Access-Control-Allow-Methods': 'POST, OPTIONS', Vary: 'Origin', 'Content-Type': 'application/json', 'Cache-Control': 'no-store' };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers, body: '' };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  const authz = event.headers.authorization || event.headers.Authorization;
+  if (!authz) return { statusCode: 401, headers, body: JSON.stringify({ error: 'Sign in required' }) };
+  let body;
+  try { body = JSON.parse(event.body || '{}'); } catch (e) { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Bad JSON' }) }; }
+  const payload = body.action ? body : { action: 'generate', formId: body.formId || 'DE-111', caseData: body.caseData || body, answers: body.answers || {}, overrides: body.overrides || {} };
   try {
-    const caseData = JSON.parse(event.body);
-
-    // Transform case data to form data format
-    const formData = transformCaseToFormData(caseData);
-
-    console.log('Generating forms for case:', caseData.estateName || 'Unknown');
-
-    // Try multiple possible API endpoints
-    const endpoints = [
-      `${FORMS_API_URL}/.netlify/functions/process-form`,
-      `${FORMS_API_URL}/api/generate`,
-      `${FORMS_API_URL}/.netlify/functions/generate`
-    ];
-
-    let response = null;
-    let lastError = null;
-
-    for (const endpoint of endpoints) {
-      try {
-        console.log('Trying endpoint:', endpoint);
-        response = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData)
-        });
-
-        if (response.ok) {
-          break;
-        }
-      } catch (err) {
-        lastError = err;
-        console.log('Endpoint failed:', endpoint, err.message);
-      }
-    }
-
-    if (!response || !response.ok) {
-      // Return the form data for manual use with the external generator
-      console.log('External API not available. Returning form data for manual processing.');
-      return {
-        statusCode: 200,
-        headers: { ...headers, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          success: false,
-          message: 'External form generator not configured. Use the Manual Generator button instead.',
-          formData: formData,
-          openGeneratorUrl: `${FORMS_API_URL}?data=${encodeURIComponent(JSON.stringify(formData))}`
-        }),
-      };
-    }
-
-    const contentType = response.headers.get('content-type');
-
-    if (contentType?.includes('application/json')) {
-      const data = await response.json();
-      return {
-        statusCode: 200,
-        headers: { ...headers, 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      };
-    } else if (contentType?.includes('application/pdf')) {
-      const buffer = await response.arrayBuffer();
-      return {
-        statusCode: 200,
-        headers: {
-          ...headers,
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="${caseData.estateName || 'probate'}-forms.pdf"`,
-        },
-        body: Buffer.from(buffer).toString('base64'),
-        isBase64Encoded: true,
-      };
-    } else if (contentType?.includes('application/zip')) {
-      const buffer = await response.arrayBuffer();
-      return {
-        statusCode: 200,
-        headers: {
-          ...headers,
-          'Content-Type': 'application/zip',
-          'Content-Disposition': `attachment; filename="${caseData.estateName || 'probate'}-forms.zip"`,
-        },
-        body: Buffer.from(buffer).toString('base64'),
-        isBase64Encoded: true,
-      };
-    }
-
-    // Default to JSON response
-    const data = await response.text();
-    return {
-      statusCode: 200,
-      headers: { ...headers, 'Content-Type': 'application/json' },
-      body: data,
-    };
-
-  } catch (error) {
-    console.error('Form generation error:', error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        error: error.message || 'Failed to generate forms',
-        details: 'Please contact support at 818-337-4071'
-      }),
-    };
+    const r = await fetch(GENERATOR, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: authz }, body: JSON.stringify(payload) });
+    const text = await r.text();
+    return { statusCode: r.status, headers, body: text };
+  } catch (e) {
+    return { statusCode: 502, headers, body: JSON.stringify({ error: 'Form generator unavailable' }) };
   }
 };
-
-/**
- * Transform case data to the format expected by the forms generator
- */
-function transformCaseToFormData(caseData) {
-  const { decedent, petitioner, heirs, assets, liabilities, willExists, willDate, namedExecutor } = caseData;
-
-  // Calculate total estate value
-  const totalRealProperty = (assets?.realProperty || []).reduce(
-    (sum, p) => sum + (parseFloat(p.estimatedValue) || 0), 0
-  );
-  const totalFinancial = (assets?.financialAccounts || []).reduce(
-    (sum, a) => sum + (parseFloat(a.estimatedValue) || 0), 0
-  );
-  const totalVehicles = (assets?.vehicles || []).reduce(
-    (sum, v) => sum + (parseFloat(v.estimatedValue) || 0), 0
-  );
-  const totalPersonalProperty = (assets?.personalProperty || []).reduce(
-    (sum, p) => sum + (parseFloat(p.estimatedValue) || 0), 0
-  );
-  const totalAssets = totalRealProperty + totalFinancial + totalVehicles + totalPersonalProperty;
-  const totalLiabilitiesAmount = (liabilities || []).reduce(
-    (sum, l) => sum + (parseFloat(l.amountOwed) || 0), 0
-  );
-
-  return {
-    // Decedent info
-    decedentFirstName: decedent?.firstName || '',
-    decedentMiddleName: decedent?.middleName || '',
-    decedentLastName: decedent?.lastName || '',
-    decedentFullName: [decedent?.firstName, decedent?.middleName, decedent?.lastName]
-      .filter(Boolean).join(' '),
-    dateOfDeath: decedent?.dateOfDeath || '',
-    dateOfBirth: decedent?.dateOfBirth || '',
-    placeOfDeath: decedent?.placeOfDeath || '',
-    decedentStreet: decedent?.lastAddress?.street || '',
-    decedentCity: decedent?.lastAddress?.city || '',
-    decedentState: decedent?.lastAddress?.state || 'CA',
-    decedentZip: decedent?.lastAddress?.zip || '',
-    decedentCounty: decedent?.lastAddress?.county || '',
-    maritalStatus: decedent?.maritalStatus || '',
-    ssnLast4: decedent?.ssnLast4 || '',
-
-    // Petitioner info
-    petitionerFirstName: petitioner?.firstName || '',
-    petitionerLastName: petitioner?.lastName || '',
-    petitionerFullName: [petitioner?.firstName, petitioner?.lastName].filter(Boolean).join(' '),
-    petitionerRelationship: petitioner?.relationship || '',
-    petitionerPhone: petitioner?.phone || '',
-    petitionerEmail: petitioner?.email || '',
-    petitionerStreet: petitioner?.address?.street || '',
-    petitionerCity: petitioner?.address?.city || '',
-    petitionerState: petitioner?.address?.state || 'CA',
-    petitionerZip: petitioner?.address?.zip || '',
-    isCAResident: petitioner?.isCAResident ? 'Yes' : 'No',
-
-    // Will info
-    willExists: willExists ? 'Yes' : 'No',
-    willDate: willDate || '',
-    namedExecutor: namedExecutor || '',
-    probateType: willExists ? 'Testate' : 'Intestate',
-
-    // Heirs
-    heirs: (heirs || []).map(heir => ({
-      name: [heir.firstName, heir.lastName].filter(Boolean).join(' '),
-      relationship: heir.relationship || '',
-      age: heir.age || 'Adult',
-      street: heir.address?.street || '',
-      city: heir.address?.city || '',
-      state: heir.address?.state || 'CA',
-      zip: heir.address?.zip || '',
-      sharePercentage: heir.sharePercentage || '',
-      isDeceased: heir.isDeceased || false,
-      waivedBond: heir.waivedBond || false
-    })),
-
-    // Assets
-    realProperty: (assets?.realProperty || []).map(prop => ({
-      address: prop.address || '',
-      apn: prop.apn || '',
-      value: prop.estimatedValue || 0,
-      titleHolding: prop.titleHolding || '',
-      mortgageBalance: prop.mortgageBalance || 0,
-      lender: prop.lender || ''
-    })),
-
-    financialAccounts: (assets?.financialAccounts || []).map(acc => ({
-      type: acc.accountType || '',
-      institution: acc.institutionName || '',
-      value: acc.estimatedValue || 0
-    })),
-
-    vehicles: (assets?.vehicles || []).map(v => ({
-      description: [v.year, v.make, v.model].filter(Boolean).join(' '),
-      value: v.estimatedValue || 0,
-      vin: v.vin || '',
-      lienHolder: v.lienHolder || '',
-      lienAmount: v.lienAmount || 0
-    })),
-
-    personalProperty: (assets?.personalProperty || []).map(p => ({
-      description: p.description || '',
-      value: p.estimatedValue || 0
-    })),
-
-    // Totals
-    totalRealProperty,
-    totalPersonalProperty: totalFinancial + totalVehicles + totalPersonalProperty,
-    totalAssets,
-    totalLiabilities: totalLiabilitiesAmount,
-    netEstateValue: totalAssets - totalLiabilitiesAmount,
-
-    // Liabilities
-    liabilities: (liabilities || []).map(l => ({
-      creditor: l.creditorName || '',
-      type: l.debtType || '',
-      amount: l.amountOwed || 0
-    })),
-
-    // Filing info
-    filingCounty: decedent?.lastAddress?.county || caseData.filingCounty || '',
-    filingDate: new Date().toISOString().split('T')[0]
-  };
-}
