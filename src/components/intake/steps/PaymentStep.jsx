@@ -16,9 +16,9 @@ const HEARING_TYPES = [
 // Neutral routing messages (item 19). Legal detail and amounts live in the Learn articles.
 const ROUTE_MESSAGES = {
   [ROUTES.NEEDS_DATE_OF_DEATH]: 'Please go back and enter the date of death. The rules that apply depend on it.',
-  [ROUTES.ATTORNEY_REVIEW]: 'Based on your answers, your attorney needs to review the estate before recommending a path.',
-  [ROUTES.NOTHING_TO_PROBATE]: 'Based on your answers, the assets you listed may all pass outside probate. Please talk with your attorney before paying.',
-  [ROUTES.SMALL_ESTATE_AFFIDAVIT]: 'Based on your answers, this estate may not need a full probate case. A simpler small estate process may work. Please talk with your attorney before paying.',
+  [ROUTES.ATTORNEY_REVIEW]: 'Based on your answers, Rozsa will confirm the right path when she reviews your answers. You can continue now.',
+  [ROUTES.NOTHING_TO_PROBATE]: 'Based on your answers, the assets you listed may all pass outside probate. You can continue now; Rozsa reviews your answers and confirms the simplest route before any papers are prepared.',
+  [ROUTES.SMALL_ESTATE_AFFIDAVIT]: 'Based on your answers, this estate may not need a full probate case. A simpler small estate process may work. You can continue now; Rozsa reviews your answers and confirms the simplest route before any papers are prepared.',
   [ROUTES.RESIDENCE_PETITION]: 'Based on your answers, the home may be transferred with the simpler home petition.',
   [ROUTES.RESIDENCE_PETITION_PLUS_PROBATE]: 'Based on your answers, the home may qualify for the simpler home petition, but the other assets may still need probate. Your attorney will confirm the best path.',
   [ROUTES.FULL_PROBATE]: 'Based on your answers, this estate will likely need full probate.'
