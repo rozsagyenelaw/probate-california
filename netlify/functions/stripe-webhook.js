@@ -1,6 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const admin = require('firebase-admin');
-const nodemailer = require('nodemailer');
 
 // Firebase initialization
 let db = null;
@@ -48,207 +47,30 @@ function initializeFirebase() {
   }
 }
 
-// Email configuration
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER || 'rozsagyenelaw1@gmail.com',
-    pass: process.env.EMAIL_PASS
+// Emails: written to Firestore mailOutbox; the portal's onMailOutbox function renders them with the
+// shared templates (myprobateca-portal/functions/emails) and sends them from rozsa@myprobateca.com.
+// The same job stops the client's marketing emails (payment stops the drip).
+async function queuePaymentEmails({ customerEmail, customerName, serviceType, probateType, accountingAddon, paymentPlan, amount, orderNumber, sessionId, uid }) {
+  if (!initializeFirebase()) {
+    console.error('Firebase not available: payment emails not queued');
+    return;
   }
-});
-
-// Build service description for emails
-function buildServiceDescription(serviceType, probateType, accountingAddon) {
-  let services = [];
-
-  if (serviceType === 'accounting_only') {
-    services.push(accountingAddon === 'simple' ? 'Simple Accounting ($995)' : 'Complex Accounting ($1,995)');
-  } else {
-    // Probate service
-    if (probateType === 'simplified') {
-      services.push('Simplified Probate ($2,495)');
-    } else {
-      services.push('Full Probate ($3,995)');
-    }
-    // Accounting add-on
-    if (accountingAddon === 'simple') {
-      services.push('Simple Accounting Add-on ($995)');
-    } else if (accountingAddon === 'complex') {
-      services.push('Complex Accounting Add-on ($1,995)');
-    }
-  }
-
-  return services.join(' + ');
-}
-
-// Send email notification to admin
-async function sendAdminNotification(customerEmail, customerName, serviceType, probateType, accountingAddon, paymentPlan, amount) {
-  const adminEmail = 'rozsagyenelaw@yahoo.com';
-  const serviceDescription = buildServiceDescription(serviceType, probateType, accountingAddon);
-  const planLabel = paymentPlan === 'installments' ? '3 Monthly Installments' : 'Paid in Full';
-
-  const mailOptions = {
-    from: '"Probate California" <rozsagyenelaw1@gmail.com>',
-    to: adminEmail,
-    subject: `New Payment Received - ${serviceDescription}`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: #1e3a8a; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-          .content { background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; }
-          .highlight { background: #dbeafe; padding: 15px; border-radius: 8px; margin: 15px 0; }
-          .addon { background: #f3e8ff; padding: 10px; border-radius: 6px; margin-top: 10px; }
-          .footer { background: #f3f4f6; padding: 15px; text-align: center; font-size: 12px; color: #6b7280; border-radius: 0 0 8px 8px; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>New Payment Received!</h1>
-          </div>
-          <div class="content">
-            <p>A new payment has been completed on Probate California.</p>
-
-            <div class="highlight">
-              <p><strong>Customer Name:</strong> ${customerName || 'Not provided'}</p>
-              <p><strong>Customer Email:</strong> ${customerEmail}</p>
-              <p><strong>Services Purchased:</strong></p>
-              <ul>
-                ${serviceType !== 'accounting_only' ? `<li>${probateType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}</li>` : ''}
-                ${accountingAddon ? `<li>${accountingAddon === 'simple' ? 'Simple Accounting' : 'Complex Accounting'}${serviceType !== 'accounting_only' ? ' (Add-on)' : ''}</li>` : ''}
-              </ul>
-              <p><strong>Payment Plan:</strong> ${planLabel}</p>
-              <p><strong>Amount Paid:</strong> $${(amount / 100).toFixed(2)}</p>
-              <p><strong>Date:</strong> ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</p>
-            </div>
-
-            <p><strong>Action Required:</strong> Please log into the <a href="https://myprobateca.com/admin">Admin Panel</a> to view the case details.</p>
-          </div>
-          <div class="footer">
-            <p>Probate California - Automated Notification</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `
+  const data = {
+    customerName: customerName || '',
+    customerEmail: customerEmail.toLowerCase(),
+    serviceType,
+    probateType: probateType || null,
+    accountingAddon: accountingAddon || null,
+    paymentPlan,
+    amount,
+    orderNumber: orderNumber || '',
+    stripeSessionId: sessionId
   };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('Admin notification sent to:', adminEmail);
-  } catch (error) {
-    console.error('Error sending admin notification:', error);
-  }
-}
-
-// Send confirmation email to customer
-async function sendCustomerConfirmation(customerEmail, customerName, serviceType, probateType, accountingAddon, paymentPlan) {
-  const isAccountingOnly = serviceType === 'accounting_only';
-  const serviceDescription = buildServiceDescription(serviceType, probateType, accountingAddon);
-  const planLabel = paymentPlan === 'installments' ? ' (3-payment plan)' : '';
-
-  // Customize message based on service type
-  let nextStepsHtml;
-  if (isAccountingOnly) {
-    nextStepsHtml = `
-      <ol>
-        <li><strong>Information Gathering</strong> - We'll reach out within 24-48 hours to collect the necessary financial information.</li>
-        <li><strong>Accounting Preparation</strong> - We'll prepare your court-formatted accounting document.</li>
-        <li><strong>Attorney Review</strong> - Attorney Rozsa Gyene will review the completed accounting.</li>
-        <li><strong>Delivery</strong> - You'll receive the finalized accounting document ready for court filing.</li>
-      </ol>
-    `;
-  } else {
-    nextStepsHtml = `
-      <ol>
-        <li><strong>Case Review</strong> - Our attorney will review your case information within 24-48 business hours.</li>
-        <li><strong>Document Preparation</strong> - We'll prepare all necessary court filings and documents for each phase.</li>
-        <li><strong>You'll Be Notified</strong> - You'll receive notifications at each step through your dashboard.</li>
-        <li><strong>Court Filings</strong> - We handle all 11 phases of the probate process on your behalf.</li>
-      </ol>
-    `;
-  }
-
-  const mailOptions = {
-    from: '"Probate California" <rozsagyenelaw1@gmail.com>',
-    to: customerEmail,
-    subject: `Payment Confirmed - ${isAccountingOnly ? 'Your Accounting Service' : 'Your Probate Case'} Has Been Activated`,
-    html: `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f5f7fa; margin: 0; padding: 0; }
-          .container { max-width: 600px; margin: 40px auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.07); }
-          .header { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); color: white; padding: 30px 20px; text-align: center; }
-          .header h1 { margin: 0; font-size: 24px; }
-          .content { padding: 40px 30px; }
-          .content h2 { color: #1a202c; margin: 0 0 20px 0; }
-          .content p { margin: 0 0 15px 0; color: #4a5568; }
-          .highlight { background: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0; border-radius: 4px; }
-          .highlight p { margin: 0; color: #065f46; }
-          .addon-highlight { background: #f3e8ff; border-left: 4px solid #9333ea; padding: 12px; margin: 10px 0; border-radius: 4px; }
-          .addon-highlight p { margin: 0; color: #6b21a8; font-size: 14px; }
-          .steps { background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; }
-          .steps h3 { margin: 0 0 15px 0; color: #374151; }
-          .steps ol { margin: 0; padding-left: 20px; }
-          .steps li { margin-bottom: 10px; color: #4a5568; }
-          .button { display: inline-block; padding: 14px 28px; background: #1e3a8a; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 20px 0; }
-          .footer { background: #f9fafb; padding: 20px 30px; text-align: center; border-top: 1px solid #e5e7eb; }
-          .footer p { margin: 5px 0; font-size: 13px; color: #6b7280; }
-        </style>
-      </head>
-      <body>
-        <div class="container">
-          <div class="header">
-            <h1>Payment Confirmed!</h1>
-          </div>
-          <div class="content">
-            <h2>Thank you for choosing us, ${customerName || 'Valued Client'}!</h2>
-
-            <div class="highlight">
-              <p><strong>Your ${serviceDescription}${planLabel} has been activated and assigned to Attorney Rozsa Gyene.</strong></p>
-            </div>
-
-            ${accountingAddon && !isAccountingOnly ? `
-            <div class="addon-highlight">
-              <p><strong>Accounting Add-on Included:</strong> ${accountingAddon === 'simple' ? 'Simple Accounting' : 'Complex Accounting'} service has been added to your probate case.</p>
-            </div>
-            ` : ''}
-
-            <div class="steps">
-              <h3>What Happens Next?</h3>
-              ${nextStepsHtml}
-            </div>
-
-            <p>You can track the progress of your ${isAccountingOnly ? 'service' : 'case'} anytime by logging into your dashboard:</p>
-
-            <a href="https://myprobateca.com/dashboard" class="button">View My Dashboard</a>
-
-            <p>If you have any questions, please don't hesitate to contact us:</p>
-            <p><strong>Phone:</strong> 818-337-4071<br>
-            <strong>Email:</strong> rozsa@myprobateca.com</p>
-          </div>
-          <div class="footer">
-            <p>&copy; ${new Date().getFullYear()} Law Offices of Rozsa Gyene. All rights reserved.</p>
-            <p>Attorney Rozsa Gyene | California State Bar #208356</p>
-          </div>
-        </div>
-      </body>
-      </html>
-    `
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('Customer confirmation sent to:', customerEmail);
-  } catch (error) {
-    console.error('Error sending customer confirmation:', error);
-  }
+  const now = admin.firestore.FieldValue.serverTimestamp();
+  const outbox = db.collection('mailOutbox');
+  await outbox.doc(`pay-client-${sessionId}`).set({ template: 'paymentConfirmation', to: data.customerEmail, uid: uid || null, data, stopDripFor: data.customerEmail, source: 'stripe-webhook', createdAt: now });
+  await outbox.doc(`pay-office-${sessionId}`).set({ template: 'paymentAlert', to: 'office', replyTo: data.customerEmail, data, source: 'stripe-webhook', createdAt: now });
+  console.log('Payment emails queued for session', sessionId);
 }
 
 // Generate order number
@@ -378,7 +200,8 @@ async function updateUserPaymentStatus(customerEmail, serviceType, probateType, 
     return {
       success: true,
       orderNumber: orderNumber,
-      customerName: userData.displayName || userData.name || null,
+      customerName: [userData.firstName, userData.lastName].filter(Boolean).join(' ') || userData.displayName || userData.name || null,
+      uid: userDoc.id,
       action: 'updated'
     };
   } catch (error) {
@@ -499,6 +322,8 @@ exports.handler = async (event, context) => {
       const accountingAddon = metadata.accountingAddon || null;
       const paymentPlan = metadata.paymentPlan || 'full';
       let customerName = null;
+      let orderNumber = null;
+      let paymentUid = null;
 
       // Update user payment status in Firebase
       console.log('=== Starting Firebase update ===');
@@ -518,6 +343,8 @@ exports.handler = async (event, context) => {
 
         if (updateResult.success) {
           customerName = updateResult.customerName;
+          orderNumber = updateResult.orderNumber;
+          paymentUid = updateResult.uid || null;
           console.log('Firebase update successful. Order:', updateResult.orderNumber);
         } else {
           console.warn('Firebase update failed:', updateResult.error);
@@ -547,34 +374,19 @@ exports.handler = async (event, context) => {
         console.error('Firebase error:', firebaseError.message);
       }
 
-      // Send email notifications
-      console.log('Sending email notifications...');
-
+      // Client confirmation and office alert (sent by the portal; also stops the drip)
       try {
-        await sendAdminNotification(
+        await queuePaymentEmails({
           customerEmail,
-          customerName,
-          serviceType,
-          probateType,
-          accountingAddon,
-          paymentPlan,
-          amountTotal
-        );
+          customerName: (session.customer_details && session.customer_details.name) || metadata.customerName || customerName,
+          serviceType, probateType, accountingAddon, paymentPlan,
+          amount: amountTotal,
+          orderNumber,
+          sessionId: session.id,
+          uid: paymentUid
+        });
       } catch (emailError) {
-        console.error('Failed to send admin notification:', emailError.message);
-      }
-
-      try {
-        await sendCustomerConfirmation(
-          customerEmail,
-          customerName,
-          serviceType,
-          probateType,
-          accountingAddon,
-          paymentPlan
-        );
-      } catch (emailError) {
-        console.error('Failed to send customer confirmation:', emailError.message);
+        console.error('Failed to queue payment emails:', emailError.message);
       }
 
       console.log('Payment processing complete for:', customerEmail);
