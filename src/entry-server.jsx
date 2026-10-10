@@ -26,7 +26,10 @@ export async function render(url) {
           </AuthProvider>
         </StaticRouter>
       </HelmetProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
+    // Keep every Suspense boundary inline: React otherwise moves large boundaries to the end of the
+    // HTML and reveals them with an inline script, which the site's CSP blocks.
+    { progressiveChunkSize: Number.POSITIVE_INFINITY }
   );
   const html = await streamToString(prelude);
   return { html, helmet: helmetContext.helmet };

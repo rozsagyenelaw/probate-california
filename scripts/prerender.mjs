@@ -55,12 +55,19 @@ while (queue.length) {
   const route = queue.shift();
   let out;
   try {
+    // First pass loads the page's lazy components; the second pass then renders without any
+    // suspended boundary, so the HTML is complete and needs no inline script (blocked by the CSP).
+    await render(route);
     out = await render(route);
   } catch (err) {
     broken.push({ from: linkFrom.get(route) || '(seed)', to: route, error: String(err && err.message || err) });
     continue;
   }
   const { html, helmet } = out;
+  if (/<!--\$[?!]-->|<template id="B:|<script>/.test(html)) {
+    broken.push({ from: linkFrom.get(route) || '(seed)', to: route, error: 'incomplete prerender (pending Suspense boundary)' });
+    continue;
+  }
   const noindex = /name="robots"[^>]*noindex/.test(helmet ? helmet.meta.toString() : '');
   if (!html.trim() || noindex) {
     broken.push({ from: linkFrom.get(route) || '(seed)', to: route, error: noindex ? 'renders the Not Found page' : 'renders nothing (client redirect)' });
