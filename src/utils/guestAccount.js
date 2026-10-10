@@ -12,7 +12,7 @@ export async function startGuestAccount({ name, email, phone, source }) {
     await httpsCallable(functions, 'startClientAccount')({ name, email, phone, source });
   } catch (err) {
     const known = ['functions/invalid-argument', 'functions/resource-exhausted'].includes(err.code);
-    throw new Error(known ? err.message : 'Please try again, or call 818-337-4071.');
+    throw new Error(known ? String(err.message).replace(/\s*\[\d+\]$/, '') : 'Please try again, or call 818-337-4071.');
   }
   try { sessionStorage.setItem(GUEST_EMAIL_KEY, String(email).trim().toLowerCase()); } catch { /* private mode */ }
   return 'ok';

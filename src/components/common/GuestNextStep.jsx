@@ -21,7 +21,7 @@ const GuestNextStep = ({ email, next = '/dashboard' }) => {
     try {
       await httpsCallable(functions, 'sendPasswordResetEmail')({ email });
     } catch (err) {
-      if (err.code === 'functions/resource-exhausted') { setError(err.message); setBusy(false); return; }
+      if (err.code === 'functions/resource-exhausted') { setError(String(err.message).replace(/\s*\[\d+\]$/, '')); setBusy(false); return; }
       console.error('Link request failed:', err);
     }
     setBusy(false);
