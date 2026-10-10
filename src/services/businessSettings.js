@@ -1,14 +1,31 @@
 // Reads Rozsa's business answers (Firestore config/business) over the defaults in src/config/businessDefaults.js.
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from './firebase';
 import businessDefaults from '../config/businessDefaults';
+
+// config/business is publicly readable, so it is read with one REST call instead of the Firebase SDK:
+// public pages (home, FAQ) then do not have to download and start Firebase just to show prices.
+const BUSINESS_DOC_URL = `https://firestore.googleapis.com/v1/projects/${import.meta.env.VITE_FIREBASE_PROJECT_ID || 'probate-california'}/databases/(default)/documents/config/business`;
+function fromFirestoreValue(v) {
+  if (!v || typeof v !== 'object') return null;
+  if ('nullValue' in v) return null;
+  if ('stringValue' in v) return v.stringValue;
+  if ('booleanValue' in v) return v.booleanValue;
+  if ('integerValue' in v) return Number(v.integerValue);
+  if ('doubleValue' in v) return v.doubleValue;
+  if ('timestampValue' in v) return v.timestampValue;
+  if ('arrayValue' in v) return (v.arrayValue.values || []).map(fromFirestoreValue);
+  if ('mapValue' in v) return Object.fromEntries(Object.entries(v.mapValue.fields || {}).map(([k, x]) => [k, fromFirestoreValue(x)]));
+  return null;
+}
 
 let cached = null;
 export async function loadBusinessSettings() {
   if (cached) return cached;
   let live = {};
-  try { const s = await getDoc(doc(db, 'config', 'business')); if (s.exists()) live = s.data() || {}; } catch { /* public read not available yet: defaults */ }
+  try {
+    const r = await fetch(BUSINESS_DOC_URL);
+    if (r.ok) { const j = await r.json(); live = fromFirestoreValue({ mapValue: { fields: j.fields || {} } }) || {}; }
+  } catch { /* public read not available yet: defaults */ }
   const merged = { ...businessDefaults };
   for (const k of Object.keys(businessDefaults)) if (live[k] !== undefined && live[k] !== null) merged[k] = live[k];
   merged.contestedHearing = { ...businessDefaults.contestedHearing, ...(live.contestedHearing || {}) };
