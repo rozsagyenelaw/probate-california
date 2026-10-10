@@ -43,7 +43,7 @@ const PaymentSuccess = () => {
       try {
         const r = await fetch(`/.netlify/functions/checkout-session-status?session_id=${encodeURIComponent(sessionId)}`);
         const status = await r.json();
-        if (r.ok && status.paid === false) return; // not a completed payment: record nothing
+        if (status.paid === false) return; // unpaid, unknown or expired session: record nothing
         if (r.ok && typeof status.amount === 'number') value = status.amount;
         if (status.service) service = status.service;
       } catch { /* check unavailable: fall back to the amount in the return address */ }
