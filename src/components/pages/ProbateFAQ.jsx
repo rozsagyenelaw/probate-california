@@ -554,7 +554,7 @@ const ProbateFAQ = () => {
                 <p className="text-gray-700 mb-3">Yes. We offer flexible payment options:</p>
                 <ul className="text-gray-700 space-y-2 ml-4">
                   <li><strong>Pay in Full:</strong> $3,995 (Full Probate) or $2,495 (Simplified)</li>
-                  <li><strong>3 Monthly Payments:</strong> {fmtDollars(planFull[0])} a month (Full) or {fmtDollars(planSimplified[0])} a month (Simplified), and the plan stops after the third payment</li>
+                  <li><strong>3 Monthly Payments:</strong> ${fmtDollars(planFull[0])} a month (Full) or ${fmtDollars(planSimplified[0])} a month (Simplified), and the plan stops after the third payment</li>
                   <li><strong>Klarna:</strong> pay over time, subject to Klarna's approval. Klarna shows you its plan and the exact amounts before you agree.</li>
                 </ul>
               </div>
