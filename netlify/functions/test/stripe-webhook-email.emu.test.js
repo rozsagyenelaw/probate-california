@@ -47,3 +47,30 @@ test('checkout.session.completed queues the client and office emails, with the p
   assert.strictEqual(o.to, 'office');
   assert.strictEqual(o.replyTo, email);
 });
+
+test('court appearance purchase also goes through the outbox, with description and hearing', async () => {
+  const db = admin.firestore();
+  const email = 'rozsagyenelaw1+w2court@gmail.com';
+  const hearing = JSON.stringify({ d: '2026-11-18', t: '08:30', dept: '9', co: 'Los Angeles' });
+  const payload = JSON.stringify({ id: 'evt_test2', object: 'event', type: 'checkout.session.completed', data: { object: {
+    id: 'cs_test_w2court', object: 'checkout.session', customer_email: email, amount_total: 50000, payment_status: 'paid',
+    customer_details: { email, name: 'Tess Court' },
+    metadata: { app: 'probate', serviceType: 'court_appearance', courtAppearance: 'remote', hearing, paymentPlan: 'full' }
+  } } });
+  const sig = stripe.webhooks.generateTestHeaderString({ payload, secret: 'whsec_test_fake' });
+  const res = await handler({ httpMethod: 'POST', headers: { 'stripe-signature': sig }, body: payload, isBase64Encoded: false });
+  assert.strictEqual(res.statusCode, 200);
+  const c = (await db.collection('mailOutbox').doc('pay-client-cs_test_w2court').get()).data();
+  const o = (await db.collection('mailOutbox').doc('pay-office-cs_test_w2court').get()).data();
+  assert.ok(c && o, 'both outbox jobs written');
+  assert.strictEqual(c.template, 'paymentConfirmation');
+  assert.match(c.data.description, /Remote Court Appearance/);
+  assert.strictEqual(c.data.courtAppearance, 'remote');
+  assert.ok(c.data.hearing, 'hearing passed to the template');
+  // the rendered email, with the portal's shared template
+  const { previewOne } = require(require('path').join(process.env.HOME, 'mpca-build/wt/W2-email-myprobateca-portal/functions/emails/preview.js'));
+  const r = previewOne('paymentConfirmation', c.data);
+  assert.deepStrictEqual(r.problems, []);
+  assert.strictEqual(r.subject, 'Payment received: your court appearance');
+  assert.match(r.text, /\$500 for Remote Court Appearance/);
+});

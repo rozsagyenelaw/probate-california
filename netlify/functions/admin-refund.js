@@ -9,7 +9,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { admin, getDb, corsHeaders, verifyCaller, isAdminToken } = require('./lib/firebaseAdmin');
 const { getBusinessSettings } = require('./lib/business');
 const { recordChargeRefunded } = require('./lib/recordPayment');
-const { sendRefundEmail } = require('./lib/paymentEmails');
+const { queueRefundEmail } = require('./lib/paymentEmails');
 
 const PLACEHOLDER_POLICY = 'Any part of the fee that has not been earned is refunded, as set out in your signed fee agreement.';
 // Fixed format ($3,995.00) without relying on the runtime's locale data
@@ -101,10 +101,10 @@ exports.handler = async (event) => {
 
     let customerName = null;
     if (p.userId) { const u = await db.collection('users').doc(p.userId).get(); if (u.exists) customerName = u.data().displayName || [u.data().firstName, u.data().lastName].filter(Boolean).join(' ') || null; }
-    const mail = p.email ? await sendRefundEmail({ email: p.email, customerName, amountCents: amount, full: amount === ch.amount, description: p.description }) : null;
-    await db.collection('refunds').doc(refund.id).set({ clientEmailed: !!(mail && mail.sent) }, { merge: true });
+    const mail = p.email ? await queueRefundEmail(db, { refundId: refund.id, email: p.email, customerName, amountCents: amount, full: amount === ch.amount, description: p.description, uid: p.userId || null }) : null;
+    await db.collection('refunds').doc(refund.id).set({ clientEmailed: !!(mail && mail.queued), clientEmailOutbox: mail && mail.queued ? `refund-client-${refund.id}` : null }, { merge: true });
 
-    return { statusCode: 200, headers, body: JSON.stringify({ refunded: true, refundId: refund.id, status: refund.status, amountCents: amount, recorded: rec, planStopped, clientEmailed: !!(mail && mail.sent) }) };
+    return { statusCode: 200, headers, body: JSON.stringify({ refunded: true, refundId: refund.id, status: refund.status, amountCents: amount, recorded: rec, planStopped, clientEmailed: !!(mail && mail.queued) }) };
   } catch (err) {
     console.error('admin-refund error:', err.message);
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };

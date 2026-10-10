@@ -5,7 +5,7 @@ let stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { getDb } = require('./lib/firebaseAdmin');
 const { isMyProbateCheckout } = require('./lib/origin');
 const { recordCheckout, recordInvoicePaid, recordChargeRefunded } = require('./lib/recordPayment');
-const { sendPaymentEmails, queuePaymentEmails, kindOf } = require('./lib/paymentEmails');
+const { queuePaymentEmails } = require('./lib/paymentEmails');
 
 const headers = { 'Content-Type': 'application/json' };
 const ok = (extra = {}) => ({ statusCode: 200, headers, body: JSON.stringify({ received: true, ...extra }) });
@@ -47,11 +47,8 @@ exports.handler = async (event) => {
       const r = await recordCheckout(stripe, db, session);
       if (r.duplicate) return ok({ duplicate: true });
       const customerName = r.customerName || (session.customer_details && session.customer_details.name) || null;
-      if (['probate', 'accounting'].includes(kindOf(meta))) {
-        await queuePaymentEmails(db, { meta, email: r.payment.email, customerName, amountCents: session.amount_total, orderNumber: r.payment.orderNumber, sessionId: session.id, uid: r.uid, description: r.description, hearing: r.hearing });
-      } else {
-        await sendPaymentEmails({ meta, email: r.payment.email, customerName, description: r.description, amountCents: session.amount_total, hearing: r.hearing, installments: meta.paymentPlan === 'installments' });
-      }
+      // Every purchase: client confirmation + office alert through the portal outbox (shared templates)
+      await queuePaymentEmails(db, { meta, email: r.payment.email, customerName, amountCents: session.amount_total, orderNumber: r.payment.orderNumber, sessionId: session.id, uid: r.uid, description: r.description, hearing: r.hearing });
       console.log('Checkout recorded', session.id.slice(0, 12), r.description, r.stop ? JSON.stringify(r.stop) : '');
       return ok({ recorded: true });
     }
