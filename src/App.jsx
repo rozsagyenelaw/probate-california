@@ -1,3 +1,4 @@
+import PortalAdminRedirect from './components/common/PortalAdminRedirect';
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
@@ -273,9 +274,11 @@ function App() {
 
           {/* Admin routes with nested layout */}
           <Route path="/admin" element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
+            <PortalAdminRedirect fallback={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            } />
           }>
             <Route index element={<AdminOverview />} />
             <Route path="cases" element={<AdminCases />} />
