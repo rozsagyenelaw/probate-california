@@ -226,7 +226,7 @@ const SmallEstateAffidavit = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Small Estate Affidavit vs Full Probate</h2>
 
-      <div className="overflow-x-auto mb-8">
+      <div className="overflow-x-auto mb-8" tabIndex={0}>
         <table className="w-full text-sm">
           <thead className="bg-gray-100">
             <tr>

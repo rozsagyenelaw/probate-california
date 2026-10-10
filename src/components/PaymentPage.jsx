@@ -204,12 +204,12 @@ const PaymentPage = () => {
           <p className="mt-1 text-sm text-gray-600">We use your email to set up your secure client account, so you can always get back to your case and receipt. No password needed now.</p>
           {guestError && <p className="mt-4 text-sm bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg">{guestError}</p>}
           <form onSubmit={startAsGuest} className="mt-5 space-y-4">
-            <div><label className="block text-sm font-medium text-gray-700">Full name</label>
-              <input required value={guest.name} onChange={(e) => setGuest({ ...guest, name: e.target.value })} autoComplete="name" className={inputClass} /></div>
-            <div><label className="block text-sm font-medium text-gray-700">Email</label>
-              <input required type="email" value={guest.email} onChange={(e) => setGuest({ ...guest, email: e.target.value })} autoComplete="email" className={inputClass} /></div>
-            <div><label className="block text-sm font-medium text-gray-700">Phone</label>
-              <input type="tel" value={guest.phone} onChange={(e) => setGuest({ ...guest, phone: e.target.value })} autoComplete="tel" className={inputClass} /></div>
+            <div><label htmlFor="guest-name" className="block text-sm font-medium text-gray-700">Full name</label>
+              <input id="guest-name" required value={guest.name} onChange={(e) => setGuest({ ...guest, name: e.target.value })} autoComplete="name" className={inputClass} /></div>
+            <div><label htmlFor="guest-email" className="block text-sm font-medium text-gray-700">Email</label>
+              <input id="guest-email" required type="email" value={guest.email} onChange={(e) => setGuest({ ...guest, email: e.target.value })} autoComplete="email" className={inputClass} /></div>
+            <div><label htmlFor="guest-phone" className="block text-sm font-medium text-gray-700">Phone</label>
+              <input id="guest-phone" type="tel" value={guest.phone} onChange={(e) => setGuest({ ...guest, phone: e.target.value })} autoComplete="tel" className={inputClass} /></div>
             <button type="submit" disabled={guestBusy} className="w-full py-3 rounded-lg bg-blue-900 text-white font-semibold disabled:opacity-50">{guestBusy ? 'One moment…' : 'Continue to payment'}</button>
           </form>
           <p className="mt-5 text-center text-sm text-gray-600">Already a client? <Link to="/login" state={{ from: '/payment' }} className="text-blue-700 font-medium">Sign in</Link></p>

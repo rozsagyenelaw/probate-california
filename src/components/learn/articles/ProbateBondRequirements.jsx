@@ -85,7 +85,7 @@ const ProbateBondRequirements = () => {
         The bond amount is typically set at the value of the estate's personal property plus one year's estimated income. The executor doesn't pay the full bond amount—they pay an annual <strong>premium</strong> to a surety company.
       </p>
 
-      <div className="overflow-x-auto my-6">
+      <div className="overflow-x-auto my-6" tabIndex={0}>
         <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-50">
             <tr>

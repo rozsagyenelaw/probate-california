@@ -321,6 +321,8 @@ const LandingPage = () => {
             {/* Mobile menu button */}
             <div className="md:hidden ml-auto mr-1"><ClientLoginButton tone="light" compact /></div>
             <button
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 text-gray-600"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -584,7 +586,7 @@ const LandingPage = () => {
             </h2>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" tabIndex={0}>
             <table className="w-full border-collapse">
               <thead>
                 <tr>
@@ -861,7 +863,7 @@ const LandingPage = () => {
           {/* Static Comparison Table */}
           <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
             <h4 className="text-lg font-bold text-gray-900 text-center mb-4">Common Estate Value Comparisons</h4>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" tabIndex={0}>
               <table className="w-full">
                 <thead>
                   <tr className="border-b-2 border-gray-300">

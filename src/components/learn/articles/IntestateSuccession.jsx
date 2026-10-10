@@ -137,7 +137,7 @@ const IntestateSuccession = () => {
       </div>
 
       <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">Separate Property Distribution</h3>
-      <div className="overflow-x-auto mb-8">
+      <div className="overflow-x-auto mb-8" tabIndex={0}>
         <table className="w-full text-sm">
           <thead className="bg-gray-100">
             <tr>

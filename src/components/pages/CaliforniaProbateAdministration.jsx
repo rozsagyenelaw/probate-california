@@ -480,6 +480,8 @@ const CaliforniaProbateAdministration = () => {
               {/* Mobile menu button */}
               <div className="md:hidden ml-auto mr-2"><ClientLoginButton tone="dark" compact /></div>
               <button
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2"
               >
@@ -813,7 +815,7 @@ const CaliforniaProbateAdministration = () => {
               {/* Comparison Table */}
               <div className="bg-gray-50 rounded-xl p-6 mb-8">
                 <h3 className="font-bold text-lg text-gray-900 mb-4">Compare to Statutory Fees</h3>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto" tabIndex={0}>
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-gray-200">

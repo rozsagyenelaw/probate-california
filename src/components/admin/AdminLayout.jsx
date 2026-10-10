@@ -74,6 +74,8 @@ const AdminLayout = () => {
           <span className="font-bold">Admin Panel</span>
         </div>
         <button
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="p-2 rounded-lg hover:bg-blue-800"
         >

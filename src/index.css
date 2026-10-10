@@ -46,3 +46,37 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
+
+/* ---------------------------------------------------------------------------------------------
+   Accessibility (WCAG 2.2 AA colour contrast, 1.4.3 / 1.4.11, and 1.4.1 links in text).
+   A few Tailwind shades used for text or under white text are too light; these map them to the
+   next darker shade site-wide. Wording and layout are unchanged.
+   --------------------------------------------------------------------------------------------- */
+.text-green-600, .hover\:text-green-600:hover { color: var(--color-green-800); }
+.text-green-700 { color: var(--color-green-800); }
+.bg-green-600 { background-color: var(--color-green-700); }
+.hover\:bg-green-700:hover { background-color: var(--color-green-800); }
+.text-amber-600, .hover\:text-amber-600:hover { color: var(--color-amber-700); }
+.hover\:text-amber-700:hover { color: var(--color-amber-800); }
+/* amber buttons and badges with white text */
+button.bg-amber-500, a.bg-amber-500, .bg-amber-500.text-white, nav .bg-amber-500 { background-color: var(--color-amber-700); }
+button.hover\:bg-amber-600:hover, a.hover\:bg-amber-600:hover, .text-white.hover\:bg-amber-600:hover { background-color: var(--color-amber-800); }
+.bg-orange-500.text-white { background-color: var(--color-orange-700); }
+.text-pink-500, .text-pink-600 { color: var(--color-pink-700); }
+.text-red-600 { color: var(--color-red-700); }
+.text-gray-500 { color: var(--color-gray-600); }
+/* on dark footers and headers the lighter grey is the readable one */
+:is(.bg-gray-900, .bg-gray-800, .bg-blue-900, .bg-slate-900) .text-gray-500 { color: var(--color-gray-400); }
+.bg-blue-500 { background-color: var(--color-blue-700); }
+.text-blue-500 { color: var(--color-blue-700); }
+.text-blue-600 { color: var(--color-blue-700); }
+.text-indigo-600 { color: var(--color-indigo-700); }
+.text-orange-600 { color: var(--color-orange-700); }
+.text-purple-600 { color: var(--color-purple-700); }
+.text-teal-600 { color: var(--color-teal-700); }
+/* light text on mid-blue backgrounds */
+.bg-blue-600 .text-blue-100, .bg-blue-600 .text-blue-200, .from-blue-600 .text-blue-100, .from-blue-600 .text-blue-200,
+.bg-blue-700 .text-blue-200, .from-blue-700 .text-blue-200 { color: #fff; }
+
+/* Links inside running text are underlined, not told apart by colour alone */
+a.hover\:underline, p a, li p a, td a, dd a, blockquote a, .prose p a, .prose li a, span > a { text-decoration: underline; text-underline-offset: 2px; }

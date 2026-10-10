@@ -50,7 +50,7 @@ const CaliforniaProbateFees = () => {
         <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=10810" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">California Probate Code Section 10810</a> sets the "statutory" fee schedule that attorneys can charge for probate work. This fee is calculated as a percentage of the <strong>gross estate value</strong>:
       </p>
 
-      <div className="overflow-x-auto my-6">
+      <div className="overflow-x-auto my-6" tabIndex={0}>
         <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-50">
             <tr>
@@ -102,7 +102,7 @@ const CaliforniaProbateFees = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Fee Comparison by Estate Value</h2>
 
-      <div className="overflow-x-auto my-6">
+      <div className="overflow-x-auto my-6" tabIndex={0}>
         <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-50">
             <tr>
@@ -161,7 +161,7 @@ const CaliforniaProbateFees = () => {
         Whether you use a statutory-fee attorney or MyProbateCA, you'll have these additional third-party costs:
       </p>
 
-      <div className="overflow-x-auto my-6">
+      <div className="overflow-x-auto my-6" tabIndex={0}>
         <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-50">
             <tr>

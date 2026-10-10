@@ -112,7 +112,7 @@ const WhatIsProbateReferee = () => {
         The Probate Referee charges <strong>0.1% (one-tenth of one percent)</strong> of the total assets they appraise, with a minimum fee of $75. This fee is paid from estate funds.
       </p>
 
-      <div className="overflow-x-auto my-6">
+      <div className="overflow-x-auto my-6" tabIndex={0}>
         <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
           <thead className="bg-gray-50">
             <tr>

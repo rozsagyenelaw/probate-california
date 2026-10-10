@@ -383,7 +383,7 @@ const ProbateFAQ = () => {
 
               <div className="md:hidden ml-auto mr-2"><ClientLoginButton tone="dark" compact /></div>
 
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2">
+              <button aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2">
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>
@@ -509,7 +509,7 @@ const ProbateFAQ = () => {
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">What additional costs should I expect beyond attorney fees?</h3>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto" tabIndex={0}>
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50">
                       <tr>
