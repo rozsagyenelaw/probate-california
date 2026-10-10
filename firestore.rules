@@ -281,6 +281,84 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // ========== W3-BEYOND (items 63 to 73) ==========
+    // Feature switches for the W3-beyond tools: public read (no secrets), admin write
+    match /config/beyondFeatures {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    function ownsCaseOrAdmin(caseId) {
+      return isAdmin() || ownsCase(caseId);
+    }
+
+    // 65: estate ledger (money in and out). The client and the attorney; never family viewers.
+    function validLedgerEntry(d) {
+      return d.keys().hasOnly(['date', 'direction', 'amountCents', 'category', 'description', 'source',
+                               'importId', 'createdBy', 'createdAt', 'updatedAt']) &&
+        d.date is string && d.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+        d.direction in ['in', 'out'] &&
+        d.amountCents is int && d.amountCents > 0 && d.amountCents < 100000000000 &&
+        d.category is string && d.category.size() <= 40 &&
+        d.description is string && d.description.size() <= 200 &&
+        (!('source' in d) || d.source in ['manual', 'csv']);
+    }
+    match /cases/{caseId}/ledger/{entryId} {
+      allow read, delete: if ownsCaseOrAdmin(caseId);
+      allow create: if ownsCaseOrAdmin(caseId) && validLedgerEntry(request.resource.data) &&
+        request.resource.data.createdBy == request.auth.uid;
+      allow update: if ownsCaseOrAdmin(caseId) && validLedgerEntry(request.resource.data) &&
+        request.resource.data.createdBy == resource.data.createdBy;
+    }
+
+    // 67: unclaimed property and life insurance searches (found / not found)
+    match /cases/{caseId}/assetSearches/{searchKey} {
+      allow read: if ownsCaseOrAdmin(caseId);
+      allow write: if ownsCaseOrAdmin(caseId) &&
+        searchKey in ['caUnclaimed', 'naicLife', 'missingMoney'] &&
+        request.resource.data.keys().hasOnly(['status', 'notes', 'updatedAt', 'updatedBy']) &&
+        request.resource.data.status in ['notStarted', 'searched', 'found', 'notFound'] &&
+        request.resource.data.notes is string && request.resource.data.notes.size() <= 1000 &&
+        request.resource.data.updatedBy == request.auth.uid;
+      allow delete: if isAdmin();
+    }
+
+    // 63: the client's reminder choices
+    match /cases/{caseId}/settings/reminders {
+      allow read: if ownsCaseOrAdmin(caseId);
+      allow write: if ownsCaseOrAdmin(caseId) &&
+        request.resource.data.keys().hasOnly(['email', 'sms', 'smsPhone', 'smsConsentAt', 'smsConsentText', 'updatedAt', 'updatedBy']) &&
+        request.resource.data.email is bool && request.resource.data.sms is bool &&
+        request.resource.data.smsPhone is string && request.resource.data.smsPhone.matches('^([0-9]{10})?$') &&
+        request.resource.data.updatedBy == request.auth.uid;
+    }
+
+    // 64: account-closing letters, written only by the letter function
+    match /cases/{caseId}/institutionLetters/{letterId} {
+      allow read: if ownsCaseOrAdmin(caseId);
+      allow write: if false;
+    }
+
+    // 66: family access. Invites are managed by the attorney through functions.
+    // Each family member reads only their own view, which a function builds from what the attorney chose.
+    match /familyAccess/{inviteId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+    match /familyViews/{viewId} {
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.heirUid == request.auth.uid);
+      allow write: if false;
+    }
+
+    // Server-only bookkeeping (rate limits for the helper, reminder send log)
+    match /beyondRateLimits/{id} {
+      allow read, write: if false;
+    }
+    match /beyondReminderLog/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
     // Email Sequences collection - managed by Cloud Functions
     match /emailSequences/{sequenceId} {
       allow read: if isAdmin();

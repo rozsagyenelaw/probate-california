@@ -40,6 +40,10 @@ const AssetDiscovery = lazy(() => import('./components/AssetDiscovery/AssetDisco
 // Lazy load - Digital Vault
 const DigitalVault = lazy(() => import('./components/DigitalVault'));
 
+// W3-beyond pages (items 70, 73): hidden until their switches are on
+const LandingEs = lazy(() => import('./beyond/es/LandingEs'));
+const ComparePage = lazy(() => import('./beyond/compare/ComparePage'));
+
 // Lazy load - Admin components (direct imports for better splitting)
 const AdminLayout = lazy(() => import('./components/admin/AdminLayout'));
 const AdminOverview = lazy(() => import('./components/admin/AdminOverview'));
@@ -318,6 +322,8 @@ function App() {
           <Route path="/learn-california-probate/executor-duties-california-probate" element={<ExecutorDuties />} />
 
           {/* Home route - landing page or dashboard based on auth */}
+          <Route path="/es" element={<LandingEs />} />
+          <Route path="/compare/:slug" element={<ComparePage />} />
           <Route path="/" element={<HomeRoute />} />
 
           {/* 404 Page */}
