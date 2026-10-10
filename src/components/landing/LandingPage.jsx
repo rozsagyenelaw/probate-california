@@ -247,7 +247,7 @@ const LandingPage = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-5 xl:gap-8 whitespace-nowrap">
+            <div className="hidden xl:flex items-center gap-6 whitespace-nowrap">
               <a href="tel:+18183374071" className="flex items-center whitespace-nowrap shrink-0 text-blue-900 font-semibold hover:text-blue-700">
                 <Phone className="h-4 w-4 mr-1" />
                 818-337-4071
@@ -310,12 +310,12 @@ const LandingPage = () => {
             </div>
 
             {/* Mobile menu button */}
-            <div className="lg:hidden ml-auto mr-1"><ClientLoginButton tone="light" compact /></div>
+            <div className="xl:hidden ml-auto mr-1"><ClientLoginButton tone="light" compact /></div>
             <button
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-gray-600"
+              className="xl:hidden p-2 text-gray-600"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
@@ -325,7 +325,7 @@ const LandingPage = () => {
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <div className="lg:hidden py-4 border-t">
+            <div className="xl:hidden py-4 border-t">
               <div className="flex flex-col space-y-4">
                 <a href="tel:+18183374071" className="flex items-center text-blue-900 font-semibold">
                   <Phone className="h-4 w-4 mr-2" />
