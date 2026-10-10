@@ -1,14 +1,15 @@
-// Defaults for Rozsa's 9 business questions. Same keys as src/config/businessDefaults.js and the
-// portal's functions/businessDefaults.js. The live answers are in Firestore config/business.
-// Until Rozsa answers, these keep current behavior and current amounts (no price change).
+// Defaults for Rozsa's business questions, as she answered them on 2026-10-10 (notes/00-ROZSA-DECISIONS-2026-10-10.md).
+// Same keys as src/config/businessDefaults.js and the portal's functions/businessDefaults.js.
+// The live values are in Firestore config/business, which wins when a key is present.
 module.exports = {
-  filingBy: null,
-  accountingTierRule: null,            // null | 'estateSize' (under/over $500,000) | 'transactions' (under/over 50)
-  contestedHearing: { offered: true, price: 600 }, // current behavior: offered at $600 (2-hour minimum)
+  filingBy: 'client',
+  accountingTierRule: null,            // STILL OPEN: keep any tier rule out of what clients see
+  contestedHearing: { offered: true, price: 600 }, // unchanged
   livingTrustOffers: 'keep-current',
-  installmentExact: false,             // false: current amounts (3 x ceil(total/3)); true: 3 payments adding up exactly
+  installmentExact: true,              // three payments add up exactly to the price
   payFromEstate: false,
-  experienceClaim: null,
-  payoutAccount: null,
-  lastWeekdaySlot: '13:30'
+  experienceClaim: '500+ Cases',
+  payoutAccount: 'trust',              // takes effect with MyProbateCA's own Stripe account
+  lastWeekdaySlot: '13:30',
+  feeAgreementEnabled: false           // W2-fee's switch: the fee agreement is signed inside checkout, before payment
 };

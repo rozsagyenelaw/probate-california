@@ -6,6 +6,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { admin, getDb, corsHeaders, verifyCaller } = require('./lib/firebaseAdmin');
 const { getBusinessSettings } = require('./lib/business');
 const { findPaidCase, attachIntake, pickIntake } = require('./lib/intakeCase');
+const { estateValueFromIntake } = require('./lib/pricing');
 const { createCheckout, UserError } = require('./lib/checkout');
 
 const str = (v, n = 200) => (typeof v === 'string' ? v.slice(0, n) : null);
@@ -84,12 +85,13 @@ exports.handler = async (event) => {
       serviceType, probateType: serviceType, accountingAddon: sel.accountingAddon || null,
       courtAppearance: sel.courtAppearance || null, hearing: sel.hearing,
       paymentPlan: sel.paymentPlan === 'installments' ? 'installments' : 'full',
-      customerEmail: email, caseId: ref.id, userId: uid, promoCode: sel.promoCode || null, source: 'intake', cancelPath: '/intake?canceled=true'
+      customerEmail: email, caseId: ref.id, userId: uid, promoCode: sel.promoCode || null, source: 'intake', cancelPath: '/intake?canceled=true',
+      estateValueCents: estateValueFromIntake(formData), feeAgreementRequestId: sel.feeAgreementRequestId || null
     }, settings);
     return { statusCode: 200, headers, body: JSON.stringify({ status: 'checkout', caseId: ref.id, url: co.url }) };
   } catch (err) {
     console.error('submit-intake error:', err.message);
-    if (err.userFacing) return { statusCode: err.status || 400, headers, body: JSON.stringify({ error: err.message }) };
+    if (err.userFacing) return { statusCode: err.status || 400, headers, body: JSON.stringify({ error: err.message, code: err.code || null }) };
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'We could not send your answers. Please try again or call 818-337-4071.' }) };
   }
 };

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus, Calendar, Gavel, Info } from 'lucide-react';
 import { CA_COUNTY_LIST } from '../../../data/californiaCourts';
 import { assessEligibility, ROUTES } from '../../../lib/eligibility';
-import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars } from '../../../services/businessSettings';
+import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars, fullProbateFee } from '../../../services/businessSettings';
 
 const HEARING_TYPES = [
   'Petition for Probate',
@@ -65,7 +65,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
   // Pricing for each probate type and accounting
   const probatePricing = {
     simplified: { price: 2495 },
-    full: { price: 3995 }
+    // Small estates: lower of $3,995 and the Probate Code 10810 amount on the estate value above (server: lib/pricing.js)
+    full: { price: fullProbateFee(estateAnalysis.totalEstateValue).fee }
   };
 
   const accountingPricing = {
@@ -304,8 +305,11 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               <Building2 className="h-5 w-5 text-blue-900 mr-2" />
               <h4 className="font-bold text-gray-900">Full Probate</h4>
             </div>
-            <p className="text-2xl font-bold text-blue-900 mb-1">$3,995</p>
-            <p className="text-xs text-gray-500 mb-3">or 3 payments of ${fmtDollars(installmentAmounts(3995, settings)[0])}/mo</p>
+            <p className="text-2xl font-bold text-blue-900 mb-1">${fmtDollars(probatePricing.full.price)}</p>
+            {probatePricing.full.price < 3995 && (
+              <p className="text-xs text-green-700 mb-1" data-testid="reduced-fee">Lower than our $3,995 flat fee because the estate is smaller. <span className="text-gray-500">(Probate Code section 10810)</span></p>
+            )}
+            <p className="text-xs text-gray-500 mb-3">or 3 payments of ${fmtDollars(installmentAmounts(probatePricing.full.price, settings)[0])}/mo</p>
             <p className="text-sm text-gray-600">For all estates requiring formal probate</p>
           </button>
         </div>
@@ -673,7 +677,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               <span className="text-gray-600">
                 {selectedProbateType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}
               </span>
-              <span className="font-medium">${probatePricing[selectedProbateType].price.toLocaleString()}</span>
+              <span className="font-medium">${fmtDollars(probatePricing[selectedProbateType].price)}</span>
             </div>
           )}
           {accountingAddon && (

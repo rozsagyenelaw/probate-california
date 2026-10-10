@@ -15,7 +15,7 @@ export const BUSINESS_DEFAULTS = Object.freeze({
   // 4. Living trust offers on the probate site.
   livingTrustOffers: 'keep-current',
   // 5. Three-payment plan adds up exactly to the price. false: current amounts.
-  installmentExact: false,
+  installmentExact: true, // answered 2026-10-10: three payments add up exactly to the price
   // 6. Pay part of the fee from the estate after Letters. false: not built.
   payFromEstate: false,
   // 7. "500+ Cases" or "5,000+ Families". null: current text unchanged.

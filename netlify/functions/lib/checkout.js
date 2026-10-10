@@ -67,12 +67,35 @@ async function resolvePromo(stripe, db, code) {
   throw new UserError('That promo code is not valid. Please check it, or continue without it.');
 }
 
+// The signed fee agreement for this purchase: signatureRequests/{id} created by W2-fee's checkout step
+// (kind 'fee_agreement'), owned by this client, signed, for the same service and the same fee.
+async function requireSignedFeeAgreement(db, params, order) {
+  const id = String(params.feeAgreementRequestId || '');
+  const fail = () => { const e = new UserError('Please sign your fee agreement first. It is the step just before payment.', 409); e.code = 'fee_agreement_required'; throw e; };
+  if (!id || !db || !params.userId) fail();
+  const snap = await db.collection('signatureRequests').doc(id).get();
+  if (!snap.exists) fail();
+  const r = snap.data();
+  const signed = r.signed === true || r.status === 'signed' || r.status === 'completed';
+  const feeLine = order.lines.find(l => l.key === params.serviceType);
+  const feeOk = r.feeCents == null || !feeLine || Number(r.feeCents) === feeLine.cents;
+  if (r.kind !== 'fee_agreement' || r.clientId !== params.userId || !signed || (r.service && r.service !== params.serviceType) || !feeOk) fail();
+  return id;
+}
+
 // params: { serviceType, probateType, accountingAddon, courtAppearance, hearing, paymentPlan, customerEmail, caseId, promoCode, userId, source }
 async function createCheckout(stripe, db, params, settings) {
   const paymentPlan = params.paymentPlan === 'installments' ? 'installments' : (params.paymentPlan === 'full' ? 'full' : null);
   if (!paymentPlan) throw new UserError('Invalid payment plan selected');
   let order;
   try { order = buildOrder(params, settings); } catch (e) { throw new UserError(e.message); }
+
+  // Fee agreement signed BEFORE payment, inside the checkout flow (config/business.feeAgreementEnabled).
+  // Required for the probate fee itself; add-ons bought later are covered by the signed agreement.
+  let feeAgreementId = null;
+  if (settings && settings.feeAgreementEnabled === true && ['simplified', 'full'].includes(params.serviceType)) {
+    feeAgreementId = await requireSignedFeeAgreement(db, params, order);
+  }
   // Standalone court appearances are paid in full (a hearing date is too close for a 3-month plan)
   if (paymentPlan === 'installments' && params.serviceType === 'court_appearance') throw new UserError('A court appearance is paid in one payment.');
 
@@ -111,7 +134,10 @@ async function createCheckout(stripe, db, params, settings) {
     customerEmail: params.customerEmail || '',
     promoCode: promo ? promo.code : '',
     totalAmountCents: String(order.totalCents),
-    installmentAmounts: amounts ? amounts.join(',') : ''
+    installmentAmounts: amounts ? amounts.join(',') : '',
+    feeBasis: order.feeBasis || '',
+    estateValueCents: order.estateValueCents ? String(order.estateValueCents) : '',
+    feeAgreementId: feeAgreementId || ''
   };
   const cfg = {
     mode,
@@ -133,4 +159,4 @@ async function createCheckout(stripe, db, params, settings) {
   return { url: session.url, sessionId: session.id, order, amounts, chargedToday };
 }
 
-module.exports = { createCheckout, UserError, packHearing, resolvePromo };
+module.exports = { createCheckout, UserError, packHearing, resolvePromo, requireSignedFeeAgreement };

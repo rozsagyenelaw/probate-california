@@ -33,7 +33,8 @@ export async function loadBusinessSettings() {
     }
   } catch { /* public read not available yet: defaults */ }
   const merged = { ...businessDefaults };
-  for (const k of Object.keys(businessDefaults)) if (live[k] !== undefined && live[k] !== null) merged[k] = live[k];
+  for (const k of Object.keys({ ...businessDefaults, ...live })) if (live[k] !== undefined && live[k] !== null) merged[k] = live[k];
+  if (merged.feeAgreementEnabled === undefined) merged.feeAgreementEnabled = false;
   merged.contestedHearing = { ...businessDefaults.contestedHearing, ...(live.contestedHearing || {}) };
   merged.refundPolicyText = live.refundPolicyText || null;
   cached = merged;
@@ -71,3 +72,20 @@ export function installmentAmounts(totalDollars, s) {
   return cents.map(c => c / 100);
 }
 export const fmtDollars = (d) => Number(d).toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(Number(d)) ? 0 : 2, maximumFractionDigits: 2 });
+
+// Full probate fee for small estates (Rozsa, 2026-10-10): the lower of $3,995 and the Probate Code section 10810
+// amount on the estate value (same rule as netlify/functions/lib/pricing.js; source opened on leginfo 2026-10-10).
+export function statutoryFeeDollars(estateValueDollars) {
+  let left = Math.max(0, Number(estateValueDollars) || 0); let fee = 0;
+  for (const [size, rate] of [[100000, 0.04], [100000, 0.03], [800000, 0.02], [9000000, 0.01], [15000000, 0.005]]) {
+    const part = Math.min(left, size); fee += part * rate; left -= part; if (left <= 0) break;
+  }
+  return left > 0 ? Infinity : Math.round(fee * 100) / 100;
+}
+export function fullProbateFee(estateValueDollars, flat = 3995) {
+  const v = Number(estateValueDollars) || 0;
+  if (!(v > 0)) return { fee: flat, reduced: false };
+  const s = statutoryFeeDollars(v);
+  return s < flat ? { fee: s, reduced: true } : { fee: flat, reduced: false };
+}
+export const parseDollars = (txt) => { const f = parseFloat(String(txt || '').replace(/[$,\s]/g, '')); return Number.isFinite(f) && f > 0 ? f : 0; };

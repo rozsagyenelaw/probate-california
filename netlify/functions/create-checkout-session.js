@@ -40,6 +40,9 @@ exports.handler = async (event) => {
       caseId,
       userId: caller ? caller.uid : '',
       promoCode: body.promoCode || null,
+      // Full probate for a small estate: the 10810 amount when lower than $3,995 (lib/pricing.js)
+      estateValueCents: body.estateValue != null && body.estateValue !== '' ? Math.round(Math.max(0, Number(String(body.estateValue).replace(/[$,\s]/g, '')) || 0) * 100) : null,
+      feeAgreementRequestId: body.feeAgreementRequestId || null,
       source: body.serviceType === 'court_appearance' ? 'court-appearance-page' : (body.serviceType === 'accounting_addon' ? 'accounting-page' : 'payment-page'),
       cancelPath: body.serviceType === 'court_appearance' ? '/request-court-appearance?canceled=true' : (body.serviceType === 'accounting_addon' ? '/request-accounting?canceled=true' : undefined)
     }, settings);
@@ -47,7 +50,7 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers, body: JSON.stringify({ url: result.url, sessionId: result.sessionId }) };
   } catch (error) {
     console.error('Stripe checkout error:', error.type || '', error.message);
-    if (error.userFacing) return { statusCode: error.status || 400, headers, body: JSON.stringify({ error: error.message }) };
+    if (error.userFacing) return { statusCode: error.status || 400, headers, body: JSON.stringify({ error: error.message, code: error.code || null }) };
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'An error occurred processing your request. Please try again or call 818-337-4071.' }) };
   }
 };

@@ -19,6 +19,46 @@ test('court appearance orders are priced (the old 500 error) and contested follo
   assert.throws(() => buildOrder({ serviceType: 'court_appearance', courtAppearance: 'contested' }, { contestedHearing: { offered: false } }), /not offered/);
 });
 
+const { statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake } = require('../lib/pricing');
+const { computeCaseTrust } = require('../lib/trust');
+
+test('small estates: full probate fee is the lower of $3,995 and the Probate Code 10810 amount', () => {
+  // 10810(a): 4% of first $100,000, 3% next $100,000, 2% next $800,000 (leginfo, opened 2026-10-10)
+  assert.strictEqual(statutoryFeeCents(5000000), 200000);      // $50,000 -> $2,000
+  assert.strictEqual(statutoryFeeCents(10000000), 400000);     // $100,000 -> $4,000
+  assert.strictEqual(statutoryFeeCents(20000000), 700000);     // $200,000 -> $7,000
+  assert.strictEqual(statutoryFeeCents(100000000), 2300000);   // $1,000,000 -> $23,000
+  assert.deepStrictEqual(fullProbateFeeCents(5000000), { cents: 200000, basis: '10810', estateValueCents: 5000000 });
+  assert.strictEqual(fullProbateFeeCents(9987500).cents, 399500);   // $99,875 -> exactly $3,995
+  assert.strictEqual(fullProbateFeeCents(9900000).cents, 396000);   // $99,000 -> $3,960
+  assert.strictEqual(fullProbateFeeCents(50000000).cents, 399500);  // larger estates pay the flat fee
+  assert.strictEqual(fullProbateFeeCents(0).cents, 399500);         // unknown value: flat fee
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateValueCents: 5000000 }, {}).totalCents, 200000);
+  assert.strictEqual(buildOrder({ serviceType: 'simplified', estateValueCents: 5000000 }, {}).totalCents, 249500); // cap is for full probate only
+  assert.deepStrictEqual(installmentSchedule(200000, { installmentExact: true }), [66667, 66667, 66666]);
+  assert.strictEqual(estateValueFromIntake({ assets: { realProperty: [{ estimatedValue: '40,000' }], bankAccounts: [{ balance: '10000' }], investments: [], vehicles: [{ estimatedValue: '' }], otherAssets: [] } }), 5000000);
+});
+
+test('trust ledger: earned by stage, ready to move never above what is held for the client', () => {
+  const caseDoc = { serviceType: 'full', feeStages: { petitionDelivered: '2026-10-20' } };
+  const payments = [{ id: 'p1', serviceType: 'full', amountCents: 399500, totalPriceCents: 399500, description: 'Full Probate', date: '2026-10-10' }];
+  let t = computeCaseTrust(caseDoc, payments, [], []);
+  assert.strictEqual(t.percentEarned, 40);
+  assert.strictEqual(t.earned.totalCents, 159800);
+  assert.strictEqual(t.readyToMoveCents, 159800);
+  t = computeCaseTrust(caseDoc, payments, [], [{ id: 't1', amountCents: 159800, date: '2026-10-21' }]);
+  assert.strictEqual(t.readyToMoveCents, 0);
+  assert.strictEqual(t.heldForClientCents, 239700);
+  // installment plan with only payment 1 in: ready to move is capped by what was deposited
+  const inst = [{ id: 'i1', serviceType: 'full', amountCents: 133167, totalPriceCents: 399500, installment: { number: 1, of: 3 }, description: 'Full Probate', date: '2026-10-10' }];
+  t = computeCaseTrust({ serviceType: 'full', feeStages: { petitionDelivered: 'x', notesAnswered: 'y' } }, inst, [], []);
+  assert.strictEqual(t.earned.probateCents, 239700);
+  assert.strictEqual(t.readyToMoveCents, 133167);
+  // simplified: 60 percent at the petition
+  t = computeCaseTrust({ serviceType: 'simplified', feeStages: { petitionDelivered: 'x' } }, [{ id: 's', serviceType: 'simplified', amountCents: 249500, totalPriceCents: 249500, description: 'Simplified Probate' }], [], []);
+  assert.strictEqual(t.earned.totalCents, 149700);
+});
+
 if (!process.env.FIRESTORE_EMULATOR_HOST || !/^demo-/.test(process.env.GCLOUD_PROJECT || '')) {
   test('emulator tests need the Firestore emulator', { skip: true }, () => {});
   return;
@@ -129,4 +169,18 @@ test('shared Stripe account: foreign checkouts are ignored with 200, no write an
   const res = await wh.handler({ httpMethod: 'POST', headers: { 'stripe-signature': realStripe.webhooks.generateTestHeaderString({ payload, secret: 'whsec_test_fake' }) }, body: payload, isBase64Encoded: false });
   assert.strictEqual(res.statusCode, 200);
   assert.strictEqual((await db.collection('payments').doc('cs_test_ok1').get()).exists, true);
+});
+
+test('fee agreement (when switched on): checkout refused until the client signed it, then allowed', async () => {
+  const { requireSignedFeeAgreement } = require('../lib/checkout');
+  const uid = 'u-fa-' + Date.now();
+  const order = buildOrder({ serviceType: 'full', estateValueCents: 5000000 }, {});
+  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: null }, order), e => e.code === 'fee_agreement_required');
+  const ref = db.collection('signatureRequests').doc('fa-' + uid);
+  await ref.set({ kind: 'fee_agreement', clientId: uid, service: 'full', feeCents: 200000, signed: false, status: 'pending' });
+  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required');
+  await ref.update({ signed: true, status: 'signed' });
+  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: 'someone-else', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required');
+  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: ref.id }, buildOrder({ serviceType: 'full' }, {})), e => e.code === 'fee_agreement_required'); // different fee
+  assert.strictEqual(await requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: ref.id }, order), ref.id);
 });

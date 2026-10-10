@@ -3,7 +3,11 @@ import { trackLead, trackBeginCheckout } from '../services/analytics';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { startGuestAccount } from '../utils/guestAccount';
-import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars } from '../services/businessSettings';
+import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars, fullProbateFee, parseDollars } from '../services/businessSettings';
+import CheckoutProgress, { checkoutSteps } from './common/CheckoutProgress';
+import { httpsCallable } from 'firebase/functions';
+import { doc as fsDoc, getDoc as fsGetDoc } from 'firebase/firestore';
+import { db as fsDb, functions as fbFunctions } from '../services/firebase';
 import { Link } from 'react-router-dom';
 import {
   CreditCard,
@@ -38,12 +42,30 @@ const PaymentPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [canceled, setCanceled] = useState(false);
+  // Small estates (full probate): fee is the lower of $3,995 and the Probate Code 10810 amount
+  const [estateValue, setEstateValue] = useState('');
+  // Fee agreement signed inside this flow, before payment (config/business.feeAgreementEnabled)
+  const [feeAgreementId, setFeeAgreementId] = useState(null);
+  const [feeAgreementBusy, setFeeAgreementBusy] = useState(false);
 
   useEffect(() => {
     if (searchParams.get('canceled') === 'true') {
       setCanceled(true);
     }
   }, [searchParams]);
+
+  // Back from signing the fee agreement: restore the choices and confirm the signature
+  useEffect(() => {
+    const id = searchParams.get('feeAgreement');
+    try {
+      const saved = JSON.parse(sessionStorage.getItem('mpca-checkout') || 'null');
+      if (saved) { setServiceType(saved.serviceType); setAccountingAddon(saved.accountingAddon); setSelectedPlan(saved.selectedPlan); setEstateValue(saved.estateValue || ''); setPromoCode(saved.promoCode || ''); }
+    } catch { /* nothing saved */ }
+    if (!id || !user) return;
+    fsGetDoc(fsDoc(fsDb, 'signatureRequests', id)).then(d => {
+      if (d.exists() && (d.data().signed === true || d.data().status === 'signed')) setFeeAgreementId(id);
+    }).catch(() => {});
+  }, [searchParams, user]);
 
   // Guests: name, email and phone first (no password). The server sets up the account for this
   // email, or finds the existing one, and the payment is attached to it. Every email gets the
@@ -79,6 +101,11 @@ const PaymentPage = () => {
     },
   };
 
+  const fullFee = fullProbateFee(parseDollars(estateValue), prices.probate.full);
+  const needsFeeAgreement = settings.feeAgreementEnabled === true && (serviceType === 'simplified' || serviceType === 'full');
+  const steps = checkoutSteps(settings.feeAgreementEnabled === true);
+  const progressIndex = needsFeeAgreement && !feeAgreementId ? 2 : steps.indexOf('Payment');
+
   // Calculate total price
   const calculateTotal = () => {
     let total = 0;
@@ -89,7 +116,7 @@ const PaymentPage = () => {
       else if (accountingAddon === 'complex') total = prices.accounting.complex;
     } else {
       // Probate service
-      total = prices.probate[serviceType] || 0;
+      total = serviceType === 'full' ? fullFee.fee : (prices.probate[serviceType] || 0);
       // Add accounting add-on if selected
       if (accountingAddon === 'simple') total += prices.accounting.simple;
       else if (accountingAddon === 'complex') total += prices.accounting.complex;
@@ -123,6 +150,27 @@ const PaymentPage = () => {
     } else {
       // For probate, toggle the add-on
       setAccountingAddon(accountingAddon === type ? null : type);
+    }
+  };
+
+  // W2-fee's callable prepares the agreement for exactly this selection and returns the signing link,
+  // which brings the client back to this page (?feeAgreement=<id>) to pay.
+  const startFeeAgreement = async () => {
+    setFeeAgreementBusy(true); setError(null);
+    try {
+      sessionStorage.setItem('mpca-checkout', JSON.stringify({ serviceType, accountingAddon, selectedPlan, estateValue, promoCode }));
+      const prepare = httpsCallable(fbFunctions, 'prepareCheckoutFeeAgreement');
+      const res = await prepare({
+        serviceType, accountingAddon, paymentPlan: selectedPlan,
+        feeCents: Math.round((serviceType === 'full' ? fullFee.fee : prices.probate[serviceType]) * 100),
+        estateValueCents: serviceType === 'full' ? Math.round(parseDollars(estateValue) * 100) : null,
+        returnUrl: `${window.location.origin}/payment`
+      });
+      if (res.data && res.data.signUrl) window.location.href = res.data.signUrl;
+      else throw new Error('no link');
+    } catch (err) {
+      setError('We could not prepare your fee agreement just now. Please try again in a moment, or send us a message from your client portal.');
+      setFeeAgreementBusy(false);
     }
   };
 
@@ -161,6 +209,8 @@ const PaymentPage = () => {
           customerEmail: payerEmail,
           caseId: '',
           promoCode: promoCode.trim() || null,
+          estateValue: serviceType === 'full' && parseDollars(estateValue) > 0 ? parseDollars(estateValue) : null,
+          feeAgreementRequestId: feeAgreementId,
         }),
       });
 
@@ -169,14 +219,14 @@ const PaymentPage = () => {
         data = await response.json();
       } catch (parseError) {
         console.error('Failed to parse response:', parseError);
-        setError('Server error. Please try again or contact us at 818-337-4071.');
+        setError('Something went wrong. Please try again, or send us a message from your client portal.');
         setIsLoading(false);
         return;
       }
 
       if (!response.ok) {
         console.error('API error:', response.status, data);
-        setError(data.error || `Server error (${response.status}). Please contact us at 818-337-4071.`);
+        setError(data.error || 'Something went wrong. Please try again, or send us a message from your client portal.');
         setIsLoading(false);
         return;
       }
@@ -186,12 +236,12 @@ const PaymentPage = () => {
         window.location.href = data.url;
       } else {
         console.error('Invalid checkout URL:', data);
-        setError(data.error || 'Failed to create checkout session. Please contact us at 818-337-4071.');
+        setError(data.error || 'We could not start the payment. Please try again, or send us a message from your client portal.');
         setIsLoading(false);
       }
     } catch (err) {
       console.error('Payment error:', err);
-      setError('Network error. Please check your connection and try again, or contact us at 818-337-4071.');
+      setError('Connection problem. Please check your internet connection and try again.');
       setIsLoading(false);
     }
   };
@@ -201,6 +251,7 @@ const PaymentPage = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-10 px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow p-6 sm:p-8" data-testid="guest-step">
+          <CheckoutProgress steps={checkoutSteps(settings.feeAgreementEnabled === true)} current={0} />
           <h1 className="text-2xl font-bold text-gray-900">Your details</h1>
           <p className="mt-1 text-sm text-gray-600">We use your email to set up your secure client account, so you can always get back to your case and receipt. No password needed now.</p>
           {guestError && <p className="mt-4 text-sm bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg">{guestError}</p>}
@@ -252,6 +303,8 @@ const PaymentPage = () => {
             Select your services and payment option below
           </p>
         </div>
+
+        <CheckoutProgress steps={steps} current={progressIndex} />
 
         {canceled && (
           <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg mb-6 flex items-start">
@@ -368,6 +421,26 @@ const PaymentPage = () => {
             </div>
           </div>
         </div>
+
+        {serviceType === 'full' && (
+          <div className="bg-white rounded-xl shadow-md p-6 mb-6" data-testid="estate-value">
+            <label htmlFor="estate-value" className="block font-semibold text-gray-900">About how much was everything the person owned worth?</label>
+            <p className="text-sm text-gray-600 mt-1">Include the home, bank accounts and other property, before any debts. A rough number is fine. For a smaller estate, your fee may be lower.</p>
+            <div className="mt-3 flex items-center max-w-xs">
+              <span className="text-gray-500 mr-2">$</span>
+              <input id="estate-value" inputMode="decimal" value={estateValue} onChange={(e) => setEstateValue(e.target.value)} placeholder="for example 80,000"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </div>
+            {fullFee.reduced ? (
+              <p className="mt-3 text-green-800 bg-green-50 border border-green-200 rounded-lg p-3" data-testid="reduced-fee">
+                Because the estate is smaller, your fee is <strong>${fmtDollars(fullFee.fee)}</strong> instead of ${prices.probate.full.toLocaleString()}.
+                <span className="block text-xs text-green-700 mt-1">The lower of our flat fee and the amount California law sets for an estate of this size (Probate Code section 10810).</span>
+              </p>
+            ) : (
+              <p className="mt-3 text-sm text-gray-600">Your fee: <strong>${fmtDollars(fullFee.fee)}</strong>.</p>
+            )}
+          </div>
+        )}
 
         {/* Step 2: Accounting Add-ons (or required selection for accounting_only) */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
@@ -701,11 +774,29 @@ const PaymentPage = () => {
               )}
             </div>
 
+            {/* Fee agreement: one step inside this flow, before payment */}
+            {needsFeeAgreement && (
+              <div className={`mt-6 rounded-lg border p-4 ${feeAgreementId ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`} data-testid="fee-agreement-step">
+                {feeAgreementId ? (
+                  <p className="text-green-800 font-medium">Your fee agreement is signed. You can pay now.</p>
+                ) : (
+                  <>
+                    <p className="font-semibold text-gray-900">Sign your fee agreement</p>
+                    <p className="text-sm text-gray-700 mt-1">It shows what we do, your fee and how refunds work. It takes about a minute, and you come right back here to pay.</p>
+                    <button type="button" onClick={startFeeAgreement} disabled={feeAgreementBusy}
+                      className="mt-3 w-full py-3 rounded-lg bg-blue-900 text-white font-semibold disabled:opacity-50">
+                      {feeAgreementBusy ? 'Preparing your agreement...' : 'Read and sign the fee agreement'}
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+
             {/* Pay Button */}
             <button
               type="button"
               onClick={handlePayment}
-              disabled={isLoading || (serviceType === 'accounting_only' && !accountingAddon)}
+              disabled={isLoading || (serviceType === 'accounting_only' && !accountingAddon) || (needsFeeAgreement && !feeAgreementId)}
               className="w-full mt-6 bg-blue-900 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isLoading ? (
@@ -718,7 +809,7 @@ const PaymentPage = () => {
                   <CreditCard className="h-5 w-5 mr-2" />
                   {selectedPlan === 'installments'
                     ? `Pay $${fmtDollars(installmentPrice)} Now`
-                    : `Pay $${totalPrice.toLocaleString()}`
+                    : `Pay $${fmtDollars(totalPrice)}`
                   }
                 </>
               )}

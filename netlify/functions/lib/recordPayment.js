@@ -82,6 +82,9 @@ async function recordCheckout(stripe, db, session) {
     amountDiscountCents: (session.total_details && session.total_details.amount_discount) || 0,
     promoCode: meta.promoCode || null,
     totalPriceCents: totalPrice,
+    feeBasis: meta.feeBasis || null,           // '10810' when the small-estate amount applied
+    estateValueCents: meta.estateValueCents ? Number(meta.estateValueCents) : null,
+    feeAgreementId: meta.feeAgreementId || null,
     installment: installments ? { number: 1, of: 3, amounts } : null,
     paymentStatus: status,
     refundedCents: 0,
@@ -142,6 +145,15 @@ async function recordCheckout(stripe, db, session) {
     }
     await caseRef.update(c);
     await recomputeBalance(db, caseRef);
+  }
+
+  // Card fee Stripe kept on this charge (shown in the trust ledger; who bears it is Rozsa's choice, APPROVAL-7)
+  if (session.payment_intent && stripe.paymentIntents) {
+    try {
+      const pi = await stripe.paymentIntents.retrieve(session.payment_intent, { expand: ['latest_charge.balance_transaction'] });
+      const bt = pi.latest_charge && pi.latest_charge.balance_transaction;
+      if (bt && typeof bt === 'object') await payRef.update({ stripeFeeCents: bt.fee, stripeChargeId: pi.latest_charge.id });
+    } catch (e) { console.warn('card fee not read:', e.message); }
   }
 
   // Three-payment plan: hard stop after three charges
@@ -219,6 +231,7 @@ async function recordInvoicePaid(stripe, db, invoiceId) {
     installment: { number: paidCount, of: 3 }, paymentStatus: done ? 'paid' : 'installments_active', refundedCents: 0,
     stripeInvoiceId: inv.id, stripeSubscriptionId: inv.subscription, stripePaymentIntentId: inv.payment_intent || null,
     stripeChargeId: inv.charge || null, stripeCustomerId: inv.customer || null, livemode: !!inv.livemode,
+    stripeFeeCents: await (async () => { try { if (!inv.charge) return null; const c = await stripe.charges.retrieve(inv.charge, { expand: ['balance_transaction'] }); return c.balance_transaction && c.balance_transaction.fee != null ? c.balance_transaction.fee : null; } catch { return null; } })(),
     createdAt: FV.serverTimestamp()
   });
   if (first && first.userId) {
