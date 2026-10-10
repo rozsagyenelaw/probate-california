@@ -173,6 +173,8 @@ async function recomputeBalance(db, caseRef) {
 // invoice.paid: installments 2 and 3 (and receipts for every subscription charge)
 async function recordInvoicePaid(stripe, db, invoiceId) {
   const inv = await stripe.invoices.retrieve(invoiceId); // re-read in the pinned API version
+  // Newer Stripe API versions moved the subscription id under parent.subscription_details
+  if (!inv.subscription && inv.parent && inv.parent.subscription_details) inv.subscription = inv.parent.subscription_details.subscription;
   if (!inv.subscription) return { skipped: 'not a subscription invoice' };
   const sub = await stripe.subscriptions.retrieve(inv.subscription);
   if ((sub.metadata || {}).app !== 'probate') return { skipped: 'not probate' };
