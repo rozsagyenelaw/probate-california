@@ -1,6 +1,6 @@
 import React from 'react';
 import BeyondPage from '../BeyondPage';
-import { ES } from './landingEsText';
+import { ES, START_URL } from './landingEsText';
 
 // Item 70 (HOLD): Spanish landing page at /es. The text lives in landingEsText.js so the office
 // can review it in APPROVAL-70-spanish/. Hidden until config/beyondFeatures.spanish is true.
@@ -12,9 +12,9 @@ export default function LandingEs() {
         <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16">
           <h1 className="text-3xl sm:text-5xl font-bold leading-tight">{ES.heroTitle}</h1>
           <p className="mt-4 text-lg sm:text-xl text-blue-100 max-w-3xl">{ES.heroText}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="https://portal.myprobateca.com/book" className="bg-white text-blue-900 font-semibold rounded-lg px-6 py-3">{ES.ctaBook}</a>
-            <a href="tel:+18183374071" className="border border-white font-semibold rounded-lg px-6 py-3">{ES.ctaCall}</a>
+          <div className="mt-8">
+            <a href={START_URL} className="inline-block bg-white text-blue-900 font-semibold rounded-lg px-6 py-3">{ES.ctaStart}</a>
+            <p className="mt-2 text-sm text-blue-100">{ES.ctaStartSmall}</p>
           </div>
           <p className="mt-6 text-sm text-blue-100">{ES.heroSmall}</p>
         </div>
@@ -32,6 +32,7 @@ export default function LandingEs() {
             </div>
           ))}
         </div>
+        <p className="mt-6 text-gray-800">{ES.howItWorksNote}</p>
         <div className="mt-6 bg-slate-50 rounded-xl p-6">
           <h3 className="font-semibold">{ES.addonsTitle}</h3>
           <ul className="mt-2 space-y-1 text-gray-800">{ES.addons.map((a) => <li key={a}>{a}</li>)}</ul>
@@ -77,7 +78,7 @@ export default function LandingEs() {
       <section className="max-w-5xl mx-auto px-4 py-12 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold">{ES.finalTitle}</h2>
         <p className="mt-3 text-gray-700">{ES.finalText}</p>
-        <a href="https://portal.myprobateca.com/book" className="mt-6 inline-block bg-blue-900 text-white font-semibold rounded-lg px-6 py-3">{ES.ctaBook}</a>
+        <a href={START_URL} className="mt-6 inline-block bg-blue-900 text-white font-semibold rounded-lg px-6 py-3">{ES.ctaStart}</a>
       </section>
     </BeyondPage>
   );

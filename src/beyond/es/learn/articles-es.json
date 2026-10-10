@@ -1,0 +1,3561 @@
+{
+  "_meta": {
+    "sourceCommit": "dd3236d6f902b89719c375e8be7882346508e594",
+    "translated": "2026-10-10",
+    "note": "Translated from the English on origin/main; W2-legal item 18 corrections may change some statements; retranslate changed paragraphs.",
+    "sharedLayoutSource": "src/components/learn/articles/ArticleLayout.jsx (author bio, CTA, service links, Related Articles heading); see sharedLayout",
+    "flags": [
+      {
+        "component": "ClearIGNNotes",
+        "sentence": "File with the court in time for examiner review"
+      },
+      {
+        "component": "WhatIsProbateReferee",
+        "sentence": "We prepare and file Form DE-160 correctly"
+      },
+      {
+        "component": "LettersTestamentary",
+        "sentence": "Attorney appearance at hearing if needed ($500 additional)"
+      },
+      {
+        "component": "ProbateBondRequirements",
+        "sentence": "Have questions about bond requirements for your case? Start with MyProbateCA and we'll help determine if a bond is needed and how to minimize costs."
+      },
+      {
+        "component": "ProbateBondRequirements",
+        "sentence": "We handle blocked account arrangements if needed"
+      },
+      {
+        "component": "HowToFileProbate",
+        "sentence": "California probate is required when someone dies owning assets titled solely in their name worth more than $184,500 (or any real estate not in a trust)."
+      },
+      {
+        "component": "HowToFileProbate",
+        "sentence": "MyProbateCA handles all 11 phases of California probate for a flat fee of $3,995 — saving you $19,000+ compared to statutory attorney fees."
+      },
+      {
+        "component": "HowToFileProbate",
+        "sentence": "We prepare all documents, clear IGN notes, and guide you through every step."
+      },
+      {
+        "component": "HowToFileProbate",
+        "sentence": "Start Your Case - Free"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $184,500 limit, requirements, and step-by-step process."
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "As of April 1, 2022, you can transfer up to $184,500 in personal property without probate."
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "California Small Estate Limits (2024-2025)"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Personal Property Affidavit (No court filing required): $184,500"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Simplified Real Property Petition (Streamlined court process): $184,500"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Note: Effective April 1, 2025, these limits increase to $208,850 for personal property and $750,000 for real property (primary residence only)."
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Total value of ALL estate property in California is $184,500 or less"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "What DOESN'T Count Toward the $184,500 Limit"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Vehicles under $184,500 (with DMV affidavit)"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "If the gross value of all real property in California is $184,500 or less (increasing to $750,000 for primary residences on April 1, 2025), you can file a simplified petition with the court."
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Asset Limit: $184,500"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "Estate value exceeds $184,500"
+      },
+      {
+        "component": "SmallEstateAffidavit",
+        "sentence": "If the estate exceeds $184,500 or includes real property, you'll need to file probate."
+      },
+      {
+        "component": "ProbateTimeline",
+        "sentence": "Important: If the estate qualifies for a small estate affidavit (under $184,500 in assets), you may be able to avoid probate entirely and transfer assets in as little as 40 days after death."
+      },
+      {
+        "component": "ProbateTimeline",
+        "sentence": "Our flat-fee probate service handles all 11 phases efficiently."
+      },
+      {
+        "component": "ProbateTimeline",
+        "sentence": "Our experienced team handles California probate cases every day."
+      },
+      {
+        "component": "ProbateTimeline",
+        "sentence": "We know how to keep your case moving efficiently through each phase, minimizing delays and reducing stress."
+      },
+      {
+        "component": "ProbateTimeline",
+        "sentence": "Schedule Free Consultation Call 818-337-4071"
+      },
+      {
+        "component": "IntestateSuccession",
+        "sentence": "Need Help With an Intestate Estate? Administering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a flat fee of $3,995 — saving you thousands compared to traditional attorneys. Start Your Case Today"
+      },
+      {
+        "component": "ExecutorDuties",
+        "sentence": "Contact a probate attorney"
+      },
+      {
+        "component": "ExecutorDuties",
+        "sentence": "We handle the paperwork, court filings, and deadlines — you focus on your family."
+      }
+    ]
+  },
+  "sharedLayout": [
+    {
+      "type": "p",
+      "en": "By Rozsa Gyene, Esq.",
+      "text": "Por Rozsa Gyene, Esq."
+    },
+    {
+      "type": "p",
+      "en": "min read",
+      "text": "min de lectura"
+    },
+    {
+      "type": "p",
+      "en": "California State Bar #208356 • 26+ Years Experience",
+      "text": "Colegio de Abogados de California (State Bar) #208356 • Más de 26 años de experiencia"
+    },
+    {
+      "type": "p",
+      "en": "Rozsa Gyene specializes in California probate administration, with extensive experience at the Stanley Mosk Courthouse in Los Angeles.",
+      "text": "Rozsa Gyene se especializa en la administración de sucesiones (probate) en California, con amplia experiencia en el Stanley Mosk Courthouse de Los Ángeles."
+    },
+    {
+      "type": "p",
+      "en": "Verify License",
+      "text": "Verificar licencia"
+    },
+    {
+      "type": "h3",
+      "en": "Need Help With Your Probate Case?",
+      "text": "¿Necesita ayuda con su caso de sucesión?"
+    },
+    {
+      "type": "p",
+      "en": "Get attorney oversight for a flat $3,995 fee—save $19,000+ compared to statutory fees.",
+      "text": "Obtenga supervisión de una abogada por una tarifa fija de $3,995. Ahorre más de $19,000 en comparación con los honorarios legales establecidos por ley."
+    },
+    {
+      "type": "p",
+      "en": "Start Your Case - Free",
+      "text": "Inicie su caso, gratis"
+    },
+    {
+      "type": "h3",
+      "en": "Explore Our Probate Services",
+      "text": "Conozca nuestros servicios de sucesión"
+    },
+    {
+      "type": "ul",
+      "en": [
+        "→ How Our Process Works",
+        "→ Probate FAQ (50+ Questions)",
+        "→ 35 California Locations",
+        "→ Los Angeles Probate",
+        "→ San Francisco Probate",
+        "→ San Diego Probate"
+      ],
+      "items": [
+        "Cómo funciona nuestro proceso",
+        "Preguntas frecuentes sobre la sucesión (más de 50 preguntas)",
+        "35 ubicaciones en California",
+        "Sucesión en Los Ángeles",
+        "Sucesión en San Francisco",
+        "Sucesión en San Diego"
+      ]
+    },
+    {
+      "type": "h3",
+      "en": "Related Articles",
+      "text": "Artículos relacionados"
+    }
+  ],
+  "articles": [
+    {
+      "component": "ClearIGNNotes",
+      "path": "/learn-california-probate/clear-ign-notes-stanley-mosk",
+      "titleEn": "How to Clear IGN Notes at Stanley Mosk Courthouse",
+      "title": "Cómo resolver las notas IGN en el Stanley Mosk Courthouse",
+      "descriptionEn": "Step-by-step guide to clearing probate examiner notes (IGN) at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements.",
+      "description": "Guía paso a paso para resolver las notas del examinador de sucesiones (IGN) en el Stanley Mosk Courthouse. Evite aplazamientos de 3 meses con Suplementos Verificados correctos.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Si usted lleva un caso de sucesión (probate) en el Condado de Los Ángeles, inevitablemente se encontrará con notas IGN, las observaciones del examinador de sucesiones que pueden frustrar su audiencia y agregar meses a su caso. Esta guía explica exactamente qué son y cómo resolverlas.",
+          "en": "If you're handling a probate case in Los Angeles County, you'll inevitably encounter IGN notes—the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué son las notas IGN?",
+          "en": "What Are IGN Notes?"
+        },
+        {
+          "type": "p",
+          "text": "IGN significa Incomplete, Grant, or Needs (Incompleto, Conceder o Requiere). Son notas que publican los examinadores de sucesiones en el Stanley Mosk Courthouse aproximadamente 5-10 días antes de la audiencia de sucesión programada.",
+          "en": "IGN stands for Incomplete, Grant, or Needs. These are notes posted by probate examiners at the Stanley Mosk Courthouse approximately 5-10 days before your scheduled probate hearing."
+        },
+        {
+          "type": "p",
+          "text": "La Corte Superior de Los Ángeles centraliza todos los casos de sucesión en Stanley Mosk y atiende miles de casos al año. Para manejar este volumen, examinadores de sucesiones especializados revisan cada documento presentado antes de que lo vea el juez. Si encuentran cualquier problema, incluso uno menor, publican notas.",
+          "en": "The Los Angeles Superior Court centralizes all probate cases at Stanley Mosk, handling thousands of cases annually. To manage this volume, specialized probate examiners review every filing before the judge sees it. If they find any issues—even minor ones—they post notes."
+        },
+        {
+          "type": "callout",
+          "text": "Advertencia crítica\nSi usted se presenta a su audiencia con notas IGN sin resolver, el juez aplazará su caso, normalmente por 3 meses o más. Esta es una de las causas más comunes de demoras en la sucesión en el Condado de Los Ángeles.",
+          "en": "Critical Warning\nIf you appear at your hearing with uncleared IGN notes, the judge will continue your case—typically for another 3+ months. This is one of the most common causes of probate delays in LA County."
+        },
+        {
+          "type": "h2",
+          "text": "Razones comunes de las notas IGN",
+          "en": "Common Reasons for IGN Notes"
+        },
+        {
+          "type": "p",
+          "text": "Según nuestra experiencia con cientos de casos, estos son los problemas más comunes que provocan notas del examinador:",
+          "en": "Based on our experience with hundreds of cases, these are the most common issues that trigger examiner notes:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "1 Falta información de los herederos. Nombres, direcciones o parentescos no indicados correctamente",
+            "2 Errores en el cálculo de la fianza. Total incorrecto o falta la documentación de renuncia a la fianza",
+            "3 Fechas o nombres inconsistentes. Errores de escritura o diferencias entre documentos",
+            "4 Falta el comprobante de envío por correo. El DE-121 no se completó o no se presentó correctamente",
+            "5 Problemas con la publicación. Periódico no autorizado judicialmente o fechas incorrectas",
+            "6 Problemas con el testamento adjunto. No se entregó el original o la copia no está certificada"
+          ],
+          "en": [
+            "1 Missing heir information - Names, addresses, or relationships not properly stated",
+            "2 Bond calculation errors - Incorrect total or missing bond waiver documentation",
+            "3 Inconsistent dates or names - Typos or variations between documents",
+            "4 Missing proof of mailing - DE-121 not properly completed or filed",
+            "5 Publication issues - Newspaper not adjudicated or dates incorrect",
+            "6 Will attachment problems - Original not submitted or copy not certified"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "El proceso de 5 pasos para resolver las notas IGN",
+          "en": "The 5-Step Process to Clear IGN Notes"
+        },
+        {
+          "type": "ol",
+          "items": [
+            "1\nEntre al portal de la corte\nInicie sesión en el sitio web de la Corte Superior de Los Ángeles 5-10 días antes de su audiencia programada. Vaya a su caso y revise si hay notas del examinador publicadas.",
+            "2\nRevise cada nota con cuidado\nLea cada nota en detalle. Cada una indica exactamente qué información falta o qué corrección se necesita. No omita ninguna. Todas deben atenderse.",
+            "3\nRedacte su Suplemento Verificado\nPrepare un \"Suplemento a la Petición\" formal que atienda específicamente cada deficiencia. Debe ser un documento verificado (firmado bajo pena de perjurio).",
+            "4\nRevisión de un abogado\nPida que un abogado de sucesiones con licencia en California revise el suplemento para asegurar que atienda correctamente todos los problemas y tenga el formato correcto para la corte.",
+            "5\nPreséntelo antes de su audiencia\nPresente el suplemento verificado al menos 2 días hábiles de la corte antes de su audiencia. Esto le da al examinador tiempo para revisarlo y eliminar las notas de su expediente."
+          ],
+          "en": [
+            "1\nAccess the Court Portal\nLog into the LA Superior Court website 5-10 days before your scheduled hearing. Navigate to your case and check for any posted examiner notes.",
+            "2\nReview Each Note Carefully\nRead every note in detail. Each one specifies exactly what information is missing or what correction is needed. Don't skip any—all must be addressed.",
+            "3\nDraft Your Verified Supplement\nPrepare a formal \"Supplement to the Petition\" that specifically addresses each deficiency. This must be a verified document (signed under penalty of perjury).",
+            "4\nAttorney Review\nHave the supplement reviewed by a licensed California probate attorney to ensure it properly addresses all issues and is formatted correctly for the court.",
+            "5\nFile Before Your Hearing\nFile the verified supplement at least 2 court days before your hearing. This gives the examiner time to review and clear the notes from your file."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué es un Suplemento Verificado?",
+          "en": "What is a Verified Supplement?"
+        },
+        {
+          "type": "p",
+          "text": "Un Suplemento Verificado es un documento formal de la corte que corrige o agrega información a su Petición de Sucesión original. Debe:",
+          "en": "A Verified Supplement is a formal court document that corrects or adds information to your original Petition for Probate. It must:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hacer referencia a su número de caso y a la petición original",
+            "Atender específicamente cada nota del examinador",
+            "Estar firmado bajo pena de perjurio",
+            "Incluir cualquier documentación de apoyo que se mencione"
+          ],
+          "en": [
+            "Reference your case number and the original petition",
+            "Specifically address each examiner note",
+            "Be signed under penalty of perjury",
+            "Include any supporting documentation referenced"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Por qué los suplementos hechos por cuenta propia suelen fallar",
+          "en": "Why DIY Supplements Often Fail"
+        },
+        {
+          "type": "p",
+          "text": "Muchos albaceas que se representan a sí mismos intentan redactar sus propios suplementos, pero con frecuencia fallan porque:",
+          "en": "Many self-represented executors try to draft their own supplements, but they often fail because:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "No entienden la terminología legal usada en las notas",
+            "Atienden los síntomas en lugar de las causas de fondo",
+            "Usan un formato incorrecto u omiten los requisitos de verificación",
+            "Los presentan demasiado tarde para que el examinador los revise antes de la audiencia"
+          ],
+          "en": [
+            "They don't understand the legal terminology used in the notes",
+            "They address symptoms rather than root causes",
+            "They use incorrect formatting or miss verification requirements",
+            "They file too late for the examiner to review before the hearing"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Cómo maneja MyProbateCA las notas IGN",
+          "en": "How MyProbateCA Handles IGN Notes"
+        },
+        {
+          "type": "p",
+          "text": "Nuestra tarifa fija de $3,995 incluye la resolución completa de las notas IGN. Cuando aparecen notas en su caso, nosotros:",
+          "en": "Our flat $3,995 fee includes complete IGN note clearance. When notes appear on your case, we:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Revisamos el portal de la corte antes de cada audiencia",
+            "Redactamos Suplementos Verificados profesionales que atienden cada nota",
+            "Hacemos que la abogada Rozsa Gyene (Bar #208356) los revise y verifique",
+            "Los presentamos ante la corte a tiempo para la revisión del examinador"
+          ],
+          "en": [
+            "Monitor the court portal before every hearing",
+            "Draft professional Verified Supplements addressing each note",
+            "Have Attorney Rozsa Gyene (Bar #208356) review and verify",
+            "File with the court in time for examiner review"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Puntos clave",
+          "en": "Key Takeaways"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "1 Revise si hay notas 5-10 días antes de cada audiencia",
+            "2 Nunca se presente a una audiencia con notas sin resolver",
+            "3 Presente su suplemento al menos 2 días hábiles de la corte antes de la audiencia",
+            "4 La revisión profesional de un abogado aumenta considerablemente las probabilidades de éxito"
+          ],
+          "en": [
+            "1 Check for notes 5-10 days before every hearing",
+            "2 Never appear at a hearing with uncleared notes",
+            "3 File your supplement at least 2 court days before the hearing",
+            "4 Professional attorney review significantly increases success rates"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "¿Tiene notas IGN en su caso? Inicie su caso con MyProbateCA y reciba ayuda profesional para resolverlas, incluida en nuestra tarifa fija de $3,995.",
+          "en": "Have IGN notes on your case? Start your case with MyProbateCA and get professional help clearing them—included in our flat $3,995 fee."
+        }
+      ]
+    },
+    {
+      "component": "CaliforniaProbateFees",
+      "path": "/learn-california-probate/california-probate-fees-statutory-vs-flat",
+      "titleEn": "California Probate Fees Exposed: Statutory vs Flat Fee",
+      "title": "Honorarios de sucesión en California al descubierto: legales vs tarifa fija",
+      "descriptionEn": "Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees—and how to pay $3,995 instead.",
+      "description": "Entienda los honorarios legales del Código de Sucesiones de California §10810. Vea por qué una casa de $1M cuesta $23,000 en honorarios de abogado, y cómo pagar $3,995 en su lugar.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Una de las mayores sorpresas para los albaceas en California es descubrir cuánto cobran los abogados de sucesión (probate) tradicionales. Esta guía explica la estructura de honorarios legales y le muestra cómo ahorrar $15,000-$25,000+ en su caso.",
+          "en": "One of the biggest shocks for California executors is discovering how much traditional probate attorneys charge. This guide breaks down the statutory fee structure and shows you how to save $15,000-$25,000+ on your case."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué son los honorarios legales?",
+          "en": "What Are Statutory Fees?"
+        },
+        {
+          "type": "p",
+          "text": "La Sección 10810 del Código de Sucesiones de California establece la tabla de honorarios \"legales\" que los abogados pueden cobrar por el trabajo de sucesión. Este honorario se calcula como un porcentaje del valor bruto del patrimonio:",
+          "en": "California Probate Code Section 10810 sets the \"statutory\" fee schedule that attorneys can charge for probate work. This fee is calculated as a percentage of the gross estate value:"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Valor del patrimonio",
+              "Porcentaje del honorario"
+            ],
+            [
+              "Primeros $100,000",
+              "4%"
+            ],
+            [
+              "Siguientes $100,000",
+              "3%"
+            ],
+            [
+              "Siguientes $800,000",
+              "2%"
+            ],
+            [
+              "Siguientes $9,000,000",
+              "1%"
+            ],
+            [
+              "Más de $10,000,000",
+              "0.5%"
+            ]
+          ],
+          "en": [
+            [
+              "Estate Value",
+              "Fee Percentage"
+            ],
+            [
+              "First $100,000",
+              "4%"
+            ],
+            [
+              "Next $100,000",
+              "3%"
+            ],
+            [
+              "Next $800,000",
+              "2%"
+            ],
+            [
+              "Next $9,000,000",
+              "1%"
+            ],
+            [
+              "Above $10,000,000",
+              "0.5%"
+            ]
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "El problema del valor bruto",
+          "en": "The Gross Value Problem"
+        },
+        {
+          "type": "p",
+          "text": "Esto es lo que toma por sorpresa a la mayoría de las personas: los honorarios legales se calculan sobre el valor bruto, no sobre el valor neto. Las hipotecas, préstamos y deudas no se toman en cuenta.",
+          "en": "Here's what catches most people off guard: statutory fees are calculated on gross value, not net equity. Mortgages, loans, and debts are ignored."
+        },
+        {
+          "type": "h3",
+          "text": "Ejemplo: la casa de $1M",
+          "en": "Example: The $1M Home"
+        },
+        {
+          "type": "p",
+          "text": "Considere una casa con valor de $1,000,000 y una hipoteca de $900,000:",
+          "en": "Consider a home worth $1,000,000 with a $900,000 mortgage:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Valor neto real: $100,000",
+            "Base para calcular el honorario: $1,000,000 (valor bruto)",
+            "Honorario legal del abogado: $23,000",
+            "Honorario legal del albacea: $23,000",
+            "Honorarios combinados: ¡$46,000 de $100K de valor neto!"
+          ],
+          "en": [
+            "Actual equity: $100,000",
+            "Fee calculation basis: $1,000,000 (gross value)",
+            "Statutory attorney fee: $23,000",
+            "Statutory executor fee: $23,000",
+            "Combined fees: $46,000 from $100K in equity!"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Comparación de honorarios según el valor del patrimonio",
+          "en": "Fee Comparison by Estate Value"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Valor del patrimonio",
+              "Honorario legal",
+              "MyProbateCA",
+              "Usted ahorra"
+            ],
+            [
+              "$500,000",
+              "$13,000",
+              "$3,995",
+              "$9,005"
+            ],
+            [
+              "$750,000",
+              "$18,000",
+              "$3,995",
+              "$14,005"
+            ],
+            [
+              "$1,000,000",
+              "$23,000",
+              "$3,995",
+              "$19,005"
+            ],
+            [
+              "$1,500,000",
+              "$28,000",
+              "$3,995",
+              "$24,005"
+            ],
+            [
+              "$2,000,000",
+              "$33,000",
+              "$3,995",
+              "$29,005"
+            ]
+          ],
+          "en": [
+            [
+              "Estate Value",
+              "Statutory Fee",
+              "MyProbateCA",
+              "You Save"
+            ],
+            [
+              "$500,000",
+              "$13,000",
+              "$3,995",
+              "$9,005"
+            ],
+            [
+              "$750,000",
+              "$18,000",
+              "$3,995",
+              "$14,005"
+            ],
+            [
+              "$1,000,000",
+              "$23,000",
+              "$3,995",
+              "$19,005"
+            ],
+            [
+              "$1,500,000",
+              "$28,000",
+              "$3,995",
+              "$24,005"
+            ],
+            [
+              "$2,000,000",
+              "$33,000",
+              "$3,995",
+              "$29,005"
+            ]
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Por qué son tan altos los honorarios legales?",
+          "en": "Why Are Statutory Fees So High?"
+        },
+        {
+          "type": "p",
+          "text": "La tabla de honorarios legales viene de una época en que los abogados escribían cada documento a máquina y hacían varios viajes a la corte. La tecnología actual permite una eficiencia enorme, pero la tabla de honorarios no ha cambiado.",
+          "en": "The statutory fee schedule dates from an era when attorneys hand-typed every document and made multiple trips to the courthouse. Today's technology enables dramatic efficiency, but the fee schedule hasn't changed."
+        },
+        {
+          "type": "p",
+          "text": "Los abogados de sucesión tradicionales pueden cobrar legalmente estos honorarios, y muchos lo hacen. No están obligados a hacerlo, pero es el camino más fácil, ya que el honorario está aprobado de antemano por la corte.",
+          "en": "Traditional probate attorneys can legally charge these statutory fees—and many do. They're not required to, but it's the easiest path since the fee is pre-approved by the court."
+        },
+        {
+          "type": "h2",
+          "text": "Costos adicionales aparte de los honorarios del abogado",
+          "en": "Additional Costs Beyond Attorney Fees"
+        },
+        {
+          "type": "p",
+          "text": "Ya sea que use un abogado con honorarios legales o MyProbateCA, usted tendrá estos costos adicionales de terceros:",
+          "en": "Whether you use a statutory-fee attorney or MyProbateCA, you'll have these additional third-party costs:"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Tipo de costo",
+              "Monto típico",
+              "Cuándo se paga"
+            ],
+            [
+              "Cuota de presentación ante la corte",
+              "$435-500",
+              "Al presentar la petición inicial"
+            ],
+            [
+              "Publicación en el periódico",
+              "$200-350",
+              "Después de la presentación"
+            ],
+            [
+              "Honorario del evaluador de la sucesión",
+              "0.1% de los bienes",
+              "Después del inventario"
+            ],
+            [
+              "Copias certificadas",
+              "$25-50 cada una",
+              "Según se necesiten"
+            ],
+            [
+              "Prima de la fianza (si se requiere)",
+              "0.5-1% de la fianza",
+              "Antes de la audiencia"
+            ]
+          ],
+          "en": [
+            [
+              "Cost Type",
+              "Typical Amount",
+              "When Due"
+            ],
+            [
+              "Court Filing Fee",
+              "$435-500",
+              "At initial filing"
+            ],
+            [
+              "Newspaper Publication",
+              "$200-350",
+              "After filing"
+            ],
+            [
+              "Probate Referee Fee",
+              "0.1% of assets",
+              "After inventory"
+            ],
+            [
+              "Certified Copies",
+              "$25-50 each",
+              "As needed"
+            ],
+            [
+              "Bond Premium (if required)",
+              "0.5-1% of bond",
+              "Before hearing"
+            ]
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Cómo MyProbateCA ofrece $3,995",
+          "en": "How MyProbateCA Offers $3,995"
+        },
+        {
+          "type": "p",
+          "text": "Nuestra tarifa fija de $3,995 ofrece la misma supervisión de abogado de Rozsa Gyene (Bar #208356) por una fracción del costo tradicional. Lo logramos mediante:",
+          "en": "Our flat fee of $3,995 provides the same attorney oversight from Rozsa Gyene (Bar #208356) at a fraction of the traditional cost. We achieve this through:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Eficiencia gracias a la tecnología. Nuestra aplicación se encarga de reunir los datos y generar los documentos",
+            "Procesos simplificados. Hemos completado más de 500 casos y sabemos exactamente lo que se necesita",
+            "Servicio enfocado. Nos especializamos exclusivamente en sucesiones en California",
+            "Diseño remoto primero. Todo se maneja en línea, lo que ahorra gastos generales"
+          ],
+          "en": [
+            "Technology-enabled efficiency - Our app handles data gathering and document generation",
+            "Streamlined processes - We've completed 500+ cases and know exactly what's needed",
+            "Focused service - We specialize exclusively in California probate",
+            "Remote-first design - Everything is handled online, saving overhead"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Qué incluyen los $3,995",
+          "en": "What's Included in $3,995"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Preparación por la abogada de todos los documentos para las 11 fases",
+            "Revisión por la abogada del Colegio de Abogados de California #208356",
+            "Resolución de notas IGN y Suplementos Verificados",
+            "Seguimiento en el panel durante todo el proceso",
+            "Coordinación con el evaluador de la sucesión"
+          ],
+          "en": [
+            "Attorney preparation of all documents for all 11 phases",
+            "Review by California Bar Attorney #208356",
+            "IGN note clearance and Verified Supplements",
+            "Dashboard tracking throughout the process",
+            "Coordination with probate referee"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Puntos clave",
+          "en": "Key Takeaways"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "1 Los honorarios legales se basan en el valor bruto del patrimonio, no en el valor neto",
+            "2 Un patrimonio de $1M cuesta $23,000 en honorarios legales de abogado",
+            "3 MyProbateCA ofrece la misma supervisión de abogado por $3,995",
+            "4 Se aplican costos adicionales de terceros sin importar qué abogado use"
+          ],
+          "en": [
+            "1 Statutory fees are based on gross estate value, not net equity",
+            "2 A $1M estate costs $23,000 in statutory attorney fees",
+            "3 MyProbateCA provides the same attorney oversight for $3,995",
+            "4 Additional third-party costs apply regardless of which attorney you use"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "¿Listo para ahorrar miles en su caso de sucesión? Comience con MyProbateCA por una tarifa fija de $3,995.",
+          "en": "Ready to save thousands on your probate case? Get started with MyProbateCA for a flat $3,995 fee."
+        }
+      ]
+    },
+    {
+      "component": "WhatIsProbateReferee",
+      "path": "/learn-california-probate/what-is-probate-referee-california",
+      "titleEn": "What is a Probate Referee in California?",
+      "title": "¿Qué es un evaluador de la sucesión (probate referee) en California?",
+      "descriptionEn": "Learn about California's court-appointed probate referees. How they're assigned, what they appraise, fees (0.1%), and how to work with them.",
+      "description": "Conozca a los evaluadores de la sucesión nombrados por la corte en California. Cómo se asignan, qué valúan, sus honorarios (0.1%) y cómo trabajar con ellos.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Todo caso de sucesión (probate) en California requiere trabajar con un evaluador de la sucesión (probate referee), un funcionario nombrado por la corte que valúa los bienes del patrimonio. Esta guía explica quiénes son, qué hacen y cómo trabajar con ellos de manera eficaz.",
+          "en": "Every California probate case requires working with a Probate Referee—a court-appointed official who appraises estate assets. This guide explains who they are, what they do, and how to work with them effectively."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué es un evaluador de la sucesión?",
+          "en": "What is a Probate Referee?"
+        },
+        {
+          "type": "p",
+          "text": "Un evaluador de la sucesión es un tasador con calificaciones especiales, nombrado por el Contralor del Estado de California, para valuar los bienes del patrimonio en los procedimientos de sucesión. No son empleados de la corte. Son profesionales independientes autorizados para dar valuaciones oficiales.",
+          "en": "A Probate Referee is a specially qualified appraiser appointed by the California State Controller to value estate assets for probate proceedings. They're not employees of the court—they're independent professionals licensed to provide official valuations."
+        },
+        {
+          "type": "p",
+          "text": "Cuando usted presenta una Petición de Sucesión, la corte asigna automáticamente un evaluador de la sucesión a su caso. Usted no lo elige. Se asignan por turnos en cada condado.",
+          "en": "When you file a Petition for Probate, the court automatically assigns a Probate Referee to your case. You don't choose them—they're assigned on a rotating basis in each county."
+        },
+        {
+          "type": "h2",
+          "text": "Datos clave sobre los evaluadores de la sucesión",
+          "en": "Key Facts About Probate Referees"
+        },
+        {
+          "type": "callout",
+          "text": "Nombramiento\nAsignado por la corte\nUsted no lo elige",
+          "en": "Appointment\nCourt-Assigned\nYou don't choose"
+        },
+        {
+          "type": "callout",
+          "text": "Honorario\n0.1% de los bienes\nMínimo de $75",
+          "en": "Fee\n0.1% of assets\n$75 minimum"
+        },
+        {
+          "type": "callout",
+          "text": "Plazo\n4 meses\nA partir de las Cartas",
+          "en": "Deadline\n4 months\nFrom Letters"
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué valúa un evaluador de la sucesión?",
+          "en": "What Does a Probate Referee Appraise?"
+        },
+        {
+          "type": "p",
+          "text": "El evaluador de la sucesión valúa todos los bienes del patrimonio que no son efectivo. Esto incluye:",
+          "en": "The Probate Referee values all non-cash assets in the estate. This includes:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Bienes raíces. Casas, terrenos, propiedades comerciales, propiedades de alquiler",
+            "Vehículos. Autos, botes, casas rodantes, motocicletas",
+            "Valores. Acciones, bonos, fondos mutuos (valuados a la fecha del fallecimiento)",
+            "Participaciones en negocios. Propiedad en LLC, sociedades, corporaciones",
+            "Bienes personales. Joyas, arte, artículos de colección, muebles"
+          ],
+          "en": [
+            "Real estate - Homes, land, commercial property, rental properties",
+            "Vehicles - Cars, boats, RVs, motorcycles",
+            "Securities - Stocks, bonds, mutual funds (valued at date of death)",
+            "Business interests - Ownership in LLCs, partnerships, corporations",
+            "Personal property - Jewelry, art, collectibles, furniture"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Lo que valúa el albacea\nEl albacea (no el evaluador) valúa el efectivo y sus equivalentes: cuentas bancarias, cuentas del mercado monetario y bienes líquidos similares. Usted reporta estos valores en el formulario de Inventario y Avalúo.",
+          "en": "What the Executor Values\nThe executor (not the referee) values cash and cash equivalents: bank accounts, money market accounts, and similar liquid assets. You report these values on the Inventory & Appraisal form."
+        },
+        {
+          "type": "h2",
+          "text": "Honorarios del evaluador de la sucesión",
+          "en": "Probate Referee Fees"
+        },
+        {
+          "type": "p",
+          "text": "El evaluador de la sucesión cobra el 0.1% (una décima parte del uno por ciento) del total de los bienes que valúa, con un honorario mínimo de $75. Este honorario se paga con fondos del patrimonio.",
+          "en": "The Probate Referee charges 0.1% (one-tenth of one percent) of the total assets they appraise, with a minimum fee of $75. This fee is paid from estate funds."
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Bienes valuados",
+              "Honorario del evaluador (0.1%)"
+            ],
+            [
+              "$100,000",
+              "$100"
+            ],
+            [
+              "$500,000",
+              "$500"
+            ],
+            [
+              "$1,000,000",
+              "$1,000"
+            ],
+            [
+              "$2,000,000",
+              "$2,000"
+            ]
+          ],
+          "en": [
+            [
+              "Assets Appraised",
+              "Referee Fee (0.1%)"
+            ],
+            [
+              "$100,000",
+              "$100"
+            ],
+            [
+              "$500,000",
+              "$500"
+            ],
+            [
+              "$1,000,000",
+              "$1,000"
+            ],
+            [
+              "$2,000,000",
+              "$2,000"
+            ]
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "El proceso de inventario y avalúo",
+          "en": "The Inventory & Appraisal Process"
+        },
+        {
+          "type": "p",
+          "text": "Así funciona el proceso:",
+          "en": "Here's how the process works:"
+        },
+        {
+          "type": "ol",
+          "items": [
+            "1\nReciba las Cartas Testamentarias (Letters Testamentary)\nEl plazo de 4 meses para el inventario y avalúo comienza cuando usted recibe sus Cartas.",
+            "2\nReúna la lista de bienes\nIdentifique todos los bienes que necesitan avalúo y reúna la documentación de apoyo (escrituras, estados de cuenta, títulos).",
+            "3\nComuníquese con el evaluador de la sucesión\nContacte al evaluador asignado con su lista de bienes. Es posible que programe inspecciones de las propiedades si es necesario.",
+            "4\nReciba el avalúo\nEl evaluador entrega sus valuaciones oficiales, que usted incorpora al Formulario DE-160.",
+            "5\nPresente el inventario y avalúo\nPresente el Formulario DE-160 ante la corte dentro del plazo de 4 meses, firmado por usted y por el evaluador."
+          ],
+          "en": [
+            "1\nReceive Letters Testamentary\nThe 4-month clock for the Inventory & Appraisal starts when you receive your Letters.",
+            "2\nCompile Asset List\nIdentify all assets that need appraisal and gather supporting documentation (deeds, statements, titles).",
+            "3\nContact the Probate Referee\nReach out to the assigned referee with your asset list. They may schedule property inspections if needed.",
+            "4\nReceive Appraisal\nThe referee provides their official valuations, which you incorporate into Form DE-160.",
+            "5\nFile the Inventory & Appraisal\nSubmit Form DE-160 to the court within the 4-month deadline, signed by you and the referee."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Consejos para trabajar con evaluadores de la sucesión",
+          "en": "Tips for Working with Probate Referees"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Empiece temprano. No espere hasta el mes 3 para contactar al evaluador",
+            "Sea organizado. Entregue documentación completa de cada bien",
+            "Responda pronto. Conteste rápidamente las preguntas del evaluador",
+            "Permita el acceso. Si necesita inspeccionar una propiedad, prográmelo pronto"
+          ],
+          "en": [
+            "Start early - Don't wait until month 3 to contact the referee",
+            "Be organized - Provide complete documentation for each asset",
+            "Respond promptly - Answer the referee's questions quickly",
+            "Allow access - If they need to inspect property, schedule it promptly"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Cómo ayuda MyProbateCA",
+          "en": "How MyProbateCA Helps"
+        },
+        {
+          "type": "p",
+          "text": "Nuestra tarifa fija de $3,995 incluye la coordinación completa con el evaluador de la sucesión:",
+          "en": "Our $3,995 flat fee includes full coordination with the Probate Referee:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Identificamos qué bienes necesitan avalúo del evaluador",
+            "Preparamos y organizamos toda la documentación",
+            "Nos comunicamos con el evaluador en su nombre",
+            "Preparamos y presentamos correctamente el Formulario DE-160"
+          ],
+          "en": [
+            "We identify which assets need referee appraisal",
+            "We prepare and organize all documentation",
+            "We communicate with the referee on your behalf",
+            "We prepare and file Form DE-160 correctly"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "¿Necesita ayuda con el proceso de inventario y avalúo? Comience con MyProbateCA para una coordinación completa con el evaluador de la sucesión.",
+          "en": "Need help with the Inventory & Appraisal process? Get started with MyProbateCA for complete probate referee coordination."
+        }
+      ]
+    },
+    {
+      "component": "LettersTestamentary",
+      "path": "/learn-california-probate/letters-testamentary-california-guide",
+      "titleEn": "Letters Testamentary California: Your Golden Ticket Explained",
+      "title": "Cartas Testamentarias (Letters Testamentary) en California: su boleto dorado explicado",
+      "descriptionEn": "What Letters Testamentary are, how to get certified copies, and how to use them with banks and title companies. Form DE-150 explained.",
+      "description": "Qué son las Cartas Testamentarias, cómo obtener copias certificadas y cómo usarlas con bancos y compañías de títulos. Explicación del Formulario DE-150.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Las Cartas Testamentarias (Letters Testamentary) son el documento más importante que usted recibirá como albacea. Sin ellas, no puede acceder a cuentas bancarias, vender propiedades ni administrar los bienes del patrimonio. Esta guía explica todo lo que necesita saber.",
+          "en": "Letters Testamentary are the single most important document you'll receive as an executor. Without them, you can't access bank accounts, sell property, or manage estate assets. This guide explains everything you need to know."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué son las Cartas Testamentarias?",
+          "en": "What Are Letters Testamentary?"
+        },
+        {
+          "type": "p",
+          "text": "Las Cartas Testamentarias (Formulario DE-150) son un documento oficial de la corte que demuestra que usted tiene autoridad legal para actuar en nombre del patrimonio. Las emite la corte de sucesiones (probate) después de que el juez firma la Orden de Sucesión que lo nombra a usted albacea.",
+          "en": "Letters Testamentary (Form DE-150) are an official court document that proves you have legal authority to act on behalf of the estate. They're issued by the probate court after the judge signs the Order for Probate appointing you as executor."
+        },
+        {
+          "type": "p",
+          "text": "Piense en ellas como su \"boleto dorado\", el documento que le permite:",
+          "en": "Think of them as your \"golden ticket\"—the document that allows you to:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Acceder a las cuentas bancarias del difunto y cerrarlas",
+            "Vender bienes raíces que pertenecen al patrimonio",
+            "Transferir títulos de vehículos",
+            "Administrar cuentas de inversión y de corretaje",
+            "Presentar declaraciones de impuestos del patrimonio",
+            "Pagar a los acreedores y los gastos del patrimonio"
+          ],
+          "en": [
+            "Access and close the decedent's bank accounts",
+            "Sell real estate owned by the estate",
+            "Transfer vehicle titles",
+            "Manage investment and brokerage accounts",
+            "File tax returns for the estate",
+            "Pay creditors and estate expenses"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Cartas Testamentarias vs Cartas de Administración",
+          "en": "Letters Testamentary vs Letters of Administration"
+        },
+        {
+          "type": "p",
+          "text": "Usted escuchará dos términos:",
+          "en": "You'll hear two terms used:"
+        },
+        {
+          "type": "callout",
+          "text": "Cartas Testamentarias\nSe emiten cuando hay un testamento y la persona está nombrada como \"albacea\" en el testamento.",
+          "en": "Letters Testamentary\nIssued when there is a Will and the person is named as \"Executor\" in the Will."
+        },
+        {
+          "type": "callout",
+          "text": "Cartas de Administración\nSe emiten cuando no hay testamento (sin testamento) y la persona es nombrada \"administrador\".",
+          "en": "Letters of Administration\nIssued when there is no Will (intestate) and the person is appointed as \"Administrator.\""
+        },
+        {
+          "type": "p",
+          "text": "Ambos documentos otorgan la misma autoridad legal. La única diferencia es el título (albacea vs administrador), según si hay o no un testamento.",
+          "en": "Both documents grant the same legal authority—the only difference is the title (Executor vs Administrator) based on whether there's a Will."
+        },
+        {
+          "type": "h2",
+          "text": "Cómo obtener las Cartas Testamentarias",
+          "en": "How to Get Letters Testamentary"
+        },
+        {
+          "type": "p",
+          "text": "Este es el proceso para obtener las Cartas:",
+          "en": "Here's the process to obtain Letters:"
+        },
+        {
+          "type": "ol",
+          "items": [
+            "1\nPresente la Petición de Sucesión\nPresente el Formulario DE-111 ante la Corte Superior para solicitar ser nombrado albacea.",
+            "2\nCumpla con los avisos requeridos\nEnvíe por correo el aviso a los herederos (DE-120) y publíquelo en un periódico.",
+            "3\nAsista a la audiencia de sucesión\nPreséntese a la audiencia programada (o haga que su abogado se presente). El juez firma la Orden de Sucesión.",
+            "4\nSolicite copias certificadas\nPida varias copias certificadas de las Cartas al secretario de la corte. Las va a necesitar."
+          ],
+          "en": [
+            "1\nFile Petition for Probate\nSubmit Form DE-111 to the Superior Court requesting appointment as executor.",
+            "2\nComplete Required Notices\nMail notice to heirs (DE-120) and publish in a newspaper.",
+            "3\nAttend Probate Hearing\nAppear at the scheduled hearing (or have your attorney appear). The judge signs the Order for Probate.",
+            "4\nRequest Certified Copies\nOrder multiple certified copies of the Letters from the court clerk. You'll need them."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Cuántas copias certificadas necesita?",
+          "en": "How Many Certified Copies Do You Need?"
+        },
+        {
+          "type": "p",
+          "text": "Pida al menos 5-10 copias certificadas. Muchas instituciones exigen copias certificadas originales y no las devuelven. Por eso necesita tantas:",
+          "en": "Order at least 5-10 certified copies. Many institutions require original certified copies and won't return them. Here's why you need so many:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Cada banco puede exigir su propia copia",
+            "Las compañías de títulos exigen una copia por cada transacción de bienes raíces",
+            "El DMV necesita una copia para transferir títulos de vehículos",
+            "Las compañías de inversión normalmente se quedan con la copia que usted entrega",
+            "Guarde 1-2 copias para sus archivos"
+          ],
+          "en": [
+            "Each bank may require its own copy",
+            "Title companies require a copy for each real estate transaction",
+            "The DMV needs a copy to transfer vehicle titles",
+            "Investment companies typically keep the copy you provide",
+            "Keep 1-2 copies for your records"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Importante: la fecha de certificación importa\nAlgunas instituciones exigen Cartas certificadas dentro de los últimos 60 días. Si sus Cartas son más antiguas, es posible que necesite obtener nuevas copias certificadas de la corte.",
+          "en": "Important: Certification Date Matters\nSome institutions require Letters certified within 60 days. If your Letters are older, you may need to get fresh certified copies from the court."
+        },
+        {
+          "type": "h2",
+          "text": "Cómo usar las Cartas con bancos e instituciones financieras",
+          "en": "Using Letters with Banks & Financial Institutions"
+        },
+        {
+          "type": "p",
+          "text": "Cuando visite un banco con las Cartas Testamentarias, normalmente necesitará:",
+          "en": "When you visit a bank with Letters Testamentary, you typically need:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Copia certificada de las Cartas Testamentarias",
+            "Copia certificada del acta de defunción",
+            "Su identificación personal (licencia de conducir)",
+            "La solicitud de cuenta del patrimonio del banco (el banco se la dará)"
+          ],
+          "en": [
+            "Certified copy of Letters Testamentary",
+            "Certified copy of the Death Certificate",
+            "Your personal identification (driver's license)",
+            "Bank's estate account application (they'll provide this)"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "La mayoría de los bancos abrirán una \"cuenta del patrimonio\" donde usted puede reunir los fondos del difunto. Esto mantiene el dinero del patrimonio separado de sus fondos personales, lo cual es un requisito legal.",
+          "en": "Most banks will open an \"Estate Account\" where you can consolidate the decedent's funds. This keeps estate money separate from your personal funds—which is legally required."
+        },
+        {
+          "type": "h2",
+          "text": "Cómo usar las Cartas para vender bienes raíces",
+          "en": "Using Letters to Sell Real Estate"
+        },
+        {
+          "type": "p",
+          "text": "Para vender una propiedad del patrimonio, la compañía de títulos exigirá:",
+          "en": "To sell property owned by the estate, the title company will require:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Cartas Testamentarias certificadas (con certificación reciente)",
+            "Prueba de que usted tiene facultades de Administración Independiente (si corresponde)",
+            "Confirmación de la venta por la corte (si no tiene Administración Independiente)"
+          ],
+          "en": [
+            "Certified Letters Testamentary (recent certification)",
+            "Proof that you have Independent Administration powers (if applicable)",
+            "Court confirmation of sale (if you don't have Independent Administration)"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "MyProbateCA lo hace fácil",
+          "en": "MyProbateCA Makes It Easy"
+        },
+        {
+          "type": "p",
+          "text": "Nuestra tarifa fija de $3,995 incluye:",
+          "en": "Our $3,995 flat fee includes:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Preparación de todos los documentos necesarios para obtener las Cartas",
+            "Orientación sobre cuántas copias certificadas pedir",
+            "Instrucciones para usar las Cartas con bancos e instituciones",
+            "Comparecencia de la abogada en la audiencia si es necesario ($500 adicionales)"
+          ],
+          "en": [
+            "Preparation of all documents needed to obtain Letters",
+            "Guidance on how many certified copies to order",
+            "Instructions for using Letters with banks and institutions",
+            "Attorney appearance at hearing if needed ($500 additional)"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "¿Listo para obtener sus Cartas Testamentarias? Inicie su caso con MyProbateCA y le guiaremos en cada paso.",
+          "en": "Ready to get your Letters Testamentary? Start your case with MyProbateCA and we'll guide you through every step."
+        }
+      ]
+    },
+    {
+      "component": "ProbateBondRequirements",
+      "path": "/learn-california-probate/probate-bond-requirements-california",
+      "titleEn": "Probate Bond Requirements in California: When You Need One",
+      "title": "Requisitos de fianza en la sucesión (probate) en California: cuándo la necesita",
+      "descriptionEn": "When California probate courts require bonds, how much they cost (0.5-1%), and when bonds can be waived. Complete executor guide.",
+      "description": "Cuándo las cortes de sucesión de California exigen fianzas, cuánto cuestan (0.5-1%) y cuándo se puede dispensar la fianza. Guía completa para el albacea.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Uno de los aspectos más confusos de la sucesión (probate) en California es el requisito de fianza. Esta guía explica cuándo se exige una fianza, cuánto cuesta y cómo posiblemente evitarla por completo.",
+          "en": "One of the most confusing aspects of California probate is the probate bond requirement. This guide explains when bonds are required, how much they cost, and how to potentially avoid them altogether."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué es una fianza de sucesión?",
+          "en": "What is a Probate Bond?"
+        },
+        {
+          "type": "p",
+          "text": "Una fianza de sucesión (también llamada \"fianza del albacea\" o \"fianza fiduciaria\") es un tipo de póliza de seguro que protege a los beneficiarios del patrimonio. Si el albacea administra mal los fondos del patrimonio o comete fraude, la compañía de fianzas paga a los beneficiarios hasta el monto de la fianza.",
+          "en": "A probate bond (also called an \"executor bond\" or \"fiduciary bond\") is a type of insurance policy that protects the estate's beneficiaries. If the executor mismanages estate funds or commits fraud, the bond company pays the beneficiaries up to the bond amount."
+        },
+        {
+          "type": "p",
+          "text": "Piense en ella como una protección para los herederos. Si algo sale mal, tienen un recurso económico a través de la compañía de fianzas.",
+          "en": "Think of it as protection for the heirs—if something goes wrong, they have financial recourse through the bond company."
+        },
+        {
+          "type": "h2",
+          "text": "¿Cuándo se exige una fianza?",
+          "en": "When is a Bond Required?"
+        },
+        {
+          "type": "p",
+          "text": "Según la Sección 8480 del Código de Sucesiones de California, por lo general se exige una fianza a menos que se aplique una de las siguientes excepciones:",
+          "en": "Under California Probate Code Section 8480, a bond is generally required unless one of the following exceptions applies:"
+        },
+        {
+          "type": "h3",
+          "text": "Se exige fianza",
+          "en": "Bond Required"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "El testamento no dispensa la fianza",
+            "No hay testamento (sin testamento)",
+            "No todos los beneficiarios dispensan la fianza",
+            "La corte tiene dudas sobre el albacea"
+          ],
+          "en": [
+            "Will doesn't waive bond",
+            "No will (intestate)",
+            "Not all beneficiaries waive bond",
+            "Court has concerns about executor"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Se puede dispensar la fianza",
+          "en": "Bond May Be Waived"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "El testamento dispensa expresamente la fianza",
+            "Todos los beneficiarios consienten la dispensa",
+            "El albacea es el único beneficiario",
+            "El patrimonio tiene pocos bienes"
+          ],
+          "en": [
+            "Will specifically waives bond",
+            "All beneficiaries consent to waiver",
+            "Executor is sole beneficiary",
+            "Estate has limited assets"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Cuánto cuesta una fianza de sucesión?",
+          "en": "How Much Does a Probate Bond Cost?"
+        },
+        {
+          "type": "p",
+          "text": "El monto de la fianza normalmente se fija en el valor de los bienes muebles del patrimonio más el ingreso estimado de un año. El albacea no paga el monto total de la fianza. Paga una prima anual a una compañía afianzadora.",
+          "en": "The bond amount is typically set at the value of the estate's personal property plus one year's estimated income. The executor doesn't pay the full bond amount—they pay an annual premium to a surety company."
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Monto de la fianza",
+              "Prima anual (0.5-1%)"
+            ],
+            [
+              "$100,000",
+              "$500 a $1,000 al año"
+            ],
+            [
+              "$250,000",
+              "$1,250 a $2,500 al año"
+            ],
+            [
+              "$500,000",
+              "$2,500 a $5,000 al año"
+            ],
+            [
+              "$1,000,000",
+              "$5,000 a $10,000 al año"
+            ]
+          ],
+          "en": [
+            [
+              "Bond Amount",
+              "Annual Premium (0.5-1%)"
+            ],
+            [
+              "$100,000",
+              "$500 - $1,000/year"
+            ],
+            [
+              "$250,000",
+              "$1,250 - $2,500/year"
+            ],
+            [
+              "$500,000",
+              "$2,500 - $5,000/year"
+            ],
+            [
+              "$1,000,000",
+              "$5,000 - $10,000/year"
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Importante: la prima se paga con fondos del patrimonio\nLa prima de la fianza se paga con fondos del patrimonio, no con el dinero personal del albacea. Sin embargo, reduce la cantidad disponible para repartir a los beneficiarios.",
+          "en": "Important: Premium Paid from Estate\nThe bond premium is paid from estate funds, not the executor's personal money. However, it reduces the amount available for distribution to beneficiaries."
+        },
+        {
+          "type": "h2",
+          "text": "Cómo obtener una dispensa de fianza",
+          "en": "How to Get a Bond Waiver"
+        },
+        {
+          "type": "p",
+          "text": "Hay varias maneras de evitar el requisito de fianza:",
+          "en": "There are several ways to avoid the bond requirement:"
+        },
+        {
+          "type": "ol",
+          "items": [
+            "1\nDispensa en el testamento\nEl mejor escenario: si el testamento contiene una frase como \"Ordeno que no se exija fianza a mi albacea\", la corte normalmente la respetará.",
+            "2\nConsentimiento de los beneficiarios\nTodos los beneficiarios pueden firmar una dispensa por escrito en la que acuerdan que no se exige fianza. Esta se presenta ante la corte.",
+            "3\nCuenta bloqueada\nDeposite los fondos del patrimonio en una \"cuenta bloqueada\" que requiere permiso de la corte para usarla. Esto protege los fondos sin necesidad de fianza.",
+            "4\nFacultades limitadas\nSolicite el nombramiento con facultades limitadas (sin IAEA), lo cual puede reducir o eliminar el requisito de fianza."
+          ],
+          "en": [
+            "1\nWill Waiver\nThe best scenario: If the Will contains language like \"I direct that no bond be required of my executor,\" the court will typically honor this.",
+            "2\nBeneficiary Consent\nAll beneficiaries can sign a written waiver agreeing that no bond is required. This is filed with the court.",
+            "3\nBlocked Account\nPlace estate funds in a \"blocked account\" that requires court permission to access. This protects funds without requiring a bond.",
+            "4\nLimited Authority\nRequest appointment with limited powers (no IAEA) which may reduce or eliminate bond requirements."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Cómo se calcula el monto de la fianza",
+          "en": "How the Bond Amount is Calculated"
+        },
+        {
+          "type": "p",
+          "text": "La corte calcula el monto de fianza requerido con esta fórmula:",
+          "en": "The court calculates the required bond amount using this formula:"
+        },
+        {
+          "type": "callout",
+          "text": "Valor de los bienes muebles + ingreso anual estimado = monto de la fianza",
+          "en": "Personal Property Value + Estimated Annual Income = Bond Amount"
+        },
+        {
+          "type": "p",
+          "text": "Los bienes inmuebles por lo general no se incluyen en el cálculo de la fianza, a menos que el albacea tenga la facultad de venderlos sin confirmación de la corte (facultades IAEA).",
+          "en": "Real property is generally not included in the bond calculation unless the executor has the power to sell it without court confirmation (IAEA powers)."
+        },
+        {
+          "type": "h2",
+          "text": "Cómo obtener la aprobación de una fianza de sucesión",
+          "en": "Getting Approved for a Probate Bond"
+        },
+        {
+          "type": "p",
+          "text": "Las compañías afianzadoras evalúan al albacea propuesto antes de emitir una fianza. Normalmente consideran:",
+          "en": "Surety companies will evaluate the proposed executor before issuing a bond. They typically consider:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Historial de crédito. Un buen crédito facilita la aprobación",
+            "Antecedentes penales. Sin delitos graves ni delitos financieros",
+            "Estabilidad económica. Capacidad de administrar el patrimonio de manera responsable",
+            "Relación con el difunto. Por lo general se prefiere a los familiares"
+          ],
+          "en": [
+            "Credit history - Good credit makes approval easier",
+            "Criminal background - No felonies or financial crimes",
+            "Financial stability - Ability to manage estate responsibly",
+            "Relationship to decedent - Family members generally preferred"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué pasa si no puede obtener una fianza?",
+          "en": "What if You Can't Get a Bond?"
+        },
+        {
+          "type": "p",
+          "text": "Si no puede obtener una fianza (por mal crédito u otros problemas), usted tiene opciones:",
+          "en": "If you're unable to obtain a bond (due to poor credit or other issues), you have options:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Solicitar una cuenta bloqueada en lugar de una fianza",
+            "Tener un coalbacea que sí califique para la fianza",
+            "Hacerse a un lado y dejar que otra persona calificada sirva como albacea",
+            "Presentar una petición a la corte para la dispensa, con documentación de respaldo"
+          ],
+          "en": [
+            "Request a blocked account instead of a bond",
+            "Have a co-executor who can qualify for the bond",
+            "Step aside and let another qualified person serve as executor",
+            "Petition the court for waiver with supporting documentation"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Cuándo se libera la fianza?",
+          "en": "When is the Bond Released?"
+        },
+        {
+          "type": "p",
+          "text": "La fianza sigue vigente hasta que el patrimonio se haya administrado por completo y la corte libere al albacea de su cargo. Esto ocurre cuando:",
+          "en": "The bond remains in effect until the estate is fully administered and the executor is discharged by the court. This happens when:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Se han pagado todas las deudas e impuestos",
+            "Todos los bienes se han repartido a los beneficiarios",
+            "La corte ha aprobado la rendición de cuentas final",
+            "Se ha firmado la Orden de Distribución Final (Order for Final Distribution)"
+          ],
+          "en": [
+            "All debts and taxes have been paid",
+            "All assets have been distributed to beneficiaries",
+            "Final accounting has been approved by the court",
+            "Order for Final Distribution has been signed"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Cómo ayuda MyProbateCA con las fianzas",
+          "en": "How MyProbateCA Helps with Bonds"
+        },
+        {
+          "type": "p",
+          "text": "Nuestra tarifa fija de $3,995 incluye ayuda con los requisitos de fianza:",
+          "en": "Our $3,995 flat fee includes assistance with bond requirements:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Determinamos si su caso requiere fianza",
+            "Ayudamos a preparar las solicitudes de dispensa de fianza cuando corresponde",
+            "Podemos recomendar compañías afianzadoras confiables",
+            "Nos encargamos de los trámites de cuenta bloqueada si es necesario"
+          ],
+          "en": [
+            "We determine if a bond is required for your case",
+            "We help prepare bond waiver requests when applicable",
+            "We can recommend reliable surety companies",
+            "We handle blocked account arrangements if needed"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Puntos clave",
+          "en": "Key Takeaways"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "1 Las fianzas de sucesión protegen a los beneficiarios, no al albacea",
+            "2 La prima cuesta del 0.5% al 1% del monto de la fianza cada año",
+            "3 Con frecuencia se puede dispensar la fianza si el testamento lo permite o los beneficiarios lo consienten",
+            "4 Las cuentas bloqueadas son una alternativa a otorgar fianza"
+          ],
+          "en": [
+            "1 Probate bonds protect beneficiaries, not the executor",
+            "2 Premium costs 0.5-1% of the bond amount annually",
+            "3 Bonds can often be waived if the Will allows or beneficiaries consent",
+            "4 Blocked accounts are an alternative to posting bond"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "¿Tiene preguntas sobre los requisitos de fianza en su caso? Comience con MyProbateCA y le ayudaremos a determinar si se necesita una fianza y cómo reducir los costos.",
+          "en": "Have questions about bond requirements for your case? Start with MyProbateCA and we'll help determine if a bond is needed and how to minimize costs."
+        }
+      ]
+    },
+    {
+      "component": "HowToFileProbate",
+      "path": "/learn-california-probate/how-to-file-probate-california",
+      "titleEn": "How to File Probate in California: Step-by-Step Guide",
+      "title": "Cómo presentar la sucesión (probate) en California: guía paso a paso",
+      "descriptionEn": "Complete guide to filing probate in California. Learn what documents you need, where to file, court fees, and how to navigate the 11-phase process successfully.",
+      "description": "Guía completa para presentar la sucesión (probate) en California. Conozca qué documentos necesita, dónde presentarlos, las cuotas de la corte y cómo avanzar con éxito por el proceso de 11 fases.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Presentar la sucesión (probate) en California puede parecer abrumador, pero sigue un proceso previsible de 11 fases. Esta guía le explica exactamente lo que debe hacer, desde reunir los documentos hasta recibir sus Cartas Testamentarias (Letters Testamentary).",
+          "en": "Filing probate in California can seem overwhelming, but it follows a predictable 11-phase process. This guide walks you through exactly what you need to do, from gathering documents to receiving your Letters Testamentary."
+        },
+        {
+          "type": "callout",
+          "text": "Antes de empezar\nLa sucesión en California es necesaria cuando una persona muere siendo dueña de bienes a su solo nombre con un valor de más de $184,500 (o de cualquier bien inmueble que no esté en un fideicomiso). Si el patrimonio califica, tal vez pueda usar en su lugar una declaración jurada de patrimonio pequeño (small estate affidavit).",
+          "en": "Before You Start\nCalifornia probate is required when someone dies owning assets titled solely in their name worth more than $184,500 (or any real estate not in a trust). If the estate qualifies, you may be able to use a Small Estate Affidavit instead."
+        },
+        {
+          "type": "h2",
+          "text": "Paso 1: Reúna los documentos esenciales",
+          "en": "Step 1: Gather Essential Documents"
+        },
+        {
+          "type": "p",
+          "text": "Antes de presentar cualquier cosa ante la corte, reúna estos documentos clave:",
+          "en": "Before filing anything with the court, collect these critical documents:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Testamento original (si existe). La corte exige el original, no una copia",
+            "Actas de defunción certificadas. Pida de 10 a 15 copias a la oficina de registro del condado",
+            "Lista de bienes. Bienes inmuebles, cuentas bancarias, inversiones, vehículos",
+            "Lista de herederos. Nombres, direcciones y parentesco de todos los beneficiarios y herederos legales",
+            "Lista de deudas. Hipotecas, tarjetas de crédito, facturas médicas, impuestos adeudados"
+          ],
+          "en": [
+            "Original Will (if one exists) — the court requires the original, not a copy",
+            "Certified Death Certificates — order 10-15 copies from the county recorder",
+            "List of Assets — real estate, bank accounts, investments, vehicles",
+            "List of Heirs — names, addresses, and relationships of all beneficiaries and legal heirs",
+            "List of Debts — mortgages, credit cards, medical bills, taxes owed"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Paso 2: Determine dónde presentarla",
+          "en": "Step 2: Determine Where to File"
+        },
+        {
+          "type": "p",
+          "text": "La sucesión en California debe presentarse en la Corte Superior del condado donde vivía el difunto al momento de su muerte (su \"domicilio\"). Esto aplica aunque haya tenido propiedades en otros condados.",
+          "en": "California probate must be filed in the Superior Court of the county where the decedent lived at the time of death (their \"domicile\"). This is true even if they owned property in other counties."
+        },
+        {
+          "type": "h3",
+          "text": "Cortes de sucesión comunes en California",
+          "en": "Common California Probate Courts"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Condado de Los Ángeles: Stanley Mosk Courthouse, 111 N. Hill Street",
+            "Condado de Orange: Lamoreaux Justice Center, 341 The City Drive",
+            "Condado de San Diego: Central Courthouse, 1100 Union Street",
+            "San Francisco: Civic Center Courthouse, 400 McAllister Street",
+            "Condado de Santa Clara: Downtown Superior Court, 191 N. First Street"
+          ],
+          "en": [
+            "Los Angeles County: Stanley Mosk Courthouse, 111 N. Hill Street",
+            "Orange County: Lamoreaux Justice Center, 341 The City Drive",
+            "San Diego County: Central Courthouse, 1100 Union Street",
+            "San Francisco: Civic Center Courthouse, 400 McAllister Street",
+            "Santa Clara County: Downtown Superior Court, 191 N. First Street"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Vea las 35 ubicaciones de cortes de sucesión en California →",
+          "en": "See all 35 California probate court locations →"
+        },
+        {
+          "type": "h2",
+          "text": "Paso 3: Complete la Petición de Sucesión (Formulario DE-111)",
+          "en": "Step 3: Complete the Petition for Probate (Form DE-111)"
+        },
+        {
+          "type": "p",
+          "text": "La Petición de Sucesión (Petition for Probate) es su solicitud formal para abrir el patrimonio. Este formulario requiere:",
+          "en": "The Petition for Probate is your formal request to open the estate. This form requires:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Nombre legal completo del difunto y cualquier otro nombre que usara",
+            "Fecha y lugar de la muerte",
+            "Si existe un testamento (y adjuntarlo)",
+            "Nombres y direcciones de todos los herederos y beneficiarios",
+            "Valor estimado del patrimonio",
+            "Nombre del albacea o administrador propuesto",
+            "Solicitud de facultades (plenas o limitadas)"
+          ],
+          "en": [
+            "Decedent's full legal name and any aliases",
+            "Date and place of death",
+            "Whether a will exists (and attach it)",
+            "Names and addresses of all heirs and beneficiaries",
+            "Estimated value of the estate",
+            "Name of proposed executor/administrator",
+            "Request for authority (full or limited)"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Error común\nMuchas peticiones presentadas por cuenta propia son rechazadas porque la información de los herederos está incompleta o no es coherente. Cada heredero debe aparecer con su parentesco legal exacto con el difunto.",
+          "en": "Common Mistake\nMany self-filed petitions are rejected because the heir information is incomplete or inconsistent. Every heir must be listed with their exact legal relationship to the decedent."
+        },
+        {
+          "type": "h2",
+          "text": "Paso 4: Presente ante la corte y pague las cuotas",
+          "en": "Step 4: File with the Court and Pay Fees"
+        },
+        {
+          "type": "p",
+          "text": "Entregue su petición completa al secretario de sucesiones. En ese momento deberá pagar la cuota de presentación.",
+          "en": "Submit your completed petition to the probate clerk. You'll need to pay the filing fee at this time."
+        },
+        {
+          "type": "h3",
+          "text": "Costos de presentación de la sucesión en California",
+          "en": "California Probate Filing Costs"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Cuota de presentación de la petición",
+              "$435 a $500"
+            ],
+            [
+              "Publicación en el periódico",
+              "$200 a $350"
+            ],
+            [
+              "Copias certificadas (cada una)",
+              "$25 a $50"
+            ],
+            [
+              "Honorarios del evaluador de la sucesión (probate referee)",
+              "0.1% de los bienes"
+            ]
+          ],
+          "en": [
+            [
+              "Petition Filing Fee",
+              "$435 - $500"
+            ],
+            [
+              "Newspaper Publication",
+              "$200 - $350"
+            ],
+            [
+              "Certified Copies (each)",
+              "$25 - $50"
+            ],
+            [
+              "Probate Referee Fee",
+              "0.1% of assets"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Vea el desglose completo de cuotas →",
+          "en": "See complete fee breakdown →"
+        },
+        {
+          "type": "h2",
+          "text": "Paso 5: Publique el aviso y envíelo por correo a los herederos",
+          "en": "Step 5: Publish Notice and Mail to Heirs"
+        },
+        {
+          "type": "p",
+          "text": "La ley de California exige dos tipos de aviso antes de la audiencia:",
+          "en": "California law requires two types of notice before the hearing:"
+        },
+        {
+          "type": "callout",
+          "text": "Publicación en el periódico\nPublique el \"Aviso de Petición para Administrar el Patrimonio\" (Notice of Petition to Administer Estate) en un periódico autorizado durante 3 semanas consecutivas. El periódico debe estar en la ciudad donde vivía el difunto.",
+          "en": "Newspaper Publication\nPublish \"Notice of Petition to Administer Estate\" in an adjudicated newspaper for 3 consecutive weeks. The newspaper must be in the city where the decedent lived."
+        },
+        {
+          "type": "callout",
+          "text": "Aviso por correo (DE-120/121)\nEnvíe por correo el aviso a todos los herederos, beneficiarios y a cualquier acreedor que usted conozca, por lo menos 15 días antes de la fecha de la audiencia.",
+          "en": "Mail Notice (DE-120/121)\nMail notice to all heirs, beneficiaries, and any creditors you know about at least 15 days before the hearing date."
+        },
+        {
+          "type": "h2",
+          "text": "Paso 6: Asista a la audiencia de sucesión",
+          "en": "Step 6: Attend the Probate Hearing"
+        },
+        {
+          "type": "p",
+          "text": "Aproximadamente de 6 a 10 semanas después de presentar, tendrá su primera audiencia en la corte. Si presenta en el Condado de Los Ángeles, revise las notas IGN de 5 a 10 días antes de su audiencia y presente cualquier suplemento requerido.",
+          "en": "Approximately 6-10 weeks after filing, you'll have your first court hearing. If filing in Los Angeles County, check for IGN notes 5-10 days before your hearing and file any required supplements."
+        },
+        {
+          "type": "p",
+          "text": "En la audiencia, el juez:",
+          "en": "At the hearing, the judge will:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Revisará que su petición esté completa",
+            "Confirmará que se dio el aviso correctamente",
+            "Escuchará cualquier objeción de herederos o acreedores",
+            "Lo nombrará a usted albacea o administrador (si se aprueba)",
+            "Emitirá las Cartas Testamentarias o las Cartas de Administración (Letters of Administration)"
+          ],
+          "en": [
+            "Review your petition for completeness",
+            "Confirm proper notice was given",
+            "Hear any objections from heirs or creditors",
+            "Appoint you as executor/administrator (if approved)",
+            "Issue Letters Testamentary or Letters of Administration"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Paso 7: Después de su audiencia, ¿qué sigue?",
+          "en": "Step 7: After Your Hearing - What's Next"
+        },
+        {
+          "type": "p",
+          "text": "Una vez nombrado, tendrá que completar estas fases restantes:",
+          "en": "Once appointed, you'll need to complete these remaining phases:"
+        },
+        {
+          "type": "ol",
+          "items": [
+            "7\nInventario y avalúo\nTrabaje con el evaluador de la sucesión nombrado por la corte para valorar todos los bienes del patrimonio dentro de 4 meses.",
+            "8\nManejo de acreedores\nAvise a los acreedores conocidos y espere el periodo de reclamaciones de 4 meses antes de pagar las deudas válidas.",
+            "9\nDeclaraciones de impuestos\nPresente la última declaración de impuestos personal del difunto y las declaraciones de impuestos sobre los ingresos del patrimonio, si es necesario.",
+            "10\nRendición de cuentas final\nPrepare una rendición de cuentas detallada de todo el dinero recibido y pagado por el patrimonio.",
+            "11\nDistribución final\nObtenga la aprobación de la corte y reparta los bienes restantes a los beneficiarios."
+          ],
+          "en": [
+            "7\nInventory & Appraisal\nWork with the court-appointed probate referee to value all estate assets within 4 months.",
+            "8\nCreditor Management\nNotice known creditors and wait the 4-month claim period before paying valid debts.",
+            "9\nTax Returns\nFile the decedent's final personal tax return and estate income tax returns if needed.",
+            "10\nFinal Accounting\nPrepare a detailed accounting of all money received and paid by the estate.",
+            "11\nFinal Distribution\nObtain court approval and distribute remaining assets to beneficiaries."
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "¿Necesita ayuda para presentar?\nMyProbateCA se encarga de las 11 fases de la sucesión en California por una tarifa fija de $3,995, lo que le ahorra más de $19,000 en comparación con los honorarios legales establecidos por ley. Preparamos todos los documentos, resolvemos las notas IGN y lo guiamos en cada paso.\nInicie su caso gratis",
+          "en": "Need Help Filing?\nMyProbateCA handles all 11 phases of California probate for a flat fee of $3,995 — saving you $19,000+ compared to statutory attorney fees. We prepare all documents, clear IGN notes, and guide you through every step.\nStart Your Case - Free"
+        },
+        {
+          "type": "h2",
+          "text": "¿Cuánto tarda la sucesión en California?",
+          "en": "How Long Does California Probate Take?"
+        },
+        {
+          "type": "p",
+          "text": "La mayoría de los casos de sucesión en California tardan de 9 a 18 meses desde la presentación hasta la distribución final. Consulte nuestra guía detallada del calendario para saber qué esperar cada mes.",
+          "en": "Most California probate cases take 9 to 18 months from filing to final distribution. See our detailed timeline guide for what to expect each month."
+        },
+        {
+          "type": "callout",
+          "text": "Factores del calendario\nPatrimonios sencillos: 9 a 12 meses | Patrimonios complejos o con disputas: 18 a 24 meses o más",
+          "en": "Timeline Factors\nSimple estates: 9-12 months | Complex estates or disputes: 18-24+ months"
+        }
+      ]
+    },
+    {
+      "component": "SmallEstateAffidavit",
+      "path": "/learn-california-probate/small-estate-affidavit-california",
+      "titleEn": "Small Estate Affidavit California: When You Don't Need Probate",
+      "title": "Declaración jurada de patrimonio pequeño (small estate affidavit) en California: cuándo no necesita la sucesión (probate)",
+      "descriptionEn": "Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $184,500 limit, requirements, and step-by-step process.",
+      "description": "Conozca cuándo puede usar la declaración jurada de patrimonio pequeño (small estate affidavit) de California para transferir bienes sin sucesión (probate). Entienda el límite de $184,500, los requisitos y el proceso paso a paso.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "No todos los patrimonios tienen que pasar por el largo proceso de sucesión (probate) de California. Si el patrimonio es lo bastante pequeño, tal vez pueda transferir los bienes con una declaración jurada de patrimonio pequeño (small estate affidavit), un formulario sencillo que evita la corte por completo.",
+          "en": "Not every estate needs to go through California's lengthy probate process. If the estate is small enough, you may be able to transfer assets using a Small Estate Affidavit — a simple form that avoids court entirely."
+        },
+        {
+          "type": "callout",
+          "text": "Buenas noticias\nCalifornia tiene algunos de los límites para patrimonios pequeños más generosos del país. A partir del 1 de abril de 2022, usted puede transferir hasta $184,500 en bienes muebles sin sucesión.",
+          "en": "Good News\nCalifornia has some of the most generous small estate thresholds in the country. As of April 1, 2022, you can transfer up to $184,500 in personal property without probate."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué es una declaración jurada de patrimonio pequeño?",
+          "en": "What is a Small Estate Affidavit?"
+        },
+        {
+          "type": "p",
+          "text": "Una declaración jurada de patrimonio pequeño (también llamada \"Declaración para el Cobro de Bienes Muebles\" o \"Declaration for Collection of Personal Property\") es un documento legal que le permite reclamar los bienes de una persona fallecida sin pasar por la corte de sucesiones. Según la Sección 13100 del Código de Sucesiones de California, los sucesores que califican pueden usar esta declaración jurada para:",
+          "en": "A Small Estate Affidavit (also called a \"Declaration for Collection of Personal Property\") is a legal document that allows you to claim a deceased person's assets without going through probate court. Under California Probate Code Section 13100, qualifying successors can use this affidavit to:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Cobrar fondos de cuentas bancarias",
+            "Transferir títulos de vehículos",
+            "Reclamar acciones, bonos y cuentas de inversión",
+            "Cobrar pagos de seguros pagaderos al patrimonio",
+            "Recuperar bienes personales de bodegas de almacenamiento o cajas de seguridad"
+          ],
+          "en": [
+            "Collect bank account funds",
+            "Transfer vehicle titles",
+            "Claim stocks, bonds, and investment accounts",
+            "Collect insurance proceeds payable to the estate",
+            "Retrieve personal property from storage units or safe deposit boxes"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Límites para patrimonios pequeños en California (2024-2025)",
+          "en": "California Small Estate Limits (2024-2025)"
+        },
+        {
+          "type": "h3",
+          "text": "Límites actuales",
+          "en": "Current Thresholds"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Declaración jurada de bienes muebles (No requiere presentación ante la corte)",
+              "$184,500"
+            ],
+            [
+              "Petición simplificada para bienes inmuebles (Proceso abreviado ante la corte)",
+              "$184,500"
+            ],
+            [
+              "Petición de bienes del cónyuge (Para cónyuges sobrevivientes)",
+              "Sin límite"
+            ]
+          ],
+          "en": [
+            [
+              "Personal Property Affidavit (No court filing required)",
+              "$184,500"
+            ],
+            [
+              "Simplified Real Property Petition (Streamlined court process)",
+              "$184,500"
+            ],
+            [
+              "Spousal Property Petition (For surviving spouses)",
+              "No Limit"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Nota: A partir del 1 de abril de 2025, estos límites aumentan a $208,850 para bienes muebles y a $750,000 para bienes inmuebles (solo residencia principal).",
+          "en": "Note: Effective April 1, 2025, these limits increase to $208,850 for personal property and $750,000 for real property (primary residence only)."
+        },
+        {
+          "type": "h2",
+          "text": "¿Califica usted? Lista de requisitos",
+          "en": "Do You Qualify? Requirements Checklist"
+        },
+        {
+          "type": "p",
+          "text": "Para usar una declaración jurada de patrimonio pequeño en California, TODO lo siguiente debe ser cierto:",
+          "en": "To use a Small Estate Affidavit in California, ALL of the following must be true:"
+        },
+        {
+          "type": "callout",
+          "text": "Han pasado 40 días\nDeben haber transcurrido por lo menos 40 días desde la muerte del difunto",
+          "en": "40 Days Have Passed\nAt least 40 days must have elapsed since the decedent's death"
+        },
+        {
+          "type": "callout",
+          "text": "No se ha presentado sucesión\nNo hay ningún procedimiento de sucesión pendiente ni se ha llevado a cabo uno",
+          "en": "No Probate Filed\nNo probate proceeding is currently pending or has been conducted"
+        },
+        {
+          "type": "callout",
+          "text": "Está por debajo del límite\nEl valor total de TODOS los bienes del patrimonio en California es de $184,500 o menos",
+          "en": "Under the Limit\nTotal value of ALL estate property in California is $184,500 or less"
+        },
+        {
+          "type": "callout",
+          "text": "Usted es el sucesor legítimo\nUsted tiene derecho a los bienes según el testamento o las leyes de California sobre herencia sin testamento",
+          "en": "You're the Rightful Successor\nYou are entitled to the property under the will or California intestacy laws"
+        },
+        {
+          "type": "callout",
+          "text": "Sin bienes inmuebles (para la declaración jurada)\nEl patrimonio no incluye bienes inmuebles (se requiere un proceso aparte)",
+          "en": "No Real Estate (for Affidavit)\nThe estate does not include real property (separate process required)"
+        },
+        {
+          "type": "h2",
+          "text": "Lo que NO cuenta para el límite de $184,500",
+          "en": "What DOESN'T Count Toward the $184,500 Limit"
+        },
+        {
+          "type": "p",
+          "text": "Buenas noticias: muchos bienes se excluyen al calcular si usted está por debajo del límite:",
+          "en": "Good news — many assets are excluded when calculating whether you're under the limit:"
+        },
+        {
+          "type": "h3",
+          "text": "Excluidos del cálculo",
+          "en": "Excluded from Calculation"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Bienes en tenencia conjunta (joint tenancy)",
+            "Bienes en un fideicomiso en vida",
+            "Seguro de vida (con beneficiario designado)",
+            "Cuentas de jubilación (401k, IRA con beneficiario)",
+            "Cuentas bancarias pagaderas al fallecimiento",
+            "Valores transferibles al fallecimiento",
+            "Vehículos de menos de $184,500 (con declaración jurada del DMV)"
+          ],
+          "en": [
+            "Joint tenancy property",
+            "Property in a living trust",
+            "Life insurance (with named beneficiary)",
+            "Retirement accounts (401k, IRA with beneficiary)",
+            "Payable-on-death bank accounts",
+            "Transfer-on-death securities",
+            "Vehicles under $184,500 (with DMV affidavit)"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Incluidos en el cálculo",
+          "en": "Included in Calculation"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Cuentas bancarias solo a nombre del difunto",
+            "Acciones o bonos sin designación TOD (transferible al fallecimiento)",
+            "Bienes personales (muebles, joyas)",
+            "Vehículos con título solo a nombre del difunto",
+            "Participaciones en negocios",
+            "Dinero que le debían al difunto"
+          ],
+          "en": [
+            "Bank accounts in decedent's name only",
+            "Stocks/bonds without TOD designation",
+            "Personal property (furniture, jewelry)",
+            "Vehicles titled solely in decedent's name",
+            "Business interests",
+            "Money owed to decedent"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Cómo usar una declaración jurada de patrimonio pequeño: paso a paso",
+          "en": "How to Use a Small Estate Affidavit: Step by Step"
+        },
+        {
+          "type": "h3",
+          "text": "Paso 1: Espere 40 días",
+          "en": "Step 1: Wait 40 Days"
+        },
+        {
+          "type": "p",
+          "text": "No puede usar la declaración jurada hasta que pasen 40 días desde la fecha de la muerte.",
+          "en": "You cannot use the affidavit until 40 days after the date of death."
+        },
+        {
+          "type": "h3",
+          "text": "Paso 2: Prepare la declaración jurada",
+          "en": "Step 2: Prepare the Affidavit"
+        },
+        {
+          "type": "p",
+          "text": "Complete el formulario \"Declaración para el Cobro de Bienes Muebles\" (Declaration for Collection of Personal Property). Incluya sus datos, los datos del difunto, la descripción de los bienes y su fundamento legal para reclamarlos.",
+          "en": "Complete the \"Declaration for Collection of Personal Property\" form. Include your information, the decedent's information, description of property, and your legal basis to claim it."
+        },
+        {
+          "type": "h3",
+          "text": "Paso 3: Adjunte los documentos requeridos",
+          "en": "Step 3: Attach Required Documents"
+        },
+        {
+          "type": "p",
+          "text": "Incluya una copia certificada del acta de defunción. Si hay un testamento, adjunte una copia.",
+          "en": "Include a certified copy of the death certificate. If there's a will, attach a copy."
+        },
+        {
+          "type": "h3",
+          "text": "Paso 4: Firme bajo pena de perjurio",
+          "en": "Step 4: Sign Under Penalty of Perjury"
+        },
+        {
+          "type": "p",
+          "text": "La declaración jurada debe estar firmada y fechada. Algunas instituciones exigen que se notarice.",
+          "en": "The affidavit must be signed and dated. Some institutions require notarization."
+        },
+        {
+          "type": "h3",
+          "text": "Paso 5: Preséntela a la institución",
+          "en": "Step 5: Present to the Institution"
+        },
+        {
+          "type": "p",
+          "text": "Entregue la declaración jurada al banco, a la casa de bolsa o a otra entidad que tenga los bienes. Deben entregarlos dentro de un plazo razonable.",
+          "en": "Deliver the affidavit to the bank, brokerage, or other entity holding the property. They must release it within a reasonable time."
+        },
+        {
+          "type": "callout",
+          "text": "Advertencia importante\nAl firmar la declaración jurada, usted se vuelve personalmente responsable ante los acreedores, otros herederos y el estado de California si declara hechos falsos o hace mal uso de los fondos. Es una declaración bajo juramento y bajo pena de perjurio.",
+          "en": "Important Warning\nBy signing the affidavit, you become personally liable to creditors, other heirs, and the state of California if you misrepresent the facts or misuse the funds. This is a sworn statement under penalty of perjury."
+        },
+        {
+          "type": "h2",
+          "text": "¿Y los bienes inmuebles?",
+          "en": "What About Real Estate?"
+        },
+        {
+          "type": "p",
+          "text": "Los bienes inmuebles (casas, terrenos, edificios comerciales) no se pueden transferir con una declaración jurada de patrimonio pequeño. Sin embargo, California ofrece un proceso simplificado para bienes inmuebles de poco valor:",
+          "en": "Real property (homes, land, commercial buildings) cannot be transferred with a Small Estate Affidavit. However, California offers a simplified process for small real estate holdings:"
+        },
+        {
+          "type": "callout",
+          "text": "Declaración jurada para bienes inmuebles de poco valor\nSi el valor bruto de todos los bienes inmuebles en California es de $184,500 o menos (que aumenta a $750,000 para residencias principales el 1 de abril de 2025), puede presentar una petición simplificada ante la corte. Esto es más rápido y económico que una sucesión completa.\nRequisitos: deben pasar 6 meses después de la muerte, no debe haber sucesión pendiente y el valor de los bienes debe estar por debajo del límite.",
+          "en": "Affidavit for Real Property of Small Value\nIf the gross value of all real property in California is $184,500 or less (increasing to $750,000 for primary residences on April 1, 2025), you can file a simplified petition with the court. This is faster and cheaper than full probate.\nRequirements: 6 months must pass after death, no probate pending, property value under threshold."
+        },
+        {
+          "type": "h2",
+          "text": "Declaración jurada de patrimonio pequeño frente a sucesión completa",
+          "en": "Small Estate Affidavit vs Full Probate"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Factor",
+              "Declaración jurada de patrimonio pequeño",
+              "Sucesión completa"
+            ],
+            [
+              "Tiempo requerido",
+              "40 días + trámite",
+              "9 a 18 meses"
+            ],
+            [
+              "Presentación ante la corte",
+              "No se requiere",
+              "Se requiere"
+            ],
+            [
+              "¿Se requiere abogado?",
+              "No",
+              "Muy recomendable"
+            ],
+            [
+              "Costo",
+              "$0 a $100",
+              "$3,995 a $23,000 o más"
+            ],
+            [
+              "Límite de bienes",
+              "$184,500",
+              "Sin límite"
+            ]
+          ],
+          "en": [
+            [
+              "Factor",
+              "Small Estate Affidavit",
+              "Full Probate"
+            ],
+            [
+              "Time Required",
+              "40 days + processing",
+              "9-18 months"
+            ],
+            [
+              "Court Filing",
+              "Not required",
+              "Required"
+            ],
+            [
+              "Attorney Required",
+              "No",
+              "Highly recommended"
+            ],
+            [
+              "Cost",
+              "$0 - $100",
+              "$3,995 - $23,000+"
+            ],
+            [
+              "Asset Limit",
+              "$184,500",
+              "No limit"
+            ]
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Cuándo no se puede evitar la sucesión",
+          "en": "When You Can't Avoid Probate"
+        },
+        {
+          "type": "p",
+          "text": "Lamentablemente, una declaración jurada de patrimonio pequeño no sirve si:",
+          "en": "Unfortunately, a Small Estate Affidavit won't work if:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "El valor del patrimonio es mayor de $184,500",
+            "Hay bienes inmuebles de por medio (a menos que use la petición simplificada para bienes inmuebles)",
+            "Hay disputas entre los herederos",
+            "Los acreedores necesitan un proceso formal ante la corte",
+            "La institución se niega a aceptar la declaración jurada"
+          ],
+          "en": [
+            "Estate value exceeds $184,500",
+            "Real estate is involved (unless using simplified real property petition)",
+            "There are disputes among heirs",
+            "Creditors need formal court process",
+            "The institution refuses to honor the affidavit"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "¿El patrimonio supera el límite?\nSi el patrimonio supera $184,500 o incluye bienes inmuebles, tendrá que presentar una sucesión. MyProbateCA ofrece la sucesión completa en California por una tarifa fija de $3,995, lo que le ahorra miles de dólares en comparación con los honorarios legales tradicionales.\nVea nuestra guía de sucesión paso a paso →",
+          "en": "Estate Over the Limit?\nIf the estate exceeds $184,500 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a flat fee of $3,995 — saving you thousands compared to traditional attorney fees.\nSee our step-by-step probate guide →"
+        }
+      ]
+    },
+    {
+      "component": "ProbateTimeline",
+      "path": "/learn-california-probate/probate-timeline-california-what-to-expect",
+      "titleEn": "Probate Timeline California: What to Expect Each Month",
+      "title": "Plazos de la sucesión en California: qué esperar cada mes",
+      "descriptionEn": "Understand the California probate timeline from filing to distribution. Learn what happens each month during the 9-18 month process and how to avoid costly delays.",
+      "description": "Conozca los plazos de la sucesión (probate) en California, desde la presentación hasta la distribución. Sepa qué pasa cada mes durante el proceso de 9-18 meses y cómo evitar retrasos costosos.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Una guía completa, mes por mes, para entender cuánto tarda la sucesión (probate) en California y qué pasa en cada etapa del proceso.",
+          "en": "A comprehensive month-by-month guide to understanding how long probate takes in California and what happens at each stage of the process."
+        },
+        {
+          "type": "p",
+          "text": "Actualizado en enero de 2025 • 15 min de lectura",
+          "en": "Updated January 2025 • 15 min read"
+        },
+        {
+          "type": "h2",
+          "text": "Resumen rápido: plazos de la sucesión en California",
+          "en": "Quick Summary: California Probate Timeline"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Patrimonios simples: 9-12 meses como mínimo",
+            "Patrimonios promedio: 12-18 meses",
+            "Patrimonios complejos: 18-36+ meses",
+            "Mínimo obligatorio: periodo de 4 meses para acreedores (no se puede acortar)"
+          ],
+          "en": [
+            "Simple estates: 9-12 months minimum",
+            "Average estates: 12-18 months",
+            "Complex estates: 18-36+ months",
+            "Mandatory minimum: 4-month creditor period (cannot be shortened)"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Índice Resumen: ¿Cuánto tarda la sucesión? Plazos mes por mes Causas comunes de retrasos Cómo acelerar la sucesión Preguntas frecuentes",
+          "en": "Table of Contents Overview: How Long Does Probate Take? Month-by-Month Timeline Common Causes of Delays How to Speed Up Probate Frequently Asked Questions"
+        },
+        {
+          "type": "h2",
+          "text": "Resumen: ¿Cuánto tarda la sucesión en California?",
+          "en": "Overview: How Long Does Probate Take in California?"
+        },
+        {
+          "type": "p",
+          "text": "En California, la sucesión normalmente tarda entre 9 y 18 meses para la mayoría de los patrimonios. Sin embargo, este plazo puede variar mucho según la complejidad del patrimonio, si hay disputas y la eficiencia de la corte de sucesiones local.",
+          "en": "California probate typically takes between 9 and 18 months for most estates. However, this timeline can vary significantly based on the complexity of the estate, whether there are disputes, and the efficiency of the local probate court."
+        },
+        {
+          "type": "p",
+          "text": "Algo que no puede cambiar es el periodo obligatorio de 4 meses para notificar a los acreedores en California. Este periodo de espera lo exige la ley (Código de Sucesiones de California, sección 9100) y les da a los acreedores tiempo para presentar reclamos contra el patrimonio. Ni siquiera el patrimonio más simple puede cerrarse antes de que termine este periodo.",
+          "en": "One thing that cannot change is California's mandatory 4-month creditor notification period. This waiting period is required by law (California Probate Code Section 9100) and gives creditors time to file claims against the estate. Even the simplest estate cannot close before this period ends."
+        },
+        {
+          "type": "p",
+          "text": "Entender los plazos de la sucesión ayuda a los albaceas y beneficiarios a tener expectativas realistas y planear en consecuencia. Aunque usted no puede eliminar los periodos de espera, trabajar con un abogado de sucesiones con experiencia que conozca su corte local puede ayudar a reducir retrasos innecesarios.",
+          "en": "Understanding the probate timeline helps executors and beneficiaries set realistic expectations and plan accordingly. While you can't eliminate the waiting periods, working with an experienced probate attorney familiar with your local court can help minimize unnecessary delays."
+        },
+        {
+          "type": "callout",
+          "text": "Importante: Si el patrimonio califica para una declaración jurada de patrimonio pequeño (small estate affidavit) (menos de $184,500 en bienes), es posible que usted pueda evitar la sucesión por completo y transferir los bienes en tan solo 40 días después del fallecimiento.",
+          "en": "Important: If the estate qualifies for a small estate affidavit (under $184,500 in assets), you may be able to avoid probate entirely and transfer assets in as little as 40 days after death."
+        },
+        {
+          "type": "h2",
+          "text": "Plazos de la sucesión en California, mes por mes",
+          "en": "Month-by-Month California Probate Timeline"
+        },
+        {
+          "type": "p",
+          "text": "A continuación se detalla lo que normalmente pasa en cada fase de la sucesión en California. Tenga en cuenta que estos plazos pueden superponerse y variar según su situación particular.",
+          "en": "Below is a detailed breakdown of what typically happens during each phase of California probate. Keep in mind that these timeframes can overlap and may vary based on your specific situation."
+        },
+        {
+          "type": "h3",
+          "text": "Presentación inicial y petición (mes 1)",
+          "en": "Initial Filing & Petition (Month 1)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Localizar y revisar el testamento original",
+            "Identificar a los herederos y beneficiarios",
+            "Hacer un inventario de los bienes para la petición",
+            "Presentar la Petición de Sucesión (Petition for Probate) ante la Corte Superior",
+            "Pagar las tarifas de presentación ($435-$550 según el condado)",
+            "Programar la fecha de la audiencia (normalmente 30-45 días después)"
+          ],
+          "en": [
+            "Locate and review the original will",
+            "Identify heirs and beneficiaries",
+            "Inventory assets for the petition",
+            "File Petition for Probate with the Superior Court",
+            "Pay filing fees ($435-$550 depending on county)",
+            "Schedule hearing date (typically 30-45 days out)"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Presente la petición dentro de los 30 días posteriores al fallecimiento para evitar posibles complicaciones.",
+          "en": "Pro Tip: File the petition within 30 days of death to avoid potential complications."
+        },
+        {
+          "type": "h3",
+          "text": "Aviso y publicación (mes 2)",
+          "en": "Notice & Publication (Month 2)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Enviar por correo el Aviso de Petición (Notice of Petition) a todos los herederos y beneficiarios",
+            "Publicar el Aviso de Fallecimiento en un periódico local (3 semanas consecutivas)",
+            "Presentar el Comprobante de Notificación (Proof of Service) ante la corte",
+            "Prepararse para la audiencia de sucesión"
+          ],
+          "en": [
+            "Mail Notice of Petition to all heirs and beneficiaries",
+            "Publish Notice of Death in local newspaper (3 consecutive weeks)",
+            "File Proof of Service with the court",
+            "Prepare for probate hearing"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Use un periódico aprobado para avisos legales en el condado donde vivía el difunto.",
+          "en": "Pro Tip: Use a newspaper approved for legal notices in the county where the decedent lived."
+        },
+        {
+          "type": "h3",
+          "text": "Audiencia de sucesión y nombramiento (meses 2-3)",
+          "en": "Probate Hearing & Appointment (Month 2-3)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Asistir a la audiencia de sucesión",
+            "Presentar el testamento para que sea admitido en la sucesión",
+            "Recibir la orden de la corte que nombra al albacea o administrador",
+            "Obtener las Cartas Testamentarias (Letters Testamentary) o las Cartas de Administración (Letters of Administration)",
+            "Pedir copias certificadas de las Cartas (Letters) (normalmente se necesitan 6-10 copias)"
+          ],
+          "en": [
+            "Attend the probate hearing",
+            "Present will for admission to probate",
+            "Receive court order appointing executor/administrator",
+            "Obtain Letters Testamentary or Letters of Administration",
+            "Order certified copies of Letters (typically 6-10 copies needed)"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Las Cartas Testamentarias son esenciales. Las necesitará para acceder a las cuentas bancarias y administrar los bienes.",
+          "en": "Pro Tip: Letters Testamentary are essential - you'll need them to access bank accounts and manage assets."
+        },
+        {
+          "type": "h3",
+          "text": "Recolección de bienes y notificaciones (meses 3-4)",
+          "en": "Asset Collection & Notification (Months 3-4)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Abrir una cuenta bancaria del patrimonio",
+            "Transferir los bienes a nombre del patrimonio",
+            "Notificar al Seguro Social, a los proveedores de pensiones y a las compañías de seguros",
+            "Enviar el Aviso formal a los Acreedores (Notice to Creditors)",
+            "Empezar a cobrar las deudas que se le deben al patrimonio",
+            "Asegurar y proteger los bienes inmuebles"
+          ],
+          "en": [
+            "Open estate bank account",
+            "Transfer assets into estate name",
+            "Notify Social Security, pension providers, insurance companies",
+            "Send formal Notice to Creditors",
+            "Begin collecting debts owed to the estate",
+            "Secure and insure real property"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Lleve registros detallados de todas las transacciones. Los necesitará para la rendición de cuentas final.",
+          "en": "Pro Tip: Keep detailed records of all transactions - you'll need them for the final accounting."
+        },
+        {
+          "type": "h3",
+          "text": "Periodo de 4 meses para acreedores (obligatorio) (meses 4-7)",
+          "en": "4-Month Creditor Period (Mandatory) (Months 4-7)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Esperar los reclamos de los acreedores (periodo mínimo de 4 meses)",
+            "Revisar y evaluar los reclamos recibidos",
+            "Pagar los reclamos válidos de los acreedores con fondos del patrimonio",
+            "Rechazar los reclamos inválidos o excesivos",
+            "Seguir administrando los bienes del patrimonio",
+            "Presentar la declaración federal del impuesto al patrimonio si se requiere (vence 9 meses después del fallecimiento)"
+          ],
+          "en": [
+            "Wait for creditor claims (4-month minimum period)",
+            "Review and evaluate any claims received",
+            "Pay valid creditor claims from estate funds",
+            "Reject invalid or excessive claims",
+            "Continue managing estate assets",
+            "File federal estate tax return if required (due 9 months after death)"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Este periodo de espera no se puede acortar. Lo exige la ley de California.",
+          "en": "Pro Tip: This waiting period cannot be shortened - it's required by California law."
+        },
+        {
+          "type": "h3",
+          "text": "Venta de bienes inmuebles (si aplica) (meses 5-8)",
+          "en": "Real Property Sale (If Applicable) (Months 5-8)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Obtener el avalúo de la propiedad",
+            "Poner la propiedad en venta",
+            "Revisar y aceptar ofertas",
+            "Presentar el Aviso de Acción Propuesta (Notice of Proposed Action) (si se vende por debajo del avalúo)",
+            "Obtener la confirmación de la corte si se requiere",
+            "Completar la venta y depositar el dinero en la cuenta del patrimonio"
+          ],
+          "en": [
+            "Obtain property appraisal",
+            "List property for sale",
+            "Review and accept offers",
+            "File Notice of Proposed Action (if selling below appraisal)",
+            "Obtain court confirmation if required",
+            "Complete sale and deposit proceeds into estate account"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Las ventas al 90% o más del valor del avalúo normalmente no requieren confirmación de la corte.",
+          "en": "Pro Tip: Sales at 90% or more of appraised value typically don't require court confirmation."
+        },
+        {
+          "type": "h3",
+          "text": "Inventario final y declaraciones de impuestos (meses 8-12)",
+          "en": "Final Inventory & Tax Returns (Months 8-12)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Completar el inventario y avalúo (formulario DE-160)",
+            "Presentar las declaraciones finales de impuestos sobre la renta del difunto",
+            "Presentar las declaraciones de impuestos sobre la renta del patrimonio si aplica",
+            "Pagar los impuestos pendientes",
+            "Obtener la autorización fiscal (tax clearance) del FTB y del IRS si se necesita"
+          ],
+          "en": [
+            "Complete Inventory and Appraisal (Form DE-160)",
+            "File final income tax returns for decedent",
+            "File estate income tax returns if applicable",
+            "Pay any outstanding taxes",
+            "Obtain tax clearance from FTB and IRS if needed"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Contrate a un contador público (CPA) con experiencia en impuestos de patrimonios para asegurar el cumplimiento y reducir los impuestos.",
+          "en": "Pro Tip: Hire a CPA experienced with estate taxation to ensure compliance and minimize taxes."
+        },
+        {
+          "type": "h3",
+          "text": "Rendición de cuentas final y petición (meses 10-15)",
+          "en": "Final Accounting & Petition (Months 10-15)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Preparar una rendición de cuentas detallada de todos los ingresos y pagos",
+            "Calcular los honorarios legales establecidos por ley para el albacea y el abogado",
+            "Preparar el plan de distribución propuesto",
+            "Presentar la Petición de Distribución Final (Petition for Final Distribution)",
+            "Enviar aviso por correo a todas las partes interesadas",
+            "Programar la audiencia final"
+          ],
+          "en": [
+            "Prepare detailed accounting of all receipts and disbursements",
+            "Calculate statutory fees for executor and attorney",
+            "Prepare proposed distribution plan",
+            "File Petition for Final Distribution",
+            "Mail notice to all interested parties",
+            "Schedule final hearing"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Una rendición de cuentas precisa es fundamental. Los errores pueden retrasar la distribución por meses.",
+          "en": "Pro Tip: Accurate accounting is crucial - errors can delay distribution by months."
+        },
+        {
+          "type": "h3",
+          "text": "Distribución y cierre (meses 12-18)",
+          "en": "Distribution & Closing (Months 12-18)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Asistir a la audiencia final para la aprobación de la corte",
+            "Recibir la Orden de Distribución Final (Order for Final Distribution)",
+            "Distribuir los bienes a los beneficiarios",
+            "Obtener recibos de todos los beneficiarios",
+            "Presentar los recibos finales ante la corte",
+            "Recibir la Orden que libera al albacea (Order Discharging Executor)"
+          ],
+          "en": [
+            "Attend final hearing for court approval",
+            "Receive Order for Final Distribution",
+            "Distribute assets to beneficiaries",
+            "Obtain receipts from all beneficiaries",
+            "File final receipts with the court",
+            "Receive Order Discharging Executor"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Consejo: Guarde copias de todos los recibos firmados. Lo protegen de reclamos futuros.",
+          "en": "Pro Tip: Keep copies of all signed receipts - they protect you from future claims."
+        },
+        {
+          "type": "h2",
+          "text": "Causas comunes de retrasos en la sucesión",
+          "en": "Common Causes of Probate Delays"
+        },
+        {
+          "type": "p",
+          "text": "Aunque los plazos anteriores representan un caso de sucesión típico, varios factores pueden alargar mucho el proceso. Conocer estos posibles retrasos le puede ayudar a planear y posiblemente evitarlos.",
+          "en": "While the timeline above represents a typical probate case, several factors can significantly extend the process. Being aware of these potential delays can help you plan and potentially avoid them."
+        },
+        {
+          "type": "h3",
+          "text": "Impugnaciones del testamento (+6-24+ meses)",
+          "en": "Will Contests (+6-24+ months)"
+        },
+        {
+          "type": "p",
+          "text": "Si alguien impugna la validez del testamento, la sucesión prácticamente se detiene hasta que la disputa se resuelve mediante mediación, acuerdo o juicio.",
+          "en": "If someone challenges the validity of the will, probate essentially pauses until the dispute is resolved through mediation, settlement, or trial."
+        },
+        {
+          "type": "h3",
+          "text": "Herederos desaparecidos (+3-12 meses)",
+          "en": "Missing Heirs (+3-12 months)"
+        },
+        {
+          "type": "p",
+          "text": "Si no se puede localizar a los beneficiarios, la corte puede exigir esfuerzos de búsqueda extensos y publicación antes de continuar.",
+          "en": "If beneficiaries cannot be located, the court may require extensive search efforts and publication before proceeding."
+        },
+        {
+          "type": "h3",
+          "text": "Problemas con bienes inmuebles (+3-6 meses)",
+          "en": "Real Property Issues (+3-6 months)"
+        },
+        {
+          "type": "p",
+          "text": "Títulos con defectos, disputas de linderos o dificultades para vender la propiedad pueden alargar mucho los plazos.",
+          "en": "Clouded titles, boundary disputes, or difficulties selling property can significantly extend the timeline."
+        },
+        {
+          "type": "h3",
+          "text": "Complicaciones fiscales (+3-12 meses)",
+          "en": "Tax Complications (+3-12 months)"
+        },
+        {
+          "type": "p",
+          "text": "Situaciones fiscales complejas, auditorías o disputas con las autoridades fiscales pueden retrasar la distribución final.",
+          "en": "Complex tax situations, audits, or disputes with tax authorities can delay final distribution."
+        },
+        {
+          "type": "h3",
+          "text": "Disputas con acreedores (+2-6 meses)",
+          "en": "Creditor Disputes (+2-6 months)"
+        },
+        {
+          "type": "p",
+          "text": "Si los acreedores presentan reclamos que deben litigarse, la resolución puede tardar varios meses más.",
+          "en": "If creditors file claims that must be litigated, resolution can take several additional months."
+        },
+        {
+          "type": "h3",
+          "text": "Atrasos en las cortes (+1-4 meses)",
+          "en": "Court Backlogs (+1-4 months)"
+        },
+        {
+          "type": "p",
+          "text": "Algunos condados de California tienen atrasos importantes en sus cortes, sobre todo en las zonas urbanas grandes como Los Angeles.",
+          "en": "Some California counties have significant court backlogs, especially in larger urban areas like Los Angeles."
+        },
+        {
+          "type": "h2",
+          "text": "Cómo acelerar el proceso de sucesión",
+          "en": "How to Speed Up the Probate Process"
+        },
+        {
+          "type": "p",
+          "text": "Aunque usted no puede eliminar los periodos de espera obligatorios, hay varias estrategias para reducir los retrasos y mantener su caso de sucesión avanzando de forma eficiente.",
+          "en": "While you cannot eliminate the mandatory waiting periods, there are several strategies to minimize delays and keep your probate case moving efficiently."
+        },
+        {
+          "type": "h3",
+          "text": "Presente a tiempo",
+          "en": "File Promptly"
+        },
+        {
+          "type": "p",
+          "text": "No retrase el inicio del proceso. Presente la petición dentro de los 30 días posteriores al fallecimiento para que se programe la fecha de su audiencia lo antes posible. Obtenga más información en nuestra guía de presentación paso a paso.",
+          "en": "Don't delay starting the process. File the petition within 30 days of death to get your hearing date scheduled as soon as possible. Learn more in our step-by-step filing guide."
+        },
+        {
+          "type": "h3",
+          "text": "Contrate a un abogado de sucesiones con experiencia",
+          "en": "Hire an Experienced Probate Attorney"
+        },
+        {
+          "type": "p",
+          "text": "Un abogado que practica con regularidad en su corte específica conoce las reglas locales, las preferencias de los jueces y cómo evitar los errores comunes que causan retrasos. Nuestro servicio de sucesión con tarifa fija maneja las 11 fases de manera eficiente.",
+          "en": "An attorney who regularly practices in your specific court knows the local rules, judges' preferences, and how to avoid common mistakes that cause delays. Our flat-fee probate service handles all 11 phases efficiently."
+        },
+        {
+          "type": "h3",
+          "text": "Organice los documentos desde temprano",
+          "en": "Organize Documents Early"
+        },
+        {
+          "type": "p",
+          "text": "Reúna todos los documentos necesarios antes de presentar: certificado de defunción, testamento original, estados de cuenta de los bienes, información de los beneficiarios y datos de los acreedores. La falta de documentos causa retrasos.",
+          "en": "Gather all necessary documents before filing: death certificate, original will, asset statements, beneficiary information, and creditor details. Missing documents cause delays."
+        },
+        {
+          "type": "h3",
+          "text": "Responda rápido a las solicitudes de la corte",
+          "en": "Respond Quickly to Court Requests"
+        },
+        {
+          "type": "p",
+          "text": "Cuando la corte pida información o documentos adicionales, responda de inmediato. Tardar en responder puede mandar su caso al final de la fila.",
+          "en": "When the court requests additional information or documents, respond immediately. Delays in responding can push your case to the back of the queue."
+        },
+        {
+          "type": "h3",
+          "text": "Comuníquese con los beneficiarios",
+          "en": "Communicate with Beneficiaries"
+        },
+        {
+          "type": "p",
+          "text": "Mantenga informados a todos los herederos y beneficiarios durante todo el proceso. Una comunicación clara puede prevenir disputas y objeciones que retrasan la distribución.",
+          "en": "Keep all heirs and beneficiaries informed throughout the process. Clear communication can prevent disputes and objections that delay distribution."
+        },
+        {
+          "type": "h3",
+          "text": "Maneje los bienes inmuebles con estrategia",
+          "en": "Handle Real Property Strategically"
+        },
+        {
+          "type": "p",
+          "text": "Si va a vender bienes inmuebles, póngalos en venta al principio del proceso. Las ventas al 90% o más del valor del avalúo no requieren confirmación de la corte, lo que ahorra mucho tiempo.",
+          "en": "If selling real estate, list it early in the process. Sales at or above 90% of appraised value don't require court confirmation, which saves significant time."
+        },
+        {
+          "type": "h2",
+          "text": "Resumen visual de los plazos de la sucesión",
+          "en": "Visual Probate Timeline Overview"
+        },
+        {
+          "type": "callout",
+          "text": "1\nPresentación\nMes 1\n2\nAudiencia\nMeses 2-3\n3\nPeriodo para acreedores\n4 meses (obligatorio)\n4\nRendición de cuentas\nMeses 8-12\n5\nDistribución\nMeses 12-18\nPlazo total: 9-18 meses (típico) | 18-36+ meses (patrimonios complejos)",
+          "en": "1\nFiling\nMonth 1\n2\nHearing\nMonth 2-3\n3\nCreditor Period\n4 Months (Required)\n4\nAccounting\nMonth 8-12\n5\nDistribution\nMonth 12-18\nTotal Timeline: 9-18 months (typical) | 18-36+ months (complex estates)"
+        },
+        {
+          "type": "h2",
+          "text": "Preguntas frecuentes sobre los plazos de la sucesión",
+          "en": "Frequently Asked Questions About Probate Timeline"
+        },
+        {
+          "type": "h3",
+          "text": "¿Cuánto tarda la sucesión en California?",
+          "en": "How long does probate take in California?"
+        },
+        {
+          "type": "p",
+          "text": "En California, la sucesión normalmente tarda de 9 a 18 meses para los patrimonios sencillos. Los patrimonios complejos con disputas, ventas de bienes inmuebles o problemas con acreedores pueden tardar 2 años o más. El periodo obligatorio de 4 meses para acreedores significa que ninguna sucesión puede cerrarse en menos de unos 7-8 meses como mínimo absoluto.",
+          "en": "California probate typically takes 9 to 18 months for straightforward estates. Complex estates with disputes, real property sales, or creditor issues may take 2 years or longer. The mandatory 4-month creditor period means no probate can close in less than about 7-8 months at absolute minimum."
+        },
+        {
+          "type": "h3",
+          "text": "¿Qué es el periodo obligatorio de 4 meses para acreedores en la sucesión en California?",
+          "en": "What is the mandatory 4-month creditor period in California probate?"
+        },
+        {
+          "type": "p",
+          "text": "La ley de California exige un periodo de espera mínimo de 4 meses después de que se emiten las Cartas Testamentarias, durante el cual los acreedores pueden presentar reclamos contra el patrimonio. Este periodo no se puede acortar y está diseñado para proteger los derechos de los acreedores.",
+          "en": "California law requires a minimum 4-month waiting period after Letters Testamentary are issued, during which creditors can file claims against the estate. This period cannot be shortened and is designed to protect creditors' rights."
+        },
+        {
+          "type": "h3",
+          "text": "¿Se puede acelerar la sucesión en California?",
+          "en": "Can probate be expedited in California?"
+        },
+        {
+          "type": "p",
+          "text": "Aunque el periodo de 4 meses para acreedores no se puede acortar, usted puede acelerar otras fases presentando los documentos a tiempo, respondiendo rápido a las solicitudes de la corte y trabajando con abogados de sucesiones con experiencia que conozcan los procedimientos de la corte local. Algunas cortes también ofrecen fechas de audiencia aceleradas en ciertas circunstancias.",
+          "en": "While the 4-month creditor period cannot be shortened, you can speed up other phases by filing documents promptly, responding quickly to court requests, and working with experienced probate attorneys who know the local court procedures. Some courts also offer expedited hearing dates in certain circumstances."
+        },
+        {
+          "type": "h3",
+          "text": "¿Qué pasa si la sucesión tarda más de lo esperado?",
+          "en": "What happens if probate takes longer than expected?"
+        },
+        {
+          "type": "p",
+          "text": "Si la sucesión se alarga más de lo esperado, los beneficiarios deben esperar su herencia. El albacea sigue administrando el patrimonio y puede tener que presentar informes de estado ante la corte. En algunos casos, el albacea puede pedir permiso para hacer distribuciones parciales a los beneficiarios mientras el caso sigue pendiente.",
+          "en": "If probate extends beyond initial expectations, beneficiaries must wait for their inheritances. The executor continues to manage the estate and may need to file status reports with the court. In some cases, the executor can request permission to make partial distributions to beneficiaries while the case is pending."
+        },
+        {
+          "type": "h3",
+          "text": "¿Cuánto cuesta la sucesión en un caso de 18 meses?",
+          "en": "How much does probate cost for an 18-month case?"
+        },
+        {
+          "type": "p",
+          "text": "En California, los honorarios de sucesión establecidos por ley se basan en el valor del patrimonio, no en la duración. Sin embargo, los casos más largos pueden generar \"honorarios extraordinarios\" adicionales por asuntos complejos. Nuestro servicio con tarifa fija de $3,995 cubre todo el trabajo estándar de la sucesión, sin importar cuánto tarde el caso.",
+          "en": "California statutory probate fees are based on estate value, not duration. However, longer cases may incur additional \"extraordinary fees\" for complex matters. Our flat-fee service of $3,995 covers all standard probate work regardless of how long the case takes."
+        },
+        {
+          "type": "h2",
+          "text": "¿Necesita ayuda con los plazos de la sucesión?",
+          "en": "Need Help Navigating the Probate Timeline?"
+        },
+        {
+          "type": "p",
+          "text": "Nuestro equipo con experiencia maneja casos de sucesión en California todos los días. Sabemos cómo mantener su caso avanzando de forma eficiente en cada fase, reduciendo los retrasos y el estrés.",
+          "en": "Our experienced team handles California probate cases every day. We know how to keep your case moving efficiently through each phase, minimizing delays and reducing stress."
+        },
+        {
+          "type": "p",
+          "text": "Programe una consulta gratuita Llame al 818-337-4071",
+          "en": "Schedule Free Consultation Call 818-337-4071"
+        },
+        {
+          "type": "h2",
+          "text": "Artículos relacionados",
+          "en": "Related Articles"
+        },
+        {
+          "type": "p",
+          "text": "Cómo presentar una sucesión en California Guía paso a paso para iniciar el proceso de sucesión. Declaración jurada de patrimonio pequeño en California Sepa cuándo puede evitar la sucesión por completo. Guía de Cartas Testamentarias Documento esencial para administrar los bienes del patrimonio.",
+          "en": "How to File Probate in California Step-by-step guide to starting the probate process. Small Estate Affidavit California Learn when you can skip probate entirely. Letters Testamentary Guide Essential document for managing estate assets."
+        }
+      ]
+    },
+    {
+      "component": "IntestateSuccession",
+      "path": "/learn-california-probate/dying-without-will-california-intestate-succession",
+      "titleEn": "What Happens If You Die Without a Will in California? Intestate Succession Explained",
+      "title": "¿Qué pasa si usted muere sin testamento en California? La sucesión sin testamento explicada",
+      "descriptionEn": "Learn how California distributes your estate if you die without a will. Understand intestate succession laws, who inherits, and why probate is still required.",
+      "description": "Conozca cómo California distribuye su patrimonio si usted muere sin testamento. Entienda las leyes de sucesión sin testamento, quién hereda y por qué todavía se requiere la sucesión (probate).",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Cuando alguien muere sin un testamento válido en California, su patrimonio no pasa simplemente a quien lo quiera. En cambio, las leyes de sucesión sin testamento de California determinan exactamente quién hereda, y los resultados a menudo sorprenden a las familias.",
+          "en": "When someone dies without a valid will in California, their estate doesn't simply go to whoever wants it. Instead, California's intestate succession laws dictate exactly who inherits — and the results often surprise families."
+        },
+        {
+          "type": "callout",
+          "text": "Idea equivocada común\nMuchas personas creen que morir sin testamento significa que \"el estado se queda con todo\". Esto casi nunca es cierto. California tiene un sistema detallado para distribuir los bienes entre los familiares. El estado solo hereda cuando no se puede encontrar a ningún familiar.",
+          "en": "Common Misconception\nMany people believe that dying without a will means \"the state takes everything.\" This is almost never true. California has a detailed system for distributing assets to relatives — the state only inherits when absolutely no family can be found."
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué es la sucesión sin testamento?",
+          "en": "What is Intestate Succession?"
+        },
+        {
+          "type": "p",
+          "text": "\"Sin testamento\" (intestate) significa morir sin un testamento válido. Cuando esto ocurre, la Sección 6400 del Código de Sucesiones (Probate Code) de California y las secciones siguientes determinan quién hereda. Este conjunto de leyes se llama sucesión sin testamento.",
+          "en": "\"Intestate\" means dying without a valid will. When this happens, California Probate Code Section 6400 and subsequent sections determine who inherits. This body of law is called intestate succession."
+        },
+        {
+          "type": "p",
+          "text": "Las reglas crean una jerarquía estricta de herencia basada en las relaciones familiares. Sus familiares más cercanos heredan primero, y los familiares más lejanos solo heredan si no existen familiares más cercanos.",
+          "en": "The rules create a strict hierarchy of inheritance based on family relationships. Your closest relatives inherit first, and more distant relatives only inherit if closer relatives don't exist."
+        },
+        {
+          "type": "h2",
+          "text": "¿Quién hereda bajo la sucesión sin testamento de California?",
+          "en": "Who Inherits Under California Intestate Succession?"
+        },
+        {
+          "type": "p",
+          "text": "La distribución depende de su situación familiar. Así es como la ley de California da prioridad a los herederos:",
+          "en": "The distribution depends on your family situation. Here's how California law prioritizes heirs:"
+        },
+        {
+          "type": "h3",
+          "text": "Si usted está casado (con o sin hijos)",
+          "en": "If You're Married (With or Without Children)"
+        },
+        {
+          "type": "p",
+          "text": "California distingue entre bienes gananciales (community property) y bienes propios (separate property):",
+          "en": "California distinguishes between community property and separate property:"
+        },
+        {
+          "type": "callout",
+          "text": "Bienes gananciales\nBienes adquiridos durante el matrimonio\n100% pasa al cónyuge sobreviviente",
+          "en": "Community Property\nProperty acquired during marriage\n100% goes to surviving spouse"
+        },
+        {
+          "type": "callout",
+          "text": "Bienes propios\nBienes que se tenían antes del matrimonio o que se recibieron como regalo o herencia\nEl reparto depende de los hijos o familiares (vea la tabla abajo)",
+          "en": "Separate Property\nProperty owned before marriage or received as gift/inheritance\nSplit depends on children/relatives (see table below)"
+        },
+        {
+          "type": "h3",
+          "text": "Distribución de los bienes propios",
+          "en": "Separate Property Distribution"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Situación familiar",
+              "El cónyuge recibe",
+              "Otros reciben"
+            ],
+            [
+              "Cónyuge + 1 hijo",
+              "1/2",
+              "El hijo recibe 1/2"
+            ],
+            [
+              "Cónyuge + 2 o más hijos",
+              "1/3",
+              "Los hijos comparten 2/3 en partes iguales"
+            ],
+            [
+              "Cónyuge, sin hijos, pero con padres",
+              "1/2",
+              "Los padres reciben 1/2"
+            ],
+            [
+              "Cónyuge, sin hijos, pero con hermanos",
+              "1/2",
+              "Los hermanos comparten 1/2"
+            ],
+            [
+              "Solo el cónyuge (sin hijos, padres ni hermanos)",
+              "100%",
+              "Nadie"
+            ]
+          ],
+          "en": [
+            [
+              "Family Situation",
+              "Spouse Receives",
+              "Others Receive"
+            ],
+            [
+              "Spouse + 1 child",
+              "1/2",
+              "Child gets 1/2"
+            ],
+            [
+              "Spouse + 2+ children",
+              "1/3",
+              "Children share 2/3 equally"
+            ],
+            [
+              "Spouse + no children, but parents",
+              "1/2",
+              "Parents get 1/2"
+            ],
+            [
+              "Spouse + no children, but siblings",
+              "1/2",
+              "Siblings share 1/2"
+            ],
+            [
+              "Spouse only (no children, parents, or siblings)",
+              "100%",
+              "—"
+            ]
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Si usted NO está casado",
+          "en": "If You're NOT Married"
+        },
+        {
+          "type": "p",
+          "text": "Sin cónyuge, la herencia sigue este orden:",
+          "en": "Without a spouse, inheritance follows this order:"
+        },
+        {
+          "type": "ol",
+          "items": [
+            "1\nHijos (y descendientes de hijos fallecidos)\nSe divide en partes iguales entre los hijos. Si un hijo falleció, sus hijos heredan su parte.",
+            "2\nPadres\nSi no hay hijos, los padres heredan en partes iguales (o el padre o la madre sobreviviente recibe todo).",
+            "3\nHermanos (y descendientes de hermanos fallecidos)\nSi no hay hijos ni padres, los hermanos comparten en partes iguales.",
+            "4\nAbuelos, tíos, primos\nLa ley continúa con familiares cada vez más lejanos.",
+            "∞\nEstado de California (Escheat)\nSolo si no se puede encontrar a ningún familiar después de una búsqueda diligente."
+          ],
+          "en": [
+            "1\nChildren (and descendants of deceased children)\nDivided equally among children. If a child died, their children inherit their share.",
+            "2\nParents\nIf no children, parents inherit equally (or surviving parent gets all).",
+            "3\nSiblings (and descendants of deceased siblings)\nIf no children or parents, siblings share equally.",
+            "4\nGrandparents, aunts, uncles, cousins\nThe law continues through increasingly distant relatives.",
+            "∞\nState of California (Escheat)\nOnly if absolutely no relatives can be found after diligent search."
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Reglas importantes que debe conocer",
+          "en": "Important Rules to Know"
+        },
+        {
+          "type": "callout",
+          "text": "Los medios hermanos heredan en partes iguales\nLos medios hermanos reciben el mismo trato que los hermanos completos bajo la ley de California.",
+          "en": "Half-Relatives Inherit Equally\nHalf-siblings are treated the same as full siblings under California law."
+        },
+        {
+          "type": "callout",
+          "text": "Los hijos adoptivos tienen todos los derechos\nLos hijos adoptados legalmente heredan exactamente igual que los hijos biológicos.",
+          "en": "Adopted Children Have Full Rights\nLegally adopted children inherit exactly like biological children."
+        },
+        {
+          "type": "callout",
+          "text": "Los hijastros NO heredan\nA menos que hayan sido adoptados legalmente, los hijastros no tienen derechos de herencia bajo la sucesión sin testamento.",
+          "en": "Stepchildren Do NOT Inherit\nUnless legally adopted, stepchildren have no inheritance rights under intestate succession."
+        },
+        {
+          "type": "callout",
+          "text": "Las parejas no casadas NO heredan NADA\nLas parejas de hecho (domestic partners) registradas con el estado reciben el mismo trato que los cónyuges, pero las parejas no casadas no tienen ningún derecho de herencia.",
+          "en": "Unmarried Partners Inherit NOTHING\nDomestic partners registered with the state are treated like spouses, but unmarried couples have zero inheritance rights."
+        },
+        {
+          "type": "h2",
+          "text": "¿Todavía necesita la sucesión si no hay testamento?",
+          "en": "Do You Still Need Probate Without a Will?"
+        },
+        {
+          "type": "callout",
+          "text": "Sí, la sucesión sigue siendo necesaria\nUn mito común es que no tener testamento significa que no hay sucesión. En realidad, los patrimonios sin testamento casi siempre requieren la sucesión, y el proceso a menudo es más complicado porque:",
+          "en": "Yes — Probate is Still Required\nA common myth is that having no will means no probate. In reality, intestate estates almost always require probate, and the process is often more complicated because:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "La corte debe determinar quiénes son los herederos legítimos",
+            "Se debe nombrar a un administrador (en lugar de un albacea nombrado en un testamento)",
+            "Por lo general se requiere una fianza de sucesión (que a menudo se dispensa cuando hay testamento)",
+            "Encontrar y notificar a todos los posibles herederos toma más tiempo"
+          ],
+          "en": [
+            "The court must determine who the rightful heirs are",
+            "An administrator must be appointed (instead of an executor named in a will)",
+            "A probate bond is usually required (often waived when there's a will)",
+            "Finding and notifying all potential heirs takes more time"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "¿Qué bienes pasan fuera de la sucesión sin testamento?",
+          "en": "What Assets Pass Outside of Intestate Succession?"
+        },
+        {
+          "type": "p",
+          "text": "No todos los bienes se distribuyen mediante la sucesión sin testamento. Estos bienes pasan directamente a los beneficiarios designados:",
+          "en": "Not all assets are distributed through intestate succession. These assets pass directly to named beneficiaries:"
+        },
+        {
+          "type": "h3",
+          "text": "Pasan a los beneficiarios designados",
+          "en": "Pass to Named Beneficiaries"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Pólizas de seguro de vida",
+            "Cuentas de jubilación (401k, IRA)",
+            "Cuentas bancarias pagaderas al fallecimiento (payable-on-death)",
+            "Valores con transferencia al fallecimiento (transfer-on-death)",
+            "Bienes en un fideicomiso en vida (living trust)",
+            "Bienes en tenencia conjunta (joint tenancy)"
+          ],
+          "en": [
+            "Life insurance policies",
+            "Retirement accounts (401k, IRA)",
+            "Payable-on-death bank accounts",
+            "Transfer-on-death securities",
+            "Property in a living trust",
+            "Joint tenancy property"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Sujetos a la sucesión sin testamento",
+          "en": "Subject to Intestate Succession"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Cuentas bancarias solo a nombre del difunto",
+            "Bienes raíces solo a nombre del difunto",
+            "Vehículos con título solo a nombre del difunto",
+            "Bienes personales (muebles, joyas)",
+            "Participaciones en negocios",
+            "Cuentas de inversión sin designación TOD"
+          ],
+          "en": [
+            "Bank accounts in decedent's name only",
+            "Real estate in decedent's name only",
+            "Vehicles titled solely to decedent",
+            "Personal property (furniture, jewelry)",
+            "Business interests",
+            "Investment accounts without TOD"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Ejemplo de la vida real",
+          "en": "Real-World Example"
+        },
+        {
+          "type": "p",
+          "text": "Situación: John muere sin testamento",
+          "en": "Scenario: John dies without a will"
+        },
+        {
+          "type": "p",
+          "text": "John estaba casado con Maria y tenía dos hijos adultos de un matrimonio anterior. Su patrimonio incluye:",
+          "en": "John was married to Maria and had two adult children from a previous marriage. His estate includes:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Casa familiar (bien ganancial con Maria): $800,000",
+            "Herencia de su madre (bien propio): $300,000",
+            "401(k) con Maria como beneficiaria: $200,000"
+          ],
+          "en": [
+            "Family home (community property with Maria): $800,000",
+            "Inheritance from his mother (separate property): $300,000",
+            "401(k) with Maria as beneficiary: $200,000"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Cómo se distribuye:",
+          "en": "How it's distributed:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Casa familiar: 100% para Maria (bien ganancial)",
+            "401(k): 100% para Maria (beneficiaria designada)",
+            "Herencia de $300,000: Maria recibe 1/3 ($100,000), los hijos se reparten 2/3 ($100,000 cada uno)"
+          ],
+          "en": [
+            "Family home: 100% to Maria (community property)",
+            "401(k): 100% to Maria (named beneficiary)",
+            "$300,000 inheritance: Maria gets 1/3 ($100,000), children split 2/3 ($100,000 each)"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Preguntas frecuentes",
+          "en": "Frequently Asked Questions"
+        },
+        {
+          "type": "h3",
+          "text": "¿Qué pasa si el difunto estaba separado pero no divorciado?",
+          "en": "What if the deceased was separated but not divorced?"
+        },
+        {
+          "type": "p",
+          "text": "Legalmente, siguen casados. El cónyuge separado tiene todos los derechos de herencia bajo la sucesión sin testamento hasta que el divorcio sea definitivo.",
+          "en": "Legally, they're still married. The separated spouse has full inheritance rights under intestate succession until the divorce is finalized."
+        },
+        {
+          "type": "h3",
+          "text": "¿Puedo heredar si yo maté al difunto?",
+          "en": "Can I inherit if I killed the deceased?"
+        },
+        {
+          "type": "p",
+          "text": "No. La \"ley del homicida\" (slayer statute) de California (Código de Sucesiones § 250) impide que cualquier persona que mate al difunto de forma delictiva (feloniously) herede de él.",
+          "en": "No. California's \"slayer statute\" (Probate Code § 250) prevents anyone who feloniously kills the decedent from inheriting from them."
+        },
+        {
+          "type": "h3",
+          "text": "¿Qué pasa con los hijos nacidos fuera del matrimonio?",
+          "en": "What about children born outside of marriage?"
+        },
+        {
+          "type": "p",
+          "text": "Tienen todos los derechos de herencia siempre que la paternidad se haya establecido legalmente (mediante reconocimiento, orden de la corte o prueba genética).",
+          "en": "They have full inheritance rights as long as paternity was legally established (through acknowledgment, court order, or genetic testing)."
+        },
+        {
+          "type": "h3",
+          "text": "¿Cuánto tarda una sucesión sin testamento?",
+          "en": "How long does intestate probate take?"
+        },
+        {
+          "type": "p",
+          "text": "Por lo general de 12 a 18 meses, a veces más si identificar a los herederos es complicado. Vea nuestra guía sobre el calendario de la sucesión para más detalles.",
+          "en": "Typically 12-18 months — sometimes longer if heir identification is complicated. See our probate timeline guide for details."
+        },
+        {
+          "type": "callout",
+          "text": "¿Necesita ayuda con un patrimonio sin testamento?\nAdministrar un patrimonio sin testamento puede ser complicado. Nuestros abogados de sucesiones con experiencia pueden guiarle en el proceso por una tarifa fija de $3,995, lo que le ahorra miles en comparación con los abogados tradicionales.\nInicie su caso hoy",
+          "en": "Need Help With an Intestate Estate?\nAdministering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a flat fee of $3,995 — saving you thousands compared to traditional attorneys.\nStart Your Case Today"
+        }
+      ]
+    },
+    {
+      "component": "ExecutorDuties",
+      "path": "/learn-california-probate/executor-duties-california-probate",
+      "titleEn": "Executor Duties in California Probate: Complete Responsibilities Guide",
+      "title": "Deberes del albacea en la sucesión (probate) de California: Guía completa de responsabilidades",
+      "descriptionEn": "Comprehensive guide to executor duties in California. Learn your legal responsibilities, timeline, potential liabilities, and how to fulfill your role properly.",
+      "description": "Guía completa sobre los deberes del albacea en California. Conozca sus responsabilidades legales, el calendario, las posibles responsabilidades personales y cómo cumplir su función correctamente.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ser nombrado albacea de un patrimonio en California es a la vez un honor y una responsabilidad importante. Como albacea (también llamado \"representante personal\"), usted está obligado por ley a administrar el patrimonio, proteger sus bienes, pagar las deudas y distribuir los bienes a los beneficiarios, todo mientras maneja el sistema de cortes de sucesión (probate) de California.",
+          "en": "Being named executor of a California estate is both an honor and a significant responsibility. As executor (also called \"personal representative\"), you're legally obligated to manage the estate, protect its assets, pay debts, and distribute property to beneficiaries — all while navigating California's probate court system."
+        },
+        {
+          "type": "callout",
+          "text": "Albacea vs. administrador\nEl albacea es nombrado en un testamento. El administrador es nombrado por la corte cuando no hay testamento o cuando el albacea nombrado no puede servir. Los deberes son esencialmente idénticos. Solo cambia el proceso de nombramiento.",
+          "en": "Executor vs. Administrator\nAn executor is named in a will. An administrator is appointed by the court when there's no will or the named executor can't serve. The duties are essentially identical — only the appointment process differs."
+        },
+        {
+          "type": "h2",
+          "text": "Sus deberes fiduciarios principales",
+          "en": "Your Core Fiduciary Duties"
+        },
+        {
+          "type": "p",
+          "text": "Como albacea, usted tiene un deber fiduciario hacia el patrimonio y sus beneficiarios. Este es el deber de cuidado más alto que existe en la ley y significa que usted debe:",
+          "en": "As executor, you have a fiduciary duty to the estate and its beneficiaries. This is the highest legal duty of care and means you must:"
+        },
+        {
+          "type": "h3",
+          "text": "Deber de lealtad",
+          "en": "Duty of Loyalty"
+        },
+        {
+          "type": "p",
+          "text": "Actuar únicamente en interés de los beneficiarios, nunca para beneficio personal. Evitar los conflictos de interés.",
+          "en": "Act solely in the interest of the beneficiaries, never for personal gain. Avoid conflicts of interest."
+        },
+        {
+          "type": "h3",
+          "text": "Deber de cuidado",
+          "en": "Duty of Care"
+        },
+        {
+          "type": "p",
+          "text": "Administrar los bienes del patrimonio con prudencia. Tomar decisiones informadas. Buscar ayuda profesional cuando sea necesario.",
+          "en": "Manage estate assets prudently. Make informed decisions. Seek professional help when needed."
+        },
+        {
+          "type": "h3",
+          "text": "Deber de rendir cuentas",
+          "en": "Duty to Account"
+        },
+        {
+          "type": "p",
+          "text": "Llevar registros detallados de todas las transacciones. Presentar rendiciones de cuentas a la corte y a los beneficiarios.",
+          "en": "Keep detailed records of all transactions. Provide accountings to the court and beneficiaries."
+        },
+        {
+          "type": "h3",
+          "text": "Deber de imparcialidad",
+          "en": "Duty of Impartiality"
+        },
+        {
+          "type": "p",
+          "text": "Tratar a todos los beneficiarios de manera justa. No favorecer a un heredero sobre otro a menos que el testamento lo indique.",
+          "en": "Treat all beneficiaries fairly. Don't favor one heir over another unless the will specifies."
+        },
+        {
+          "type": "h2",
+          "text": "Lista completa de responsabilidades del albacea",
+          "en": "Complete Executor Responsibilities Checklist"
+        },
+        {
+          "type": "h3",
+          "text": "1 Acciones inmediatas (primeros 30 días)",
+          "en": "1 Immediate Actions (First 30 Days)"
+        },
+        {
+          "type": "p",
+          "text": "Encontrar el testamento original",
+          "en": "Locate the original will"
+        },
+        {
+          "type": "p",
+          "text": "Revise las cajas de seguridad, las cajas fuertes de la casa, al abogado del difunto o al secretario del condado (county clerk).",
+          "en": "Check safe deposit boxes, home safes, the decedent's attorney, or the county clerk."
+        },
+        {
+          "type": "p",
+          "text": "Obtener de 10 a 15 actas de defunción certificadas",
+          "en": "Obtain 10-15 certified death certificates"
+        },
+        {
+          "type": "p",
+          "text": "Las necesitará para los bancos, las compañías de títulos, los seguros y las agencias del gobierno.",
+          "en": "You'll need these for banks, title companies, insurance, and government agencies."
+        },
+        {
+          "type": "p",
+          "text": "Asegurar todos los bienes del patrimonio",
+          "en": "Secure all estate property"
+        },
+        {
+          "type": "p",
+          "text": "Cambie las cerraduras si es necesario, reúna los objetos de valor, redirija el correo y asegure los vehículos.",
+          "en": "Change locks if needed, collect valuables, redirect mail, secure vehicles."
+        },
+        {
+          "type": "p",
+          "text": "Notificar al Seguro Social, a los proveedores de pensiones y a los empleadores",
+          "en": "Notify Social Security, pension providers, employers"
+        },
+        {
+          "type": "p",
+          "text": "Detenga los beneficios para evitar pagos en exceso que se tendrían que devolver.",
+          "en": "Stop benefits to avoid overpayments that must be repaid."
+        },
+        {
+          "type": "p",
+          "text": "Comunicarse con un abogado de sucesiones",
+          "en": "Contact a probate attorney"
+        },
+        {
+          "type": "p",
+          "text": "Obtenga orientación sobre si se necesita la sucesión y entienda el proceso.",
+          "en": "Get guidance on whether probate is needed and understand the process."
+        },
+        {
+          "type": "h3",
+          "text": "2 Apertura de la sucesión (meses 1 a 2)",
+          "en": "2 Opening Probate (Months 1-2)"
+        },
+        {
+          "type": "p",
+          "text": "Presentar la Petición de Sucesión (Formulario DE-111)",
+          "en": "File Petition for Probate (Form DE-111)"
+        },
+        {
+          "type": "p",
+          "text": "Preséntela ante la Corte Superior del condado donde vivía el difunto.",
+          "en": "Submit to the Superior Court in the county where the decedent lived."
+        },
+        {
+          "type": "p",
+          "text": "Depositar la fianza de sucesión (si se requiere)",
+          "en": "Post probate bond (if required)"
+        },
+        {
+          "type": "p",
+          "text": "Se puede dispensar si el testamento incluye poderes \"full IAEA\".",
+          "en": "May be waived if the will includes \"full IAEA\" powers."
+        },
+        {
+          "type": "p",
+          "text": "Notificar a los herederos y beneficiarios",
+          "en": "Notify heirs and beneficiaries"
+        },
+        {
+          "type": "p",
+          "text": "Envíe por correo el Aviso de Petición (Formulario DE-121) por lo menos 15 días antes de la audiencia.",
+          "en": "Mail Notice of Petition (Form DE-121) at least 15 days before hearing."
+        },
+        {
+          "type": "p",
+          "text": "Publicar el aviso en un periódico local",
+          "en": "Publish notice in local newspaper"
+        },
+        {
+          "type": "p",
+          "text": "Se requiere durante 3 semanas consecutivas para notificar a los acreedores desconocidos.",
+          "en": "Required for 3 consecutive weeks to notify unknown creditors."
+        },
+        {
+          "type": "p",
+          "text": "Asistir a la audiencia de sucesión",
+          "en": "Attend probate hearing"
+        },
+        {
+          "type": "p",
+          "text": "La corte lo nombrará formalmente y emitirá las Cartas Testamentarias (Letters Testamentary).",
+          "en": "The court will formally appoint you and issue Letters Testamentary."
+        },
+        {
+          "type": "h3",
+          "text": "3 Administración del patrimonio (meses 2 a 12)",
+          "en": "3 Estate Administration (Months 2-12)"
+        },
+        {
+          "type": "p",
+          "text": "Abrir una cuenta bancaria del patrimonio",
+          "en": "Open estate bank account"
+        },
+        {
+          "type": "p",
+          "text": "Deposite aquí los fondos del patrimonio. Nunca los mezcle con sus fondos personales.",
+          "en": "Deposit estate funds here. Never commingle with personal funds."
+        },
+        {
+          "type": "p",
+          "text": "Hacer un inventario de todos los bienes",
+          "en": "Inventory all assets"
+        },
+        {
+          "type": "p",
+          "text": "Prepare una lista completa de bienes raíces, cuentas bancarias, inversiones y bienes personales.",
+          "en": "Create a complete list of real property, bank accounts, investments, personal property."
+        },
+        {
+          "type": "p",
+          "text": "Trabajar con el evaluador de la sucesión (probate referee) para los avalúos",
+          "en": "Work with probate referee for appraisals"
+        },
+        {
+          "type": "p",
+          "text": "El evaluador nombrado por la corte valora la mayoría de los bienes que no son efectivo.",
+          "en": "The court-appointed referee values most non-cash assets."
+        },
+        {
+          "type": "p",
+          "text": "Presentar el Inventario y Avalúo (Formulario DE-160)",
+          "en": "File Inventory and Appraisal (Form DE-160)"
+        },
+        {
+          "type": "p",
+          "text": "Vence dentro de los 4 meses siguientes al nombramiento.",
+          "en": "Due within 4 months of appointment."
+        },
+        {
+          "type": "p",
+          "text": "Notificar a los acreedores conocidos",
+          "en": "Notify known creditors"
+        },
+        {
+          "type": "p",
+          "text": "Envíe por correo el Aviso a los Acreedores (Formulario DE-157) dentro de los 30 días siguientes al nombramiento.",
+          "en": "Mail Notice to Creditors (Form DE-157) within 30 days of appointment."
+        },
+        {
+          "type": "p",
+          "text": "Revisar y pagar los reclamos válidos de los acreedores",
+          "en": "Review and pay valid creditor claims"
+        },
+        {
+          "type": "p",
+          "text": "Los acreedores tienen 4 meses para presentar sus reclamos. Evalúe cada reclamo con cuidado.",
+          "en": "Creditors have 4 months to file claims. Evaluate each claim carefully."
+        },
+        {
+          "type": "p",
+          "text": "Manejar los gastos continuos",
+          "en": "Manage ongoing expenses"
+        },
+        {
+          "type": "p",
+          "text": "Pague la hipoteca, los servicios públicos, el seguro y los impuestos sobre la propiedad con fondos del patrimonio.",
+          "en": "Pay mortgage, utilities, insurance, property taxes from estate funds."
+        },
+        {
+          "type": "p",
+          "text": "Presentar las declaraciones de impuestos",
+          "en": "File tax returns"
+        },
+        {
+          "type": "p",
+          "text": "La declaración personal final (Formulario 1040), el impuesto sobre la renta del patrimonio (Formulario 1041) y el impuesto sobre el patrimonio (Formulario 706) si corresponde.",
+          "en": "Final personal return (Form 1040), estate income tax (Form 1041), and estate tax (Form 706) if applicable."
+        },
+        {
+          "type": "h3",
+          "text": "4 Cierre del patrimonio (meses finales)",
+          "en": "4 Closing the Estate (Final Months)"
+        },
+        {
+          "type": "p",
+          "text": "Preparar la rendición de cuentas final",
+          "en": "Prepare final accounting"
+        },
+        {
+          "type": "p",
+          "text": "Documente todos los ingresos, pagos y distribuciones.",
+          "en": "Document all receipts, disbursements, and distributions."
+        },
+        {
+          "type": "p",
+          "text": "Presentar la Petición de Distribución Final",
+          "en": "File Petition for Final Distribution"
+        },
+        {
+          "type": "p",
+          "text": "Solicite la aprobación de la corte para distribuir los bienes restantes a los beneficiarios.",
+          "en": "Request court approval to distribute remaining assets to beneficiaries."
+        },
+        {
+          "type": "p",
+          "text": "Distribuir los bienes a los beneficiarios",
+          "en": "Distribute assets to beneficiaries"
+        },
+        {
+          "type": "p",
+          "text": "Transfiera los bienes, emita cheques y obtenga recibos de cada beneficiario.",
+          "en": "Transfer property, write checks, and obtain receipts from each beneficiary."
+        },
+        {
+          "type": "p",
+          "text": "Presentar los recibos ante la corte",
+          "en": "File receipts with court"
+        },
+        {
+          "type": "p",
+          "text": "Demuestre que los beneficiarios recibieron sus distribuciones.",
+          "en": "Prove that beneficiaries received their distributions."
+        },
+        {
+          "type": "p",
+          "text": "Solicitar la liberación de sus deberes",
+          "en": "Request discharge from duties"
+        },
+        {
+          "type": "p",
+          "text": "La corte lo libera oficialmente de su función de albacea.",
+          "en": "The court officially releases you from your executor role."
+        },
+        {
+          "type": "h2",
+          "text": "Compensación del albacea en California",
+          "en": "Executor Compensation in California"
+        },
+        {
+          "type": "p",
+          "text": "Según la Sección 10800 del Código de Sucesiones (Probate Code) de California, los albaceas tienen derecho a una compensación establecida por ley:",
+          "en": "Under California Probate Code Section 10800, executors are entitled to statutory compensation:"
+        },
+        {
+          "type": "h3",
+          "text": "Honorarios legales del albacea",
+          "en": "Statutory Executor Fees"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "Primeros $100,000 del valor del patrimonio",
+              "4%"
+            ],
+            [
+              "Siguientes $100,000",
+              "3%"
+            ],
+            [
+              "Siguientes $800,000",
+              "2%"
+            ],
+            [
+              "Siguientes $9,000,000",
+              "1%"
+            ],
+            [
+              "Más de $10,000,000",
+              "0.5%"
+            ]
+          ],
+          "en": [
+            [
+              "First $100,000 of estate value",
+              "4%"
+            ],
+            [
+              "Next $100,000",
+              "3%"
+            ],
+            [
+              "Next $800,000",
+              "2%"
+            ],
+            [
+              "Next $9,000,000",
+              "1%"
+            ],
+            [
+              "Above $10,000,000",
+              "0.5%"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ejemplo: Para un patrimonio de $500,000: $4,000 + $3,000 + $6,000 = $13,000 de honorarios del albacea",
+          "en": "Example: For a $500,000 estate: $4,000 + $3,000 + $6,000 = $13,000 executor fee"
+        },
+        {
+          "type": "callout",
+          "text": "Los honorarios del albacea son ingresos sujetos a impuestos\nA diferencia de las herencias (que están libres de impuestos), la compensación del albacea paga impuestos como ingreso ordinario. Muchos albaceas que son familiares eligen renunciar a los honorarios, sobre todo si también son beneficiarios.",
+          "en": "Executor Fees Are Taxable Income\nUnlike inheritances (which are tax-free), executor compensation is taxable as ordinary income. Many family member executors choose to waive fees, especially if they're also beneficiaries."
+        },
+        {
+          "type": "h2",
+          "text": "Riesgos de responsabilidad personal",
+          "en": "Personal Liability Risks"
+        },
+        {
+          "type": "p",
+          "text": "Los albaceas pueden ser personalmente responsables por:",
+          "en": "Executors can be held personally liable for:"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mala administración de los bienes: dejar que los bienes se deterioren, hacer malas inversiones o perder fondos del patrimonio",
+            "Distribuciones prematuras: distribuir bienes antes de pagar todas las deudas e impuestos",
+            "No cumplir con las fechas límite de impuestos: no presentar declaraciones ni pagar impuestos a tiempo",
+            "Autocontratación (self-dealing): usar bienes del patrimonio para beneficio personal",
+            "Ignorar a los acreedores: distribuir bienes sin atender debidamente los reclamos válidos"
+          ],
+          "en": [
+            "Mismanaging assets — Letting property deteriorate, making bad investments, or losing estate funds",
+            "Premature distributions — Distributing assets before paying all debts and taxes",
+            "Missing tax deadlines — Failing to file returns or pay taxes on time",
+            "Self-dealing — Using estate assets for personal benefit",
+            "Ignoring creditors — Distributing assets without properly addressing valid claims"
+          ]
+        },
+        {
+          "type": "callout",
+          "text": "Protéjase\nLa mejor manera de evitar la responsabilidad es: (1) llevar registros meticulosos, (2) obtener la aprobación de la corte antes de las decisiones importantes, (3) trabajar con un abogado de sucesiones y (4) nunca mezclar los fondos del patrimonio con sus fondos personales.",
+          "en": "Protect Yourself\nThe best way to avoid liability is to: (1) keep meticulous records, (2) get court approval before major decisions, (3) work with a probate attorney, and (4) never commingle estate funds with personal funds."
+        },
+        {
+          "type": "h2",
+          "text": "Preguntas frecuentes",
+          "en": "Frequently Asked Questions"
+        },
+        {
+          "type": "h3",
+          "text": "¿Puedo negarme a ser albacea?",
+          "en": "Can I decline to be an executor?"
+        },
+        {
+          "type": "p",
+          "text": "Sí. Estar nombrado en un testamento no le obliga a servir. Usted puede renunciar (negarse) antes de que la corte lo nombre. Una vez nombrado, puede presentar una petición para renunciar, pero la corte debe aprobarla.",
+          "en": "Yes. Being named in a will doesn't obligate you to serve. You can renounce (decline) before the court appoints you. Once appointed, you can petition to resign, but the court must approve."
+        },
+        {
+          "type": "h3",
+          "text": "¿Puede haber varios albaceas?",
+          "en": "Can there be multiple executors?"
+        },
+        {
+          "type": "p",
+          "text": "Sí. Por lo general, los coalbaceas deben actuar juntos y estar de acuerdo en las decisiones. Esto puede ofrecer controles mutuos, pero también puede crear conflictos. Cada coalbacea tiene derecho a la compensación legal completa.",
+          "en": "Yes. Co-executors must generally act together and agree on decisions. This can provide checks and balances but may also create conflict. Each co-executor is entitled to full statutory compensation."
+        },
+        {
+          "type": "h3",
+          "text": "¿Puede un albacea ser también beneficiario?",
+          "en": "Can an executor also be a beneficiary?"
+        },
+        {
+          "type": "p",
+          "text": "Por supuesto. Es muy común que un cónyuge o un hijo sirva como albacea y como beneficiario principal a la vez. Sin embargo, usted debe cumplir todos sus deberes con imparcialidad y documentar todo con cuidado.",
+          "en": "Absolutely. It's very common for a spouse or child to serve as both executor and primary beneficiary. However, you must still fulfill all duties impartially and document everything carefully."
+        },
+        {
+          "type": "h3",
+          "text": "¿Qué pasa si los beneficiarios no están de acuerdo con mis decisiones?",
+          "en": "What if beneficiaries disagree with my decisions?"
+        },
+        {
+          "type": "p",
+          "text": "Los beneficiarios pueden presentar objeciones ante la corte de sucesiones. La corte revisará sus acciones y determinará si fueron apropiadas. Siempre documente sus razones para las decisiones importantes.",
+          "en": "Beneficiaries can file objections with the probate court. The court will review your actions and determine if they were appropriate. Always document your reasoning for major decisions."
+        },
+        {
+          "type": "h3",
+          "text": "¿Cuánto tarda la sucesión?",
+          "en": "How long does probate take?"
+        },
+        {
+          "type": "p",
+          "text": "La sucesión en California por lo general tarda de 9 a 18 meses. Vea nuestra guía completa del calendario de la sucesión para los detalles mes por mes.",
+          "en": "California probate typically takes 9-18 months. See our complete probate timeline guide for month-by-month details."
+        },
+        {
+          "type": "callout",
+          "text": "¿Se siente abrumado por los deberes de albacea?\nNo tiene que hacerlo solo. Nuestros abogados de sucesiones con experiencia guían a los albaceas en cada paso del proceso por una tarifa fija de $3,995. Nosotros nos encargamos de los documentos, las presentaciones ante la corte y las fechas límite, y usted se enfoca en su familia.\nObtenga apoyo para el albacea hoy",
+          "en": "Overwhelmed by Executor Duties?\nYou don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a flat fee of $3,995. We handle the paperwork, court filings, and deadlines — you focus on your family.\nGet Executor Support Today"
+        }
+      ]
+    }
+  ]
+}

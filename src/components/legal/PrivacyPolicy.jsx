@@ -95,6 +95,7 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-4">
                 <li><strong>Stripe:</strong> Payment processing (PCI-compliant)</li>
                 <li><strong>Firebase/Google Cloud:</strong> Secure data storage</li>
+                <li><strong>Anthropic (our AI provider):</strong> When you ask a question with the helper in your client home, your question and a short summary of your case's status (no names, money or contact details) are sent to Anthropic to produce the answer. When you use our tool that reads uploaded tax returns to find assets, those documents are sent to Anthropic for that purpose. We do not keep a copy of helper conversations.</li>
                 <li><strong>Courts:</strong> As required for filing probate documents</li>
                 <li><strong>Newspaper publishers:</strong> For required legal notices</li>
                 <li><strong>Legal requirements:</strong> When required by law, subpoena, or court order</li>

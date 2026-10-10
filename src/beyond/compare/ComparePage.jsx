@@ -61,8 +61,7 @@ export default function ComparePage() {
 
         <p className="mt-8 text-gray-800 max-w-3xl">{page.closing}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="https://portal.myprobateca.com/book" className="bg-blue-900 text-white font-semibold rounded-lg px-6 py-3">Book a free consultation</a>
-          <a href="tel:+18183374071" className="border border-blue-900 text-blue-900 font-semibold rounded-lg px-6 py-3">Call 818-337-4071</a>
+          <a href="https://myprobateca.com/register" className="bg-blue-900 text-white font-semibold rounded-lg px-6 py-3">Start your case online</a>
         </div>
       </div>
     </BeyondPage>
