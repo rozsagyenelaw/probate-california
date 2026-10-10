@@ -304,7 +304,7 @@ const PaymentPage = () => {
                 For primary residences under $750,000
               </p>
               <p className="text-2xl font-bold text-green-600">${prices.probate.simplified.toLocaleString()}</p>
-              <p className="text-xs text-gray-500">or 3 payments of ${Math.ceil(prices.probate.simplified / 3).toLocaleString()}</p>
+              <p className="text-xs text-gray-500">or 3 payments of ${fmtDollars(installmentAmounts(prices.probate.simplified, settings)[0])}</p>
             </div>
 
             {/* Full Probate */}
@@ -336,7 +336,7 @@ const PaymentPage = () => {
                 For all estates requiring formal probate
               </p>
               <p className="text-2xl font-bold text-blue-900">${prices.probate.full.toLocaleString()}</p>
-              <p className="text-xs text-gray-500">or 3 payments of ${Math.ceil(prices.probate.full / 3).toLocaleString()}</p>
+              <p className="text-xs text-gray-500">or 3 payments of ${fmtDollars(installmentAmounts(prices.probate.full, settings)[0])}</p>
             </div>
 
             {/* Accounting Only */}

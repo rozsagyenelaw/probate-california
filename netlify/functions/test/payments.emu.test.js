@@ -92,3 +92,41 @@ test('item 29: a paid court appearance adds one hearings[] entry', async () => {
   assert.strictEqual(cs.paymentStatus, 'paid');
   assert.strictEqual((await db.collection('users').doc(uid).get()).data().serviceType, 'full');
 });
+
+test('shared Stripe account: foreign checkouts are ignored with 200, no write and no email', async () => {
+  process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_fake';
+  process.env.STRIPE_PRICE_FULL_PROBATE = 'price_full_probate_test';
+  const realStripe = require('stripe')('sk_test_fake');
+  const wh = require('../stripe-webhook.js');
+  let lineItems = [];
+  wh._setStripeForTests(Object.assign(require('stripe')('sk_test_fake'), { checkout: { sessions: { listLineItems: async () => ({ data: lineItems }) } } }));
+  const email = 'rozsagyenelaw1+w2pforeign@gmail.com';
+  await db.collection('users').doc('foreignuser').set({ email, paymentStatus: 'none' });
+  const base = { object: 'checkout.session', payment_status: 'paid', amount_total: 67500, customer_email: email, customer_details: { email, name: 'Foreign Buyer' } };
+  const cases = [
+    { name: 'living trust order without metadata', s: { ...base, id: 'cs_test_f1', success_url: 'https://livingtrustcalifornia.com/thank-you.html', metadata: {} } },
+    { name: 'living trust order (app livingtrust)', s: { ...base, id: 'cs_test_f2', success_url: 'https://livingtrustcalifornia.com/thank-you.html', metadata: { app: 'livingtrust', basePackage: 'joint_trust' } } },
+    { name: 'app probate but another site success_url', s: { ...base, id: 'cs_test_f3', success_url: 'https://livingtrustcalifornia.com/thank-you.html', metadata: { app: 'probate', serviceType: 'full' } } },
+    { name: 'site tag but another site in metadata', s: { ...base, id: 'cs_test_f4', success_url: 'https://myprobateca.com/payment-success', metadata: { app: 'probate', site: 'livingtrust', serviceType: 'full' } } },
+    { name: 'MyProbateCA tags but a foreign price (Joint Trust Plan)', items: [{ price: { id: 'price_joint_trust', product: { metadata: {} } } }], s: { ...base, id: 'cs_test_f5', success_url: 'https://myprobateca.com/payment-success', metadata: { app: 'probate', site: 'myprobateca', serviceType: 'full', paymentPlan: 'full', userId: 'foreignuser' } } }
+  ];
+  for (const c of cases) {
+    lineItems = c.items || [];
+    const payload = JSON.stringify({ id: 'evt_' + c.s.id, object: 'event', type: 'checkout.session.completed', data: { object: c.s } });
+    const sig = realStripe.webhooks.generateTestHeaderString({ payload, secret: 'whsec_test_fake' });
+    const res = await wh.handler({ httpMethod: 'POST', headers: { 'stripe-signature': sig }, body: payload, isBase64Encoded: false });
+    assert.strictEqual(res.statusCode, 200, c.name);
+    assert.match(res.body, /not a MyProbateCA checkout/, c.name);
+    assert.strictEqual((await db.collection('payments').doc(c.s.id).get()).exists, false, c.name + ': no payment row');
+    assert.strictEqual((await db.collection('mailOutbox').doc('pay-client-' + c.s.id).get()).exists, false, c.name + ': no email');
+  }
+  assert.strictEqual((await db.collection('users').doc('foreignuser').get()).data().paymentStatus, 'none');
+  assert.strictEqual((await db.collection('accountRequests').where('email', '==', email).get()).size, 0);
+  // and a real MyProbateCA price passes
+  lineItems = [{ price: { id: 'price_full_probate_test', product: {} } }];
+  const ok = { ...base, id: 'cs_test_ok1', amount_total: 399500, success_url: 'https://myprobateca.com/payment-success', metadata: { app: 'probate', site: 'myprobateca', serviceType: 'full', paymentPlan: 'full', userId: 'foreignuser' } };
+  const payload = JSON.stringify({ id: 'evt_ok1', object: 'event', type: 'checkout.session.completed', data: { object: ok } });
+  const res = await wh.handler({ httpMethod: 'POST', headers: { 'stripe-signature': realStripe.webhooks.generateTestHeaderString({ payload, secret: 'whsec_test_fake' }) }, body: payload, isBase64Encoded: false });
+  assert.strictEqual(res.statusCode, 200);
+  assert.strictEqual((await db.collection('payments').doc('cs_test_ok1').get()).exists, true);
+});

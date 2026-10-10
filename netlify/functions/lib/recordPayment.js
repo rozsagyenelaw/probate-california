@@ -177,7 +177,14 @@ async function recordInvoicePaid(stripe, db, invoiceId) {
   if (!inv.subscription && inv.parent && inv.parent.subscription_details) inv.subscription = inv.parent.subscription_details.subscription;
   if (!inv.subscription) return { skipped: 'not a subscription invoice' };
   const sub = await stripe.subscriptions.retrieve(inv.subscription);
-  if ((sub.metadata || {}).app !== 'probate') return { skipped: 'not probate' };
+  // Shared Stripe account: act only on MyProbateCA plans. New plans carry metadata.site; a legacy plan
+  // (app 'probate' only) must already have its first payment recorded here. Otherwise: no write at all.
+  const sm = sub.metadata || {};
+  if (sm.app !== 'probate' || (sm.site !== undefined && sm.site !== 'myprobateca')) return { skipped: 'not a MyProbateCA plan' };
+  if (sm.site !== 'myprobateca') {
+    const known = await db.collection('payments').where('stripeSubscriptionId', '==', inv.subscription).limit(1).get();
+    if (known.empty) return { skipped: 'legacy plan not recorded by MyProbateCA' };
+  }
   const email = (inv.customer_email || '').toLowerCase();
 
   // Stripe receipt for this charge

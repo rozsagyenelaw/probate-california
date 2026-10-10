@@ -1,8 +1,9 @@
 // Stripe webhook for MyProbateCA (shared Stripe account: only events with metadata.app === 'probate' are handled).
 // Events: checkout.session.completed, checkout.session.async_payment_succeeded, invoice.paid, charge.refunded.
 // Firestore writes: lib/recordPayment.js. Emails: lib/paymentEmails.js. 3-payment hard stop: lib/installments.js.
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+let stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { getDb } = require('./lib/firebaseAdmin');
+const { isMyProbateCheckout } = require('./lib/origin');
 const { recordCheckout, recordInvoicePaid, recordChargeRefunded } = require('./lib/recordPayment');
 const { sendPaymentEmails, queuePaymentEmails, kindOf } = require('./lib/paymentEmails');
 
@@ -39,7 +40,9 @@ exports.handler = async (event) => {
     if (stripeEvent.type === 'checkout.session.completed' || stripeEvent.type === 'checkout.session.async_payment_succeeded') {
       const session = stripeEvent.data.object;
       const meta = session.metadata || {};
-      if (meta.app !== 'probate') return ok({ skipped: 'not a probate payment' });
+      // Shared Stripe account: ignore anything that is not a MyProbateCA checkout (no write, no email)
+      const origin = await isMyProbateCheckout(stripe, session);
+      if (!origin.ok) { console.log('Ignored foreign checkout:', origin.reason); return ok({ skipped: 'not a MyProbateCA checkout' }); }
       if (session.payment_status === 'unpaid') return ok({ skipped: 'not paid yet' }); // async methods: handled on async_payment_succeeded
       const r = await recordCheckout(stripe, db, session);
       if (r.duplicate) return ok({ duplicate: true });
@@ -71,3 +74,6 @@ exports.handler = async (event) => {
   }
   return ok();
 };
+
+// Tests only: swap in a stub Stripe client (emulator tests have no network to Stripe)
+exports._setStripeForTests = (stub) => { stripe = stub; };

@@ -38,7 +38,7 @@ async function lineItemFor(stripe, line) {
       console.warn(`Stripe price ${id.slice(-4)} amount ${p.unit_amount} differs from ${line.cents}; using inline price`);
     } catch (e) { console.warn('price lookup failed:', e.message); }
   }
-  return { price_data: { currency: 'usd', product_data: { name: line.label }, unit_amount: line.cents }, quantity: 1 };
+  return { price_data: { currency: 'usd', product_data: { name: line.label, metadata: { site: 'myprobateca' } }, unit_amount: line.cents }, quantity: 1 };
 }
 
 async function resolvePromo(stripe, db, code) {
@@ -85,7 +85,7 @@ async function createCheckout(stripe, db, params, settings) {
     line_items.push({
       price_data: {
         currency: 'usd',
-        product_data: { name: `${order.description} (3 monthly payments)`, description: `Total $${(amounts.reduce((a, b) => a + b, 0) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} in 3 monthly payments. Stops after the third payment.` },
+        product_data: { name: `${order.description} (3 monthly payments)`, metadata: { site: 'myprobateca' }, description: `Total $${(amounts.reduce((a, b) => a + b, 0) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} in 3 monthly payments. Stops after the third payment.` },
         unit_amount: amounts[0],
         recurring: { interval: 'month', interval_count: 1 }
       },
@@ -98,6 +98,7 @@ async function createCheckout(stripe, db, params, settings) {
   const chargedToday = mode === 'payment' ? order.totalCents : amounts[0];
   const metadata = {
     app: 'probate',
+    site: 'myprobateca',
     serviceType: params.serviceType,
     probateType: params.probateType || '',
     accountingAddon: params.accountingAddon || '',

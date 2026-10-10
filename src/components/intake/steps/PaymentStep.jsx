@@ -97,8 +97,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
 
   // Pricing for each probate type and accounting
   const probatePricing = {
-    simplified: { price: 2495, installment: 832 },
-    full: { price: 3995, installment: 1332 }
+    simplified: { price: 2495 },
+    full: { price: 3995 }
   };
 
   const accountingPricing = {
@@ -323,7 +323,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               <h4 className="font-bold text-gray-900">Simplified Probate</h4>
             </div>
             <p className="text-2xl font-bold text-green-600 mb-1">$2,495</p>
-            <p className="text-xs text-gray-500 mb-3">or 3 payments of $832/mo</p>
+            <p className="text-xs text-gray-500 mb-3">or 3 payments of ${fmtDollars(installmentAmounts(2495, settings)[0])}/mo</p>
             <p className="text-sm text-gray-600 mb-2">For primary residences under $750,000</p>
             {!estateAnalysis.qualifiesForSimplified && (
               <p className="text-xs text-red-600 mt-2">
@@ -353,7 +353,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               <h4 className="font-bold text-gray-900">Full Probate</h4>
             </div>
             <p className="text-2xl font-bold text-blue-900 mb-1">$3,995</p>
-            <p className="text-xs text-gray-500 mb-3">or 3 payments of $1,332/mo</p>
+            <p className="text-xs text-gray-500 mb-3">or 3 payments of ${fmtDollars(installmentAmounts(3995, settings)[0])}/mo</p>
             <p className="text-sm text-gray-600">For all estates requiring formal probate</p>
           </button>
         </div>

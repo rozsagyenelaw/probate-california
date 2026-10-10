@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
 import ClientLoginButton from '../common/ClientLoginButton';
+import { useBusinessSettings, installmentAmounts, fmtDollars } from '../../services/businessSettings';
 import {
   Scale,
   Check,
@@ -87,6 +88,10 @@ const calculateStatutoryFee = (estateValue) => {
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const businessSettings = useBusinessSettings();
+  // 3-payment plan amounts exactly as charged (lib/pricing.js installmentSchedule)
+  const planSimplified = installmentAmounts(2495, businessSettings);
+  const planFull = installmentAmounts(3995, businessSettings);
   const { user, logout, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [estateValue, setEstateValue] = useState(750000);
@@ -156,7 +161,7 @@ const LandingPage = () => {
     },
     {
       q: 'What payment options do you offer?',
-      a: 'We offer several ways to pay: Pay in full ($2,495 or $3,995), split into 3 monthly payments at no extra cost, or use Klarna for 4 interest-free payments (subject to approval). You can select your preferred payment method at checkout. Klarna approval is instant and doesn\'t affect your credit score for the initial check.'
+      a: 'We offer several ways to pay: Pay in full ($2,495 or $3,995), split into 3 monthly payments (one third of the fee each month, and the plan stops after the third payment), or pay over time with Klarna, subject to Klarna\'s approval. Klarna shows you its plan and the exact amounts before you agree. You choose how to pay at checkout.'
     }
   ];
 
@@ -928,9 +933,9 @@ const LandingPage = () => {
                 <div className="text-center mb-6">
                   <p className="text-4xl font-bold text-gray-900">$2,495</p>
                   <p className="text-gray-500">flat fee</p>
-                  <p className="text-sm text-green-600 mt-1">or 3 payments of $832 — no extra charge</p>
+                  <p className="text-sm text-green-600 mt-1">or 3 monthly payments of ${fmtDollars(planSimplified[0])}, then the plan stops</p>
                   <p className="text-sm text-gray-600 mt-2">
-                    or 4 interest-free payments of $624 with <span className="font-bold text-pink-600">Klarna</span>
+                    or pay over time with <span className="font-bold text-pink-600">Klarna</span> (subject to approval)
                   </p>
                 </div>
 
@@ -993,9 +998,9 @@ const LandingPage = () => {
                 <div className="text-center mb-6">
                   <p className="text-4xl font-bold text-gray-900">$3,995</p>
                   <p className="text-gray-500">flat fee</p>
-                  <p className="text-sm text-blue-600 mt-1">or 3 payments of $1,332 — no extra charge</p>
+                  <p className="text-sm text-blue-600 mt-1">or 3 monthly payments of ${fmtDollars(planFull[0])}, then the plan stops</p>
                   <p className="text-sm text-gray-600 mt-2">
-                    or 4 interest-free payments of $999 with <span className="font-bold text-pink-600">Klarna</span>
+                    or pay over time with <span className="font-bold text-pink-600">Klarna</span> (subject to approval)
                   </p>
                 </div>
 
@@ -1064,8 +1069,8 @@ const LandingPage = () => {
                 <div className="h-6 flex items-center justify-center mb-2">
                   <span className="text-pink-500 font-bold text-sm">Klarna</span>
                 </div>
-                <p className="font-semibold text-gray-900">4 Interest-Free Payments</p>
-                <p className="text-sm text-gray-500">Pay in 4 with Klarna — subject to approval</p>
+                <p className="font-semibold text-gray-900">Pay Over Time with Klarna</p>
+                <p className="text-sm text-gray-500">Subject to Klarna's approval</p>
               </div>
             </div>
             <p className="text-center text-xs text-gray-500 mt-4">
