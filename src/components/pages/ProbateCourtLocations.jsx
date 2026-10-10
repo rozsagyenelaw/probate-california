@@ -451,7 +451,7 @@ const ProbateCourtLocations = () => {
                 </a>
                 <a href="https://livingtrust-attorneys.com/" target="_blank" rel="noopener noreferrer" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
                   <h3 className="font-bold text-lg text-blue-600 mb-2">Full-Service Estate Planning</h3>
-                  <p className="text-gray-600">Comprehensive attorney consultation for complex estates, trust administration, and advanced planning strategies.</p>
+                  <p className="text-gray-600">Estate planning for complex estates, trust administration, and advanced planning strategies.</p>
                 </a>
               </div>
             </div>

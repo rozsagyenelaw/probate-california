@@ -10,9 +10,11 @@ export const ADS_LABELS = {
   lead: 'Q45UCLeRjJgdEL_C0dcD',
   // "MyProbateCA - Purchase", category Purchase, count Every, value from checkout
   purchase: 'kp1LCLqRjJgdEL_C0dcD',
-  // "MyProbateCA - Consultation booked", category Book appointment, count One (fires on the portal)
+  // "MyProbateCA - Consultation booked": retired with booking (section 24); kept only so old reports read
   booking: 'R1D2CL2RjJgdEL_C0dcD',
 };
 
-// Free consultation booking lives on the client portal
-export const BOOKING_URL = 'https://portal.myprobateca.com/book';
+// Section 24 of Rozsa's decisions: MyProbateCA never offers or links to a consultation.
+// Every call to action starts (or continues) the case online, in the client home with the progress bar.
+export const START_URL = 'https://portal.myprobateca.com/start';
+export const CONTINUE_URL = 'https://portal.myprobateca.com/';

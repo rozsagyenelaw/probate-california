@@ -1,5 +1,5 @@
 import React from 'react';
-import { BOOKING_URL } from '../../../config/tracking';
+import { START_URL, CONTINUE_URL } from '../../../config/tracking';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import ArticleLayout from './ArticleLayout';
@@ -632,16 +632,16 @@ const ProbateTimeline = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href={BOOKING_URL}
+                href={START_URL}
                 className="bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold text-center hover:bg-blue-50 transition-colors"
               >
-                Schedule Free Consultation
+                Start your case online
               </a>
               <a
-                href="tel:+18183374071"
+                href={CONTINUE_URL}
                 className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold text-center hover:bg-white/10 transition-colors"
               >
-                Call 818-337-4071
+                Continue your case
               </a>
             </div>
           </section>

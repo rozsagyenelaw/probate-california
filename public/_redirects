@@ -14,7 +14,9 @@
 /admin/messages    https://portal.myprobateca.com/admin/tools/messages    302!
 /admin    https://portal.myprobateca.com/admin    302!
 # Old or mistyped addresses that were linked from the site
-/free-consultation    https://portal.myprobateca.com/book    301!
+/free-consultation    https://portal.myprobateca.com/start    301!
+/book    https://portal.myprobateca.com/start    301!
+/book-appointment    https://portal.myprobateca.com/start    301!
 /california-probate-courts    /probate-court-locations-california    301!
 /learn-california-probate/probate-timeline-california    /learn-california-probate/probate-timeline-california-what-to-expect    301!
 # Public pages are prerendered to .html files (served directly). Everything else is the app.

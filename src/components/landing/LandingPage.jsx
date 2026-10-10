@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LazyMapFrame from '../common/LazyMapFrame';
-import { BOOKING_URL } from '../../config/tracking';
+import { START_URL } from '../../config/tracking';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
@@ -633,13 +633,13 @@ const LandingPage = () => {
 
           <div className="text-center mt-10">
             <p className="text-lg text-gray-600 mb-6">
-              Get full attorney service at a fraction of the cost.
+              Attorney-prepared court documents at a fraction of the cost, all online.
             </p>
             <a
-              href={BOOKING_URL}
+              href={START_URL}
               className="bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center"
             >
-              Start Your Probate — Free Consultation
+              Start your case online
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
           </div>

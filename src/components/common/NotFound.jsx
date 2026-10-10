@@ -1,8 +1,8 @@
 import React from 'react';
-import { BOOKING_URL } from '../../config/tracking';
+import { START_URL, CONTINUE_URL } from '../../config/tracking';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Scale, Home, Phone, BookOpen, MapPin, HelpCircle } from 'lucide-react';
+import { Scale, Home, BookOpen, MapPin, HelpCircle } from 'lucide-react';
 import ClientLoginButton from './ClientLoginButton';
 
 const NotFound = () => {
@@ -93,21 +93,20 @@ const NotFound = () => {
           <div className="bg-blue-900 text-white rounded-xl p-8">
             <h3 className="text-xl font-bold mb-2">Need Help with California Probate?</h3>
             <p className="text-blue-100 mb-6">
-              Our licensed attorney handles all 11 phases for a flat $3,995 fee.
+              Attorney-prepared probate court documents for a flat fee, all online: $2,495 for simplified probate or $3,995 for full probate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href={BOOKING_URL}
+                href={START_URL}
                 className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
               >
-                Get Started - Free Consultation
+                Start your case online
               </a>
               <a
-                href="tel:+18183374071"
+                href={CONTINUE_URL}
                 className="flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
               >
-                <Phone className="h-5 w-5" />
-                818-337-4071
+                Continue your case
               </a>
             </div>
           </div>

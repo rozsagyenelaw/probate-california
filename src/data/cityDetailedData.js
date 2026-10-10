@@ -198,7 +198,7 @@ export const LOCAL_STATS = {
     avgDuration: "12-18 months",
     filingVolume: "Lower volume, higher complexity",
     examinerNotes: "High-value estates receive additional scrutiny—expect detailed asset verification requests",
-    localTip: "Calabasas estates often benefit from probate referee pre-consultation"
+    localTip: "Calabasas estates often benefit from early contact with the probate referee"
   },
   'santa-monica': {
     avgDuration: "10-14 months",
@@ -252,7 +252,7 @@ export const LOCAL_STATS = {
     avgDuration: "12-18 months",
     filingVolume: "Lower volume, ultra-high value",
     examinerNotes: "Complex estates with multiple appraisers require careful coordination",
-    localTip: "High-value estates benefit from early probate referee consultation"
+    localTip: "High-value estates benefit from early contact with the probate referee"
   },
   'goleta': {
     avgDuration: "8-12 months",

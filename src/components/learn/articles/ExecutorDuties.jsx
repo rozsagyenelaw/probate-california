@@ -35,7 +35,7 @@ const ExecutorDuties = () => {
         "name": "What is the first thing an executor should do?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The first priorities are: (1) locate and secure the original will, (2) obtain multiple certified copies of the death certificate, (3) secure all estate assets to prevent loss or theft, and (4) consult with a probate attorney to understand the process and timeline."
+          "text": "The first priorities are: (1) locate and secure the original will, (2) obtain multiple certified copies of the death certificate, (3) secure all estate assets to prevent loss or theft, and (4) learn the probate steps and timeline before you file, for example in our step-by-step guides."
         }
       },
       {
