@@ -168,6 +168,12 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // Shared business settings (Rozsa's answers). No secrets: anyone may read; only admin writes.
+    match /config/business {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     // Email Sequences collection - managed by Cloud Functions
     match /emailSequences/{sequenceId} {
       allow read: if isAdmin();
