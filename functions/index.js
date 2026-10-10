@@ -1,3 +1,7 @@
+// OLD COPY, NEVER DEPLOYED. The live Cloud Functions are in the myprobateca-portal repo (functions/index.js).
+// This folder has no entry in firebase.json on purpose: deploying it would recreate deleted insecure
+// functions and delete the live ones. Kept for history only.
+
 require('dotenv').config();
 const functions = require('firebase-functions/v2');
 const admin = require('firebase-admin');
