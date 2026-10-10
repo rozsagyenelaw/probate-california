@@ -99,7 +99,7 @@ const RequestAccounting = () => {
       }
     } catch (err) {
       console.error('Error creating checkout:', err);
-      setError(err.message || 'Failed to process request. Please contact us at 818-337-4071.');
+      setError(err.message || 'We could not start the payment. Please try again. If it keeps happening, send us a message from your client portal.');
       setSubmitting(false);
     }
   };
@@ -332,10 +332,7 @@ const RequestAccounting = () => {
         <div className="mt-8 text-center">
           <p className="text-gray-600 mb-2">Have questions about which option is right for you?</p>
           <p className="text-gray-900">
-            Call us at{' '}
-            <a href="tel:+18183374071" className="text-blue-900 font-medium hover:underline">
-              818-337-4071
-            </a>
+            You can <a href="https://portal.myprobateca.com" className="text-blue-900 font-medium hover:underline">send us a message from your client portal</a>.
           </p>
         </div>
       </main>

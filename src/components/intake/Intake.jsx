@@ -203,7 +203,7 @@ const Intake = () => {
       let data = {};
       try { data = await response.json(); } catch { /* handled below */ }
       if (!response.ok) {
-        setError(data.error || 'We could not send your answers. Please try again or call 818-337-4071.');
+        setError(data.error || 'We could not send your answers. Please try again. If it keeps happening, send us a message from your client portal.');
         setIsSubmitting(false);
         return;
       }
@@ -252,14 +252,14 @@ const Intake = () => {
       if (typeof next === 'string' && (next.startsWith('https://') || next.startsWith('/'))) {
         window.location.href = next;
       } else {
-        setError('We could not start the payment. Please call 818-337-4071.');
+        setError('We could not start the payment. Please try again. If it keeps happening, send us a message from your client portal.');
         setIsSubmitting(false);
       }
     } catch (err) {
       console.error('Intake: error submitting:', err.code || '', err.message);
       setError(err.message?.includes('offline')
         ? 'Connection problem. Please check your internet connection and try again.'
-        : 'We could not send your answers. Please try again or call 818-337-4071.');
+        : 'We could not send your answers. Please try again. If it keeps happening, send us a message from your client portal.');
       setIsSubmitting(false);
     }
   };
@@ -431,14 +431,7 @@ const Intake = () => {
         {/* Help Section */}
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>
-            Questions? Call{' '}
-            <a href="tel:+18183374071" className="text-blue-900 font-medium hover:underline">
-              818-337-4071
-            </a>
-            {' '}or email{' '}
-            <a href="mailto:rozsa@myprobateca.com" className="text-blue-900 font-medium hover:underline">
-              rozsa@myprobateca.com
-            </a>
+            Questions? You can <a href="https://portal.myprobateca.com" className="text-blue-900 font-medium hover:underline">send us a message from your client portal</a>.
           </p>
         </div>
       </main>

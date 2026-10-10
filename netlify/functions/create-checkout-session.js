@@ -60,6 +60,6 @@ exports.handler = async (event) => {
   } catch (error) {
     console.error('Stripe checkout error:', error.type || '', error.message);
     if (error.userFacing) return { statusCode: error.status || 400, headers, body: JSON.stringify({ error: error.message, code: error.code || null }) };
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'An error occurred processing your request. Please try again or call 818-337-4071.' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Something went wrong. Please try again in a moment. If it keeps happening, send us a message from your client portal or use the contact details at the bottom of myprobateca.com.' }) };
   }
 };

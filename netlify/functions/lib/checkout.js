@@ -173,6 +173,8 @@ async function createCheckout(stripe, db, params, settings) {
     mode,
     line_items,
     payment_method_types: mode === 'payment' ? ['card', 'klarna'] : ['card'],
+    // US dollars only: no adaptive pricing (no local-currency conversion), so the amount in trust equals the fee exactly
+    adaptive_pricing: { enabled: false },
     success_url: `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&amount=${(chargedToday / 100).toFixed(2)}`,
     cancel_url: params.cancelPath ? `${baseUrl}${params.cancelPath}` : `${baseUrl}/payment?canceled=true`,
     metadata

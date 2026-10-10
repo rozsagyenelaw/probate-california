@@ -99,6 +99,6 @@ exports.handler = async (event) => {
   } catch (err) {
     console.error('submit-intake error:', err.message);
     if (err.userFacing) return { statusCode: err.status || 400, headers, body: JSON.stringify({ error: err.message, code: err.code || null }) };
-    return { statusCode: 500, headers, body: JSON.stringify({ error: 'We could not send your answers. Please try again or call 818-337-4071.' }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'We could not send your answers. Please try again. If it keeps happening, send us a message from your client portal.' }) };
   }
 };
