@@ -4,7 +4,10 @@ import businessDefaults from '../config/businessDefaults';
 
 // config/business is publicly readable, so it is read with one REST call instead of the Firebase SDK:
 // public pages (home, FAQ) then do not have to download and start Firebase just to show prices.
-const BUSINESS_DOC_URL = `https://firestore.googleapis.com/v1/projects/${import.meta.env.VITE_FIREBASE_PROJECT_ID || 'probate-california'}/databases/(default)/documents/config/business`;
+const PROJECT = import.meta.env.VITE_FIREBASE_PROJECT_ID || 'probate-california';
+const DB_PATH = `projects/${PROJECT}/databases/(default)/documents`;
+// batchGet answers 200 even while the document does not exist yet (no 404 in the console)
+const BATCH_GET_URL = `https://firestore.googleapis.com/v1/${DB_PATH}:batchGet`;
 function fromFirestoreValue(v) {
   if (!v || typeof v !== 'object') return null;
   if ('nullValue' in v) return null;
@@ -23,8 +26,11 @@ export async function loadBusinessSettings() {
   if (cached) return cached;
   let live = {};
   try {
-    const r = await fetch(BUSINESS_DOC_URL);
-    if (r.ok) { const j = await r.json(); live = fromFirestoreValue({ mapValue: { fields: j.fields || {} } }) || {}; }
+    const r = await fetch(BATCH_GET_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ documents: [`${DB_PATH}/config/business`] }) });
+    if (r.ok) {
+      const found = ((await r.json()) || []).find((x) => x && x.found);
+      if (found) live = fromFirestoreValue({ mapValue: { fields: found.found.fields || {} } }) || {};
+    }
   } catch { /* public read not available yet: defaults */ }
   const merged = { ...businessDefaults };
   for (const k of Object.keys(businessDefaults)) if (live[k] !== undefined && live[k] !== null) merged[k] = live[k];
