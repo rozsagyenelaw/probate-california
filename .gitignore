@@ -32,3 +32,11 @@ functions/.env
 # Firebase
 .firebase/
 firebase-debug.log
+
+# Local Netlify folder and netlify dev files
+.netlify
+deno.lock
+
+# Any debug log (firebase-debug.log, firestore-debug.log, ...)
+*-debug.log
+*-debug.*.log
