@@ -58,7 +58,7 @@ const ProbateCourtLocations = () => {
         "description": "Professional attorney-led probate administration across 35 California cities. Flat $3,995 fee.",
         "url": "https://myprobateca.com/probate-court-locations-california",
         "telephone": "+1-818-337-4071",
-        "priceRange": "$3,995",
+        "priceRange": "$2,495 to $3,995",
         "areaServed": {
           "@type": "State",
           "name": "California"

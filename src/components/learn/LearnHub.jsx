@@ -182,7 +182,7 @@ const LearnHub = () => {
         "@id": "https://myprobateca.com/learn-california-probate/#webpage",
         "name": "California Probate Learning Center | Attorney Guides & Executor Resources",
         "description": "Comprehensive educational resource for California executors. In-depth articles on Stanley Mosk court procedures, bond requirements, fee structures, and the 11-phase probate process.",
-        "url": "https://myprobateca.com/learn-california-probate/",
+        "url": "https://myprobateca.com/learn-california-probate",
         "publisher": {
           "@id": "https://myprobateca.com/#organization"
         }
@@ -194,18 +194,18 @@ const LearnHub = () => {
         "url": "https://myprobateca.com/",
         "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
-        "priceRange": "$3,995"
+        "priceRange": "$2,495 to $3,995"
       },
       {
         "@type": "Blog",
         "@id": "https://myprobateca.com/learn-california-probate/#blog",
         "name": "The California Probate Insider",
         "description": "Expert tips on navigating California probate courts, clearing examiner notes, understanding fees, and protecting yourself as executor.",
-        "url": "https://myprobateca.com/learn-california-probate/",
+        "url": "https://myprobateca.com/learn-california-probate",
         "blogPost": ARTICLES.map(article => ({
           "@type": "BlogPosting",
           "headline": article.title,
-          "url": `https://myprobateca.com/learn-california-probate/${article.slug}/`,
+          "url": `https://myprobateca.com/learn-california-probate/${article.slug}`,
           "author": { "@id": "https://myprobateca.com/#attorney" }
         }))
       }
@@ -218,11 +218,11 @@ const LearnHub = () => {
         <title>California Probate Learning Center | Attorney Guides & Executor Resources</title>
         <meta name="description" content="Master California probate with attorney-verified guides. Learn about Stanley Mosk court procedures, clearing IGN notes, bond requirements, and how to save $19,000+ on statutory fees." />
         <meta name="keywords" content="california probate guide, how to probate california, stanley mosk courthouse, probate referee, executor duties california, IGN notes probate" />
-        <link rel="canonical" href="https://myprobateca.com/learn-california-probate/" />
+        <link rel="canonical" href="https://myprobateca.com/learn-california-probate" />
 
         <meta property="og:title" content="California Probate Learning Center | Expert Guides for Executors" />
         <meta property="og:description" content="Comprehensive educational resource for California executors. In-depth articles on court procedures, fees, and the 11-phase process." />
-        <meta property="og:url" content="https://myprobateca.com/learn-california-probate/" />
+        <meta property="og:url" content="https://myprobateca.com/learn-california-probate" />
         <meta property="og:type" content="website" />
 
         <script type="application/ld+json">

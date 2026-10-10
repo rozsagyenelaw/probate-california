@@ -2,9 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig({
+// The SSR build (src/entry-server.jsx) is only used at build time by scripts/prerender.mjs.
+export default defineConfig(({ isSsrBuild }) => ({
   plugins: [react()],
-  build: {
+  ssr: {
+    // bundle these so the build-time renderer does not depend on their Node entry points
+    noExternal: ['react-helmet-async', 'lucide-react'],
+  },
+  build: isSsrBuild ? {} : {
     rollupOptions: {
       output: {
         manualChunks: {
@@ -16,4 +21,4 @@ export default defineConfig({
       }
     }
   }
-})
+}))

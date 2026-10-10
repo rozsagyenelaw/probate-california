@@ -817,8 +817,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
             className="h-5 w-5 text-blue-600 rounded mt-0.5 mr-3"
           />
           <span className="text-sm text-gray-700">
-            I agree to the <a href="#" className="text-blue-600 underline">Terms of Service</a> and
-            <a href="#" className="text-blue-600 underline"> Privacy Policy</a>. I understand that
+            I agree to the <a href="/terms" target="_blank" rel="noopener" className="text-blue-600 underline">Terms of Service</a> and
+            <a href="/privacy" target="_blank" rel="noopener" className="text-blue-600 underline"> Privacy Policy</a>. I understand that
             this is a legal service for California probate matters and that results may vary
             based on individual circumstances.
           </span>

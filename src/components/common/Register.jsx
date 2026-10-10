@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { trackLead } from '../../services/analytics';
 import { Link, useNavigate } from 'react-router-dom';
 import { Scale, AlertCircle, CheckCircle } from 'lucide-react';
 import { httpsCallable } from 'firebase/functions';
@@ -44,6 +45,7 @@ const Register = () => {
         source: 'register'
       });
       setSentTo(formData.email.trim().toLowerCase());
+      trackLead('register');
     } catch (err) {
       console.error('Registration error:', err);
       setError(err.message || 'Failed to start your case. Please try again.');

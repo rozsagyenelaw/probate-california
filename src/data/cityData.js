@@ -577,5 +577,5 @@ export const CITY_ITEM_LIST = ALL_CITIES.map((city, index) => ({
   "@type": "ListItem",
   "position": index + 1,
   "name": `${city.name} Probate Attorney`,
-  "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney/`
+  "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney`
 }));

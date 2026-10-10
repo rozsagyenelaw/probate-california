@@ -1,4 +1,5 @@
 import React from 'react';
+import { BOOKING_URL } from '../../../config/tracking';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import ArticleLayout from './ArticleLayout';
@@ -336,7 +337,7 @@ const ProbateTimeline = () => {
             <p className="text-gray-700 mb-4">
               Understanding the probate timeline helps executors and beneficiaries set realistic expectations
               and plan accordingly. While you can't eliminate the waiting periods, working with an
-              experienced <Link to="/california-probate-courts" className="text-blue-600 hover:underline">probate attorney familiar with your local court</Link> can
+              experienced <Link to="/probate-court-locations-california" className="text-blue-600 hover:underline">probate attorney familiar with your local court</Link> can
               help minimize unnecessary delays.
             </p>
 
@@ -630,12 +631,12 @@ const ProbateTimeline = () => {
               case moving efficiently through each phase, minimizing delays and reducing stress.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/free-consultation"
+              <a
+                href={BOOKING_URL}
                 className="bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold text-center hover:bg-blue-50 transition-colors"
               >
                 Schedule Free Consultation
-              </Link>
+              </a>
               <a
                 href="tel:+18183374071"
                 className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold text-center hover:bg-white/10 transition-colors"

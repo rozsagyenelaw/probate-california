@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { isFirebaseConfigured, getAuthMethods, getFirestoreMethods } from '../services/firebaseLazy';
+
+// Public marketing pages do not need the sign-in state to show their content, so Firebase
+// (about 250 KB plus an auth frame) starts there only after the visitor interacts or the page
+// has been idle a few seconds. Every other page starts it immediately.
+const PUBLIC_PREFIXES = ['/california-probate-administration', '/probate-court-locations-california',
+  '/probate-faq-california', '/locations/', '/learn-california-probate', '/terms', '/privacy'];
+const isPublicPath = (path) => path === '/' || PUBLIC_PREFIXES.some((p) => path === p || path.startsWith(p.endsWith('/') ? p : `${p}/`));
+const AUTH_IDLE_MS = 4000;
 
 const AuthContext = createContext({});
 
@@ -29,10 +38,29 @@ export const AuthProvider = ({ children }) => {
   const authMethodsRef = useRef(null);
   const firestoreMethodsRef = useRef(null);
   const unsubscribeRef = useRef(null);
+  const { pathname } = useLocation();
+  const [authStarted, setAuthStarted] = useState(() => !isPublicPath(pathname));
+
+  // On public pages, start Firebase on first interaction or when idle
+  useEffect(() => {
+    if (authStarted) return undefined;
+    if (!isPublicPath(pathname)) { setAuthStarted(true); return undefined; }
+    const events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+    let timer;
+    const start = () => setAuthStarted(true);
+    events.forEach((e) => window.addEventListener(e, start, { capture: true, passive: true, once: true }));
+    const idle = () => { timer = setTimeout(start, AUTH_IDLE_MS); };
+    if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('load', idle);
+      events.forEach((e) => window.removeEventListener(e, start, { capture: true }));
+    };
+  }, [authStarted, pathname]);
 
   // Initialize Firebase lazily
   useEffect(() => {
-    if (!isFirebaseConfigured) return;
+    if (!isFirebaseConfigured || !authStarted) return;
 
     let mounted = true;
 
@@ -87,7 +115,7 @@ export const AuthProvider = ({ children }) => {
         unsubscribeRef.current();
       }
     };
-  }, []);
+  }, [authStarted]);
 
   // Login function
   const login = useCallback(async (email, password) => {

@@ -5,43 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Preload critical resources for LCP -->
-    <link rel="preload" href="/lady-justice.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="preload" href="/Rozsa-Gyene.webp" as="image" type="image/webp" />
-
-    <!-- SEO Meta Tags -->
-    <title>California Probate from $2,495 | Attorney Service | Law Offices of Rozsa Gyene</title>
-    <meta name="description" content="California probate from $2,495. Simplified or Full Service. Licensed attorney handles all 11 phases. Save $20,000+ vs traditional fees. Free consultation." />
-    <meta name="keywords" content="California probate, probate attorney, estate administration, probate lawyer, Los Angeles probate, flat fee probate, affordable probate" />
+    <!-- Each page sets its own title, description, canonical and social tags (react-helmet-async,
+         written into the static HTML at build time by scripts/prerender.mjs). Only site-wide tags here. -->
+    <title>MyProbateCA</title>
     <meta name="author" content="Law Offices of Rozsa Gyene" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://myprobateca.com/" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://myprobateca.com/" />
-    <meta property="og:title" content="California Probate from $2,495 | Attorney Service" />
-    <meta property="og:description" content="California probate from $2,495. Simplified or Full Service. Licensed attorney handles all 11 phases. Save $20,000+ vs traditional fees. Free consultation." />
-    <meta property="og:image" content="https://myprobateca.com/Rozsa-Gyene.jpg" />
     <meta property="og:site_name" content="Law Offices of Rozsa Gyene" />
     <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://myprobateca.com/" />
-    <meta name="twitter:title" content="California Probate from $2,495 | Attorney Service" />
-    <meta name="twitter:description" content="California probate from $2,495. Simplified or Full Service. Licensed attorney handles all 11 phases. Save $20,000+ vs traditional fees. Free consultation." />
-    <meta name="twitter:image" content="https://myprobateca.com/Rozsa-Gyene.jpg" />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#1e3a8a" />
     <meta name="msapplication-TileColor" content="#1e3a8a" />
 
-    <!-- Fonts - Non-blocking with preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <!-- Fonts: the system UI font of each device (no font download, so text shows at once) -->
 
   </head>
   <body>
@@ -56,11 +32,11 @@
       "@id": "https://myprobateca.com/#organization",
       "name": "MyProbateCA - Attorney-Guided California Probate",
       "alternateName": "My Probate CA",
-      "description": "Full-service California probate administration guided by a licensed attorney. From petition filing to final distribution for a flat $3,995 fee.",
+      "description": "California probate guided by a licensed attorney: Simplified Probate $2,495 or Full Service $3,995, flat fee.",
       "url": "https://myprobateca.com",
       "telephone": "+1-818-337-4071",
       "email": "rozsa@myprobateca.com",
-      "priceRange": "$$",
+      "priceRange": "$2,495 to $3,995",
       "currenciesAccepted": "USD",
       "paymentAccepted": "Credit Card, Debit Card",
       "address": {
@@ -156,13 +132,79 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
+              "name": "Simplified Probate",
+              "description": "Attorney-prepared California probate court documents for simpler estates, with online case tracking."
+            },
+            "price": "2495.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
               "name": "Full-Service Probate Administration",
-              "description": "Complete California probate from initial petition through final distribution. Includes all court forms, hearing preparation, inventory filing, creditor management, and asset distribution."
+              "description": "Attorney-prepared California probate court documents from the first petition to final distribution, with clearing of probate notes and online case tracking."
             },
             "price": "3995.00",
             "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Probate Accounting (Simple)",
+              "description": "Add-on: preparation of a simple court accounting."
+            },
+            "price": "995.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Probate Accounting (Complex)",
+              "description": "Add-on: preparation of a complex court accounting."
+            },
+            "price": "1995.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Court Hearing Appearance (Remote)",
+              "description": "Optional add-on: attorney appearance at a probate hearing."
+            },
+            "price": "500.00",
+            "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "priceValidUntil": "2026-12-31"
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "500.00",
+              "priceCurrency": "USD",
+              "unitText": "per hearing"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Contested or Complex Hearing Appearance",
+              "description": "Optional add-on: attorney appearance at a contested or complex probate hearing."
+            },
+            "price": "600.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "600.00",
+              "priceCurrency": "USD",
+              "unitText": "per hearing"
+            }
           }
         ]
       },

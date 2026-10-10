@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { trackLead } from '../../services/analytics';
 import { useNavigate } from 'react-router-dom';
 import { Scale, ArrowLeft, ArrowRight, Check, Loader2 } from 'lucide-react';
 import { doc, setDoc, serverTimestamp, collection, getDocs, query, where } from 'firebase/firestore';
@@ -207,14 +208,8 @@ const Intake = () => {
       }
       const caseId = data.caseId;
 
-      // Fire Google Ads lead conversion for questionnaire completion (W2-tracking owns this)
-      if (typeof window !== 'undefined' && window.gtag) {
-        window.gtag('event', 'conversion', {
-          'send_to': 'AW-989094207/LEAD_CONVERSION_LABEL',  // Replace with actual lead conversion label from Google Ads
-          'value': paymentInfo.totalAmount || 3995,
-          'currency': 'USD'
-        });
-      }
+      // Lead: GA4 generate_lead + the MyProbateCA Google Ads lead conversion
+      trackLead('intake_complete');
 
       // Save uploaded documents to the documents collection
       const documentCategoryMap = {

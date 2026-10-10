@@ -6,11 +6,12 @@ import { useAuth } from './contexts/AuthContext';
 // Eager load - needed immediately for homepage
 import { LandingPage } from './components/landing';
 
-// Eager load - small auth components used frequently
-import Login from './components/common/Login';
-import Register from './components/common/Register';
-import ForgotPassword from './components/common/ForgotPassword';
 import NotFound from './components/common/NotFound';
+
+// Lazy load - sign-in pages pull in the Firebase SDK, which public pages do not need up front
+const Login = lazy(() => import('./components/common/Login'));
+const Register = lazy(() => import('./components/common/Register'));
+const ForgotPassword = lazy(() => import('./components/common/ForgotPassword'));
 
 // Lazy load - Dashboard & Protected pages (only for logged-in users)
 const Dashboard = lazy(() => import('./components/dashboard/Dashboard'));
@@ -140,16 +141,8 @@ const PublicRoute = ({ children }) => {
   return children;
 };
 
-// Home Route - always shows landing page (with login/logout buttons based on auth)
-const HomeRoute = () => {
-  const { loading } = useAuth();
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  return <LandingPage />;
-};
+// Home Route - always shows the landing page right away (its header buttons follow the sign-in state)
+const HomeRoute = () => <LandingPage />;
 
 function App() {
   return (

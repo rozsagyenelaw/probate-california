@@ -1,132 +1,153 @@
 /**
- * Analytics Service
- * Initializes Google Analytics 4, Google Ads, and Microsoft Clarity
+ * Analytics: Google tag (GA4 + Google Ads) and Microsoft Clarity.
  *
- * Set these environment variables in Netlify:
- * - VITE_GA_MEASUREMENT_ID: Your GA4 measurement ID (e.g., G-XXXXXXXXXX)
- * - VITE_CLARITY_ID: Your Microsoft Clarity ID (e.g., xxxxxxxxxx)
+ * Speed: the Google tag (about 200 KB) and Clarity load after the visitor first interacts with the
+ * page or once the page has been idle for a few seconds, so they never delay the first paint.
+ * Calls made before the script arrives are queued in window.dataLayer and sent when it loads,
+ * so no page view, lead or purchase is lost. Pages that record a conversion call loadAnalyticsNow().
  *
- * Google Ads Conversion ID is hardcoded: AW-989094207
+ * Privacy: a browser sending the Global Privacy Control signal (California opt-out of sharing)
+ * gets Google consent mode with advertising storage and ad personalization denied.
+ *
+ * Env: VITE_GA_MEASUREMENT_ID (defaults to the MyProbateCA GA4 ID), VITE_CLARITY_ID (optional).
  */
+import { GA4_ID, ADS_ID, ADS_LABELS } from '../config/tracking';
 
-// Google Ads Conversion ID
-const GOOGLE_ADS_ID = 'AW-989094207';
+const isBrowser = typeof window !== 'undefined';
+const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || GA4_ID;
+const IDLE_DELAY_MS = 3500;
+const TRIGGERS = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
 
-// Initialize Google Analytics 4 and Google Ads
-export const initGA4 = () => {
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+let initialized = false;
+let loaded = false;
 
-  // Initialize dataLayer and gtag first
+function gtagQueue() {
   window.dataLayer = window.dataLayer || [];
-  window.gtag = function() {
-    window.dataLayer.push(arguments);
-  };
-  window.gtag('js', new Date());
-
-  // Load gtag.js script (use GA4 ID if available, otherwise Google Ads ID)
-  const primaryId = measurementId || GOOGLE_ADS_ID;
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${primaryId}`;
-  document.head.appendChild(script);
-
-  // Configure GA4 if available
-  if (measurementId) {
-    window.gtag('config', measurementId);
-    console.log('GA4: Initialized with ID', measurementId);
-  } else {
-    console.log('GA4: Measurement ID not configured');
+  if (!window.gtag) {
+    window.gtag = function gtag() { window.dataLayer.push(arguments); };
   }
+  return window.gtag;
+}
 
-  // Always configure Google Ads for conversion tracking
-  window.gtag('config', GOOGLE_ADS_ID);
-  console.log('Google Ads: Initialized with ID', GOOGLE_ADS_ID);
-};
+function gpcOptOut() {
+  try { return navigator.globalPrivacyControl === true; } catch { return false; }
+}
 
-// Initialize Microsoft Clarity
-export const initClarity = () => {
+function injectScripts() {
+  if (loaded) return;
+  loaded = true;
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+  document.head.appendChild(s);
+
   const clarityId = import.meta.env.VITE_CLARITY_ID;
-
-  if (!clarityId) {
-    console.log('Clarity: ID not configured');
-    return;
+  if (clarityId) {
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, 'clarity', 'script', clarityId);
   }
+}
 
-  (function(c, l, a, r, i, t, y) {
-    c[a] = c[a] || function() {
-      (c[a].q = c[a].q || []).push(arguments);
-    };
-    t = l.createElement(r);
-    t.async = 1;
-    t.src = "https://www.clarity.ms/tag/" + i;
-    y = l.getElementsByTagName(r)[0];
-    y.parentNode.insertBefore(t, y);
-  })(window, document, "clarity", "script", clarityId);
+/** Load the tag right away (used on pages that record a conversion). */
+export function loadAnalyticsNow() {
+  if (!isBrowser) return;
+  initAnalytics();
+  injectScripts();
+}
 
-  console.log('Clarity: Initialized with ID', clarityId);
-};
+/** Queue the configuration now; load the scripts on first interaction or when idle. */
+export function initAnalytics() {
+  if (!isBrowser || initialized) return;
+  initialized = true;
+  const gtag = gtagQueue();
 
-// Initialize all analytics
-export const initAnalytics = () => {
-  initGA4();
-  initClarity();
-};
+  if (gpcOptOut()) {
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'granted',
+    });
+  }
+  gtag('js', new Date());
+  // Visits that move between the site and the client portal stay one session
+  const linker = { domains: ['myprobateca.com', 'portal.myprobateca.com'] };
+  gtag('config', measurementId, { linker });
+  gtag('config', ADS_ID, { linker });
 
-// Track custom events
+  // Phone clicks (tel: links) are recorded as a GA4 event
+  document.addEventListener('click', (e) => {
+    const a = e.target && e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (a) trackEvent('phone_click', { link_url: a.getAttribute('href') });
+  }, { capture: true });
+
+  const trigger = () => {
+    TRIGGERS.forEach((t) => window.removeEventListener(t, trigger, true));
+    injectScripts();
+  };
+  TRIGGERS.forEach((t) => window.addEventListener(t, trigger, { capture: true, passive: true }));
+  const idle = () => setTimeout(trigger, IDLE_DELAY_MS);
+  if (document.readyState === 'complete') idle();
+  else window.addEventListener('load', idle, { once: true });
+}
+
+// GA4 events go only to the MyProbateCA property (send_to), never to other properties that share
+// the Google tag. Google Ads conversions name their own destination.
 export const trackEvent = (eventName, params = {}) => {
-  if (window.gtag) {
-    window.gtag('event', eventName, params);
-    console.log('GA4 Event:', eventName, params);
-  }
+  if (!isBrowser) return;
+  initAnalytics();
+  gtagQueue()('event', eventName, { send_to: measurementId, ...params });
 };
 
-// Conversion tracking events
-export const trackQuestionnaireStart = () => {
-  trackEvent('questionnaire_start', {
-    event_category: 'engagement'
-  });
-};
-
-export const trackQuestionnaireComplete = (probateType) => {
-  trackEvent('questionnaire_complete', {
-    event_category: 'engagement',
-    probate_type: probateType
-  });
+/**
+ * A lead: a new account, a finished intake, or the first checkout step for a guest.
+ * Google Ads counts one lead per ad click, so repeated calls are harmless.
+ */
+export const trackLead = (source) => {
+  trackEvent('generate_lead', { lead_source: source, currency: 'USD', value: 0 });
+  trackEvent('conversion', { send_to: `${ADS_ID}/${ADS_LABELS.lead}` });
 };
 
 export const trackBeginCheckout = (value, serviceType) => {
   trackEvent('begin_checkout', {
-    event_category: 'ecommerce',
-    value: value,
     currency: 'USD',
-    service_type: serviceType
+    value,
+    items: [{ item_id: serviceType, item_name: serviceType, price: value, quantity: 1 }],
   });
 };
 
-export const trackPurchase = (transactionId, value, serviceType) => {
+/** A completed Stripe payment. transactionId is the Stripe checkout session id (Google dedupes on it). */
+export const trackPurchase = (transactionId, value, serviceType = 'probate') => {
+  loadAnalyticsNow();
   trackEvent('purchase', {
-    event_category: 'ecommerce',
     transaction_id: transactionId,
-    value: value,
+    value,
     currency: 'USD',
-    service_type: serviceType
+    items: [{ item_id: serviceType, item_name: serviceType, price: value, quantity: 1 }],
+  });
+  trackEvent('conversion', {
+    send_to: `${ADS_ID}/${ADS_LABELS.purchase}`,
+    value,
+    currency: 'USD',
+    transaction_id: transactionId,
   });
 };
 
-export const trackFormStep = (stepNumber, stepName) => {
-  trackEvent('form_step', {
-    event_category: 'engagement',
-    step_number: stepNumber,
-    step_name: stepName
-  });
-};
+export const trackQuestionnaireStart = () => trackEvent('questionnaire_start');
+export const trackQuestionnaireComplete = (probateType) => trackEvent('questionnaire_complete', { probate_type: probateType });
+export const trackFormStep = (stepNumber, stepName) => trackEvent('form_step', { step_number: stepNumber, step_name: stepName });
 
 export default {
   initAnalytics,
+  loadAnalyticsNow,
   trackEvent,
+  trackLead,
   trackQuestionnaireStart,
   trackQuestionnaireComplete,
   trackBeginCheckout,
   trackPurchase,
-  trackFormStep
+  trackFormStep,
 };

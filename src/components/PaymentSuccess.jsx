@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { trackPurchase } from '../services/analytics';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import AccountSetup from './common/AccountSetup';
@@ -20,36 +21,36 @@ const PaymentSuccess = () => {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const [countdown, setCountdown] = useState(10);
-  const conversionFired = useRef(false);
+  const conversionStarted = useRef(false);
 
   const sessionId = searchParams.get('session_id');
   // Guests come back from checkout signed out; the email they paid with was kept for this page
   const guestEmail = (() => { try { return sessionStorage.getItem(GUEST_EMAIL_KEY) || ''; } catch { return ''; } })();
   const shownEmail = user?.email || guestEmail;
-  // Get payment amount from URL params (set by checkout), default to full probate price
-  const paymentAmount = parseFloat(searchParams.get('amount')) || 3995;
-
-  // Fire Google Ads conversion tracking
+  // Purchase conversion (Google Ads + GA4). The page is public, so it fires even when the buyer
+  // returns from Stripe signed out. The session is checked with Stripe first (paid, amount charged)
+  // and recorded once per checkout session on this browser; Google also dedupes on transaction_id.
   useEffect(() => {
-    // Only fire once to prevent duplicate conversions
-    if (conversionFired.current) return;
-    conversionFired.current = true;
-
-    // Google Ads conversion tracking
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'conversion', {
-        'send_to': 'AW-989094207/t7cOCJ6lr-gaEL_C0dcD',
-        'value': paymentAmount,
-        'currency': 'USD',
-        'transaction_id': sessionId || undefined
-      });
-      console.log('Google Ads conversion fired:', {
-        value: paymentAmount,
-        currency: 'USD',
-        transaction_id: sessionId
-      });
-    }
-  }, [paymentAmount, sessionId]);
+    if (conversionStarted.current) return;
+    conversionStarted.current = true;
+    if (!sessionId || !/^cs_(test|live)_/.test(sessionId)) return;
+    const key = `mpca_purchase_${sessionId}`;
+    try { if (localStorage.getItem(key)) return; } catch { /* storage blocked: Google dedupes */ }
+    const urlAmount = parseFloat(searchParams.get('amount'));
+    (async () => {
+      let value = Number.isFinite(urlAmount) ? urlAmount : null;
+      let service = 'probate';
+      try {
+        const r = await fetch(`/.netlify/functions/checkout-session-status?session_id=${encodeURIComponent(sessionId)}`);
+        const status = await r.json();
+        if (r.ok && status.paid === false) return; // not a completed payment: record nothing
+        if (r.ok && typeof status.amount === 'number') value = status.amount;
+        if (status.service) service = status.service;
+      } catch { /* check unavailable: fall back to the amount in the return address */ }
+      trackPurchase(sessionId, value ?? 0, service);
+      try { localStorage.setItem(key, String(Date.now())); } catch { /* ignore */ }
+    })();
+  }, [sessionId, searchParams]);
 
   useEffect(() => {
     // Signed-out guests stay here to sign in first

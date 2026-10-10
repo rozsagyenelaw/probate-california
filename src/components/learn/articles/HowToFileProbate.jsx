@@ -67,7 +67,7 @@ const HowToFileProbate = () => {
   const relatedArticles = [
     { title: "California Probate Fees: Statutory vs Flat Fee", url: "/learn-california-probate/california-probate-fees-statutory-vs-flat", category: "Fees & Costs" },
     { title: "Letters Testamentary California Guide", url: "/learn-california-probate/letters-testamentary-california-guide", category: "Forms & Documents" },
-    { title: "Probate Timeline California: What to Expect", url: "/learn-california-probate/probate-timeline-california", category: "Process" }
+    { title: "Probate Timeline California: What to Expect", url: "/learn-california-probate/probate-timeline-california-what-to-expect", category: "Process" }
   ];
 
   return (
@@ -280,7 +280,7 @@ const HowToFileProbate = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">How Long Does California Probate Take?</h2>
       <p className="text-gray-700 mb-4">
-        Most California probate cases take <strong>9 to 18 months</strong> from filing to final distribution. See our <Link to="/learn-california-probate/probate-timeline-california" className="text-indigo-600 hover:underline">detailed timeline guide</Link> for what to expect each month.
+        Most California probate cases take <strong>9 to 18 months</strong> from filing to final distribution. See our <Link to="/learn-california-probate/probate-timeline-california-what-to-expect" className="text-indigo-600 hover:underline">detailed timeline guide</Link> for what to expect each month.
       </p>
 
       <div className="flex items-center bg-gray-100 p-4 rounded-lg">

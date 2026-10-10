@@ -8,7 +8,7 @@ import { isFirebaseConfigured } from './services/firebaseLazy'
 import { initAnalytics } from './services/analytics'
 import './index.css'
 
-// Initialize analytics (GA4 + Clarity)
+// Analytics: configuration is queued now, the Google tag itself loads after interaction or idle
 initAnalytics();
 
 // Configuration error component
@@ -39,7 +39,8 @@ const ConfigurationError = () => (
   </div>
 )
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootEl = document.getElementById('root');
+const app = (
   <React.StrictMode>
     <HelmetProvider>
       {isFirebaseConfigured ? (
@@ -52,5 +53,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <ConfigurationError />
       )}
     </HelmetProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
+
+// Public pages arrive prerendered (scripts/prerender.mjs): attach to that HTML instead of
+// replacing it, so the content stays on screen while the page script loads.
+if (rootEl.hasChildNodes() && isFirebaseConfigured) {
+  ReactDOM.hydrateRoot(rootEl, app);
+} else {
+  ReactDOM.createRoot(rootEl).render(app);
+}

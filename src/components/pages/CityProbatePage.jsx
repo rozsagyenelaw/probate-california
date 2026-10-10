@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LazyMapFrame from '../common/LazyMapFrame';
 import ClientLoginButton from '../common/ClientLoginButton';
 import { useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -36,8 +37,8 @@ import {
 const getH1Variation = (city, index) => {
   const variations = [
     `${city.name} Probate Attorney | Flat Fee Estate Administration`,
-    `Probate Services in ${city.name}, California | $3,995 Flat Fee`,
-    `${city.name} Estate Probate | Attorney-Supervised for $3,995`,
+    `Probate Services in ${city.name}, California | $2,495 or $3,995 Flat Fee`,
+    `${city.name} Estate Probate | Attorney-Supervised for $2,495 or $3,995`,
     `Affordable Probate Attorney Serving ${city.name} Residents`,
     `${city.county} County Probate Help | ${city.name} Estate Services`,
     `${city.name} Probate Lawyer | Complete Estate Administration`
@@ -193,17 +194,17 @@ const CityProbatePage = () => {
         "@type": "BreadcrumbList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myprobateca.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://myprobateca.com/probate-court-locations-california/" },
-          { "@type": "ListItem", "position": 3, "name": `${city.name} Probate Attorney`, "item": `https://myprobateca.com/locations/${city.slug}-probate-attorney/` }
+          { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://myprobateca.com/probate-court-locations-california" },
+          { "@type": "ListItem", "position": 3, "name": `${city.name} Probate Attorney`, "item": `https://myprobateca.com/locations/${city.slug}-probate-attorney` }
         ]
       },
       {
         "@type": "LegalService",
         "name": `${city.name} Probate Attorney - MyProbateCA`,
         "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat $3,995 fee includes all 11 phases of probate.`,
-        "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney/`,
+        "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney`,
         "telephone": "+1-818-337-4071",
-        "priceRange": "$3,995",
+        "priceRange": "$2,495 to $3,995",
         "areaServed": {
           "@type": "City",
           "name": city.name,
@@ -258,17 +259,17 @@ const CityProbatePage = () => {
   return (
     <>
       <Helmet>
-        <title>{city.name} Probate Attorney | Flat Fee $3,995 | MyProbateCA</title>
+        <title>{city.name} Probate Attorney | Flat Fee $2,495 or $3,995 | MyProbateCA</title>
         <meta name="description" content={getMetaDescriptionVariation(city, cityIndex)} />
-        <link rel="canonical" href={`https://myprobateca.com/locations/${city.slug}-probate-attorney/`} />
+        <link rel="canonical" href={`https://myprobateca.com/locations/${city.slug}-probate-attorney`} />
 
-        <meta property="og:title" content={`${city.name} Probate Attorney | Flat Fee $3,995`} />
+        <meta property="og:title" content={`${city.name} Probate Attorney | Flat Fee $2,495 or $3,995`} />
         <meta property="og:description" content={`Attorney-led probate for ${city.name} residents. All documents prepared, court appearances available. Flat $3,995.`} />
-        <meta property="og:url" content={`https://myprobateca.com/locations/${city.slug}-probate-attorney/`} />
+        <meta property="og:url" content={`https://myprobateca.com/locations/${city.slug}-probate-attorney`} />
         <meta property="og:type" content="website" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${city.name} Probate Attorney | Flat Fee $3,995`} />
+        <meta name="twitter:title" content={`${city.name} Probate Attorney | Flat Fee $2,495 or $3,995`} />
 
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
@@ -404,15 +405,7 @@ const CityProbatePage = () => {
                     />
                   </div>
                   <div className="rounded-lg overflow-hidden shadow-md h-64">
-                    <iframe
-                      src={`https://maps.google.com/maps?q=${encodeURIComponent(city.courthouse + ', ' + city.courthouseAddress)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                      width="100%"
-                      height="100%"
-                      style={{ border: 0 }}
-                      allowFullScreen=""
-                      loading="lazy"
-                      title={`${city.courthouse} Location Map`}
-                    ></iframe>
+                    <LazyMapFrame src={`https://maps.google.com/maps?q=${encodeURIComponent(city.courthouse + ', ' + city.courthouseAddress)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} title={`${city.courthouse} Location Map`} />
                   </div>
                 </div>
               )}
@@ -608,6 +601,7 @@ const CityProbatePage = () => {
                 <div className="bg-blue-900 text-white rounded-lg p-4 text-center">
                   <p className="text-sm text-blue-200 mb-1">Our Flat Fee</p>
                   <p className="text-xl font-bold">$3,995</p>
+                  <p className="text-xs text-blue-100">Simplified Probate: $2,495</p>
                   <p className="text-xs text-blue-200 mt-1">Same quality, fixed price</p>
                 </div>
                 <div className="bg-green-100 rounded-lg p-4 text-center border border-green-200">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { BOOKING_URL } from '../../config/tracking';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Scale, Home, Phone, BookOpen, MapPin, HelpCircle } from 'lucide-react';
@@ -95,12 +96,12 @@ const NotFound = () => {
               Our licensed attorney handles all 11 phases for a flat $3,995 fee.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/register"
+              <a
+                href={BOOKING_URL}
                 className="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
               >
                 Get Started - Free Consultation
-              </Link>
+              </a>
               <a
                 href="tel:+18183374071"
                 className="flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"

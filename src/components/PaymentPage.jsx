@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { trackLead, trackBeginCheckout } from '../services/analytics';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { startGuestAccount } from '../utils/guestAccount';
@@ -58,6 +59,7 @@ const PaymentPage = () => {
     try {
       await startGuestAccount({ ...guest, source: 'payment' });
       setGuestReady(true);
+      trackLead('checkout_account');
     } catch (err) {
       setGuestError(err.message);
     } finally {
@@ -179,6 +181,7 @@ const PaymentPage = () => {
       }
 
       if (data.url && typeof data.url === 'string' && data.url.startsWith('http')) {
+        trackBeginCheckout(totalPrice, serviceType);
         window.location.href = data.url;
       } else {
         console.error('Invalid checkout URL:', data);

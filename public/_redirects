@@ -13,4 +13,9 @@
 /admin/signatures    https://portal.myprobateca.com/admin/tools/signatures    302!
 /admin/messages    https://portal.myprobateca.com/admin/tools/messages    302!
 /admin    https://portal.myprobateca.com/admin    302!
-/*    /index.html   200
+# Old or mistyped addresses that were linked from the site
+/free-consultation    https://portal.myprobateca.com/book    301!
+/california-probate-courts    /probate-court-locations-california    301!
+/learn-california-probate/probate-timeline-california    /learn-california-probate/probate-timeline-california-what-to-expect    301!
+# Public pages are prerendered to .html files (served directly). Everything else is the app.
+/*    /app-shell.html   200

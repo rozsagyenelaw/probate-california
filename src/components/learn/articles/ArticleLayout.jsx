@@ -197,8 +197,8 @@ const ArticleLayout = ({
                 <li><Link to="/" className="hover:text-blue-600">Home</Link></li>
                 <li><span className="mx-2">&gt;</span></li>
                 <li><Link to="/learn-california-probate" className="hover:text-blue-600">Learn</Link></li>
-                <li><span className="mx-2">&gt;</span></li>
-                <li className="text-gray-900 font-medium truncate max-w-xs">{title}</li>
+                {title && <li><span className="mx-2">&gt;</span></li>}
+                {title && <li className="text-gray-900 font-medium truncate max-w-xs">{title}</li>}
               </ol>
             </nav>
           </div>
@@ -206,7 +206,8 @@ const ArticleLayout = ({
 
         {/* Article Content */}
         <article className="max-w-4xl mx-auto px-4 py-12">
-          {/* Article Header */}
+          {/* Article Header (articles that pass no title render their own header and single h1) */}
+          {title && (
           <header className="mb-8">
             <span className="inline-block bg-indigo-100 text-indigo-800 text-xs font-medium px-3 py-1 rounded-full mb-4">{category}</span>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{title}</h1>
@@ -225,6 +226,7 @@ const ArticleLayout = ({
               </span>
             </div>
           </header>
+          )}
 
           {/* Article Body */}
           <div className="prose prose-lg max-w-none">

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LazyMapFrame from '../common/LazyMapFrame';
 import ClientLoginButton from '../common/ClientLoginButton';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -67,7 +68,7 @@ const ProbateFAQ = () => {
         "url": "https://myprobateca.com/",
         "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
-        "priceRange": "$3,995",
+        "priceRange": "$2,495 to $3,995",
         "image": "https://myprobateca.com/images/rozsa-gyene-probate-attorney.jpg",
         "address": {
           "@type": "PostalAddress",
@@ -191,7 +192,7 @@ const ProbateFAQ = () => {
             "@type": "ListItem",
             "position": 2,
             "name": "California Probate FAQ",
-            "item": "https://myprobateca.com/probate-faq-california/"
+            "item": "https://myprobateca.com/probate-faq-california"
           }
         ]
       },
@@ -317,11 +318,11 @@ const ProbateFAQ = () => {
         <title>California Probate FAQ | Attorney Answers on Fees, Forms & Court Notes</title>
         <meta name="description" content="Get professional answers to California probate questions. Learn about the $3,995 flat fee, clearing Stanley Mosk IGN notes, executor liability, and the 11-phase process." />
         <meta name="keywords" content="california probate faq, probate court questions, stanley mosk courthouse notes, executor duties ca, probate attorney fee calculator" />
-        <link rel="canonical" href="https://myprobateca.com/probate-faq-california/" />
+        <link rel="canonical" href="https://myprobateca.com/probate-faq-california" />
 
         <meta property="og:title" content="California Probate FAQ | Expert Guidance for Executors & Heirs" />
         <meta property="og:description" content="Everything you need to know about the California probate process, from filing the petition to final distribution." />
-        <meta property="og:url" content="https://myprobateca.com/probate-faq-california/" />
+        <meta property="og:url" content="https://myprobateca.com/probate-faq-california" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://myprobateca.com/images/california-probate-faq-og.jpg" />
 
@@ -900,15 +901,7 @@ const ProbateFAQ = () => {
                   />
                 </div>
                 <div className="rounded-lg overflow-hidden shadow-md h-40">
-                  <iframe
-                    src="https://www.google.com/maps?q=3500+W.+Olive+Ave.,+Suite+300,+Burbank,+CA+91505&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen=""
-                    loading="lazy"
-                    title="Law Offices of Rozsa Gyene - Burbank, California"
-                  ></iframe>
+                  <LazyMapFrame src="https://www.google.com/maps?q=3500+W.+Olive+Ave.,+Suite+300,+Burbank,+CA+91505&output=embed" title="Law Offices of Rozsa Gyene - Burbank, California" />
                 </div>
               </div>
               <div className="md:w-2/3">

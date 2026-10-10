@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import LazyMapFrame from '../common/LazyMapFrame';
+import { BOOKING_URL } from '../../config/tracking';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
@@ -167,7 +169,7 @@ const LandingPage = () => {
         "@id": "https://myprobateca.com/#website",
         "name": "MyProbateCA",
         "url": "https://myprobateca.com",
-        "description": "California probate services for a flat $3,995 fee",
+        "description": "California probate services for a flat fee: Simplified Probate $2,495 or Full Service $3,995",
         "publisher": {
           "@id": "https://myprobateca.com/#organization"
         },
@@ -184,7 +186,7 @@ const LandingPage = () => {
         "@type": "WebPage",
         "@id": "https://myprobateca.com/#webpage",
         "url": "https://myprobateca.com",
-        "name": "California Probate Services | Attorney-Led | Flat $3,995 Fee | MyProbateCA",
+        "name": "California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA",
         "description": "California probate for $3,995 flat fee. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. Save $42,000+ vs traditional attorneys.",
         "isPartOf": {
           "@id": "https://myprobateca.com/#website"
@@ -203,7 +205,7 @@ const LandingPage = () => {
   return (
     <>
       <Helmet>
-        <title>California Probate Services | Attorney-Led | Flat $3,995 Fee | MyProbateCA</title>
+        <title>California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA</title>
         <meta name="description" content="California probate for $3,995 flat fee — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. Save $42,000+ vs traditional attorneys." />
         <meta name="keywords" content="California probate, probate attorney, probate lawyer, estate administration, flat fee probate, Los Angeles probate, Glendale probate attorney" />
         <link rel="canonical" href="https://myprobateca.com/" />
@@ -403,13 +405,17 @@ const LandingPage = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(/lady-justice.webp)',
-            filter: 'brightness(0.85)'
-          }}
+        {/* Background Image (phone-sized file on phones) */}
+        <img
+          src="/lady-justice-1280.webp"
+          srcSet="/lady-justice-768.webp 768w, /lady-justice-1280.webp 1280w, /lady-justice.webp 1920w"
+          sizes="100vw"
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ filter: 'brightness(0.85)' }}
         />
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-900/60 to-transparent" />
@@ -640,13 +646,13 @@ const LandingPage = () => {
             <p className="text-lg text-gray-600 mb-6">
               Get full attorney service at a fraction of the cost.
             </p>
-            <button
-              onClick={handleStartCase}
+            <a
+              href={BOOKING_URL}
               className="bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-800 transition-colors inline-flex items-center"
             >
               Start Your Probate — Free Consultation
               <ArrowRight className="ml-2 h-5 w-5" />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -664,7 +670,8 @@ const LandingPage = () => {
                   className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                   width="128"
                   height="128"
-                  fetchpriority="high"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 
@@ -1398,15 +1405,7 @@ const LandingPage = () => {
                 />
               </div>
               <div className="rounded-lg overflow-hidden shadow-md h-48">
-                <iframe
-                  src="https://www.google.com/maps?q=3500+W.+Olive+Ave.,+Suite+300,+Burbank,+CA+91505&output=embed"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  title="Law Offices of Rozsa Gyene - Burbank, California"
-                ></iframe>
+                <LazyMapFrame src="https://www.google.com/maps?q=3500+W.+Olive+Ave.,+Suite+300,+Burbank,+CA+91505&output=embed" title="Law Offices of Rozsa Gyene - Burbank, California" />
               </div>
             </div>
 
