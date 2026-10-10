@@ -4,7 +4,8 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { getDb, corsHeaders, verifyCaller } = require('./lib/firebaseAdmin');
 const { getBusinessSettings, defaults } = require('./lib/business');
-const { createCheckout } = require('./lib/checkout');
+const { createCheckout, capContextForCase } = require('./lib/checkout');
+const { recordIncluded } = require('./lib/recordPayment');
 
 exports.handler = async (event) => {
   const headers = corsHeaders(event);
@@ -29,7 +30,10 @@ exports.handler = async (event) => {
       if (!c.exists || (caller && c.data().userId !== caller.uid)) caseId = '';
     }
 
+    // Add-ons on a full probate case stay within the Probate Code 10810 cap with what was already charged
+    const capContext = ['accounting_addon', 'court_appearance'].includes(body.serviceType) && caseId ? await capContextForCase(db, caseId) : null;
     const result = await createCheckout(stripe, db, {
+      capContext,
       serviceType: body.serviceType,
       probateType: body.probateType || (['simplified', 'full'].includes(body.serviceType) ? body.serviceType : null),
       accountingAddon: body.accountingAddon || null,
@@ -46,6 +50,11 @@ exports.handler = async (event) => {
       source: body.serviceType === 'court_appearance' ? 'court-appearance-page' : (body.serviceType === 'accounting_addon' ? 'accounting-page' : 'payment-page'),
       cancelPath: body.serviceType === 'court_appearance' ? '/request-court-appearance?canceled=true' : (body.serviceType === 'accounting_addon' ? '/request-accounting?canceled=true' : undefined)
     }, settings);
+    if (result.included) {
+      // Nothing to pay: the 10810 cap already covers it. Record it on the case the same way a payment would.
+      const r = await recordIncluded(db, { caseId, userId: caller ? caller.uid : null, email: customerEmail, serviceType: body.serviceType, accountingAddon: body.accountingAddon || null, courtAppearance: body.courtAppearance || null, hearing: body.hearingDetails || null, order: result.order });
+      return { statusCode: 200, headers, body: JSON.stringify({ included: true, caseId, message: 'This is included in your fee. There is nothing more to pay.', recorded: r.id }) };
+    }
     console.log('Stripe session created:', result.sessionId.slice(0, 12), body.serviceType, body.paymentPlan);
     return { statusCode: 200, headers, body: JSON.stringify({ url: result.url, sessionId: result.sessionId }) };
   } catch (error) {

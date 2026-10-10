@@ -7,7 +7,8 @@ const { admin, getDb, corsHeaders, verifyCaller } = require('./lib/firebaseAdmin
 const { getBusinessSettings } = require('./lib/business');
 const { findPaidCase, attachIntake, pickIntake } = require('./lib/intakeCase');
 const { estateValueFromIntake } = require('./lib/pricing');
-const { createCheckout, UserError } = require('./lib/checkout');
+const { createCheckout, UserError, capContextForCase } = require('./lib/checkout');
+const { recordIncluded } = require('./lib/recordPayment');
 
 const str = (v, n = 200) => (typeof v === 'string' ? v.slice(0, n) : null);
 
@@ -39,11 +40,17 @@ exports.handler = async (event) => {
       const wantsAccounting = sel.accountingAddon && !(found.data.addOns && found.data.addOns.accounting) ? sel.accountingAddon : null;
       const wantsCourt = sel.courtAppearance || null;
       if (wantsAccounting || wantsCourt) {
+        const capContext = await capContextForCase(db, caseId);
         const co = await createCheckout(stripe, db, {
+          capContext,
           serviceType: wantsCourt ? 'court_appearance' : 'accounting_addon',
           accountingAddon: wantsAccounting, courtAppearance: wantsCourt, hearing: sel.hearing,
           paymentPlan: 'full', customerEmail: email, caseId, userId: uid, source: 'intake-addon', cancelPath: '/dashboard'
         }, settings);
+        if (co.included) {
+          await recordIncluded(db, { caseId, userId: uid, email, serviceType: wantsCourt ? 'court_appearance' : 'accounting_addon', accountingAddon: wantsAccounting, courtAppearance: wantsCourt, hearing: sel.hearing, order: co.order });
+          return { statusCode: 200, headers, body: JSON.stringify({ status: 'attached', caseId, alreadyPaid: true, how: found.how, includedUnder10810: true }) };
+        }
         return { statusCode: 200, headers, body: JSON.stringify({ status: 'attached', caseId, alreadyPaid: true, how: found.how, addOnCheckoutUrl: co.url }) };
       }
       return { statusCode: 200, headers, body: JSON.stringify({ status: 'attached', caseId, alreadyPaid: true, how: found.how }) };
@@ -86,7 +93,7 @@ exports.handler = async (event) => {
       courtAppearance: sel.courtAppearance || null, hearing: sel.hearing,
       paymentPlan: sel.paymentPlan === 'installments' ? 'installments' : 'full',
       customerEmail: email, caseId: ref.id, userId: uid, promoCode: sel.promoCode || null, source: 'intake', cancelPath: '/intake?canceled=true',
-      estateValueCents: estateValueFromIntake(formData), feeAgreementRequestId: sel.feeAgreementRequestId || null
+      estateValueCents: Number(sel.estateValue) > 0 ? Math.round(Number(sel.estateValue) * 100) : estateValueFromIntake(formData), feeAgreementRequestId: sel.feeAgreementRequestId || null
     }, settings);
     return { statusCode: 200, headers, body: JSON.stringify({ status: 'checkout', caseId: ref.id, url: co.url }) };
   } catch (err) {

@@ -83,6 +83,8 @@ async function recordCheckout(stripe, db, session) {
     promoCode: meta.promoCode || null,
     totalPriceCents: totalPrice,
     feeBasis: meta.feeBasis || null,           // '10810' when the small-estate amount applied
+    ordinaryCents: meta.ordinaryCents != null && meta.ordinaryCents !== '' ? Number(meta.ordinaryCents) : null, // counts toward the 10810 cap
+    includedUnder10810: meta.includedUnder10810 ? meta.includedUnder10810.split(',') : [],
     estateValueCents: meta.estateValueCents ? Number(meta.estateValueCents) : null,
     feeAgreementRequestId: meta.feeAgreementRequestId || null, // W2-fee's portal trigger links the signed agreement
     installment: installments ? { number: 1, of: 3, amounts } : null,
@@ -135,6 +137,7 @@ async function recordCheckout(stripe, db, session) {
     if (probate) {
       Object.assign(c, { paymentStatus: status, serviceType: meta.serviceType, paidAt: FV.serverTimestamp(), 'payment.plan': installments ? 'installments' : 'full', 'payment.status': installments ? 'installments_active' : 'paid', 'payment.paidAt': FV.serverTimestamp() });
     }
+    if (meta.estateValueCents && probate) c.estateValueCents = Number(meta.estateValueCents);
     if (meta.accountingAddon) c['addOns.accounting'] = meta.accountingAddon;
     if (meta.courtAppearance) {
       c.courtAppearance = meta.courtAppearance;
@@ -292,4 +295,28 @@ async function recordChargeRefunded(stripe, db, chargeObj) {
   return { matched: true, paymentId: pay.id, refundedCents: ch.amount_refunded, delta };
 }
 
-module.exports = { recordCheckout, recordInvoicePaid, recordChargeRefunded, describe, recomputeBalance };
+// An add-on that costs nothing because the Probate Code 10810 cap already covers it: recorded on the case the way a
+// payment would be (no Stripe charge, no payments row with money), so the attorney sees it and the hearing is on the calendar.
+async function recordIncluded(db, { caseId, userId, email, serviceType, accountingAddon, courtAppearance, hearing, order }) {
+  const ref = db.collection('includedServices').doc();
+  await ref.set({ caseId: caseId || null, userId: userId || null, email: email || null, serviceType, accountingAddon: accountingAddon || null, courtAppearance: courtAppearance || null,
+    reason: 'Included under the Probate Code 10810 limit for this estate', lines: (order && order.lines || []).map(l => ({ key: l.key, listCents: l.listCents || l.cents, chargedCents: l.cents })), createdAt: FV.serverTimestamp() });
+  if (caseId) {
+    const c = { updatedAt: FV.serverTimestamp() };
+    if (accountingAddon) c['addOns.accounting'] = accountingAddon;
+    const h = hearing && (hearing.hearingDate || hearing.date) ? { d: String(hearing.hearingDate || hearing.date).slice(0, 10), t: String(hearing.hearingTime || hearing.time || '').slice(0, 5), dept: hearing.department || '', cn: hearing.caseNumber || '', co: hearing.county || '', ty: hearing.hearingType || hearing.type || '', x: hearing.otherDescription || '' } : null;
+    if (courtAppearance) {
+      c.courtAppearance = courtAppearance;
+      if (h) {
+        const e = hearingEntry(h, { appearance: courtAppearance, sessionId: ref.id, paymentId: null, amountCents: 0 });
+        e.appearance.includedUnder10810 = true;
+        c.hearings = FV.arrayUnion(e);
+        c.hearingDetails = legacyHearingDetails(h, courtAppearance);
+      }
+    }
+    await db.collection('cases').doc(caseId).update(c);
+  }
+  return { id: ref.id };
+}
+
+module.exports = { recordIncluded, recordCheckout, recordInvoicePaid, recordChargeRefunded, describe, recomputeBalance };

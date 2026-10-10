@@ -195,7 +195,8 @@ const Intake = () => {
             accountingAddon: paymentInfo.accountingAddon || null,
             courtAppearance: paymentInfo.courtAppearance ? paymentInfo.courtAppearance.type : null,
             hearing: paymentInfo.courtAppearance || null,
-            paymentPlan: paymentInfo.paymentPlan === 'installments' ? 'installments' : 'full'
+            paymentPlan: paymentInfo.paymentPlan === 'installments' ? 'installments' : 'full',
+            estateValue: paymentInfo.estateValue || null
           }
         })
       });

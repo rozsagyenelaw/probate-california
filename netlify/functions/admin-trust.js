@@ -2,6 +2,7 @@
 // POST { action: 'clients' }                         -> one row per case with money: held for the client, earned, ready to move
 // POST { action: 'case', caseId }                    -> full ledger for that case (every deposit, transfer, refund) and stages
 // POST { action: 'markStage', caseId, stage, date, done } -> records that an earning stage is complete (or undoes it)
+// POST { action: 'setInventoryValue', caseId, valueCents } -> the filed inventory total; shows any refund due under 10810
 // POST { action: 'recordTransfer', caseId, amountCents, note, confirmPhrase } -> records money Rozsa moved from trust to
 //      operating for this case (she moves it at the bank; this is the ledger entry). Never more than ready to move.
 // Never stores or returns a bank account number, routing number or bank balance.
@@ -48,7 +49,7 @@ exports.handler = async (event) => {
         const t = computeCaseTrust(l.caseDoc, l.payments, l.refunds, l.transfers);
         rows.push({ caseId: id, clientEmail: l.caseDoc.clientEmail || null, estateName: l.caseDoc.estateName || null, service: t.service,
           heldForClientCents: t.heldForClientCents, earnedCents: t.earned.totalCents, transferredCents: t.transferredCents, readyToMoveCents: t.readyToMoveCents,
-          percentEarned: t.percentEarned, test: l.payments.every(p => p.livemode === false) });
+          percentEarned: t.percentEarned, capRefundDueCents: t.capRefundDueCents, test: l.payments.every(p => p.livemode === false) });
       }
       rows.sort((a, b) => b.readyToMoveCents - a.readyToMoveCents);
       return reply(200, { rows, note: 'Figures are this client\'s ledger only, never a bank balance.' });
@@ -65,6 +66,15 @@ exports.handler = async (event) => {
       const date = body.done === false ? null : (/^\d{4}-\d{2}-\d{2}$/.test(String(body.date || '')) ? body.date : new Date().toISOString().slice(0, 10));
       await l.caseRef.update({ [`feeStages.${body.stage}`]: date, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
       await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: 'trust.stage', caseId, target: `cases/${caseId}`, meta: { stage: body.stage, date } });
+      const after = await loadCase(db, caseId);
+      return reply(200, { caseId, ...computeCaseTrust(after.caseDoc, after.payments, after.refunds, after.transfers) });
+    }
+
+    if (body.action === 'setInventoryValue') {
+      const v = Math.round(Number(body.valueCents));
+      if (!Number.isInteger(v) || v < 0) return reply(400, { error: 'Enter the inventory and appraisal total' });
+      await l.caseRef.update({ inventoryValueCents: v, inventoryValueSetAt: admin.firestore.FieldValue.serverTimestamp(), updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+      await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: 'trust.inventoryValue', caseId, target: `cases/${caseId}`, meta: { valueCents: v } });
       const after = await loadCase(db, caseId);
       return reply(200, { caseId, ...computeCaseTrust(after.caseDoc, after.payments, after.refunds, after.transfers) });
     }

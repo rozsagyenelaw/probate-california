@@ -59,6 +59,40 @@ test('trust ledger: earned by stage, ready to move never above what is held for 
   assert.strictEqual(t.earned.totalCents, 149700);
 });
 
+test('10810 caps ALL ordinary services of a full probate (fee + accounting + uncontested appearance), not contested, not simplified', () => {
+  const o1 = buildOrder({ serviceType: 'full', estateValueCents: 5000000, accountingAddon: 'simple', courtAppearance: 'remote' }, {});
+  assert.strictEqual(o1.totalCents, 200000);                                   // $50,000 estate: $2,000 for everything
+  assert.deepStrictEqual(o1.lines.filter(l => l.included).map(l => l.key), ['simple_accounting', 'remote_appearance']);
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateValueCents: 9000000, accountingAddon: 'simple' }, {}).totalCents, 360000); // $90,000 -> $3,600 total
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateValueCents: 30000000, accountingAddon: 'complex', courtAppearance: 'remote' }, {}).totalCents, 649000); // under the cap: list prices
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateValueCents: 5000000, courtAppearance: 'contested' }, {}).totalCents, 260000); // contested is extra
+  assert.strictEqual(buildOrder({ serviceType: 'simplified', estateValueCents: 5000000, accountingAddon: 'simple' }, {}).totalCents, 349000); // 13151: no cap
+  // later add-ons count what was already charged
+  assert.strictEqual(buildOrder({ serviceType: 'court_appearance', courtAppearance: 'remote', capContext: { fullProbate: true, estateValueCents: 5000000, priorOrdinaryCents: 200000 } }, {}).totalCents, 0);
+  assert.strictEqual(buildOrder({ serviceType: 'accounting_addon', accountingAddon: 'simple', capContext: { fullProbate: true, estateValueCents: 12000000, priorOrdinaryCents: 399500 } }, {}).totalCents, 60500);
+});
+
+test('inventory lower than the intake estimate: refund due under 10810 is computed (Rozsa starts it)', () => {
+  const t = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 3000000, feeStages: {} }, [{ id: 'p', serviceType: 'full', amountCents: 200000, totalPriceCents: 200000, ordinaryCents: 200000 }], [], []);
+  assert.strictEqual(t.capUnder10810Cents, 120000);
+  assert.strictEqual(t.capRefundDueCents, 80000);
+  const t2 = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 3000000, feeStages: {} }, [{ id: 'p', serviceType: 'full', amountCents: 200000, totalPriceCents: 200000, ordinaryCents: 200000 }], [{ id: 'r', amountCents: 80000 }], []);
+  assert.strictEqual(t2.capRefundDueCents, 0);
+});
+
+test('continued hearing: the paid appearance carries over to the new date with no new charge', () => {
+  const { continueHearing } = require('../lib/hearings');
+  const r = continueHearing([{ id: 'chk_1', date: '2026-11-09', time: '08:30', department: '5', appearance: { kind: 'remote', paid: true, amountCents: 50000, paymentId: 'cs1' } }], 'chk_1', { date: '2026-12-14', note: 'court continued it' }, 'now');
+  assert.strictEqual(r.hearings[0].outcome, 'continued');
+  assert.strictEqual(r.hearings[0].continuedTo, r.newId);
+  const moved = r.hearings.find(h => h.id === r.newId);
+  assert.strictEqual(moved.date, '2026-12-14');
+  assert.strictEqual(moved.appearance.paid, true);
+  assert.strictEqual(moved.appearance.paymentId, 'cs1');
+  assert.strictEqual(moved.appearance.newChargeCents, 0);
+  assert.throws(() => continueHearing([], 'x', { date: '2026-12-14' }), /not found/);
+});
+
 if (!process.env.FIRESTORE_EMULATOR_HOST || !/^demo-/.test(process.env.GCLOUD_PROJECT || '')) {
   test('emulator tests need the Firestore emulator', { skip: true }, () => {});
   return;

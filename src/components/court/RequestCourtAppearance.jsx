@@ -137,6 +137,11 @@ const RequestCourtAppearance = () => {
         throw new Error(data.error || 'Failed to create checkout session');
       }
 
+      if (data.included) {
+        // Covered by the fee already (Probate Code 10810 limit for this estate): nothing to pay
+        window.location.href = '/dashboard?included=1';
+        return;
+      }
       if (data.url) {
         window.location.href = data.url;
       } else {

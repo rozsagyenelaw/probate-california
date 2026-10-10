@@ -89,3 +89,16 @@ export function fullProbateFee(estateValueDollars, flat = 3995) {
   return s < flat ? { fee: s, reduced: true } : { fee: flat, reduced: false };
 }
 export const parseDollars = (txt) => { const f = parseFloat(String(txt || '').replace(/[$,\s]/g, '')); return Number.isFinite(f) && f > 0 ? f : 0; };
+
+// Full probate: the fee, the accounting add-on and an uncontested (remote) appearance together never exceed the
+// Probate Code 10810 amount on the estate value (decisions section 21). Same rule as netlify/functions/lib/pricing.js.
+// Returns the amounts actually charged, in dollars. A contested hearing is not capped.
+export function capOrdinaryDollars(estateValueDollars, { fee = 0, accounting = 0, remote = 0 }) {
+  const v = Number(estateValueDollars) || 0;
+  if (!(v > 0)) return { fee, accounting, remote, capped: false };
+  let room = statutoryFeeDollars(v);
+  const take = (x) => { const a = Math.min(x, room); room -= a; return Math.round(a * 100) / 100; };
+  const out = { fee: take(fee), accounting: take(accounting), remote: take(remote) };
+  out.capped = out.fee < fee || out.accounting < accounting || out.remote < remote;
+  return out;
+}

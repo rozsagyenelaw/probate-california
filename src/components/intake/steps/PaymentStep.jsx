@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus, Calendar, Gavel, Info } from 'lucide-react';
 import { CA_COUNTY_LIST } from '../../../data/californiaCourts';
 import { assessEligibility, ROUTES } from '../../../lib/eligibility';
-import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars, fullProbateFee } from '../../../services/businessSettings';
+import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars, fullProbateFee, capOrdinaryDollars } from '../../../services/businessSettings';
 
 const HEARING_TYPES = [
   'Petition for Probate',
@@ -79,15 +79,22 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
     contested: { price: contestedPrice(settings), label: 'Contested/Complex Hearing (2-hr min)' }
   };
 
+  const charged = () => {
+    const list = {
+      fee: probatePricing[selectedProbateType].price,
+      accounting: accountingAddon ? accountingPricing[accountingAddon].price : 0,
+      remote: courtAppearance === 'remote' ? courtAppearancePricing.remote.price : 0
+    };
+    return selectedProbateType === 'full' ? capOrdinaryDollars(estateAnalysis.totalEstateValue, list) : { ...list, capped: false };
+  };
+
   // Calculate total with add-ons
   const calculateTotal = () => {
-    let total = paid ? 0 : probatePricing[selectedProbateType].price;
-    if (accountingAddon) {
-      total += accountingPricing[accountingAddon].price;
-    }
-    if (courtAppearance) {
-      total += courtAppearancePricing[courtAppearance].price;
-    }
+    // Full probate: the 10810 limit covers the fee, accounting and an uncontested appearance together
+    const c = charged();
+    let total = paid ? 0 : c.fee;
+    total += c.accounting + c.remote;
+    if (courtAppearance === 'contested') total += courtAppearancePricing.contested.price;
     return total;
   };
 
@@ -144,7 +151,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
       } : null,
       paymentPlan: paid ? 'full' : selectedPaymentPlan,
       paymentAmount: selectedPaymentPlan === 'full' ? totalPrice : installmentPrice,
-      totalAmount: totalPrice
+      totalAmount: totalPrice,
+      estateValue: estateAnalysis.totalEstateValue
     });
   };
 
@@ -522,7 +530,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
             </div>
             <p className="text-xl font-bold text-amber-600 mb-2">+${courtAppearancePricing.contested.price.toLocaleString()}</p>
             <p className="text-xs text-gray-600">
-              Hearings with objections or multiple issues (2-hour minimum at ${(courtAppearancePricing.contested.price / 2).toLocaleString()}/hr)
+              Hearings with objections or multiple issues
             </p>
           </button>
           </>)}
@@ -683,19 +691,22 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
           {accountingAddon && (
             <div className="flex justify-between text-purple-700">
               <span>{accountingPricing[accountingAddon].label}</span>
-              <span className="font-medium">+${accountingPricing[accountingAddon].price.toLocaleString()}</span>
+              <span className="font-medium">{charged().accounting < accountingPricing[accountingAddon].price ? (charged().accounting === 0 ? 'Included' : `+$${fmtDollars(charged().accounting)}`) : `+$${accountingPricing[accountingAddon].price.toLocaleString()}`}</span>
             </div>
           )}
           {courtAppearance && (
             <div className="flex justify-between text-amber-700">
               <span>{courtAppearancePricing[courtAppearance].label}</span>
-              <span className="font-medium">+${courtAppearancePricing[courtAppearance].price.toLocaleString()}</span>
+              <span className="font-medium">{courtAppearance === 'remote' && charged().remote < courtAppearancePricing.remote.price ? (charged().remote === 0 ? 'Included' : `+$${fmtDollars(charged().remote)}`) : `+$${courtAppearancePricing[courtAppearance].price.toLocaleString()}`}</span>
             </div>
           )}
           <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">
             <span>{paid ? 'Due today' : 'Total'}</span>
-            <span className="text-blue-900">${totalPrice.toLocaleString()}</span>
+            <span className="text-blue-900">${fmtDollars(totalPrice)}</span>
           </div>
+          {selectedProbateType === 'full' && charged().capped && (
+            <p className="text-xs text-green-700 mt-2" data-testid="cap-note">For an estate of this size, our fee and these add-ons together are limited to the amount California law sets <span className="text-gray-500">(Probate Code section 10810)</span>.</p>
+          )}
         </div>
       </div>
 

@@ -70,7 +70,15 @@ function courtCents(kind, settings) {
 
 // What is being bought in this checkout, with a cent amount per line.
 // Throws a user-facing Error for anything invalid.
-function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents }, settings) {
+// Ordinary services under Probate Code 10810 for FULL probate (Rozsa's ruling, decisions section 21): the flat fee,
+// the accounting add-on and any uncontested (remote) court appearance together never exceed the 10810 amount.
+// A contested hearing is not an ordinary service and is not capped. Simplified (13151) is not capped at all.
+const ORDINARY_KEYS = new Set(['full', 'simple_accounting', 'complex_accounting', 'remote_appearance']);
+
+// What is being bought in this checkout, with a cent amount per line.
+// capContext (full probate with a known estate value): { estateValueCents, priorOrdinaryCents } so purchases made
+// later (add-ons) also stay within the cap. Lines brought to $0 by the cap are kept with included: true.
+function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, capContext }, settings) {
   const lines = [];
   let fee = null;
   if (serviceType === 'full') {
@@ -88,14 +96,31 @@ function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValue
   if (courtAppearance) {
     if (!['remote', 'contested'].includes(courtAppearance)) throw new Error('Invalid court appearance selected');
     const cents = courtCents(courtAppearance, settings);
-    if (cents == null) throw new Error('Contested hearings are not offered online. Please call 818-337-4071.');
+    if (cents == null) throw new Error('Contested hearings are not offered online.');
     lines.push({ key: courtAppearance === 'remote' ? 'remote_appearance' : 'contested_hearing', label: LABELS[courtAppearance], cents });
   }
   if ((serviceType === 'accounting_only' || serviceType === 'accounting_addon') && !accountingAddon) throw new Error('Please select an accounting service');
   if (serviceType === 'court_appearance' && !courtAppearance) throw new Error('Please select a court appearance service');
   if (!lines.length) throw new Error('Nothing selected');
+
+  // 10810 cap across all ordinary services of a full probate case
+  const capEstate = serviceType === 'full' ? Number(estateValueCents) : Number(capContext && capContext.estateValueCents);
+  const capApplies = (serviceType === 'full' || (capContext && capContext.fullProbate)) && capEstate > 0;
+  let capCents = null;
+  if (capApplies) {
+    capCents = statutoryFeeCents(capEstate);
+    let room = Math.max(0, capCents - Number((capContext && capContext.priorOrdinaryCents) || 0));
+    for (const l of lines) {
+      if (!ORDINARY_KEYS.has(l.key)) continue;
+      const allowed = Math.min(l.cents, room);
+      if (allowed < l.cents) { l.listCents = l.cents; l.cents = allowed; l.cappedBy10810 = true; if (allowed === 0) l.included = true; }
+      room -= allowed;
+    }
+  }
   const totalCents = lines.reduce((s, l) => s + l.cents, 0);
-  return { lines, totalCents, description: lines.map(l => l.label).join(' + '), feeBasis: fee ? fee.basis : null, estateValueCents: fee ? (fee.estateValueCents || null) : null };
+  const ordinaryCents = lines.filter(l => ORDINARY_KEYS.has(l.key)).reduce((s, l) => s + l.cents, 0);
+  return { lines, totalCents, ordinaryCents, capCents: Number.isFinite(capCents) ? capCents : null, description: lines.map(l => l.label).join(' + '),
+    feeBasis: fee ? fee.basis : (capApplies ? '10810' : null), estateValueCents: capApplies ? capEstate : (fee ? (fee.estateValueCents || null) : null) };
 }
 
 // The three charges of a 3-payment plan.
@@ -107,4 +132,4 @@ function installmentSchedule(totalCents, settings) {
   return [first, first, first];
 }
 
-module.exports = { BASE_CENTS, LABELS, buildOrder, installmentSchedule, courtCents, contestedCents, statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake };
+module.exports = { ORDINARY_KEYS, BASE_CENTS, LABELS, buildOrder, installmentSchedule, courtCents, contestedCents, statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake };

@@ -21,6 +21,9 @@ const STAGES = {
 // Add-ons: the accounting is earned when delivered; a hearing appearance fee when the Firm appears at that hearing.
 
 const isProbate = (t) => t === 'simplified' || t === 'full';
+const { statutoryFeeCents } = require('./pricing');
+// Ordinary services under Probate Code 10810 (fee, accounting, uncontested appearance); legacy rows: all but contested
+const ordinaryOf = (p) => p.ordinaryCents != null ? Number(p.ordinaryCents) : ((p.courtAppearance && p.courtAppearance.kind === 'contested') ? 0 : Number(p.amountCents || 0));
 const sum = (arr, f) => arr.reduce((s, x) => s + (Number(f(x)) || 0), 0);
 
 // caseDoc: cases/{id}; payments, refunds, transfers: rows for this case.
@@ -43,7 +46,13 @@ function computeCaseTrust(caseDoc, payments, refunds, transfers) {
   const appeared = new Set(st.hearingsAppeared || []);
   const accountingEarned = st.accountingDelivered ? sum(accountingPays, p => p.amountCents) : 0;
   const hearingEarned = sum(courtPays.filter(p => appeared.has(p.id) || (p.courtAppearance.hearingId && appeared.has(p.courtAppearance.hearingId))), p => p.amountCents);
-  const probateEarned = Math.round(probateFeeCents * pct / 100);
+  // When the inventory value is in and lower than the intake estimate, the 10810 limit on that value applies (full probate)
+  const inventoryValueCents = Number(caseDoc.inventoryValueCents) || null;
+  const capNowCents = service === 'full' && inventoryValueCents ? statutoryFeeCents(inventoryValueCents) : null;
+  const probateBase = capNowCents != null ? Math.min(probateFeeCents, capNowCents) : probateFeeCents;
+  const probateEarned = Math.round(probateBase * pct / 100);
+  const ordinaryCharged = sum(payments, ordinaryOf) - sum(refunds, r => r.amountCents);
+  const capRefundDueCents = capNowCents != null ? Math.max(0, ordinaryCharged - capNowCents) : 0;
 
   const deposited = sum(live, p => p.amountCents);
   const refunded = sum(refunds, r => r.amountCents);
@@ -62,7 +71,10 @@ function computeCaseTrust(caseDoc, payments, refunds, transfers) {
     service, probateFeeCents, stages, percentEarned: pct,
     earned: { probateCents: probateEarned, accountingCents: accountingEarned, hearingsCents: hearingEarned, totalCents: earned },
     depositedCents: deposited, refundedCents: refunded, transferredCents: transferred,
-    heldForClientCents: heldForClient, readyToMoveCents: readyToMove, entries
+    heldForClientCents: heldForClient, readyToMoveCents: readyToMove,
+    inventoryValueCents, capUnder10810Cents: capNowCents, ordinaryChargedCents: ordinaryCharged,
+    capRefundDueCents, // refund due because the inventory came in lower (Rozsa starts and confirms it in the refund screen)
+    entries
   };
 }
 

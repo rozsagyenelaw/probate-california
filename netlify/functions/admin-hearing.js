@@ -1,0 +1,32 @@
+// Continued hearing (Rozsa, decisions section 22): the paid $500 appearance moves to the new date, no new charge.
+// Admin only. POST { action: 'continue', caseId, hearingId, date: 'YYYY-MM-DD', time?, department?, note? }
+// Writes cases/{id}.hearings (W3-cockpit's calendar reads it), keeps legacy hearingDetails in step, audit logged.
+const { admin, getDb, corsHeaders, verifyCaller, isAdminToken } = require('./lib/firebaseAdmin');
+const { continueHearing } = require('./lib/hearings');
+
+exports.handler = async (event) => {
+  const headers = corsHeaders(event);
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
+  const caller = await verifyCaller(event);
+  if (!isAdminToken(caller)) return { statusCode: 403, headers, body: JSON.stringify({ error: 'Admin only' }) };
+  let body = {};
+  try { body = JSON.parse(event.body || '{}'); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid request' }) }; }
+  if (body.action !== 'continue') return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unknown action' }) };
+  try {
+    const db = getDb();
+    const ref = db.collection('cases').doc(String(body.caseId || ''));
+    const out = await db.runTransaction(async (tx) => {
+      const c = await tx.get(ref);
+      if (!c.exists) throw Object.assign(new Error('Case not found'), { status: 404 });
+      const { hearings, newId } = continueHearing(c.data().hearings, body.hearingId, { date: body.date, time: body.time, department: body.department, note: body.note });
+      const moved = hearings.find(h => h.id === newId);
+      tx.update(ref, { hearings, 'hearingDetails.hearingDate': moved.date, 'hearingDetails.hearingTime': moved.time || '', updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+      return { newId, moved };
+    });
+    await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: 'hearing.continue', caseId: ref.id, target: `cases/${ref.id}`, meta: { from: body.hearingId, to: out.newId, date: body.date, appearanceCarriedOver: !!(out.moved.appearance && out.moved.appearance.paid) } });
+    return { statusCode: 200, headers, body: JSON.stringify({ continued: true, newHearingId: out.newId, hearing: { date: out.moved.date, time: out.moved.time, department: out.moved.department, appearance: out.moved.appearance } }) };
+  } catch (err) {
+    return { statusCode: err.status || 400, headers, body: JSON.stringify({ error: err.message }) };
+  }
+};

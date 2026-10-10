@@ -41,4 +41,25 @@ function legacyHearingDetails(h, appearance) {
   return { caseNumber: h.cn || '', county: h.co || '', hearingDate: h.d || '', hearingTime: h.t || '', department: h.dept || '', hearingType: h.ty || '', otherDescription: h.x || '', courtAppearance: appearance };
 }
 
-module.exports = { hearingEntry, unpackHearing, legacyHearingDetails, mapType };
+// A continued hearing (Rozsa, decisions section 22): the paid $500 appearance carries over to the new date with no new
+// charge. Returns the new hearings array: the old entry gets outcome 'continued' and continuedTo; a new entry has the
+// new date and the same appearance (carriedFrom = old id, same payment).
+function continueHearing(hearings, hearingId, { date, time, department, note }, now) {
+  const list = Array.isArray(hearings) ? hearings.map(h => ({ ...h })) : [];
+  const i = list.findIndex(h => h.id === hearingId);
+  if (i < 0) throw new Error('Hearing not found');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ''))) throw new Error('New date must be YYYY-MM-DD');
+  const old = list[i];
+  const newId = `${old.id}-c${list.filter(h => String(h.id).startsWith(old.id + '-c')).length + 1}`;
+  list[i] = { ...old, outcome: 'continued', continuedTo: newId };
+  list.push({
+    ...old, id: newId, date, time: time || old.time || '', department: department || old.department || '', outcome: '', continuedTo: null,
+    notes: [old.notes, `Continued from ${old.date}${note ? ': ' + note : ''}`].filter(Boolean).join('. '),
+    source: 'continued', carriedFrom: old.id,
+    appearance: old.appearance ? { ...old.appearance, carriedFromHearingId: old.id, newChargeCents: 0 } : old.appearance,
+    createdAt: now || admin.firestore.Timestamp.now()
+  });
+  return { hearings: list, newId };
+}
+
+module.exports = { hearingEntry, unpackHearing, legacyHearingDetails, mapType, continueHearing };

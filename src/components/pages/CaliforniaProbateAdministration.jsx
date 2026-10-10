@@ -155,7 +155,7 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       q: 'What if heirs disagree about the estate?',
-      a: 'Disputes among heirs can complicate probate. Our $3,995 flat fee covers uncontested cases. If a formal objection is filed, we offer contested hearing representation at $300/hour. We recommend mediation first when possible to preserve family relationships and reduce costs.'
+      a: 'Disputes among heirs can complicate probate. Our $3,995 flat fee covers uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing. We recommend mediation first when possible to preserve family relationships and reduce costs.'
     },
     {
       q: 'Do you handle probate in all California counties?',
@@ -329,7 +329,7 @@ const CaliforniaProbateAdministration = () => {
             "name": "What if heirs disagree about the estate?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Disputes among heirs can complicate probate. Our $3,995 flat fee covers uncontested cases. If a formal objection is filed, we offer contested hearing representation at $300/hour."
+              "text": "Disputes among heirs can complicate probate. Our $3,995 flat fee covers uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing."
             }
           },
           {

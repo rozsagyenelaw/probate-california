@@ -3,7 +3,7 @@ import { trackLead, trackBeginCheckout } from '../services/analytics';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { startGuestAccount } from '../utils/guestAccount';
-import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars, fullProbateFee, parseDollars } from '../services/businessSettings';
+import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars, fullProbateFee, parseDollars, capOrdinaryDollars } from '../services/businessSettings';
 import CheckoutProgress, { checkoutSteps } from './common/CheckoutProgress';
 import { Link } from 'react-router-dom';
 import {
@@ -101,10 +101,14 @@ const PaymentPage = () => {
       else if (accountingAddon === 'complex') total = prices.accounting.complex;
     } else {
       // Probate service
-      total = serviceType === 'full' ? fullFee.fee : (prices.probate[serviceType] || 0);
-      // Add accounting add-on if selected
-      if (accountingAddon === 'simple') total += prices.accounting.simple;
-      else if (accountingAddon === 'complex') total += prices.accounting.complex;
+      const acct = accountingAddon ? prices.accounting[accountingAddon] : 0;
+      if (serviceType === 'full') {
+        // The 10810 limit covers the fee and the accounting add-on together
+        const c = capOrdinaryDollars(parseDollars(estateValue), { fee: prices.probate.full, accounting: acct });
+        total = c.fee + c.accounting;
+      } else {
+        total = (prices.probate[serviceType] || 0) + acct;
+      }
     }
 
     return total;

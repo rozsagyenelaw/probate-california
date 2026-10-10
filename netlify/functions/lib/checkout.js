@@ -90,6 +90,25 @@ async function requireSignedFeeAgreement(db, params, order) {
   return id;
 }
 
+// For an add-on bought later on a FULL probate case with a known estate value: what the 10810 cap leaves.
+async function capContextForCase(db, caseId) {
+  if (!db || !caseId) return null;
+  const c = await db.collection('cases').doc(caseId).get();
+  if (!c.exists || c.data().serviceType !== 'full') return null;
+  const pays = (await db.collection('payments').where('caseId', '==', caseId).get()).docs.map(d => d.data());
+  const withValue = pays.find(p => Number(p.estateValueCents) > 0);
+  const estateValueCents = Number(c.data().estateValueCents) || (withValue ? Number(withValue.estateValueCents) : 0);
+  if (!(estateValueCents > 0)) return null;
+  const ordinaryOf = (p) => {
+    if (p.ordinaryCents != null) return Number(p.ordinaryCents);
+    // rows written before ordinaryCents existed: everything but a contested hearing is ordinary
+    if (p.courtAppearance && p.courtAppearance.kind === 'contested') return 0;
+    return Number(p.amountCents || p.totalPaid || 0);
+  };
+  const priorOrdinaryCents = pays.reduce((s2, p) => s2 + ordinaryOf(p) - Math.min(Number(p.refundedCents || 0), ordinaryOf(p)), 0);
+  return { fullProbate: true, estateValueCents, priorOrdinaryCents };
+}
+
 // params: { serviceType, probateType, accountingAddon, courtAppearance, hearing, paymentPlan, customerEmail, caseId, promoCode, userId, source }
 async function createCheckout(stripe, db, params, settings) {
   const paymentPlan = params.paymentPlan === 'installments' ? 'installments' : (params.paymentPlan === 'full' ? 'full' : null);
@@ -107,10 +126,12 @@ async function createCheckout(stripe, db, params, settings) {
   if (paymentPlan === 'installments' && params.serviceType === 'court_appearance') throw new UserError('A court appearance is paid in one payment.');
 
   const mode = paymentPlan === 'full' ? 'payment' : 'subscription';
+  // Everything in this order is included under the 10810 cap: nothing to charge, no Stripe checkout
+  if (order.totalCents === 0) return { included: true, order };
   const amounts = mode === 'subscription' ? installmentSchedule(order.totalCents, settings) : null;
   const line_items = [];
   if (mode === 'payment') {
-    for (const l of order.lines) line_items.push(await lineItemFor(stripe, l));
+    for (const l of order.lines) if (l.cents > 0) line_items.push(await lineItemFor(stripe, l));
   } else {
     line_items.push({
       price_data: {
@@ -143,6 +164,8 @@ async function createCheckout(stripe, db, params, settings) {
     totalAmountCents: String(order.totalCents),
     installmentAmounts: amounts ? amounts.join(',') : '',
     feeBasis: order.feeBasis || '',
+    ordinaryCents: String(order.ordinaryCents || 0),
+    includedUnder10810: order.lines.filter(l => l.included).map(l => l.key).join(','),
     estateValueCents: order.estateValueCents ? String(order.estateValueCents) : '',
     feeAgreementRequestId: feeAgreementId || ''
   };
@@ -166,4 +189,4 @@ async function createCheckout(stripe, db, params, settings) {
   return { url: session.url, sessionId: session.id, order, amounts, chargedToday };
 }
 
-module.exports = { createCheckout, UserError, packHearing, resolvePromo, requireSignedFeeAgreement };
+module.exports = { capContextForCase, createCheckout, UserError, packHearing, resolvePromo, requireSignedFeeAgreement };
