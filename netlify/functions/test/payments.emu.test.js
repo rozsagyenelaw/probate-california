@@ -171,16 +171,18 @@ test('shared Stripe account: foreign checkouts are ignored with 200, no write an
   assert.strictEqual((await db.collection('payments').doc('cs_test_ok1').get()).exists, true);
 });
 
-test('fee agreement (when switched on): checkout refused until the client signed it, then allowed', async () => {
+test('fee agreement (when switched on): checkout refused until this client signed it for this exact purchase', async () => {
   const { requireSignedFeeAgreement } = require('../lib/checkout');
-  const uid = 'u-fa-' + Date.now();
+  const email = `rozsagyenelaw1+fa${Date.now()}@gmail.com`;
   const order = buildOrder({ serviceType: 'full', estateValueCents: 5000000 }, {});
-  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: null }, order), e => e.code === 'fee_agreement_required');
-  const ref = db.collection('signatureRequests').doc('fa-' + uid);
-  await ref.set({ kind: 'fee_agreement', clientId: uid, service: 'full', feeCents: 200000, signed: false, status: 'pending' });
-  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required');
-  await ref.update({ signed: true, status: 'signed' });
-  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: 'someone-else', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required');
-  await assert.rejects(requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: ref.id }, buildOrder({ serviceType: 'full' }, {})), e => e.code === 'fee_agreement_required'); // different fee
-  assert.strictEqual(await requireSignedFeeAgreement(db, { serviceType: 'full', userId: uid, feeAgreementRequestId: ref.id }, order), ref.id);
+  const params = { serviceType: 'full', customerEmail: email, accountingAddon: null, courtAppearance: null, paymentPlan: 'full' };
+  await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: null }, order), e => e.code === 'fee_agreement_required');
+  const ref = db.collection('signatureRequests').doc('fa-' + Date.now());
+  await ref.set({ kind: 'fee_agreement', stage: 'checkout', status: 'checkout_unsigned', clientEmail: email, order: { service: 'full', accountingAddon: null, courtAppearance: null, paymentPlan: 'full', estateValueCents: 5000000, feeCents: 200000, totalCents: 200000 } });
+  await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // not signed
+  await ref.update({ status: 'signed' });
+  await assert.rejects(requireSignedFeeAgreement(db, { ...params, customerEmail: 'rozsagyenelaw1+other@gmail.com', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // other client
+  await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, buildOrder({ serviceType: 'full' }, {})), e => e.code === 'fee_agreement_required'); // different fee
+  await assert.rejects(requireSignedFeeAgreement(db, { ...params, paymentPlan: 'installments', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // different plan
+  assert.strictEqual(await requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, order), ref.id);
 });

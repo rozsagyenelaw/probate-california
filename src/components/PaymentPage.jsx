@@ -5,9 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { startGuestAccount } from '../utils/guestAccount';
 import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars, fullProbateFee, parseDollars } from '../services/businessSettings';
 import CheckoutProgress, { checkoutSteps } from './common/CheckoutProgress';
-import { httpsCallable } from 'firebase/functions';
-import { doc as fsDoc, getDoc as fsGetDoc } from 'firebase/firestore';
-import { db as fsDb, functions as fbFunctions } from '../services/firebase';
 import { Link } from 'react-router-dom';
 import {
   CreditCard,
@@ -46,7 +43,6 @@ const PaymentPage = () => {
   const [estateValue, setEstateValue] = useState('');
   // Fee agreement signed inside this flow, before payment (config/business.feeAgreementEnabled)
   const [feeAgreementId, setFeeAgreementId] = useState(null);
-  const [feeAgreementBusy, setFeeAgreementBusy] = useState(false);
 
   useEffect(() => {
     if (searchParams.get('canceled') === 'true') {
@@ -54,18 +50,7 @@ const PaymentPage = () => {
     }
   }, [searchParams]);
 
-  // Back from signing the fee agreement: restore the choices and confirm the signature
-  useEffect(() => {
-    const id = searchParams.get('feeAgreement');
-    try {
-      const saved = JSON.parse(sessionStorage.getItem('mpca-checkout') || 'null');
-      if (saved) { setServiceType(saved.serviceType); setAccountingAddon(saved.accountingAddon); setSelectedPlan(saved.selectedPlan); setEstateValue(saved.estateValue || ''); setPromoCode(saved.promoCode || ''); }
-    } catch { /* nothing saved */ }
-    if (!id || !user) return;
-    fsGetDoc(fsDoc(fsDb, 'signatureRequests', id)).then(d => {
-      if (d.exists() && (d.data().signed === true || d.data().status === 'signed')) setFeeAgreementId(id);
-    }).catch(() => {});
-  }, [searchParams, user]);
+
 
   // Guests: name, email and phone first (no password). The server sets up the account for this
   // email, or finds the existing one, and the payment is attached to it. Every email gets the
@@ -150,27 +135,6 @@ const PaymentPage = () => {
     } else {
       // For probate, toggle the add-on
       setAccountingAddon(accountingAddon === type ? null : type);
-    }
-  };
-
-  // W2-fee's callable prepares the agreement for exactly this selection and returns the signing link,
-  // which brings the client back to this page (?feeAgreement=<id>) to pay.
-  const startFeeAgreement = async () => {
-    setFeeAgreementBusy(true); setError(null);
-    try {
-      sessionStorage.setItem('mpca-checkout', JSON.stringify({ serviceType, accountingAddon, selectedPlan, estateValue, promoCode }));
-      const prepare = httpsCallable(fbFunctions, 'prepareCheckoutFeeAgreement');
-      const res = await prepare({
-        serviceType, accountingAddon, paymentPlan: selectedPlan,
-        feeCents: Math.round((serviceType === 'full' ? fullFee.fee : prices.probate[serviceType]) * 100),
-        estateValueCents: serviceType === 'full' ? Math.round(parseDollars(estateValue) * 100) : null,
-        returnUrl: `${window.location.origin}/payment`
-      });
-      if (res.data && res.data.signUrl) window.location.href = res.data.signUrl;
-      else throw new Error('no link');
-    } catch (err) {
-      setError('We could not prepare your fee agreement just now. Please try again in a moment, or send us a message from your client portal.');
-      setFeeAgreementBusy(false);
     }
   };
 
@@ -774,23 +738,7 @@ const PaymentPage = () => {
               )}
             </div>
 
-            {/* Fee agreement: one step inside this flow, before payment */}
-            {needsFeeAgreement && (
-              <div className={`mt-6 rounded-lg border p-4 ${feeAgreementId ? 'bg-green-50 border-green-200' : 'bg-blue-50 border-blue-200'}`} data-testid="fee-agreement-step">
-                {feeAgreementId ? (
-                  <p className="text-green-800 font-medium">Your fee agreement is signed. You can pay now.</p>
-                ) : (
-                  <>
-                    <p className="font-semibold text-gray-900">Sign your fee agreement</p>
-                    <p className="text-sm text-gray-700 mt-1">It shows what we do, your fee and how refunds work. It takes about a minute, and you come right back here to pay.</p>
-                    <button type="button" onClick={startFeeAgreement} disabled={feeAgreementBusy}
-                      className="mt-3 w-full py-3 rounded-lg bg-blue-900 text-white font-semibold disabled:opacity-50">
-                      {feeAgreementBusy ? 'Preparing your agreement...' : 'Read and sign the fee agreement'}
-                    </button>
-                  </>
-                )}
-              </div>
-            )}
+            {/* Fee agreement step: W2-fee's <FeeAgreementCheckoutStep> goes here (calls setFeeAgreementId on signing) */}
 
             {/* Pay Button */}
             <button

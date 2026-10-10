@@ -67,19 +67,26 @@ async function resolvePromo(stripe, db, code) {
   throw new UserError('That promo code is not valid. Please check it, or continue without it.');
 }
 
-// The signed fee agreement for this purchase: signatureRequests/{id} created by W2-fee's checkout step
-// (kind 'fee_agreement'), owned by this client, signed, for the same service and the same fee.
+// The signed fee agreement for this purchase (shape from W2-fee's checkout step, shared-data-model.md W2-fee section):
+// signatureRequests/{id}: kind 'fee_agreement', stage 'checkout', status 'signed', clientEmail, and
+// order { service, accountingAddon, courtAppearance, paymentPlan, estateValueCents, feeCents, totalCents }.
+// It must be signed, for this email, and for exactly this purchase and fee (the small-estate fee included).
 async function requireSignedFeeAgreement(db, params, order) {
   const id = String(params.feeAgreementRequestId || '');
   const fail = () => { const e = new UserError('Please sign your fee agreement first. It is the step just before payment.', 409); e.code = 'fee_agreement_required'; throw e; };
-  if (!id || !db || !params.userId) fail();
+  if (!id || !db) fail();
   const snap = await db.collection('signatureRequests').doc(id).get();
   if (!snap.exists) fail();
   const r = snap.data();
-  const signed = r.signed === true || r.status === 'signed' || r.status === 'completed';
+  const o = r.order || {};
   const feeLine = order.lines.find(l => l.key === params.serviceType);
-  const feeOk = r.feeCents == null || !feeLine || Number(r.feeCents) === feeLine.cents;
-  if (r.kind !== 'fee_agreement' || r.clientId !== params.userId || !signed || (r.service && r.service !== params.serviceType) || !feeOk) fail();
+  const same = (a, b) => (a || null) === (b || null);
+  const ok = r.kind === 'fee_agreement' && r.status === 'signed'
+    && String(r.clientEmail || '').toLowerCase() === String(params.customerEmail || '').toLowerCase()
+    && o.service === params.serviceType && same(o.accountingAddon, params.accountingAddon) && same(o.courtAppearance, params.courtAppearance)
+    && (o.paymentPlan || 'full') === (params.paymentPlan === 'installments' ? 'installments' : 'full')
+    && feeLine && Number(o.feeCents) === feeLine.cents;
+  if (!ok) fail();
   return id;
 }
 
@@ -137,7 +144,7 @@ async function createCheckout(stripe, db, params, settings) {
     installmentAmounts: amounts ? amounts.join(',') : '',
     feeBasis: order.feeBasis || '',
     estateValueCents: order.estateValueCents ? String(order.estateValueCents) : '',
-    feeAgreementId: feeAgreementId || ''
+    feeAgreementRequestId: feeAgreementId || ''
   };
   const cfg = {
     mode,

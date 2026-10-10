@@ -84,7 +84,7 @@ async function recordCheckout(stripe, db, session) {
     totalPriceCents: totalPrice,
     feeBasis: meta.feeBasis || null,           // '10810' when the small-estate amount applied
     estateValueCents: meta.estateValueCents ? Number(meta.estateValueCents) : null,
-    feeAgreementId: meta.feeAgreementId || null,
+    feeAgreementRequestId: meta.feeAgreementRequestId || null, // W2-fee's portal trigger links the signed agreement
     installment: installments ? { number: 1, of: 3, amounts } : null,
     paymentStatus: status,
     refundedCents: 0,
