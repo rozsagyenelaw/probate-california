@@ -60,6 +60,20 @@ service firebase.storage {
       allow write: if isAdmin();
     }
 
+    // ================= W3-cockpit section (attorney cockpit) =================
+    // Owner: W3-cockpit. The attorney uploads here first; nothing here is visible to clients.
+    // Sending copies the file (Cloud Function) to cases/{caseId}/documents/attorney/..., which the case owner can read.
+    match /cockpit-uploads/{caseId}/{allPaths=**} {
+      allow read, write: if isAdmin();
+    }
+    // Main-site "Upload Prepared Document" path (it was denied by default before).
+    // The attorney writes; the client who owns the case may read.
+    match /cases/{caseId}/prepared-forms/{allPaths=**} {
+      allow read: if isAdmin() || ownsCase(caseId);
+      allow write: if isAdmin();
+    }
+    // ================= end W3-cockpit section =================
+
     // Vault documents - users can only access their own vault
     match /vaults/{userId}/{allPaths=**} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
