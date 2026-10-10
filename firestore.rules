@@ -128,6 +128,18 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Steps the client does outside the app (mail the notices, newspaper notice, file), with documents and
+    // instructions (W3-home, decision 22). Written by the server/attorney; the client only marks done or not done.
+    match /cases/{caseId}/clientSteps/{stepId} {
+      allow read: if isAdmin() || ownsCase(caseId);
+      allow update: if isAdmin() ||
+        (ownsCase(caseId) &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'doneAt', 'doneBy']) &&
+         request.resource.data.status in ['todo', 'done'] &&
+         request.resource.data.doneBy == 'client');
+      allow create, delete: if isAdmin();
+    }
+
     // Intake answers saved as the client types (any device). W3-home item 53.
     match /intakeDrafts/{userId} {
       allow read: if isOwner(userId) || isAdmin();
