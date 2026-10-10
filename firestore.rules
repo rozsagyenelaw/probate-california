@@ -106,15 +106,38 @@ service cloud.firestore {
     // Messages collection - users can only access their own messages
     // Owner = userId / clientId on the message, or the owner of the message's case
     match /messages/{messageId} {
-      allow read, update: if isAdmin() ||
-        (isAuthenticated() &&
-         (resource.data.userId == request.auth.uid ||
-          resource.data.clientId == request.auth.uid ||
-          ownsCase(resource.data.caseId)));
+      function ownsMessage() {
+        return isAuthenticated() &&
+          (resource.data.get('userId', null) == request.auth.uid ||
+           resource.data.get('clientId', null) == request.auth.uid ||
+           ownsCase(resource.data.get('caseId', null)));
+      }
+      allow read: if isAdmin() || ownsMessage();
+      // Clients only mark messages as read; they never change what was written (W3-home)
+      allow update: if isAdmin() ||
+        (ownsMessage() &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read', 'unread', 'readByClientAt']));
+      // A client writes as themselves, never as the office: on their case, or (no case yet) to their own thread
       allow create: if isAdmin() ||
         (isAuthenticated() && request.resource.data.senderId == request.auth.uid &&
-         ownsCase(request.resource.data.caseId));
+         request.resource.data.get('isAdmin', false) != true &&
+         request.resource.data.get('senderRole', 'client') == 'client' &&
+         (ownsCase(request.resource.data.get('caseId', null)) ||
+          (request.resource.data.get('caseId', null) == null &&
+           request.resource.data.get('clientId', null) == request.auth.uid)));
       allow delete: if isAdmin();
+    }
+
+    // Intake answers saved as the client types (any device). W3-home item 53.
+    match /intakeDrafts/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create, update: if isOwner(userId) && request.resource.size() < 900000;
+      allow delete: if isAdmin();
+    }
+
+    // Client home switches (for example whether client notices go beyond test inboxes): admin only
+    match /config/clientHome {
+      allow read, write: if isAdmin();
     }
 
     // Payments collection - users can only see their own payments
