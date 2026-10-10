@@ -260,8 +260,13 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow write: if false;
     }
-    // Client trust ledger (transfers from trust to operating recorded by the attorney): attorney read, server write
-    match /cases/{caseId}/trustLedger/{entryId} {
+    // W2-payments trust ledger: moves from trust to operating recorded by the attorney, and add-ons included
+    // under the Probate Code 10810 limit. Attorney read, server write only.
+    match /trustTransfers/{transferId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+    match /includedServices/{serviceId} {
       allow read: if isAdmin();
       allow write: if false;
     }
