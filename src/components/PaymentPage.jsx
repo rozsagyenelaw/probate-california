@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { startGuestAccount } from '../utils/guestAccount';
+import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars } from '../services/businessSettings';
 import { Link } from 'react-router-dom';
 import {
   CreditCard,
@@ -24,6 +25,7 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
+  const settings = useBusinessSettings();
 
   // Service type: 'simplified', 'full', or 'accounting_only'
   const [serviceType, setServiceType] = useState('full');
@@ -95,7 +97,8 @@ const PaymentPage = () => {
   };
 
   const totalPrice = calculateTotal();
-  const installmentPrice = Math.ceil(totalPrice / 3);
+  const installments = installmentAmounts(totalPrice, settings);
+  const installmentPrice = installments[0];
 
   // Handle service type change
   const handleServiceTypeChange = (type) => {
@@ -139,10 +142,12 @@ const PaymentPage = () => {
     setError(null);
 
     try {
+      const idToken = await user.getIdToken().catch(() => null);
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
         },
         body: JSON.stringify({
           serviceType: serviceType,
@@ -405,10 +410,12 @@ const PaymentPage = () => {
 
               <p className="text-sm text-gray-700 font-medium mb-2">Best for estates with:</p>
               <ul className="text-sm text-gray-600 space-y-1 mb-3">
-                <li className="flex items-center">
+                {accountingTierNote(settings.accountingTierRule, 'simple') && (
+                  <li className="flex items-center">
                   <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Under 50 transactions
-                </li>
+                    {accountingTierNote(settings.accountingTierRule, 'simple')}
+                  </li>
+                )}
                 <li className="flex items-center">
                   <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
                   Basic income (interest, dividends)
@@ -482,10 +489,12 @@ const PaymentPage = () => {
 
               <p className="text-sm text-gray-700 font-medium mb-2">Best for estates with:</p>
               <ul className="text-sm text-gray-600 space-y-1 mb-3">
-                <li className="flex items-center">
+                {accountingTierNote(settings.accountingTierRule, 'complex') && (
+                  <li className="flex items-center">
                   <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  50+ transactions
-                </li>
+                    {accountingTierNote(settings.accountingTierRule, 'complex')}
+                  </li>
+                )}
                 <li className="flex items-center">
                   <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
                   Business income/expenses
@@ -583,14 +592,14 @@ const PaymentPage = () => {
                     <Calendar className="h-4 w-4 mr-2" />
                     3 Monthly Payments
                   </h3>
-                  <p className="text-sm text-gray-600">No extra charge</p>
+                  <p className="text-sm text-gray-600">No interest. Stops after the third payment.</p>
                 </div>
                 <div className="text-right">
                   <p className="text-xl font-bold text-gray-900">
-                    ${installmentPrice.toLocaleString()}/mo
+                    ${fmtDollars(installmentPrice)}/mo
                   </p>
                   <p className="text-xs text-gray-500">
-                    Total: ${totalPrice.toLocaleString()}
+                    Total of 3 payments: ${fmtDollars(installments.reduce((a, b) => a + b, 0))}
                   </p>
                 </div>
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ml-4 ${
@@ -608,10 +617,10 @@ const PaymentPage = () => {
                 <span className="ml-2 bg-pink-100 text-pink-700 text-xs font-medium px-2 py-0.5 rounded">Buy now, pay later</span>
               </div>
               <p className="text-sm text-gray-700 mb-2">
-                <strong>4 interest-free payments</strong> of ${Math.ceil(totalPrice / 4).toLocaleString()} available at checkout
+                Pay over time with Klarna, subject to Klarna's approval.
               </p>
               <p className="text-xs text-gray-500">
-                Select "Pay in Full" above, then choose Klarna on the next screen. Instant approval, no impact to credit score.
+                Select "Pay in Full" above, then choose Klarna on the next screen. Klarna shows you its plan and the exact amounts before you agree.
               </p>
             </div>
 
@@ -671,10 +680,10 @@ const PaymentPage = () => {
                 <div className="bg-blue-50 rounded-lg p-3 mt-3">
                   <div className="flex justify-between text-blue-900">
                     <span className="font-medium">Due today</span>
-                    <span className="font-bold">${installmentPrice.toLocaleString()}</span>
+                    <span className="font-bold">${fmtDollars(installmentPrice)}</span>
                   </div>
                   <p className="text-xs text-blue-700 mt-1">
-                    + 2 more payments of ${installmentPrice.toLocaleString()}/month
+                    + 2 more monthly payments of ${fmtDollars(installments[1])}{installments[2] !== installments[1] ? ` and $${fmtDollars(installments[2])}` : ''}, then the plan stops
                   </p>
                 </div>
               )}
@@ -696,7 +705,7 @@ const PaymentPage = () => {
                 <>
                   <CreditCard className="h-5 w-5 mr-2" />
                   {selectedPlan === 'installments'
-                    ? `Pay $${installmentPrice.toLocaleString()} Now`
+                    ? `Pay $${fmtDollars(installmentPrice)} Now`
                     : `Pay $${totalPrice.toLocaleString()}`
                   }
                 </>
@@ -757,6 +766,9 @@ const PaymentPage = () => {
             </div>
           </div>
         )}
+
+        {/* Refund policy (one policy, matching the fee agreement) */}
+        <p className="mt-6 text-center text-xs text-gray-500" data-testid="refund-policy">{refundPolicyText(settings)}</p>
 
         {/* Contact */}
         <div className="mt-6 text-center text-gray-600">

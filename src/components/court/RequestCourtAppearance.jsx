@@ -4,6 +4,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { CA_COUNTY_LIST } from '../../data/californiaCourts';
+import { useBusinessSettings, contestedOffered, contestedPrice } from '../../services/businessSettings';
 import {
   Scale,
   ArrowLeft,
@@ -18,10 +19,6 @@ import {
   AlertCircle
 } from 'lucide-react';
 
-const COURT_PRICES = {
-  remote: 500,
-  contested: 600
-};
 
 const HEARING_TYPES = [
   { value: 'petition_hearing', label: 'Petition for Probate Hearing' },
@@ -37,6 +34,9 @@ const RequestCourtAppearance = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
+  const settings = useBusinessSettings();
+  const COURT_PRICES = { remote: 500, contested: contestedPrice(settings) };
+  const showContested = contestedOffered(settings);
   const [selectedType, setSelectedType] = useState(searchParams.get('type') || 'remote');
   const [probateCase, setProbateCase] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -114,14 +114,16 @@ const RequestCourtAppearance = () => {
     setError(null);
 
     try {
+      const idToken = await user.getIdToken();
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
         },
         body: JSON.stringify({
           serviceType: 'court_appearance',
-          courtAppearance: selectedType,
+          courtAppearance: showContested ? selectedType : 'remote',
           paymentPlan: 'full',
           customerEmail: user.email,
           caseId: probateCase?.id || '',
@@ -244,8 +246,8 @@ const RequestCourtAppearance = () => {
             </ul>
           </div>
 
-          {/* Contested/Complex Appearance */}
-          <div
+          {/* Contested/Complex Appearance (offered and price follow config/business.contestedHearing) */}
+          {showContested && (<div
             onClick={() => setSelectedType('contested')}
             className={`bg-white rounded-xl shadow-sm p-6 cursor-pointer transition-all ${
               selectedType === 'contested'
@@ -268,7 +270,7 @@ const RequestCourtAppearance = () => {
               </div>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Contested/Complex</h3>
-            <p className="text-3xl font-bold text-purple-600 mb-4">$600</p>
+            <p className="text-3xl font-bold text-purple-600 mb-4">${COURT_PRICES.contested.toLocaleString()}</p>
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start">
                 <CheckCircle className="h-4 w-4 text-purple-500 mr-2 mt-0.5 flex-shrink-0" />
@@ -287,7 +289,7 @@ const RequestCourtAppearance = () => {
                 Pre-hearing strategy call included
               </li>
             </ul>
-          </div>
+          </div>)}
         </div>
 
         {/* Hearing Details Form */}

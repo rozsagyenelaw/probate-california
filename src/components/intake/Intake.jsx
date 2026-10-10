@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Scale, ArrowLeft, ArrowRight, Check, Loader2 } from 'lucide-react';
-import { doc, setDoc, serverTimestamp, collection } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { INTAKE_STEPS, INITIAL_FORM_STATE } from './IntakeSteps';
@@ -40,6 +40,22 @@ const Intake = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  // A client who already paid finishes intake without a payment step (item 17)
+  const [paidCase, setPaidCase] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+    let on = true;
+    (async () => {
+      try {
+        const snap = await getDocs(query(collection(db, 'cases'), where('userId', '==', user.uid)));
+        const paid = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+          .filter(c => !c.archived && (['paid', 'installments_active'].includes(c.paymentStatus) || c.payment?.status === 'paid'));
+        if (on && paid.length) setPaidCase(paid.find(c => !c.intakeCompletedAt) || paid[0]);
+      } catch (e) { console.warn('Intake: could not check payment status', e.code || e.message); }
+    })();
+    return () => { on = false; };
+  }, [user]);
 
   // Save form data to localStorage on changes
   useEffect(() => {
@@ -151,122 +167,53 @@ const Intake = () => {
       case 'review':
         return <ReviewStep {...props} onEditStep={handleEditStep} />;
       case 'payment':
-        return <PaymentStep {...props} onSubmitCase={handleSubmitWithPayment} isSubmitting={isSubmitting} />;
+        return <PaymentStep {...props} onSubmitCase={handleSubmitWithPayment} isSubmitting={isSubmitting} paidCase={paidCase} />;
       default:
         return null;
     }
   };
 
-  // Handle submit with payment info
+  // Submit: the server attaches the answers to the client's paid case (no second payment), or opens
+  // one case and starts the fee checkout when nothing is paid yet (netlify/functions/submit-intake.js).
   const handleSubmitWithPayment = async (paymentInfo) => {
-    console.log('Intake: handleSubmitWithPayment called', paymentInfo);
-    console.log('Intake: User ID:', user?.uid);
-
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // Create case document
-      const caseRef = doc(collection(db, 'cases'));
-      const caseId = caseRef.id;
-      console.log('Intake: Creating case with ID:', caseId);
-
-      const decedentName = `${formData.decedent.firstName} ${formData.decedent.lastName}`;
       const filingCounty = formData.decedent.lastAddress.county;
       const courtInfo = getCourtByCounty(filingCounty);
+      const idToken = await user.getIdToken();
+      const response = await fetch('/.netlify/functions/submit-intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+        body: JSON.stringify({
+          formData,
+          courtInfo: courtInfo ? { name: courtInfo.name, address: courtInfo.address, phone: courtInfo.phone } : null,
+          selection: {
+            probateType: paymentInfo.probateType || 'full',
+            accountingAddon: paymentInfo.accountingAddon || null,
+            courtAppearance: paymentInfo.courtAppearance ? paymentInfo.courtAppearance.type : null,
+            hearing: paymentInfo.courtAppearance || null,
+            paymentPlan: paymentInfo.paymentPlan === 'installments' ? 'installments' : 'full'
+          }
+        })
+      });
+      let data = {};
+      try { data = await response.json(); } catch { /* handled below */ }
+      if (!response.ok) {
+        setError(data.error || 'We could not send your answers. Please try again or call 818-337-4071.');
+        setIsSubmitting(false);
+        return;
+      }
+      const caseId = data.caseId;
 
-      const caseData = {
-        id: caseId,
-        userId: user.uid,
-        status: 'pending_payment', // Pending until payment confirmed
-        currentPhase: 1, // Will advance to 2 after payment
-        phaseStatuses: {
-          1: 'in_progress', // Intake pending payment
-          2: 'pending',
-          3: 'pending',
-          4: 'pending',
-          5: 'pending',
-          6: 'pending',
-          7: 'pending',
-          8: 'pending',
-          9: 'pending',
-          10: 'pending',
-          11: 'pending'
-        },
-        estateName: `Estate of ${decedentName}`,
-        caseNumber: null,
-        filingCounty: filingCounty,
-        probateType: formData.willExists ? 'testate' : 'intestate',
-
-        // Court information based on county
-        court: {
-          county: filingCounty,
-          courthouse: courtInfo?.name || null,
-          address: courtInfo?.address || null,
-          phone: courtInfo?.phone || null,
-          caseNumber: null // Will be assigned after filing
-        },
-
-        // Store all intake form data
-        decedent: formData.decedent,
-        petitioner: formData.petitioner,
-        willExists: formData.willExists,
-        willDate: formData.willDate,
-        codicilExists: formData.codicilExists,
-        codicilDates: formData.codicilDates,
-        namedExecutor: formData.namedExecutor,
-        bondWaivedInWill: formData.bondWaivedInWill,
-        heirs: formData.heirs,
-        assets: formData.assets,
-        liabilities: formData.liabilities,
-        documents: formData.documents,
-
-        // Payment info
-        payment: {
-          plan: paymentInfo.paymentPlan,
-          amount: paymentInfo.paymentAmount,
-          totalAmount: paymentInfo.totalAmount,
-          status: 'pending', // Will be updated after Stripe payment
-          paidAt: null
-        },
-
-        // Service selection
-        serviceType: paymentInfo.probateType || 'full',
-        addOns: {
-          accounting: paymentInfo.accountingAddon || null
-        },
-
-        // Timestamps and metadata
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        intakeCompletedAt: serverTimestamp(),
-
-        // Key dates (to be filled in as case progresses)
-        keyDates: {
-          intakeCompleted: new Date().toISOString(),
-          petitionFiled: null,
-          publicationStart: null,
-          publicationEnd: null,
-          firstHearing: null,
-          lettersIssued: null,
-          inventoryDue: null,
-          creditorPeriodEnd: null,
-          finalHearing: null
-        }
-      };
-
-      console.log('Intake: Saving case to Firestore...');
-      await setDoc(caseRef, caseData);
-      console.log('Intake: Case saved successfully!');
-
-      // Fire Google Ads lead conversion for questionnaire completion
+      // Fire Google Ads lead conversion for questionnaire completion (W2-tracking owns this)
       if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('event', 'conversion', {
           'send_to': 'AW-989094207/LEAD_CONVERSION_LABEL',  // Replace with actual lead conversion label from Google Ads
           'value': paymentInfo.totalAmount || 3995,
           'currency': 'USD'
         });
-        console.log('Google Ads lead conversion fired for questionnaire completion');
       }
 
       // Save uploaded documents to the documents collection
@@ -279,15 +226,14 @@ const Intake = () => {
         'bankStatements': 'bank-statement',
         'lifeInsurance': 'insurance-policy'
       };
-
-      if (formData.documents) {
+      if (formData.documents && caseId) {
         const docPromises = [];
         for (const [docId, docData] of Object.entries(formData.documents)) {
           if (docData?.uploaded && docData?.downloadURL) {
             const documentRef = doc(collection(db, 'documents'));
-            const documentRecord = {
+            docPromises.push(setDoc(documentRef, {
               id: documentRef.id,
-              caseId: caseId,
+              caseId,
               userId: user.uid,
               fileName: docData.fileName,
               fileSize: docData.fileSize,
@@ -298,99 +244,34 @@ const Intake = () => {
               status: 'active',
               uploadedAt: serverTimestamp(),
               source: 'intake'
-            };
-            docPromises.push(setDoc(documentRef, documentRecord));
-            console.log('Intake: Saving document to collection:', docData.fileName);
+            }));
           }
         }
-        if (docPromises.length > 0) {
-          await Promise.all(docPromises);
-          console.log('Intake: All documents saved to collection!');
-        }
+        if (docPromises.length > 0) await Promise.all(docPromises);
       }
 
-      // Update user's payment status
-      console.log('Intake: Updating user payment status...');
-      await setDoc(doc(db, 'users', user.uid), {
-        paymentStatus: 'pending',
-        paymentPlan: paymentInfo.paymentPlan,
-        currentCaseId: caseId,
-        updatedAt: serverTimestamp()
-      }, { merge: true });
-      console.log('Intake: User updated successfully!');
-
-      // Clear saved form data
       localStorage.removeItem(`intake-${user.uid}`);
 
-      // Now redirect to Stripe checkout
-      console.log('Intake: Creating Stripe checkout session...');
-      const stripePaymentPlan = paymentInfo.paymentPlan === 'full' ? 'full' : 'installments';
-      const probateType = paymentInfo.probateType || 'full';
-      const accountingAddon = paymentInfo.accountingAddon || null;
-
-      console.log('Intake: Probate type:', probateType, 'Accounting:', accountingAddon, 'Payment plan:', stripePaymentPlan);
-
-      const response = await fetch('/.netlify/functions/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          serviceType: probateType, // 'simplified' or 'full' from payment step
-          probateType: probateType,
-          accountingAddon: accountingAddon, // 'simple', 'complex', or null
-          paymentPlan: stripePaymentPlan,
-          customerEmail: user.email,
-          caseId: caseId,
-          promoCode: null,
-        }),
-      });
-
-      let data;
-      try {
-        data = await response.json();
-      } catch (parseError) {
-        console.error('Intake: Failed to parse Stripe response:', parseError);
-        setError('Payment system error. Please contact us at 818-337-4071.');
-        setIsSubmitting(false);
-        return;
-      }
-
-      if (!response.ok) {
-        console.error('Intake: Stripe API error:', response.status, data);
-        setError(data.error || 'Payment system error. Please contact us at 818-337-4071.');
-        setIsSubmitting(false);
-        return;
-      }
-
-      if (data.url && typeof data.url === 'string' && data.url.startsWith('http')) {
-        console.log('Intake: Redirecting to Stripe checkout:', data.url);
-        window.location.href = data.url;
+      const next = data.status === 'attached' ? (data.addOnCheckoutUrl || '/dashboard?intake=done') : data.url;
+      if (typeof next === 'string' && (next.startsWith('https://') || next.startsWith('/'))) {
+        window.location.href = next;
       } else {
-        console.error('Intake: Invalid Stripe checkout URL:', data);
-        setError('Failed to start payment. Please contact us at 818-337-4071.');
+        setError('We could not start the payment. Please call 818-337-4071.');
         setIsSubmitting(false);
       }
     } catch (err) {
-      console.error('Intake: ERROR submitting:', err);
-      console.error('Intake: Error code:', err.code);
-      console.error('Intake: Error message:', err.message);
-
-      let errorMessage = 'Failed to submit. ';
-      if (err.code === 'permission-denied') {
-        errorMessage = 'Permission denied. The Firestore security rules are blocking this action. Please check the rules in Firebase Console.';
-      } else if (err.message?.includes('offline')) {
-        errorMessage = 'Connection error. Please check your internet connection and try again.';
-      } else {
-        errorMessage = `Error: ${err.code || ''} - ${err.message || 'Unknown error'}`;
-      }
-
-      setError(errorMessage);
+      console.error('Intake: error submitting:', err.code || '', err.message);
+      setError(err.message?.includes('offline')
+        ? 'Connection problem. Please check your internet connection and try again.'
+        : 'We could not send your answers. Please try again or call 818-337-4071.');
       setIsSubmitting(false);
     }
   };
 
-  const currentStepData = INTAKE_STEPS[currentStep];
+  const baseStep = INTAKE_STEPS[currentStep];
+  const currentStepData = paidCase && baseStep.id === 'payment'
+    ? { ...baseStep, title: 'Send Your Answers', shortTitle: 'Send', description: 'Your fee is already paid. Check your answers and send them to us.' }
+    : baseStep;
   const isLastStep = currentStep === INTAKE_STEPS.length - 1;
 
   return (
@@ -461,7 +342,7 @@ const Intake = () => {
                 <span className={`text-xs mt-1 max-w-[60px] text-center truncate ${
                   index === currentStep ? 'text-blue-900 font-medium' : 'text-gray-500'
                 }`}>
-                  {step.shortTitle || step.title}
+                  {paidCase && step.id === 'payment' ? 'Send' : (step.shortTitle || step.title)}
                 </span>
               </button>
             ))}
@@ -525,7 +406,7 @@ const Intake = () => {
                   : 'bg-blue-900 text-white hover:bg-blue-800'
               }`}
             >
-              {currentStepData.id === 'review' ? 'Proceed to Payment' : 'Next'}
+              {currentStepData.id === 'review' ? (paidCase ? 'Continue' : 'Proceed to Payment') : 'Next'}
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
           </div>

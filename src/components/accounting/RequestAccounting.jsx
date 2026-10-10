@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
+import { useBusinessSettings, accountingTierNote } from '../../services/businessSettings';
 import {
   Scale,
   ArrowLeft,
@@ -20,6 +21,7 @@ const RequestAccounting = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
+  const settings = useBusinessSettings();
   const [selectedType, setSelectedType] = useState(searchParams.get('type') || 'simple');
   const [probateCase, setProbateCase] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,10 +65,12 @@ const RequestAccounting = () => {
 
     try {
       // Create Stripe checkout session for accounting addon
+      const idToken = await user.getIdToken();
       const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
         },
         body: JSON.stringify({
           serviceType: 'accounting_addon',
@@ -221,10 +225,12 @@ const RequestAccounting = () => {
                 <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
                 Final accounting report for court
               </li>
-              <li className="flex items-start">
+              {accountingTierNote(settings.accountingTierRule, 'simple') && (
+                <li className="flex items-start">
                 <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                Ideal for estates under $500K
-              </li>
+                  {accountingTierNote(settings.accountingTierRule, 'simple')}
+                </li>
+              )}
             </ul>
           </div>
 
@@ -266,10 +272,12 @@ const RequestAccounting = () => {
                 <CheckCircle className="h-4 w-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" />
                 Detailed final accounting with exhibits
               </li>
-              <li className="flex items-start">
+              {accountingTierNote(settings.accountingTierRule, 'complex') && (
+                <li className="flex items-start">
                 <CheckCircle className="h-4 w-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" />
-                Ideal for estates over $500K
-              </li>
+                  {accountingTierNote(settings.accountingTierRule, 'complex')}
+                </li>
+              )}
             </ul>
           </div>
         </div>

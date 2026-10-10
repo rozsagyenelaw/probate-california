@@ -1,312 +1,187 @@
-import React, { useState, useEffect } from 'react';
-import { collection, query, onSnapshot } from 'firebase/firestore';
-import { db } from '../../services/firebase';
-import {
-  CreditCard,
-  Search,
-  DollarSign,
-  CheckCircle,
-  Clock,
-  RefreshCw,
-  TrendingUp,
-  Users
-} from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { DollarSign, RefreshCw, RotateCcw, AlertTriangle, Search, X, Loader2 } from 'lucide-react';
 
-const FLAT_FEE = 3995;
+// Revenue from real Stripe payments (netlify/functions/admin-revenue.js) and refunds started here
+// (netlify/functions/admin-refund.js, with a typed confirmation step).
+const money = (c) => '$' + ((c || 0) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-const AdminPayments = () => {
-  const [clients, setClients] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+async function callFn(user, name, body) {
+  const idToken = await user.getIdToken();
+  const r = await fetch(`/.netlify/functions/${name}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` }, body: JSON.stringify(body || {}) });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(data.error || `Error ${r.status}`); e.data = data; throw e; }
+  return data;
+}
+
+const RefundDialog = ({ user, payment, onClose, onDone }) => {
+  const [quote, setQuote] = useState(null);
+  const [amount, setAmount] = useState('');
+  const [reason, setReason] = useState('');
+  const [phrase, setPhrase] = useState('');
+  const [stopPlan, setStopPlan] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const [result, setResult] = useState(null);
 
   useEffect(() => {
-    console.log('AdminPayments: Loading users...');
-    // Simple query without orderBy to avoid index requirement
-    const usersQuery = query(collection(db, 'users'));
+    callFn(user, 'admin-refund', { action: 'quote', paymentId: payment.id })
+      .then(q => { setQuote(q); setAmount((q.maxRefundCents / 100).toFixed(2)); })
+      .catch(e => setError(e.message));
+  }, [user, payment.id]);
 
-    const unsubUsers = onSnapshot(usersQuery, (snapshot) => {
-      console.log('AdminPayments: Users loaded:', snapshot.size);
-      const usersData = snapshot.docs
-        .map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-        // Sort by createdAt in JavaScript instead
-        .sort((a, b) => {
-          const timeA = a.createdAt?.toMillis?.() || 0;
-          const timeB = b.createdAt?.toMillis?.() || 0;
-          return timeB - timeA;
-        });
-      setClients(usersData);
-      setLoading(false);
-    }, (error) => {
-      console.error('AdminPayments: Error loading users:', error);
-      setLoading(false);
-    });
+  const cents = Math.round(parseFloat(amount || '0') * 100);
+  const expected = `REFUND ${money(cents)}`;
 
-    return () => unsubUsers();
-  }, []);
-
-  const filteredClients = clients.filter(c => {
-    const matchesSearch =
-      c.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.email?.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const isPaid = c.paymentStatus === 'paid' || c.paymentStatus === 'installments_active';
-    const matchesStatus =
-      statusFilter === 'all' ||
-      (statusFilter === 'paid' && isPaid) ||
-      (statusFilter === 'pending' && !isPaid);
-
-    return matchesSearch && matchesStatus;
-  });
-
-  const formatDate = (timestamp) => {
-    if (!timestamp) return '-';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0
-    }).format(amount);
-  };
-
-  const paidClients = clients.filter(c => c.paymentStatus === 'paid' || c.paymentStatus === 'installments_active');
-  const pendingClients = clients.filter(c => c.paymentStatus !== 'paid' && c.paymentStatus !== 'installments_active');
-
-  const stats = {
-    totalRevenue: paidClients.length * FLAT_FEE,
-    paidCount: paidClients.length,
-    pendingCount: pendingClients.length,
-    pendingRevenue: pendingClients.length * FLAT_FEE
+  const submit = async () => {
+    setBusy(true); setError(null);
+    try {
+      const r = await callFn(user, 'admin-refund', { action: 'refund', paymentId: payment.id, amountCents: cents, reason, confirmPhrase: phrase, stopPlan: quote?.installmentPlan ? stopPlan : false, requestId: `${payment.id}-${Date.now()}` });
+      setResult(r); onDone();
+    } catch (e) { setError(e.message); }
+    setBusy(false);
   };
 
   return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50" role="dialog" aria-modal="true" aria-labelledby="refund-title">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto" data-testid="refund-dialog">
+        <div className="flex justify-between items-start mb-4">
+          <h2 id="refund-title" className="text-lg font-bold text-gray-900">Refund a payment</h2>
+          <button onClick={onClose} aria-label="Close"><X className="h-5 w-5 text-gray-500" /></button>
+        </div>
+        {!quote && !error && <p className="text-gray-600"><Loader2 className="inline h-4 w-4 animate-spin mr-2" />Checking the payment with Stripe...</p>}
+        {quote && !result && (
+          <div className="space-y-4 text-sm">
+            <div className="bg-gray-50 rounded p-3">
+              <p><strong>{quote.description}</strong> for {quote.email}</p>
+              <p>Paid {money(quote.paidCents)}. Already refunded {money(quote.alreadyRefundedCents)}. Most you can refund: <strong>{money(quote.maxRefundCents)}</strong>.</p>
+              {!quote.livemode && <p className="text-amber-700 mt-1">Stripe test mode payment.</p>}
+            </div>
+            <p className="text-gray-600"><span className="font-medium">Refund policy{quote.policyApproved ? '' : ' (placeholder until the fee agreement is approved)'}:</span> {quote.policyText}</p>
+            <label className="block">Amount to refund (full or part)
+              <input type="number" step="0.01" min="0.01" max={(quote.maxRefundCents / 100).toFixed(2)} value={amount} onChange={e => setAmount(e.target.value)} className="mt-1 w-full border rounded px-3 py-2" />
+            </label>
+            <label className="block">Reason (kept on the payment record)
+              <textarea value={reason} onChange={e => setReason(e.target.value)} rows={2} className="mt-1 w-full border rounded px-3 py-2" />
+            </label>
+            {quote.installmentPlan && (
+              <label className="flex items-center"><input type="checkbox" checked={stopPlan} onChange={e => setStopPlan(e.target.checked)} className="mr-2" />Also stop the remaining monthly payments</label>
+            )}
+            <label className="block">To confirm, type <code className="bg-gray-100 px-1">{expected}</code>
+              <input value={phrase} onChange={e => setPhrase(e.target.value)} className="mt-1 w-full border rounded px-3 py-2" data-testid="refund-confirm" />
+            </label>
+            {error && <p className="text-red-700">{error}</p>}
+            <button onClick={submit} disabled={busy || phrase.trim() !== expected || !reason.trim() || cents <= 0 || cents > quote.maxRefundCents}
+              className="w-full py-3 rounded bg-red-700 text-white font-medium disabled:bg-gray-300">
+              {busy ? 'Refunding...' : `Refund ${money(cents)}`}
+            </button>
+          </div>
+        )}
+        {result && (
+          <div className="text-sm space-y-2" data-testid="refund-result">
+            <p className="text-green-700 font-medium">Refunded {money(result.amountCents)}. Stripe status: {result.status}.</p>
+            <p>Recorded on the payment and the case. Client email: {result.clientEmailed ? 'sent' : 'not sent'}.{result.planStopped ? ' Remaining monthly payments stopped.' : ''}</p>
+            <button onClick={onClose} className="mt-2 px-4 py-2 rounded bg-gray-100">Close</button>
+          </div>
+        )}
+        {error && !quote && <p className="text-red-700 text-sm">{error}</p>}
+      </div>
+    </div>
+  );
+};
+
+const AdminPayments = () => {
+  const { user } = useAuth();
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [includeTest, setIncludeTest] = useState(false);
+  const [search, setSearch] = useState('');
+  const [refunding, setRefunding] = useState(null);
+
+  const load = useCallback(async () => {
+    if (!user) return;
+    setLoading(true); setError(null);
+    try { setData(await callFn(user, 'admin-revenue', { includeTest })); } catch (e) { setError(e.message); }
+    setLoading(false);
+  }, [user, includeTest]);
+  useEffect(() => { load(); }, [load]);
+
+  const rows = (data?.payments || []).filter(p => !search || `${p.email} ${p.description}`.toLowerCase().includes(search.toLowerCase()));
+
+  return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Payments</h1>
-        <p className="text-gray-500">Track all client payments</p>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Total Revenue</p>
-              <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.totalRevenue)}</p>
-              <p className="text-xs text-green-600 mt-1">
-                {stats.paidCount} paid client{stats.paidCount !== 1 ? 's' : ''}
-              </p>
-            </div>
-            <div className="p-3 bg-green-100 rounded-full">
-              <DollarSign className="h-6 w-6 text-green-600" />
-            </div>
-          </div>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Payments</h1>
+          <p className="text-gray-500">Real payments received through Stripe</p>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Paid Clients</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.paidCount}</p>
-              <p className="text-xs text-blue-600 mt-1">
-                {formatCurrency(FLAT_FEE)} each
-              </p>
-            </div>
-            <div className="p-3 bg-blue-100 rounded-full">
-              <CheckCircle className="h-6 w-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-yellow-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Pending Payments</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.pendingCount}</p>
-              <p className="text-xs text-yellow-600 mt-1">
-                {formatCurrency(stats.pendingRevenue)} potential
-              </p>
-            </div>
-            <div className="p-3 bg-yellow-100 rounded-full">
-              <Clock className="h-6 w-6 text-yellow-600" />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6 border-l-4 border-purple-500">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Total Clients</p>
-              <p className="text-2xl font-bold text-gray-900">{clients.length}</p>
-              <p className="text-xs text-purple-600 mt-1">
-                {stats.paidCount > 0 ? Math.round((stats.paidCount / clients.length) * 100) : 0}% conversion
-              </p>
-            </div>
-            <div className="p-3 bg-purple-100 rounded-full">
-              <Users className="h-6 w-6 text-purple-600" />
-            </div>
-          </div>
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-gray-600 flex items-center"><input type="checkbox" className="mr-2" checked={includeTest} onChange={e => setIncludeTest(e.target.checked)} />Show test payments</label>
+          <button onClick={load} className="flex items-center px-3 py-2 border rounded text-sm"><RefreshCw className="h-4 w-4 mr-1" />Refresh</button>
         </div>
       </div>
 
-      {/* Payments Table */}
-      <div className="bg-white rounded-xl shadow-sm">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <h2 className="text-lg font-semibold text-gray-900">Payment History</h2>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="relative">
-                <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search clients..."
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full sm:w-64 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="all">All Status</option>
-                <option value="paid">Paid</option>
-                <option value="pending">Pending</option>
-              </select>
-            </div>
-          </div>
-        </div>
+      {error && <div className="p-4 bg-red-50 border border-red-200 rounded text-red-700">{error}</div>}
 
-        {loading ? (
-          <div className="p-12 text-center">
-            <RefreshCw className="h-8 w-8 text-blue-500 animate-spin mx-auto" />
-            <p className="mt-2 text-gray-500">Loading payments...</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" data-testid="revenue-totals">
+        {[['Received', data?.totals.grossCents], ['Refunded', data?.totals.refundedCents], ['Net', data?.totals.netCents], ['Payments', null]].map(([label, v]) => (
+          <div key={label} className="bg-white rounded-lg shadow-sm p-4 border-l-4 border-green-500">
+            <p className="text-sm text-gray-500">{label}</p>
+            <p className="text-xl font-bold text-gray-900">{loading ? '...' : (v === null ? (data?.totals.payments ?? 0) : money(v))}</p>
           </div>
-        ) : filteredClients.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">
-            <CreditCard className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p>No payment records found</p>
-          </div>
+        ))}
+      </div>
+
+      {data?.needsReview?.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm" data-testid="needs-review">
+          <p className="font-medium text-amber-900 flex items-center"><AlertTriangle className="h-4 w-4 mr-2" />Needs your review (shown, not counted in the totals)</p>
+          <ul className="mt-2 space-y-1">
+            {data.needsReview.map(r => <li key={r.id}>{r.date} {r.email} {money(r.amountCents)}: {r.flags.join('; ')}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {data?.installmentPlans?.length > 0 && (
+        <div className="bg-white rounded-lg shadow-sm p-4 text-sm">
+          <p className="font-medium text-gray-900 mb-2">3-payment plans</p>
+          {data.installmentPlans.map(p => <p key={p.caseId || p.email}>{p.email}: {p.paymentsMade} of 3 paid ({money(p.paidCents)})</p>)}
+        </div>
+      )}
+
+      <div className="bg-white rounded-lg shadow-sm">
+        <div className="p-4 border-b relative">
+          <Search className="absolute left-7 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by email or service" className="w-full pl-9 pr-3 py-2 border rounded" />
+        </div>
+        {loading ? <p className="p-6 text-gray-500">Loading...</p> : rows.length === 0 ? (
+          <p className="p-6 text-gray-500">No payments yet.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Client
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Amount
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Payment Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Reference
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredClients.map((client) => (
-                  <tr key={client.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                          client.paymentStatus === 'paid' ? 'bg-green-100' : 'bg-yellow-100'
-                        }`}>
-                          <span className={`font-medium ${
-                            client.paymentStatus === 'paid' ? 'text-green-700' : 'text-yellow-700'
-                          }`}>
-                            {(client.firstName?.[0] || '').toUpperCase()}
-                            {(client.lastName?.[0] || '').toUpperCase()}
-                          </span>
-                        </div>
-                        <div className="ml-3">
-                          <p className="font-medium text-gray-900">
-                            {client.firstName} {client.lastName}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-600">{client.email}</span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-900">
-                        {formatCurrency(FLAT_FEE)}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        client.paymentStatus === 'paid'
-                          ? 'bg-green-100 text-green-700'
-                          : client.paymentStatus === 'installments_active'
-                          ? 'bg-blue-100 text-blue-700'
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {client.paymentStatus === 'paid' ? (
-                          <>
-                            <CheckCircle className="h-3 w-3 mr-1" />
-                            Paid
-                          </>
-                        ) : client.paymentStatus === 'installments_active' ? (
-                          <>
-                            <RefreshCw className="h-3 w-3 mr-1" />
-                            Installments ({3 - (client.installmentsRemaining || 0)}/3)
-                          </>
-                        ) : (
-                          <>
-                            <Clock className="h-3 w-3 mr-1" />
-                            Pending
-                          </>
-                        )}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {client.paymentStatus === 'paid' || client.paymentStatus === 'installments_active'
-                        ? formatDate(client.paidAt)
-                        : '-'
-                      }
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {client.stripeSessionId ? (
-                        <span className="text-xs font-mono text-gray-400 truncate max-w-[100px] block" title={client.stripeSessionId}>
-                          {client.stripeSessionId.substring(0, 12)}...
-                        </span>
-                      ) : (
-                        <span className="text-sm text-gray-400">-</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Results Count */}
-        {!loading && filteredClients.length > 0 && (
-          <div className="px-6 py-3 border-t border-gray-200 text-sm text-gray-500">
-            Showing {filteredClients.length} of {clients.length} clients
-          </div>
+          <ul className="divide-y" data-testid="payments-list">
+            {rows.map(p => (
+              <li key={p.id} className="p-4 flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-medium text-gray-900 break-words">{p.description}{p.installment ? ` (payment ${p.installment.number} of 3)` : ''}</p>
+                  <p className="text-sm text-gray-500 break-all">{p.date} {p.email}{p.promoCode ? ` · code ${p.promoCode}` : ''}{p.test ? ' · test' : ''}</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <p className="font-bold text-gray-900">{money(p.amountCents)}</p>
+                    {p.refundedCents > 0 && <p className="text-xs text-red-700">refunded {money(p.refundedCents)}</p>}
+                  </div>
+                  {p.refundedCents < p.amountCents && (
+                    <button onClick={() => setRefunding(p)} className="flex items-center px-3 py-2 border border-red-300 text-red-700 rounded text-sm" data-testid={`refund-${p.id}`}>
+                      <RotateCcw className="h-4 w-4 mr-1" />Refund
+                    </button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
+      <p className="text-xs text-gray-500 flex items-center"><DollarSign className="h-3 w-3 mr-1" />{data?.note}</p>
+      {refunding && <RefundDialog user={user} payment={refunding} onClose={() => setRefunding(null)} onDone={load} />}
     </div>
   );
 };

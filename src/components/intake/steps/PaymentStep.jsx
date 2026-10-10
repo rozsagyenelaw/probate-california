@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus, Calendar, Gavel, Info } from 'lucide-react';
 import { CA_COUNTY_LIST } from '../../../data/californiaCourts';
+import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars } from '../../../services/businessSettings';
 
 const HEARING_TYPES = [
   'Petition for Probate',
@@ -11,7 +12,11 @@ const HEARING_TYPES = [
   'Other'
 ];
 
-const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
+const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
+  const settings = useBusinessSettings();
+  // Already paid (item 17): no fee, no payment plan; only optional add-ons are charged
+  const paid = !!paidCase;
+  const paidHasAccounting = !!paidCase?.addOns?.accounting;
   const [selectedPaymentPlan, setSelectedPaymentPlan] = useState('full');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [accountingAddon, setAccountingAddon] = useState(null); // null, 'simple', 'complex'
@@ -103,12 +108,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
 
   const courtAppearancePricing = {
     remote: { price: 500, label: 'Remote Court Appearance' },
-    contested: { price: 600, label: 'Contested/Complex Hearing (2-hr min)' }
+    contested: { price: contestedPrice(settings), label: 'Contested/Complex Hearing (2-hr min)' }
   };
 
   // Calculate total with add-ons
   const calculateTotal = () => {
-    let total = probatePricing[selectedProbateType].price;
+    let total = paid ? 0 : probatePricing[selectedProbateType].price;
     if (accountingAddon) {
       total += accountingPricing[accountingAddon].price;
     }
@@ -135,10 +140,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
   };
 
   const totalPrice = calculateTotal();
-  const installmentPrice = Math.ceil(totalPrice / 3);
+  const installments = installmentAmounts(totalPrice, settings);
+  const installmentPrice = installments[0];
 
+  const termsNeeded = !paid || totalPrice > 0;
   const handleSubmit = () => {
-    if (!agreedToTerms) {
+    if (termsNeeded && !agreedToTerms) {
       alert('Please agree to the terms and conditions to proceed.');
       return;
     }
@@ -167,7 +174,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         type: courtAppearance,
         ...hearingDetails
       } : null,
-      paymentPlan: selectedPaymentPlan,
+      paymentPlan: paid ? 'full' : selectedPaymentPlan,
       paymentAmount: selectedPaymentPlan === 'full' ? totalPrice : installmentPrice,
       totalAmount: totalPrice
     });
@@ -202,6 +209,22 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         </div>
       </div>
 
+      {paid && (
+        <div className="border-2 rounded-lg p-6 bg-green-50 border-green-300" data-testid="already-paid">
+          <div className="flex items-start">
+            <CheckCircle className="h-6 w-6 text-green-600 mr-3 flex-shrink-0" />
+            <div>
+              <h3 className="text-lg font-bold text-green-800">Your fee is already paid</h3>
+              <p className="text-sm text-green-700 mt-1">
+                Thank you. There is nothing more to pay for your {paidCase?.serviceType === 'simplified' ? 'Simplified Probate' : 'probate'} service.
+                Press the button below to send us your answers.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!paid && (<>
       {/* Probate Type Recommendation */}
       <div className={`border-2 rounded-lg p-6 ${
         estateAnalysis.qualifiesForSimplified
@@ -362,6 +385,9 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         </ul>
       </div>
 
+      </>)}
+
+      {!(paid && paidHasAccounting) && (<>
       {/* Accounting Add-On Section */}
       <div className="border border-purple-200 rounded-lg p-6 bg-purple-50">
         <div className="flex items-center mb-4">
@@ -396,10 +422,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
             </div>
             <p className="text-xl font-bold text-purple-600 mb-2">+$995</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li className="flex items-center">
+              {accountingTierNote(settings.accountingTierRule, 'simple') && (
+                <li className="flex items-center">
                 <Check className="h-3 w-3 text-gray-400 mr-1" />
-                Under 50 transactions
-              </li>
+                  {accountingTierNote(settings.accountingTierRule, 'simple')}
+                </li>
+              )}
               <li className="flex items-center">
                 <Check className="h-3 w-3 text-gray-400 mr-1" />
                 Basic income (interest, dividends)
@@ -442,10 +470,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
             </div>
             <p className="text-xl font-bold text-purple-600 mb-2">+$1,995</p>
             <ul className="text-xs text-gray-600 space-y-1">
-              <li className="flex items-center">
+              {accountingTierNote(settings.accountingTierRule, 'complex') && (
+                <li className="flex items-center">
                 <Plus className="h-3 w-3 text-purple-500 mr-1" />
-                50+ transactions
-              </li>
+                  {accountingTierNote(settings.accountingTierRule, 'complex')}
+                </li>
+              )}
               <li className="flex items-center">
                 <Plus className="h-3 w-3 text-purple-500 mr-1" />
                 Business income/rental properties
@@ -464,6 +494,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
           </p>
         )}
       </div>
+
+      </>)}
 
       {/* Court Appearance Add-On Section */}
       <div className="border border-amber-200 rounded-lg p-6 bg-amber-50">
@@ -504,6 +536,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
             </p>
           </button>
 
+          {contestedOffered(settings) && (<>
           {/* Contested Hearing */}
           <button
             type="button"
@@ -525,11 +558,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
                 {courtAppearance === 'contested' && <Check className="h-3 w-3 text-white" />}
               </div>
             </div>
-            <p className="text-xl font-bold text-amber-600 mb-2">+$600</p>
+            <p className="text-xl font-bold text-amber-600 mb-2">+${courtAppearancePricing.contested.price.toLocaleString()}</p>
             <p className="text-xs text-gray-600">
-              Hearings with objections or multiple issues (2-hour minimum at $300/hr)
+              Hearings with objections or multiple issues (2-hour minimum at ${(courtAppearancePricing.contested.price / 2).toLocaleString()}/hr)
             </p>
           </button>
+          </>)}
         </div>
 
         {/* Hearing Details Form - Shows when court appearance is selected */}
@@ -671,12 +705,19 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-3">Order Summary</h4>
         <div className="space-y-2 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-600">
-              {selectedProbateType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}
-            </span>
-            <span className="font-medium">${probatePricing[selectedProbateType].price.toLocaleString()}</span>
-          </div>
+          {paid ? (
+            <div className="flex justify-between">
+              <span className="text-gray-600">{paidCase?.serviceType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}</span>
+              <span className="font-medium text-green-700">Paid</span>
+            </div>
+          ) : (
+            <div className="flex justify-between">
+              <span className="text-gray-600">
+                {selectedProbateType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}
+              </span>
+              <span className="font-medium">${probatePricing[selectedProbateType].price.toLocaleString()}</span>
+            </div>
+          )}
           {accountingAddon && (
             <div className="flex justify-between text-purple-700">
               <span>{accountingPricing[accountingAddon].label}</span>
@@ -690,12 +731,13 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
             </div>
           )}
           <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">
-            <span>Total</span>
+            <span>{paid ? 'Due today' : 'Total'}</span>
             <span className="text-blue-900">${totalPrice.toLocaleString()}</span>
           </div>
         </div>
       </div>
 
+      {!paid && (<>
       {/* Payment Plan Selection */}
       <div>
         <h4 className="text-sm font-medium text-gray-700 mb-3">Select Payment Option</h4>
@@ -732,7 +774,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-medium text-gray-900">3 Monthly Payments</p>
-                <p className="text-sm text-gray-600 mt-1">No extra charge - same total price</p>
+                <p className="text-sm text-gray-600 mt-1">No interest. Stops after the third payment.</p>
                 <p className="text-xs text-gray-500 mt-1 flex items-center">
                   <Clock className="h-3 w-3 mr-1" />
                   First payment due now, then monthly
@@ -740,10 +782,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
               </div>
               <div className="text-right">
                 <p className="text-xl font-bold text-gray-900">
-                  ${installmentPrice.toLocaleString()}/mo
+                  ${fmtDollars(installmentPrice)}/mo
                 </p>
                 <p className="text-xs text-gray-500">
-                  Total: ${totalPrice.toLocaleString()}
+                  Total of 3 payments: ${fmtDollars(installments.reduce((a, b) => a + b, 0))}
                 </p>
               </div>
             </div>
@@ -762,7 +804,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         </p>
       </div>
 
+      </>)}
+
       {/* Terms Agreement */}
+      {termsNeeded && (
       <div className="border border-gray-200 rounded-lg p-4">
         <label className="flex items-start cursor-pointer">
           <input
@@ -779,7 +824,9 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
           </span>
         </label>
       </div>
+      )}
 
+      {!paid && (<>
       {/* Total */}
       <div className="border-t pt-4">
         <div className="flex justify-between items-center mb-4">
@@ -789,22 +836,24 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
           <span className="text-2xl font-bold text-blue-900">
             ${selectedPaymentPlan === 'full'
               ? totalPrice.toLocaleString()
-              : installmentPrice.toLocaleString()}
+              : fmtDollars(installmentPrice)}
           </span>
         </div>
         {selectedPaymentPlan === 'installments' && (
           <p className="text-sm text-gray-500 text-center">
-            + 2 more payments of ${installmentPrice.toLocaleString()}/month
+            + 2 more monthly payments of ${fmtDollars(installments[1])}{installments[2] !== installments[1] ? ` and $${fmtDollars(installments[2])}` : ''}, then the plan stops
           </p>
         )}
       </div>
 
+      </>)}
+
       {/* Submit Button */}
       <button
         onClick={handleSubmit}
-        disabled={isSubmitting || !agreedToTerms}
+        disabled={isSubmitting || (termsNeeded && !agreedToTerms)}
         className={`w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white ${
-          isSubmitting || !agreedToTerms
+          isSubmitting || (termsNeeded && !agreedToTerms)
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
         }`}
@@ -817,9 +866,9 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
         ) : (
           <>
             <CheckCircle className="mr-2 h-5 w-5" />
-            Pay ${selectedPaymentPlan === 'full'
-              ? totalPrice.toLocaleString()
-              : installmentPrice.toLocaleString()} & Submit Case
+            {paid
+              ? (totalPrice > 0 ? `Send My Answers and Pay $${totalPrice.toLocaleString()}` : 'Send My Answers')
+              : `Pay $${fmtDollars(selectedPaymentPlan === 'full' ? totalPrice : installmentPrice)} & Submit Case`}
           </>
         )}
       </button>
@@ -839,7 +888,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting }) => {
       {/* Refund Policy */}
       <div className="text-center">
         <p className="text-xs text-gray-500">
-          Full refund available within 7 days if no forms have been filed.
+          {refundPolicyText(settings)}
           <br />
           Questions? Call 818-337-4071
         </p>

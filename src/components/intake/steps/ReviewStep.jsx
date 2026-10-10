@@ -349,8 +349,8 @@ const ReviewStep = ({ formData, onEditStep }) => {
               Payment Plans Available with <span style={{color: '#FFB3C7'}} className="font-bold">Klarna</span>
             </p>
             <p className="text-sm text-gray-700 mt-1">
-              Split your payment into <strong>4 interest-free installments</strong>.
-              Select Klarna at checkout for instant approval with no impact to your credit score.
+              Pay over time with Klarna, subject to Klarna's approval. Choose Klarna at checkout;
+              Klarna shows you its plan and the exact amounts before you agree.
             </p>
           </div>
         </div>
