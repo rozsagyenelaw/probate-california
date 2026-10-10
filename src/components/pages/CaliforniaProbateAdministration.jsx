@@ -419,7 +419,7 @@ const CaliforniaProbateAdministration = () => {
               </Link>
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-6">
+              <div className="hidden lg:flex items-center gap-4 xl:gap-6 whitespace-nowrap">
                 <button onClick={() => scrollToSection('phases')} className="hover:text-blue-200 transition-colors">
                   11 Phases
                 </button>
@@ -478,12 +478,12 @@ const CaliforniaProbateAdministration = () => {
               </div>
 
               {/* Mobile menu button */}
-              <div className="md:hidden ml-auto mr-2"><ClientLoginButton tone="dark" compact /></div>
+              <div className="lg:hidden ml-auto mr-2"><ClientLoginButton tone="dark" compact /></div>
               <button
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2"
+                className="lg:hidden p-2"
               >
                 {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -491,7 +491,7 @@ const CaliforniaProbateAdministration = () => {
 
             {/* Mobile Navigation */}
             {mobileMenuOpen && (
-              <div className="md:hidden py-4 border-t border-blue-800">
+              <div className="lg:hidden py-4 border-t border-blue-800">
                 <div className="flex flex-col space-y-3">
                   <button onClick={() => scrollToSection('phases')} className="text-left hover:text-blue-200">
                     11 Phases
