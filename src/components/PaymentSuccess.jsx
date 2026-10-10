@@ -92,7 +92,7 @@ const PaymentSuccess = () => {
                   A confirmation email has been sent to <strong>{shownEmail || 'your email'}</strong>
                 </p>
                 {sessionId && (
-                  <p className="text-green-600 text-xs mt-2">
+                  <p className="text-green-800 text-xs mt-2">
                     Reference: {sessionId.slice(0, 20)}...
                   </p>
                 )}

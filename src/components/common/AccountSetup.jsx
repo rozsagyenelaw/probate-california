@@ -78,8 +78,8 @@ const AccountSetup = ({ email, onDone }) => {
       <p className="mt-1 text-sm text-gray-600">Your client portal account is created. Choose a password so you can come back from any device.</p>
       <form onSubmit={savePassword} className="mt-4 space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input type="email" value={email || user.email || ''} readOnly autoComplete="username" className={`${inputClass} bg-gray-50 text-gray-700`} />
+          <label htmlFor="setup-email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input id="setup-email" type="email" value={email || user.email || ''} readOnly autoComplete="username" className={`${inputClass} bg-gray-50 text-gray-700`} />
         </div>
         <div>
           <label htmlFor="setup-password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
