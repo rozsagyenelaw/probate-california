@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../services/firebase';
+import { saveCaseFiling } from '../../services/caseFiling';
 import {
   AlertCircle,
   ArrowRight,
@@ -123,26 +122,12 @@ const CaseNumberEntry = ({ probateCase }) => {
 
     setSaving(true);
     try {
-      const updateData = {
+      // The server saves these and moves the case to phase 3 the first time
+      await saveCaseFiling({
+        caseId: probateCase.id,
         caseNumber: caseNumber.trim(),
-        updatedAt: serverTimestamp()
-      };
-
-      if (hearingDate) {
-        updateData.hearing = {
-          ...probateCase.hearing,
-          date: hearingDate
-        };
-        updateData['keyDates.firstHearing'] = hearingDate;
-      }
-
-      // Move to phase 3 when case number is entered
-      if (probateCase.currentPhase < 3) {
-        updateData.currentPhase = 3;
-        updateData['phaseStatuses.2'] = 'complete';
-      }
-
-      await updateDoc(doc(db, 'cases', probateCase.id), updateData);
+        hearing: hearingDate ? { date: hearingDate } : null
+      });
       setSaved(true);
       setTimeout(() => window.location.reload(), 1500);
     } catch (error) {

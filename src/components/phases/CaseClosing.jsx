@@ -58,15 +58,16 @@ const CaseClosing = () => {
     if (!probateCase) return;
     setSaving(true);
     try {
+      // The attorney closes the case (status and phase are set from the admin side only).
+      // The client's checklist is saved and, when they mark it done, the office is told.
       await updateDoc(doc(db, 'cases', probateCase.id), {
         closing,
-        status: closing.caseClosed ? 'closed' : 'active',
-        closedAt: closing.caseClosed ? serverTimestamp() : null,
         'phaseStatuses.11': closing.caseClosed ? 'complete' : 'in_progress',
-        currentPhase: closing.caseClosed ? 11 : probateCase.currentPhase,
+        closingRequested: !!closing.caseClosed,
+        closingRequestedAt: closing.caseClosed ? serverTimestamp() : null,
         updatedAt: serverTimestamp()
       });
-      alert(closing.caseClosed ? 'Congratulations! Case has been marked as closed!' : 'Information saved!');
+      alert(closing.caseClosed ? 'Thank you. Your attorney will review everything and close the case.' : 'Information saved!');
     } catch (err) {
       console.error('Error saving:', err);
       alert('Failed to save.');

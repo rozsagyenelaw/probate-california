@@ -10,8 +10,8 @@ export const BUSINESS_DEFAULTS = Object.freeze({
   filingBy: null,
   // 2. Accounting add-on tier split. null: show both tiers without the split rule.
   accountingTierRule: null,
-  // 3. Contested hearings: current behavior (offered at the current $600 checkout amount).
-  contestedHearing: Object.freeze({ offered: true, price: 600 }),
+  // 3. Contested hearings: 'current' = keep today's behavior and price (same values as the portal copy).
+  contestedHearing: Object.freeze({ offered: 'current', price: 'current' }),
   // 4. Living trust offers on the probate site.
   livingTrustOffers: 'keep-current',
   // 5. Three-payment plan adds up exactly to the price. false: current amounts.

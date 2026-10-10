@@ -1,6 +1,6 @@
 import PortalAdminRedirect from './components/common/PortalAdminRedirect';
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 // Eager load - needed immediately for homepage
@@ -93,13 +93,14 @@ const LoadingSpinner = () => (
 // Protected Route wrapper
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return <LoadingSpinner />;
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 
   return children;
@@ -176,11 +177,8 @@ function App() {
           } />
           {/* Open to guests: the first step creates or finds their account from their email */}
           <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/payment-success" element={
-            <ProtectedRoute>
-              <PaymentSuccess />
-            </ProtectedRoute>
-          } />
+          {/* Open to guests returning from checkout (they are not signed in yet) */}
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/intake" element={
             <ProtectedRoute>
               <Intake />

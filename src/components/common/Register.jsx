@@ -15,8 +15,10 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  // The email already has an account: sign in instead of creating another one
+  // Google/Apple found an account that uses another sign-in method for this email
   const [exists, setExists] = useState(false);
+  // The email step is done: the link to continue was emailed (same screen for every email)
+  const [sentTo, setSentTo] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,25 +28,22 @@ const Register = () => {
     });
   };
 
-  // No password here: the account is created from the email, and the client sets a
-  // password (or connects Google/Apple) after paying, or from the "Set Your Password" email
+  // No password here. The server sets up the account for this email (or finds it) and emails a
+  // link to set a password and continue the case. The screen is the same for every email, and
+  // nobody is signed in until they open that link or use Google or Apple.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setExists(false);
     setLoading(true);
     try {
-      const status = await startGuestAccount({
+      await startGuestAccount({
         name: `${formData.firstName} ${formData.lastName}`.trim(),
         email: formData.email,
         phone: formData.phone,
-        source: 'intake'
+        source: 'register'
       });
-      if (status === 'exists') {
-        setExists(true);
-        return;
-      }
-      navigate('/intake');
+      setSentTo(formData.email.trim().toLowerCase());
     } catch (err) {
       console.error('Registration error:', err);
       setError(err.message || 'Failed to start your case. Please try again.');
@@ -102,6 +101,14 @@ const Register = () => {
           </div>
         )}
 
+        {sentTo && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-900" data-testid="register-check-email">
+            <p className="font-semibold">Check your email</p>
+            <p className="mt-1">We sent a link to <strong>{sentTo}</strong>. Open it to choose your password, then sign in to continue your case. You can also continue right now with Google or Apple below.</p>
+            <p className="mt-1">Nothing there after a few minutes? Check your spam folder, or call 818-337-4071.</p>
+          </div>
+        )}
+
         {exists && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900" data-testid="account-exists">
             <strong>{formData.email}</strong> already has an account. <Link to="/login" className="font-semibold underline">Sign in</Link> to continue your case. If you never set a password, use "Forgot password?" on the sign-in page.
@@ -122,6 +129,7 @@ const Register = () => {
         </div>
 
         {/* Register Form */}
+        {!sentTo && (
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -203,6 +211,7 @@ const Register = () => {
             )}
           </button>
         </form>
+        )}
 
         {/* Login Link */}
         <div className="text-center">

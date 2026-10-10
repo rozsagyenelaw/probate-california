@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import AccountSetup from './common/AccountSetup';
+import GuestNextStep from './common/GuestNextStep';
+import { GUEST_EMAIL_KEY } from '../utils/guestAccount';
 import {
   CheckCircle,
   ArrowRight,
@@ -21,6 +23,9 @@ const PaymentSuccess = () => {
   const conversionFired = useRef(false);
 
   const sessionId = searchParams.get('session_id');
+  // Guests come back from checkout signed out; the email they paid with was kept for this page
+  const guestEmail = (() => { try { return sessionStorage.getItem(GUEST_EMAIL_KEY) || ''; } catch { return ''; } })();
+  const shownEmail = user?.email || guestEmail;
   // Get payment amount from URL params (set by checkout), default to full probate price
   const paymentAmount = parseFloat(searchParams.get('amount')) || 3995;
 
@@ -47,6 +52,8 @@ const PaymentSuccess = () => {
   }, [paymentAmount, sessionId]);
 
   useEffect(() => {
+    // Signed-out guests stay here to sign in first
+    if (!user) return undefined;
     // Auto-redirect to dashboard after countdown
     const timer = setInterval(() => {
       setCountdown((prev) => {
@@ -60,7 +67,7 @@ const PaymentSuccess = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [navigate]);
+  }, [navigate, user]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
@@ -79,9 +86,13 @@ const PaymentSuccess = () => {
         </div>
 
         {/* One step to finish the account created at checkout (hidden once a password, Google or Apple exists) */}
-        {user && (
+        {user ? (
           <div className="mb-8">
             <AccountSetup email={user.email} />
+          </div>
+        ) : (
+          <div className="mb-8">
+            <GuestNextStep email={guestEmail} />
           </div>
         )}
 
@@ -93,7 +104,7 @@ const PaymentSuccess = () => {
               <div>
                 <h3 className="font-bold text-green-800">Your Case Has Been Activated</h3>
                 <p className="text-green-700 text-sm mt-1">
-                  A confirmation email has been sent to <strong>{user?.email}</strong>
+                  A confirmation email has been sent to <strong>{shownEmail || 'your email'}</strong>
                 </p>
                 {sessionId && (
                   <p className="text-green-600 text-xs mt-2">
@@ -154,8 +165,8 @@ const PaymentSuccess = () => {
           </div>
         </div>
 
-        {/* Dashboard Button */}
-        <div className="text-center mb-8">
+        {/* Dashboard Button (signed-in clients; guests sign in above first) */}
+        {user && <div className="text-center mb-8">
           <button
             onClick={() => navigate('/dashboard')}
             className="inline-flex items-center bg-blue-900 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-blue-800 transition-colors"
@@ -166,7 +177,7 @@ const PaymentSuccess = () => {
           <p className="text-gray-500 text-sm mt-3">
             Redirecting automatically in {countdown} seconds...
           </p>
-        </div>
+        </div>}
 
         {/* Contact Info */}
         <div className="bg-gray-50 rounded-xl p-6 text-center">

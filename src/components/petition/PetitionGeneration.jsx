@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { doc, getDoc, collection, query, where, getDocs, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs, onSnapshot } from 'firebase/firestore';
+import { saveCaseFiling } from '../../services/caseFiling';
 import { db } from '../../services/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -189,30 +190,14 @@ const PetitionGeneration = () => {
 
     setSaving(true);
     try {
-      const updateData = {
-        updatedAt: serverTimestamp()
-      };
-
-      if (caseNumber) {
-        updateData.caseNumber = caseNumber;
-      }
-
-      if (hearingDate || hearingTime || hearingDept) {
-        updateData.hearing = {
-          date: hearingDate || null,
-          time: hearingTime || null,
-          department: hearingDept || null
-        };
-        updateData['keyDates.firstHearing'] = hearingDate || null;
-      }
-
-      // If case number is set, move to phase 3 (publication)
-      if (caseNumber && probateCase.currentPhase < 3) {
-        updateData.currentPhase = 3;
-        updateData['phaseStatuses.2'] = 'complete';
-      }
-
-      await updateDoc(doc(db, 'cases', probateCase.id), updateData);
+      // The server saves these and moves the case to phase 3 the first time a case number is set
+      await saveCaseFiling({
+        caseId: probateCase.id,
+        caseNumber: caseNumber || null,
+        hearing: (hearingDate || hearingTime || hearingDept)
+          ? { date: hearingDate || null, time: hearingTime || null, department: hearingDept || null }
+          : null
+      });
 
       // Update local state
       setProbateCase(prev => ({

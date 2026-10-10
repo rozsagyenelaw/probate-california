@@ -20,6 +20,36 @@ service cloud.firestore {
         get(/databases/$(database)/documents/cases/$(caseId)).data.userId == request.auth.uid;
     }
 
+    // Fields only the attorney (admin) or server code (Admin SDK) may set: phase, status,
+    // payment and paid fields, what was bought, and records the server keeps.
+    function protectedCaseKeys() {
+      return ['currentPhase', 'phase', 'status', 'closedAt',
+              'payment', 'paymentStatus', 'paymentPlan', 'paymentDate', 'paymentIntentId', 'paymentMethod',
+              'paid', 'paidAt', 'amountPaid', 'totalPaid', 'installmentsRemaining',
+              'stripeSessionId', 'stripeCustomerId', 'stripeSubscriptionId',
+              'serviceType', 'addOns'];
+    }
+    function protectedUserKeys() {
+      return protectedCaseKeys().concat(['role', 'admin', 'isAdmin', 'esignConsent', 'welcomePending']);
+    }
+    // The update leaves every protected field exactly as it was
+    function keepsProtected(keys) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(keys);
+    }
+    // A client-created case starts unpaid, at phase 1, pending payment (intake)
+    function isNewUnpaidCase() {
+      let d = request.resource.data;
+      return (!('status' in d) || d.status == 'pending_payment') &&
+             (!('currentPhase' in d) || d.currentPhase == 1) &&
+             !d.keys().hasAny(['phase', 'closedAt', 'paymentStatus', 'paymentDate', 'paymentIntentId', 'paid',
+                               'paidAt', 'amountPaid', 'totalPaid', 'installmentsRemaining',
+                               'stripeSessionId', 'stripeCustomerId', 'stripeSubscriptionId']) &&
+             (!('payment' in d) ||
+              (d.payment is map && d.payment.get('status', 'pending') == 'pending' &&
+               d.payment.get('paidAt', null) == null &&
+               !d.payment.keys().hasAny(['amountPaid', 'paid', 'stripeSessionId'])));
+    }
+
     // Helper function to check if user owns the resource
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
@@ -33,8 +63,9 @@ service cloud.firestore {
          (resource.data.uid == request.auth.uid ||
           (resource.data.email == request.auth.token.email &&
            request.auth.token.get('email_verified', false) == true)));
-      allow create: if isOwner(userId);
-      allow update: if isOwner(userId) || isAdmin();
+      allow create: if isAdmin() ||
+        (isOwner(userId) && !request.resource.data.keys().hasAny(protectedUserKeys()));
+      allow update: if isAdmin() || (isOwner(userId) && keepsProtected(protectedUserKeys()));
       allow delete: if isAdmin();
     }
 
@@ -42,10 +73,12 @@ service cloud.firestore {
     match /cases/{caseId} {
       allow read: if isAuthenticated() &&
         (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isAuthenticated() &&
-        request.resource.data.userId == request.auth.uid;
-      allow update: if isAuthenticated() &&
-        (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAdmin() ||
+        (isAuthenticated() && request.resource.data.userId == request.auth.uid && isNewUnpaidCase());
+      allow update: if isAdmin() ||
+        (isAuthenticated() && resource.data.userId == request.auth.uid &&
+         request.resource.data.userId == request.auth.uid &&
+         keepsProtected(protectedCaseKeys()));
       allow delete: if isAdmin();
     }
 
@@ -88,7 +121,7 @@ service cloud.firestore {
     match /payments/{paymentId} {
       allow read: if isAuthenticated() &&
         (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isAuthenticated();
+      allow create: if isAdmin();  // payment records come from the Stripe webhook (Admin SDK)
       allow update: if isAdmin();
       allow delete: if isAdmin();
     }
@@ -101,9 +134,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Signing (status, signed, signature data) is recorded only by the signing Cloud Functions.
     match /signatureRequests/{requestId} {
-      allow read, update: if isAdmin() ||
+      allow read: if isAdmin() ||
         (isAuthenticated() && resource.data.clientId == request.auth.uid);
+      allow update: if isAdmin();
       allow create: if isAdmin();
       allow delete: if isAdmin();
     }
@@ -119,14 +154,13 @@ service cloud.firestore {
     // ========== PORTAL COLLECTIONS ==========
 
     // Appointments collection - the client it belongs to and the attorney.
-    // Anyone can book (guest bookings); guests look up and cancel through Cloud Functions.
+    // Guests book through the createGuestBooking Cloud Function (checked and rate limited);
+    // they cancel by signing in or with the signed link in the confirmation email.
     match /appointments/{appointmentId} {
       allow read: if isAdmin() ||
         (isAuthenticated() && resource.data.clientId == request.auth.uid);
       allow create: if isAdmin() ||
-                       (isAuthenticated() && request.resource.data.clientId == request.auth.uid) ||
-                       (request.resource.data.clientId == 'guest' &&
-                        request.resource.data.isGuestBooking == true);
+                       (isAuthenticated() && request.resource.data.clientId == request.auth.uid);
       allow update: if isAdmin() ||
         (isAuthenticated() && resource.data.clientId == request.auth.uid &&
          request.resource.data.clientId == request.auth.uid);
@@ -237,6 +271,15 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
     // ================= end W3-forms section =================
+
+    // Server-only data: rate-limit counters and the key for signed appointment links.
+    // No client access at all (Cloud Functions use the Admin SDK).
+    match /rateLimits/{id} {
+      allow read, write: if false;
+    }
+    match /serverSecrets/{id} {
+      allow read, write: if false;
+    }
 
     // Email Sequences collection - managed by Cloud Functions
     match /emailSequences/{sequenceId} {

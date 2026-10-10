@@ -44,20 +44,20 @@ const PaymentPage = () => {
     }
   }, [searchParams]);
 
-  // Guests: name, email and phone first (no password). A new email gets its account now;
-  // an email that already has an account signs in instead.
+  // Guests: name, email and phone first (no password). The server sets up the account for this
+  // email, or finds the existing one, and the payment is attached to it. Every email gets the
+  // same next screen, so the page never shows whether an account already exists.
   const [guest, setGuest] = useState({ name: '', email: '', phone: '' });
   const [guestBusy, setGuestBusy] = useState(false);
   const [guestError, setGuestError] = useState('');
-  const [guestExists, setGuestExists] = useState(false);
+  const [guestReady, setGuestReady] = useState(false);
   const startAsGuest = async (e) => {
     e.preventDefault();
     setGuestError('');
-    setGuestExists(false);
     setGuestBusy(true);
     try {
-      const status = await startGuestAccount({ ...guest, source: 'payment' });
-      if (status === 'exists') setGuestExists(true);
+      await startGuestAccount({ ...guest, source: 'payment' });
+      setGuestReady(true);
     } catch (err) {
       setGuestError(err.message);
     } finally {
@@ -127,7 +127,8 @@ const PaymentPage = () => {
   const handlePayment = async (e) => {
     e.preventDefault();
 
-    if (!user) {
+    const payerEmail = user ? user.email : (guestReady ? guest.email.trim().toLowerCase() : '');
+    if (!payerEmail) {
       navigate('/login', { state: { from: '/payment' } });
       return;
     }
@@ -154,7 +155,7 @@ const PaymentPage = () => {
           probateType: serviceType === 'accounting_only' ? null : serviceType,
           accountingAddon: accountingAddon,
           paymentPlan: selectedPlan,
-          customerEmail: user.email,
+          customerEmail: payerEmail,
           caseId: '',
           promoCode: promoCode.trim() || null,
         }),
@@ -191,18 +192,13 @@ const PaymentPage = () => {
     }
   };
 
-  if (!authLoading && !user) {
+  if (!authLoading && !user && !guestReady) {
     const inputClass = 'mt-1 block w-full px-3 py-3 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-600';
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center py-10 px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow p-6 sm:p-8" data-testid="guest-step">
           <h1 className="text-2xl font-bold text-gray-900">Your details</h1>
           <p className="mt-1 text-sm text-gray-600">We use your email to set up your secure client account, so you can always get back to your case and receipt. No password needed now.</p>
-          {guestExists && (
-            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-900" data-testid="account-exists">
-              <strong>{guest.email}</strong> already has an account. <Link to="/login" state={{ from: '/payment' }} className="font-semibold underline">Sign in</Link> to pay, so the payment goes into your account. If you never set a password, use "Forgot password?".
-            </div>
-          )}
           {guestError && <p className="mt-4 text-sm bg-red-50 border border-red-200 text-red-700 p-3 rounded-lg">{guestError}</p>}
           <form onSubmit={startAsGuest} className="mt-5 space-y-4">
             <div><label className="block text-sm font-medium text-gray-700">Full name</label>
