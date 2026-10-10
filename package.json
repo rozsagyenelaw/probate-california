@@ -8,7 +8,8 @@
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:spa": "vite build"
+    "build:spa": "vite build",
+    "test": "node --test src/lib/*.test.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",

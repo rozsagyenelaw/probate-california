@@ -306,6 +306,7 @@ const RealPropertyStep = ({ formData, updateFormData }) => {
               <option value="Tenants in common">Tenants in common</option>
               <option value="Community property">Community property</option>
               <option value="Community property with survivorship">Community property with right of survivorship</option>
+              <option value="Held in trust">Held in a living trust</option>
             </select>
           </div>
 

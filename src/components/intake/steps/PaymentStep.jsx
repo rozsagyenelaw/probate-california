@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus, Calendar, Gavel, Info } from 'lucide-react';
 import { CA_COUNTY_LIST } from '../../../data/californiaCourts';
+import { assessEligibility, ROUTES } from '../../../lib/eligibility';
 import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars } from '../../../services/businessSettings';
 
 const HEARING_TYPES = [
@@ -11,6 +12,17 @@ const HEARING_TYPES = [
   'Motion Hearing',
   'Other'
 ];
+
+// Neutral routing messages (item 19). Legal detail and amounts live in the Learn articles.
+const ROUTE_MESSAGES = {
+  [ROUTES.NEEDS_DATE_OF_DEATH]: 'Please go back and enter the date of death. The rules that apply depend on it.',
+  [ROUTES.ATTORNEY_REVIEW]: 'Based on your answers, your attorney needs to review the estate before recommending a path.',
+  [ROUTES.NOTHING_TO_PROBATE]: 'Based on your answers, the assets you listed may all pass outside probate. Please talk with your attorney before paying.',
+  [ROUTES.SMALL_ESTATE_AFFIDAVIT]: 'Based on your answers, this estate may not need a full probate case. A simpler small estate process may work. Please talk with your attorney before paying.',
+  [ROUTES.RESIDENCE_PETITION]: 'Based on your answers, the home may be transferred with the simpler home petition.',
+  [ROUTES.RESIDENCE_PETITION_PLUS_PROBATE]: 'Based on your answers, the home may qualify for the simpler home petition, but the other assets may still need probate. Your attorney will confirm the best path.',
+  [ROUTES.FULL_PROBATE]: 'Based on your answers, this estate will likely need full probate.'
+};
 
 const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
   const settings = useBusinessSettings();
@@ -31,62 +43,17 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
     otherDescription: ''
   });
 
-  // Calculate estate values for qualification
+  // Route recommendation (pure logic and statute sources in src/lib/eligibility.js)
   const estateAnalysis = useMemo(() => {
-    let primaryResidenceValue = 0;
-    let otherRealEstateValue = 0;
-    let otherRealEstateCount = 0;
-    let personalPropertyTotal = 0;
-
-    // Analyze real property - look for propertyType field
-    formData.assets?.realProperty?.forEach((prop) => {
-      const value = parseFloat(prop.estimatedValue) || 0;
-      // Check if this is the primary residence
-      if (prop.propertyType === 'primary_residence' || prop.isPrimaryResidence) {
-        primaryResidenceValue = value;
-      } else {
-        otherRealEstateValue += value;
-        otherRealEstateCount++;
-      }
-    });
-
-    // Calculate personal property (bank accounts, investments, vehicles, other)
-    formData.assets?.bankAccounts?.forEach(acc => {
-      personalPropertyTotal += parseFloat(acc.balance) || 0;
-    });
-
-    formData.assets?.investments?.forEach(inv => {
-      personalPropertyTotal += parseFloat(inv.value) || 0;
-    });
-
-    formData.assets?.vehicles?.forEach(v => {
-      personalPropertyTotal += parseFloat(v.estimatedValue) || 0;
-    });
-
-    formData.assets?.otherAssets?.forEach(asset => {
-      personalPropertyTotal += parseFloat(asset.value) || 0;
-    });
-
-    // Determine qualification for simplified probate
-    const qualifiesForSimplified =
-      primaryResidenceValue < 750000 &&
-      otherRealEstateCount === 0 &&
-      personalPropertyTotal < 208850;
-
+    const result = assessEligibility(formData);
     return {
-      primaryResidenceValue,
-      otherRealEstateValue,
-      otherRealEstateCount,
-      personalPropertyTotal,
-      totalEstateValue: primaryResidenceValue + otherRealEstateValue + personalPropertyTotal,
-      qualifiesForSimplified,
-      reasons: qualifiesForSimplified ? [] : [
-        primaryResidenceValue >= 750000 ? `Primary residence value ($${primaryResidenceValue.toLocaleString()}) exceeds $750,000` : null,
-        otherRealEstateCount > 0 ? `Estate includes ${otherRealEstateCount} additional real property` : null,
-        personalPropertyTotal >= 208850 ? `Personal property ($${personalPropertyTotal.toLocaleString()}) exceeds $208,850 threshold` : null,
-      ].filter(Boolean)
+      ...result,
+      primaryResidenceValue: result.totals.residenceValue,
+      personalPropertyTotal: result.totals.personalTotal,
+      totalEstateValue: result.totals.countedTotal,
+      qualifiesForSimplified: result.simplifiedFits
     };
-  }, [formData.assets]);
+  }, [formData]);
 
   // Probate type selection - default to recommended
   const [selectedProbateType, setSelectedProbateType] = useState(
@@ -201,7 +168,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
             </p>
           </div>
           <div>
-            <p className="text-gray-500">Estimated Estate Value</p>
+            <p className="text-gray-500">Estimated Value That May Need Probate</p>
             <p className="font-medium text-gray-900">
               ${estateAnalysis.totalEstateValue.toLocaleString()}
             </p>
@@ -247,8 +214,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
                 estateAnalysis.qualifiesForSimplified ? 'text-green-800' : 'text-blue-800'
               }`}>
                 {estateAnalysis.qualifiesForSimplified
-                  ? 'You Qualify for Simplified Probate!'
-                  : 'Full Probate Recommended'}
+                  ? 'The Simplified Home Petition May Fit'
+                  : 'Full Probate Suggested'}
               </h3>
               <span className={`ml-3 px-2 py-1 text-xs font-bold rounded-full ${
                 estateAnalysis.qualifiesForSimplified
@@ -259,37 +226,22 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               </span>
             </div>
 
-            {estateAnalysis.qualifiesForSimplified ? (
-              <div className="text-sm text-green-700">
-                <p className="mb-2">Based on your answers, your estate qualifies for California's simplified probate process:</p>
-                <ul className="space-y-1">
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-green-600" />
-                    Primary residence under $750,000 (${estateAnalysis.primaryResidenceValue.toLocaleString()})
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-green-600" />
-                    No additional real estate
-                  </li>
-                  <li className="flex items-center">
-                    <Check className="h-4 w-4 mr-2 text-green-600" />
-                    Personal property under $208,850 (${estateAnalysis.personalPropertyTotal.toLocaleString()})
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <div className="text-sm text-blue-700">
-                <p className="mb-2">Based on your answers, your estate requires full probate:</p>
-                <ul className="space-y-1">
-                  {estateAnalysis.reasons.map((reason, idx) => (
-                    <li key={idx} className="flex items-center">
-                      <AlertCircle className="h-4 w-4 mr-2 text-blue-600" />
-                      {reason}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className={`text-sm ${estateAnalysis.qualifiesForSimplified ? 'text-green-700' : 'text-blue-700'}`}>
+              <p className="mb-2">{ROUTE_MESSAGES[estateAnalysis.route] || ROUTE_MESSAGES[ROUTES.FULL_PROBATE]}</p>
+              {estateAnalysis.totals.excluded.length > 0 && (
+                <p className="mb-2 flex items-start">
+                  <Info className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                  Some of the assets you listed (for example joint accounts, accounts with a named beneficiary, property held in a trust or in joint tenancy, and vehicles) usually pass outside probate, so we did not count them here.
+                </p>
+              )}
+              {estateAnalysis.flags.includes('spouse-may-take-without-probate') && (
+                <p className="mb-2 flex items-start">
+                  <Info className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
+                  Property going to a surviving spouse may not need probate. Your attorney will review this with you.
+                </p>
+              )}
+              <p className="text-xs text-gray-600">Your attorney reviews every case and confirms the right path before anything is filed.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -327,7 +279,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
             <p className="text-sm text-gray-600 mb-2">For primary residences under $750,000</p>
             {!estateAnalysis.qualifiesForSimplified && (
               <p className="text-xs text-red-600 mt-2">
-                Your estate does not qualify for simplified probate
+                Based on your answers, the home petition does not fit this estate
               </p>
             )}
           </button>
