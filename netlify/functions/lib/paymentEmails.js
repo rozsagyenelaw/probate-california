@@ -115,9 +115,12 @@ async function queuePaymentEmails(db, { meta, email, customerName, amountCents, 
   };
   const now = admin.firestore.FieldValue.serverTimestamp();
   const outbox = db.collection('mailOutbox');
+  // Test-mode safety (local Stripe test runs write to production Firestore): only test inboxes, no office alert
+  const testMode = String(process.env.STRIPE_SECRET_KEY || '').startsWith('sk_test') && !process.env.FIRESTORE_EMULATOR_HOST;
+  if (testMode && !allowed(data.customerEmail)) return { skipped: 'test mode, non-test address' };
   await outbox.doc(`pay-client-${sessionId}`).set({ template: 'paymentConfirmation', to: data.customerEmail, uid: uid || null, data, stopDripFor: data.customerEmail, source: 'stripe-webhook', createdAt: now });
-  await outbox.doc(`pay-office-${sessionId}`).set({ template: 'paymentAlert', to: 'office', replyTo: data.customerEmail, data, source: 'stripe-webhook', createdAt: now });
-  return { queued: true };
+  if (!testMode) await outbox.doc(`pay-office-${sessionId}`).set({ template: 'paymentAlert', to: 'office', replyTo: data.customerEmail, data, source: 'stripe-webhook', createdAt: now });
+  return { queued: true, officeAlert: !testMode };
 }
 
 module.exports.queuePaymentEmails = queuePaymentEmails;
