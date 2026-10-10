@@ -985,7 +985,7 @@ const ProbateFAQ = () => {
         {/* Footer */}
         <footer className="bg-gray-900 text-gray-300 py-12">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="grid md:grid-cols-5 gap-8">
+            <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-8 [&>*]:min-w-0">
               <div>
                 <div className="flex items-center space-x-2 text-white mb-4">
                   <Scale className="h-6 w-6" />
