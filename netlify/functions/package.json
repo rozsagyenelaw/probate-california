@@ -1,8 +1,6 @@
 {
   "name": "probate-california-functions",
-  "version": "1.0.0",
-  "dependencies": {
-    "@anthropic-ai/sdk": "^0.24.0",
-    "stripe": "^14.0.0"
-  }
+  "private": true,
+  "type": "commonjs",
+  "description": "Marker only: these Netlify functions are CommonJS. Their dependencies come from the ROOT package.json (Netlify installs only the root). Add new dependencies to the root package.json, not here."
 }
