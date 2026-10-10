@@ -111,7 +111,7 @@
       },
       {
         "component": "ProbateTimeline",
-        "sentence": "Schedule Free Consultation Call 818-337-4071"
+        "sentence": "Start your case online Continue your case"
       },
       {
         "component": "IntestateSuccession",
@@ -2685,8 +2685,8 @@
         },
         {
           "type": "p",
-          "text": "Programe una consulta gratuita Llame al 818-337-4071",
-          "en": "Schedule Free Consultation Call 818-337-4071"
+          "text": "Empiece su caso en línea Continúe su caso",
+          "en": "Start your case online Continue your case"
         },
         {
           "type": "h2",
