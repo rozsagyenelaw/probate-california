@@ -44,3 +44,19 @@ export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KE
 export const PROBATE_FORMS_URL = import.meta.env.VITE_PROBATE_FORMS_URL || 'https://probatepetition.netlify.app';
 
 export default app;
+
+// Bot protection (Firebase App Check, reCAPTCHA Enterprise score; W1-security item 9). Loaded only
+// right before a public request (booking, account set-up, password email, cancel link), so normal
+// pages never load reCAPTCHA. The site key is public by design.
+const APPCHECK_SITE_KEY = '6Ldcs-gtAAAAACZ4U5b56iIsO_Daqw-hq92oriMU';
+let appCheckReady = null;
+export function ensureAppCheck() {
+  if (!appCheckReady) {
+    appCheckReady = import('firebase/app-check')
+      .then(({ initializeAppCheck, ReCaptchaEnterpriseProvider }) => {
+        initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true });
+      })
+      .catch((err) => { console.warn('App Check unavailable'); appCheckReady = null; });
+  }
+  return appCheckReady;
+}

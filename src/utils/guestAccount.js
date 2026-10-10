@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../services/firebase';
+import { functions, ensureAppCheck } from '../services/firebase';
 
 export const GUEST_EMAIL_KEY = 'mpca-guest-email';
 
@@ -9,6 +9,7 @@ export const GUEST_EMAIL_KEY = 'mpca-guest-email';
 // Google or Apple. Throws with a friendly message on failure.
 export async function startGuestAccount({ name, email, phone, source }) {
   try {
+    await ensureAppCheck();
     await httpsCallable(functions, 'startClientAccount')({ name, email, phone, source });
   } catch (err) {
     const known = ['functions/invalid-argument', 'functions/resource-exhausted'].includes(err.code);

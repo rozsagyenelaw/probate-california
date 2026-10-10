@@ -174,10 +174,11 @@ export const AuthProvider = ({ children }) => {
   // Password reset: branded email whose link opens the portal's "Set your password" page.
   // Same response whether or not the email has an account.
   const resetPassword = useCallback(async (email) => {
-    const [{ httpsCallable }, { functions }] = await Promise.all([
+    const [{ httpsCallable }, { functions, ensureAppCheck }] = await Promise.all([
       import('firebase/functions'),
       import('../services/firebase')
     ]);
+    await ensureAppCheck();
     await httpsCallable(functions, 'sendPasswordResetEmail')({ email });
   }, []);
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { httpsCallable } from 'firebase/functions';
-import { functions } from '../../services/firebase';
+import { functions, ensureAppCheck } from '../../services/firebase';
 import ProviderButtons from './ProviderButtons';
 
 /**
@@ -19,6 +19,7 @@ const GuestNextStep = ({ email, next = '/dashboard' }) => {
     setBusy(true);
     setError('');
     try {
+      await ensureAppCheck();
       await httpsCallable(functions, 'sendPasswordResetEmail')({ email });
     } catch (err) {
       if (err.code === 'functions/resource-exhausted') { setError(String(err.message).replace(/\s*\[\d+\]$/, '')); setBusy(false); return; }
