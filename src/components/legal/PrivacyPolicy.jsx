@@ -31,7 +31,7 @@ const PrivacyPolicy = () => {
               <div className="bg-blue-900 p-2 rounded-lg mr-2">
                 <Scale className="h-5 w-5 text-white" />
               </div>
-              <span className="font-semibold text-gray-900">California Probate</span>
+              <span className="font-semibold text-gray-900">MyProbateCA</span>
             </div>
             <ClientLoginButton tone="light" compact />
           </div>

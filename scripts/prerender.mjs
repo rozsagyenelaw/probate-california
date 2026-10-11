@@ -26,7 +26,7 @@ if (!template.includes('<div id="root"></div>')) throw new Error('prerender: dis
 const shell = template.replace(/<title>[\s\S]*?<\/title>/, '<title>MyProbateCA</title>\n    <meta name="robots" content="noindex" />');
 fs.writeFileSync(path.join(dist, 'app-shell.html'), shell);
 
-const seeds = ['/', '/california-probate-administration', '/probate-court-locations-california', '/probate-faq-california',
+const seeds = ['/', '/california-probate-administration', '/probate-court-locations-california', '/probate-faq-california', '/california-probate-process',
   '/learn-california-probate', '/terms', '/privacy',
   ...Object.keys(CITY_DATA).map((slug) => `/locations/${slug}-probate-attorney`)];
 

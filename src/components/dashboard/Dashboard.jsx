@@ -282,7 +282,7 @@ const Dashboard = () => {
                   <Scale className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">California Probate</h1>
+                  <h1 className="text-xl font-bold text-gray-900">MyProbateCA</h1>
                   <p className="text-sm text-gray-500 hidden sm:block">Law Offices of Rozsa Gyene</p>
                 </div>
               </div>

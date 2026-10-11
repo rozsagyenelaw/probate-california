@@ -80,3 +80,27 @@ button.hover\:bg-amber-600:hover, a.hover\:bg-amber-600:hover, .text-white.hover
 
 /* Links inside running text are underlined, not told apart by colour alone */
 a.hover\:underline, p a, li p a, td a, dd a, blockquote a, .prose p a, .prose li a, span > a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* ---------------------------------------------------------------------------------------------
+   MyProbateCA redesign (W7-landing, decisions 31C and 32): one navy brand color, one button accent,
+   white and very light gray backgrounds, one font family (the device's system font).
+   --------------------------------------------------------------------------------------------- */
+:root {
+  --mp-navy: #1e3a8a;
+  --mp-navy-dark: #172554;
+  --mp-accent: #0f766e;
+  --mp-accent-dark: #115e59;
+}
+.mp-brand { color: var(--mp-navy); }
+.mp-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background-color: var(--mp-accent); color: #fff; font-weight: 600; border-radius: 0.5rem;
+  text-decoration: none; transition: background-color 0.15s ease;
+}
+.mp-btn:hover { background-color: var(--mp-accent-dark); }
+.mp-btn:focus-visible, .mp-link:focus-visible { outline: 3px solid var(--mp-navy); outline-offset: 2px; }
+.mp-link { color: var(--mp-navy); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.mp-faq summary { list-style: none; cursor: pointer; }
+.mp-faq summary::-webkit-details-marker { display: none; }
+.mp-faq[open] .mp-faq-chevron { transform: rotate(180deg); }
+html { scroll-padding-top: 4.5rem; }
