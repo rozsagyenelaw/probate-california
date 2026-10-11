@@ -1,3 +1,4 @@
+import { setAuthHold } from '../../utils/authHold';
 import React, { useState } from 'react';
 import { signInWithPopup, signInWithRedirect, GoogleAuthProvider, OAuthProvider, getAdditionalUserInfo, deleteUser } from 'firebase/auth';
 import { auth } from '../../services/firebase';
@@ -43,6 +44,7 @@ const ProviderButtons = ({ onSignedIn, onAccountExists, onRelayExisting, onError
   const run = async (providerName) => {
     const provider = providerName === 'Apple' ? appleProvider() : new GoogleAuthProvider();
     if (providerName === 'Google') provider.setCustomParameters({ prompt: 'select_account' });
+    setAuthHold(true); // stay on the sign-in page until we know which account this is
     try {
       const cred = await signInWithPopup(auth, provider);
       const info = getAdditionalUserInfo(cred);
@@ -50,8 +52,10 @@ const ProviderButtons = ({ onSignedIn, onAccountExists, onRelayExisting, onError
         setRelayUser(cred.user);
         return;
       }
+      setAuthHold(false);
       await onSignedIn(cred.user);
     } catch (err) {
+      setAuthHold(false);
       if (err.code === 'auth/account-exists-with-different-credential') {
         const credential = providerName === 'Apple' ? OAuthProvider.credentialFromError(err) : GoogleAuthProvider.credentialFromError(err);
         onAccountExists({ credential, email: err.customData?.email || '', providerName });
@@ -73,10 +77,11 @@ const ProviderButtons = ({ onSignedIn, onAccountExists, onRelayExisting, onError
             try { await deleteUser(relayUser); } catch (e) { console.error('Could not remove the new Apple account:', e); }
             sessionStorage.setItem(CONNECT_APPLE_FLAG, '1');
             setRelayUser(null);
+            setAuthHold(false);
             onRelayExisting();
           }}>Yes, I already have an account</button>
           <button type="button" className="flex-1 py-2 rounded-lg border border-blue-300 bg-white font-semibold" onClick={async () => {
-            const u = relayUser; setRelayUser(null); await onSignedIn(u);
+            const u = relayUser; setRelayUser(null); setAuthHold(false); await onSignedIn(u);
           }}>No, I am new</button>
         </div>
       </div>

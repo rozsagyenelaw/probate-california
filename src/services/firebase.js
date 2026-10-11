@@ -1,7 +1,7 @@
 // Firebase configuration for California Probate App
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 
@@ -31,6 +31,12 @@ if (isFirebaseConfigured) {
   db = getFirestore(app);
   storage = getStorage(app);
   functions = getFunctions(app, 'us-central1');
+  // Local testing only (never set in production): VITE_EMULATOR_BASE points Auth and Firestore at an emulator
+  const EMU = import.meta.env.DEV && import.meta.env.VITE_EMULATOR_BASE ? Number(import.meta.env.VITE_EMULATOR_BASE) : 0;
+  if (EMU) {
+    connectFirestoreEmulator(db, '127.0.0.1', EMU);
+    connectAuthEmulator(auth, `http://127.0.0.1:${EMU + 2}`, { disableWarnings: true });
+  }
 } else {
   console.warn('Firebase is not configured. Please set environment variables.');
 }

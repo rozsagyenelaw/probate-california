@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { linkWithCredential, linkWithPopup } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../../services/firebase';
+import { setAuthHold } from '../../utils/authHold';
 import ProviderButtons, { AppleIcon, appleProvider, CONNECT_APPLE_FLAG } from './ProviderButtons';
 
 const Login = () => {
@@ -45,6 +46,7 @@ const Login = () => {
   const connectApple = async () => {
     try { await linkWithPopup(connectAppleUser, appleProvider()); } catch (err) { console.error('Apple not connected:', err); }
     sessionStorage.removeItem(CONNECT_APPLE_FLAG);
+    setAuthHold(false);
     navigate(destination);
   };
 
@@ -53,12 +55,15 @@ const Login = () => {
     setError('');
     setLoading(true);
 
+    // After "Yes, I already have an account" (Apple Hide My Email), stay here to connect Apple
+    if (sessionStorage.getItem(CONNECT_APPLE_FLAG)) setAuthHold(true);
     try {
       const signedIn = await login(email, password);
       if (signedIn) await finish(signedIn);
       else navigate(destination);
     } catch (err) {
       console.error('Login error:', err);
+      setAuthHold(false);
       if (['auth/user-not-found', 'auth/wrong-password', 'auth/invalid-credential'].includes(err.code)) {
         setError('Invalid email or password');
       } else if (err.code === 'auth/invalid-email') {

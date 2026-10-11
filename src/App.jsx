@@ -8,6 +8,7 @@ import { LandingPage } from './components/landing';
 
 import NotFound from './components/common/NotFound';
 import PortalRedirect from './components/common/PortalRedirect';
+import { useAuthHold } from './utils/authHold';
 
 // Lazy load - sign-in pages pull in the Firebase SDK, which public pages do not need up front
 const Login = lazy(() => import('./components/common/Login'));
@@ -132,12 +133,14 @@ const AdminRoute = ({ children }) => {
 const PublicRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
+  const authHold = useAuthHold();
 
-  if (loading) {
+  // Stay on the page (keep its state) while a sign-in still needs the client's answer
+  if (loading && !authHold) {
     return <LoadingSpinner />;
   }
 
-  if (user) {
+  if (user && !authHold) {
     const from = typeof location.state?.from === 'string' && location.state.from.startsWith('/') ? location.state.from : '/dashboard';
     return <Navigate to={from} replace />;
   }
