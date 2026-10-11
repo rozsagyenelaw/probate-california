@@ -95,6 +95,8 @@ exports.handler = async (event) => {
       houseSale: ['npa', 'confirmation'].includes(sel.houseSale) ? sel.houseSale : null, houseSaleCount: sel.houseSaleCount || 1,
       paymentPlan: sel.paymentPlan === 'installments' ? 'installments' : 'full',
       customerEmail: email, caseId: ref.id, userId: uid, promoCode: sel.promoCode || null, source: 'intake', cancelPath: '/intake?canceled=true',
+      // Decision 32 (W3-home): the portal flow's thank-you page (password set there) is in the client home
+      ...(body.source === 'portal-intake' ? { successQuery: 'next=portal' } : {}),
       estateValueCents: Number(sel.estateValue) > 0 ? Math.round(Number(sel.estateValue) * 100) : estateValueFromIntake(formData), feeAgreementRequestId: sel.feeAgreementRequestId || null, estateRange: sel.estateRange || null
     }, settings);
     return { statusCode: 200, headers, body: JSON.stringify({ status: 'checkout', caseId: ref.id, url: co.url }) };

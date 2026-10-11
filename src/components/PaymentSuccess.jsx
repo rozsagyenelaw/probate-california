@@ -55,6 +55,24 @@ const PaymentSuccess = () => {
     })();
   }, [sessionId, searchParams]);
 
+  // Decision 32 (W3-home): a client who paid from the portal flow goes on to the thank-you page in the
+  // client home, where they are signed in and set their password. The purchase is recorded first.
+  const toPortal = searchParams.get('next') === 'portal';
+  useEffect(() => {
+    if (!toPortal) return undefined;
+    const t = setTimeout(() => {
+      window.location.replace(`https://portal.myprobateca.com/?tab=thanks${sessionId ? `&session_id=${encodeURIComponent(sessionId)}` : ''}`);
+    }, 2500);
+    return () => clearTimeout(t);
+  }, [toPortal, sessionId]);
+  if (toPortal) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+        <p className="text-lg text-gray-900" role="status">Payment received. Opening your client home…</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
