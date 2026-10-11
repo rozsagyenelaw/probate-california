@@ -374,7 +374,7 @@ const LandingPage = () => (
               ))}
             </div>
             <p className="mt-5 text-xs text-slate-600 leading-relaxed max-w-3xl">
-              Testimonials do not guarantee or predict the outcome of any matter.
+              Reviews from actual clients. Testimonials do not guarantee or predict the outcome of any matter.
             </p>
           </div>
         </section>
