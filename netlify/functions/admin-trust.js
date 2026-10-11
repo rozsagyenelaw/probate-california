@@ -104,7 +104,12 @@ exports.handler = async (event) => {
         const co = await createCheckout(stripe, db, { serviceType: 'fee_balance', balanceCents: a.amountCents, balanceLabel: isAcct ? 'Accounting adjustment (more transactions than expected)' : null, paymentPlan: 'full', customerEmail: l.caseDoc.clientEmail || null, caseId, userId: l.caseDoc.userId || '', source: 'fee-adjustment', cancelPath: '/dashboard' }, settings);
         link = co.url; record.paymentLink = co.url; record.stripeSessionId = co.sessionId;
       }
-      await l.caseRef.update({ [isAcct ? 'accountingAdjustment' : 'feeAdjustment']: record, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+      // Also the fields W3-cockpit documents (shared-data-model 8b / 8c), so the cockpit and the client home read one record
+      const ts = admin.firestore.FieldValue.serverTimestamp();
+      const shared = isAcct
+        ? { accountingTierChange: { purchased: a.paidTier, should: a.shouldTier, count: a.transactions, fromCents: a.paidTier === 'complex' ? 199500 : 99500, toCents: a.shouldTier === 'complex' ? 199500 : 99500, deltaCents: a.kind === 'refund' ? -a.amountCents : a.amountCents, kind: a.kind === 'refund' ? 'refund' : 'charge', status: 'confirmed', confirmedAt: ts, confirmedBy: caller.email, clientVisible: true, paymentLink: record.paymentLink || null } }
+        : { feeTierChange: { applies: true, intakeValueCents: Number(l.caseDoc.estateValueCents) || null, inventoryValueCents: a.inventoryValueCents, fromFeeCents: a.feePaidCents, toFeeCents: a.feeNowCents, deltaCents: a.kind === 'refund' ? -a.amountCents : a.amountCents, kind: a.kind, status: 'confirmed', confirmedAt: ts, confirmedBy: caller.email, clientVisible: true, refundDone: false, paymentLink: record.paymentLink || null } };
+      await l.caseRef.update({ [isAcct ? 'accountingAdjustment' : 'feeAdjustment']: record, ...shared, updatedAt: ts });
       await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: isAcct ? 'trust.accountingAdjustment' : 'trust.feeAdjustment', caseId, target: `cases/${caseId}`, meta: { kind: a.kind, amountCents: a.amountCents } });
       return reply(200, { confirmed: true, kind: a.kind, amountCents: a.amountCents, paymentLink: link, next: a.kind === 'refund' ? 'Refund it from the refund screen (it asks you to confirm again).' : 'Send the payment link to the client.' });
     }

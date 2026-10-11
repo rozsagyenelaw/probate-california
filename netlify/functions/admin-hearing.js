@@ -19,7 +19,23 @@ exports.handler = async (event) => {
     const out = await db.runTransaction(async (tx) => {
       const c = await tx.get(ref);
       if (!c.exists) throw Object.assign(new Error('Case not found'), { status: 404 });
-      const { hearings, newId } = continueHearing(c.data().hearings, body.hearingId, { date: body.date, time: body.time, department: body.department, note: body.note });
+      // F38: the cockpit may show the checkout hearing from the legacy hearingDetails field. Continue the matching
+      // hearings[] entry (same date, from checkout), or build one from hearingDetails with its paid appearance, so the
+      // client and the admin see one hearing with the new date and the $500 carries over.
+      let list = Array.isArray(c.data().hearings) ? c.data().hearings : [];
+      let hearingId = body.hearingId;
+      const hd = c.data().hearingDetails;
+      if (!list.some(h => h.id === hearingId) && hd && hd.hearingDate) {
+        const match = list.find(h => h.date === hd.hearingDate && h.outcome !== 'continued');
+        if (match) hearingId = match.id;
+        else {
+          const legacyId = 'legacy-' + String(hd.hearingDate);
+          list = [...list, { id: legacyId, type: 'other', date: hd.hearingDate, time: hd.hearingTime || '', department: hd.department || '', courthouse: hd.county ? `${hd.county} County Superior Court` : '', notes: hd.hearingType || '', outcome: '', source: 'checkout',
+            appearanceRequested: !!(hd.courtAppearance || c.data().courtAppearance), appearance: (hd.courtAppearance || c.data().courtAppearance) ? { kind: hd.courtAppearance || c.data().courtAppearance, paid: true, amountCents: null, paymentId: null } : null, createdAt: admin.firestore.Timestamp.now() }];
+          hearingId = legacyId;
+        }
+      }
+      const { hearings, newId } = continueHearing(list, hearingId, { date: body.date, time: body.time, department: body.department, note: body.note });
       const moved = hearings.find(h => h.id === newId);
       tx.update(ref, { hearings, 'hearingDetails.hearingDate': moved.date, 'hearingDetails.hearingTime': moved.time || '', updatedAt: admin.firestore.FieldValue.serverTimestamp() });
       return { newId, moved };

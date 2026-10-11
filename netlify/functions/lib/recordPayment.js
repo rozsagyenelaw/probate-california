@@ -76,6 +76,7 @@ async function recordCheckout(stripe, db, session) {
     probateType: probate ? meta.serviceType : null,
     addOns: { accounting: meta.accountingAddon || null },
     houseSale: meta.houseSale ? { kind: String(meta.houseSale).split(':')[0], properties: Number(String(meta.houseSale).split(':')[1]) || 1 } : null,
+    saleType: meta.houseSale ? String(meta.houseSale).split(':')[0] : null, // W3-cockpit 8c: 'npa' | 'confirmation' (outside ordinaryCents)
     courtAppearance: meta.courtAppearance ? { kind: meta.courtAppearance, hearing: hearing || null, matchedToCase: !!caseRef } : null,
     description: desc,
     paymentPlan: installments ? 'installments' : 'full',
