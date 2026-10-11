@@ -14,7 +14,7 @@ import {
   Eye
 } from 'lucide-react';
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB, the same limit the storage rules enforce
 const ALLOWED_FILE_TYPES = [
   'application/pdf',
   'image/jpeg',
@@ -82,7 +82,7 @@ const DocumentsStep = ({ formData, updateFormData }) => {
       return { valid: false, error: 'File type not allowed. Please upload PDF, images, or Word documents.' };
     }
     if (file.size > MAX_FILE_SIZE) {
-      return { valid: false, error: 'File size exceeds 10MB limit.' };
+      return { valid: false, error: 'That file is larger than 20 MB. Please send a smaller copy, or a photo of each page.' };
     }
     return { valid: true };
   };
@@ -341,7 +341,7 @@ const DocumentsStep = ({ formData, updateFormData }) => {
                         Click to upload {doc.name.toLowerCase()}
                       </span>
                       <span className="text-xs text-gray-400 mt-1">
-                        PDF, images, or Word documents (max 10MB)
+                        PDF, images, or Word documents (up to 20 MB)
                       </span>
                     </div>
                   </button>

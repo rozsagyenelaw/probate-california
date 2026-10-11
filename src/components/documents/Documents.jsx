@@ -157,7 +157,7 @@ const Documents = () => {
               <p className="text-sm text-blue-700">
                 Upload and manage all documents related to your probate case.
                 Accepted formats: PDF, images (JPG, PNG), and Word documents.
-                Maximum file size: 10MB per file.
+                Maximum file size: 20 MB per file.
               </p>
             </div>
           </div>

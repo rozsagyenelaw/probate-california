@@ -33,10 +33,14 @@ const FinancialDocsUpload = ({ caseId }) => {
 
   const handleFileSelect = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    const pdfFiles = selectedFiles.filter(f => f.type === 'application/pdf');
+    const onlyPdf = selectedFiles.filter(f => f.type === 'application/pdf');
+    // 20 MB per file, the same limit the storage rules enforce
+    const pdfFiles = onlyPdf.filter(f => f.size <= 20 * 1024 * 1024);
 
-    if (pdfFiles.length !== selectedFiles.length) {
+    if (onlyPdf.length !== selectedFiles.length) {
       alert('Please upload PDF files only for financial documents.');
+    } else if (pdfFiles.length !== onlyPdf.length) {
+      alert('A file is larger than 20 MB. Please send a smaller copy.');
     }
 
     setFiles(pdfFiles.map(file => ({
@@ -285,7 +289,7 @@ const FinancialDocsUpload = ({ caseId }) => {
 
           {/* Help Text */}
           <p className="text-xs text-gray-500 mt-3 text-center">
-            Accepted: PDF files up to 10MB each
+            Accepted: PDF files up to 20 MB each
           </p>
         </>
       )}

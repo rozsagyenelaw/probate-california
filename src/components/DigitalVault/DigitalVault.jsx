@@ -102,6 +102,11 @@ const DigitalVault = ({ caseId, userId }) => {
 
     try {
       for (const file of acceptedFiles) {
+        // 20 MB per file, the same limit the storage rules enforce
+        if (file.size > 20 * 1024 * 1024) {
+          setError(`File "${file.name}" is too large. Maximum size is 20 MB.`);
+          continue;
+        }
         // Create unique filename
         const timestamp = Date.now();
         const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');

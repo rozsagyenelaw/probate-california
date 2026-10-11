@@ -2,6 +2,11 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
 
+    // Client uploads: one limit everywhere, 20 MB per file (every client screen says "up to 20 MB")
+    function underClientLimit() {
+      return request.resource.size <= 20 * 1024 * 1024;
+    }
+
     // Helper function to check if user is authenticated
     function isAuthenticated() {
       return request.auth != null;
@@ -24,19 +29,20 @@ service firebase.storage {
     // Intake documents - users can only access their own uploads
     match /intake/{userId}/{allPaths=**} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      allow write: if isAuthenticated() && request.auth.uid == userId;
+      allow create, update: if isAuthenticated() && request.auth.uid == userId && underClientLimit();
       allow delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
     }
 
     // Case documents - the client who owns the case and the attorney
     match /cases/{caseId}/documents/{allPaths=**} {
-      allow read, write: if isAdmin() || ownsCase(caseId);
+      allow read, delete: if isAdmin() || ownsCase(caseId);
+      allow create, update: if isAdmin() || (ownsCase(caseId) && underClientLimit());
     }
 
     // Documents collection - for financial docs upload (asset discovery)
     match /documents/{caseId}/{allPaths=**} {
       allow read: if isAdmin() || ownsCase(caseId);
-      allow create, update: if isAdmin() || ownsCase(caseId);
+      allow create, update: if isAdmin() || (ownsCase(caseId) && underClientLimit());
       allow delete: if isAdmin();
     }
 
@@ -79,7 +85,7 @@ service firebase.storage {
     match /client-uploads/{userId}/{fileName} {
       allow read: if isAdmin() || (isAuthenticated() && request.auth.uid == userId);
       allow create: if isAuthenticated() && request.auth.uid == userId && resource == null &&
-        request.resource.size < 20 * 1024 * 1024 &&
+        underClientLimit() &&
         (request.resource.contentType.matches('application/pdf') ||
          request.resource.contentType.matches('image/.*') ||
          request.resource.contentType.matches('application/msword') ||
@@ -90,7 +96,7 @@ service firebase.storage {
     // Vault documents - users can only access their own vault
     match /vaults/{userId}/{allPaths=**} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      allow write: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow create, update: if isAdmin() || (isAuthenticated() && request.auth.uid == userId && underClientLimit());
       allow delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
     }
   }
