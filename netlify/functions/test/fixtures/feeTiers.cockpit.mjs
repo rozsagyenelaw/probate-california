@@ -3,11 +3,20 @@
 // https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=10810
 // "Estate value" = gross value of the property that goes through probate (what the inventory shows), 10810(b).
 
+// Each label names the fee and the estate values it covers, so a label is never run together with another
+// (item i: the client home once read "up to $1,000,000 to $1,000,000 to $2,000,000").
 export const FULL_TIERS = [
-  { key: 'tier1', upToCents: 100000000, feeCents: 399500, label: 'Probate estate up to $1,000,000' },
-  { key: 'tier2', upToCents: 200000000, feeCents: 599500, label: '$1,000,000 to $2,000,000' },
-  { key: 'tier3', upToCents: Infinity, feeCents: 799500, label: 'Over $2,000,000' }
+  { key: 'tier1', upToCents: 100000000, feeCents: 399500, label: '$3,995 up to $1,000,000' },
+  { key: 'tier2', upToCents: 200000000, feeCents: 599500, label: '$5,995 from $1,000,000 to $2,000,000' },
+  { key: 'tier3', upToCents: Infinity, feeCents: 799500, label: '$7,995 over $2,000,000' }
 ];
+// The whole price list in one line: "$3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000"
+export const FULL_TIERS_LINE = FULL_TIERS.map((t) => t.label).join('; ');
+// The tier line for a fee, or '' when the fee is not a tier fee (the lower Probate Code 10810 amount).
+export function tierPhrase(feeCents) {
+  const t = FULL_TIERS.find((x) => x.feeCents === Math.round(Number(feeCents)));
+  return t ? t.label : '';
+}
 
 // 10810(a): 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, 1% of the next $9,000,000,
 // 0.5% of the next $15,000,000; above $25,000,000 the court decides (treated as above every tier fee).
@@ -26,7 +35,7 @@ export function fullProbateFee(valueCents) {
   const t = FULL_TIERS.find((x) => v <= x.upToCents);
   if (t.key === 'tier1') {
     const s = statutoryFeeCents(v);
-    if (s < t.feeCents) return { cents: s, tier: 'tier1', basis: '10810', label: `${t.label} (Probate Code 10810 amount is lower)` };
+    if (s < t.feeCents) return { cents: s, tier: 'tier1', basis: '10810', label: `${(s / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}, the Probate Code 10810 amount (lower than $3,995) for this estate` };
   }
   return { cents: t.feeCents, tier: t.key, basis: 'tier', label: t.label };
 }
