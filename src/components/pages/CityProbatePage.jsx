@@ -38,7 +38,7 @@ const getH1Variation = (city, index) => {
   const variations = [
     `${city.name} Probate Attorney | Flat Fee Estate Administration`,
     `Probate Services in ${city.name}, California | $2,495 or $3,995 Flat Fee`,
-    `${city.name} Estate Probate | Attorney-Supervised for $2,495 or $3,995`,
+    `${city.name} Estate Probate | Attorney-Prepared Papers for $2,495 or $3,995`,
     `Affordable Probate Attorney Serving ${city.name} Residents`,
     `${city.county} County Probate Help | ${city.name} Estate Services`,
     `${city.name} Probate Lawyer | Complete Estate Administration`

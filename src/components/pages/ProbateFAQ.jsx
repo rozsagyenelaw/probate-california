@@ -504,7 +504,7 @@ const ProbateFAQ = () => {
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Why is statutory probate so expensive?</h3>
                 <p className="text-gray-700 mb-3">Statutory fees are set by <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=10810" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">California Probate Code Section 10810</a>. The law dates to an era when attorneys hand-typed documents and made multiple courthouse trips.</p>
                 <p className="text-gray-700 mb-3">Today's technology enables dramatic efficiency. For a <strong>$1.5 million estate</strong>, statutory attorney fees are <strong>$28,000</strong>. We believe this is excessive for standard administration when modern systems can streamline the process.</p>
-                <p className="text-gray-700">Our app handles data gathering and document generation, allowing Attorney Rozsa Gyene (Bar #208356) to provide professional oversight at a fraction of the traditional cost.</p>
+                <p className="text-gray-700">Our app handles data gathering and document generation, allowing Attorney Rozsa Gyene (Bar #208356) to prepare your court papers at a fraction of the traditional cost.</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
