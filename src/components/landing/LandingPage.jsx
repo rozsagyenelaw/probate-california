@@ -197,7 +197,7 @@ const LandingPage = () => {
         "@type": "WebPage",
         "@id": "https://myprobateca.com/#webpage",
         "url": "https://myprobateca.com",
-        "name": "California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA",
+        "name": "California Probate Services | Attorney-Led | Flat Fees from $2,495 | MyProbateCA",
         "description": "California probate for a flat fee from $3,995. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
         "isPartOf": {
           "@id": "https://myprobateca.com/#website"
@@ -216,7 +216,7 @@ const LandingPage = () => {
   return (
     <>
       <Helmet>
-        <title>California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA</title>
+        <title>California Probate Services | Attorney-Led | Flat Fees from $2,495 | MyProbateCA</title>
         <meta name="description" content="California probate for a flat fee from $3,995 — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="keywords" content="California probate, probate attorney, probate lawyer, estate administration, flat fee probate, Los Angeles probate, Glendale probate attorney" />
         <link rel="canonical" href="https://myprobateca.com/" />

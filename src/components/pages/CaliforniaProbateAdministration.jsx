@@ -364,7 +364,7 @@ const CaliforniaProbateAdministration = () => {
         "@type": "WebPage",
         "@id": "https://myprobateca.com/california-probate-administration#webpage",
         "url": "https://myprobateca.com/california-probate-administration",
-        "name": "California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee",
+        "name": "California Probate Administration | Attorney-Led Service | Flat Fees from $2,495",
         "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
         "isPartOf": {
           "@type": "WebSite",
@@ -385,13 +385,13 @@ const CaliforniaProbateAdministration = () => {
   return (
     <>
       <Helmet>
-        <title>California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee | MyProbateCA</title>
+        <title>California Probate Administration | Attorney-Led Service | Flat Fees from $2,495 | MyProbateCA</title>
         <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="keywords" content="California probate, probate administration, probate attorney, Letters Testamentary, Letters of Administration, Stanley Mosk Courthouse, probate lawyer, estate administration, IGN notes, probate court" />
         <link rel="canonical" href="https://myprobateca.com/california-probate-administration" />
 
         {/* Open Graph */}
-        <meta property="og:title" content="California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee" />
+        <meta property="og:title" content="California Probate Administration | Attorney-Led Service | Flat Fees from $2,495" />
         <meta property="og:description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat fee from $3,995." />
         <meta property="og:url" content="https://myprobateca.com/california-probate-administration" />
         <meta property="og:type" content="website" />
@@ -399,7 +399,7 @@ const CaliforniaProbateAdministration = () => {
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="California Probate Administration | $2,495 or $3,995 Flat Fee" />
+        <meta name="twitter:title" content="California Probate Administration | Flat Fees from $2,495" />
         <meta name="twitter:description" content="Professional attorney-led probate administration. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
 
         {/* Schema Markup */}

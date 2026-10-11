@@ -38,8 +38,8 @@ import {
 const getH1Variation = (city, index) => {
   const variations = [
     `${city.name} Probate Attorney | Flat Fee Estate Administration`,
-    `Probate Services in ${city.name}, California | $2,495 or $3,995 Flat Fee`,
-    `${city.name} Estate Probate | Attorney-Prepared Papers for $2,495 or $3,995`,
+    `Probate Services in ${city.name}, California | Flat Fees from $2,495`,
+    `${city.name} Estate Probate | Attorney-Prepared Papers from $2,495`,
     `Affordable Probate Attorney Serving ${city.name} Residents`,
     `${city.county} County Probate Help | ${city.name} Estate Services`,
     `${city.name} Probate Lawyer | Complete Estate Administration`
@@ -261,17 +261,17 @@ const CityProbatePage = () => {
   return (
     <>
       <Helmet>
-        <title>{city.name} Probate Attorney | Flat Fee $2,495 or $3,995 | MyProbateCA</title>
+        <title>{city.name} Probate Attorney | Flat Fees from $2,495 | MyProbateCA</title>
         <meta name="description" content={getMetaDescriptionVariation(city, cityIndex)} />
         <link rel="canonical" href={`https://myprobateca.com/locations/${city.slug}-probate-attorney`} />
 
-        <meta property="og:title" content={`${city.name} Probate Attorney | Flat Fee $2,495 or $3,995`} />
+        <meta property="og:title" content={`${city.name} Probate Attorney | Flat Fees from $2,495`} />
         <meta property="og:description" content={`Attorney-led probate for ${city.name} residents. All documents prepared, court appearances available. Flat $3,995.`} />
         <meta property="og:url" content={`https://myprobateca.com/locations/${city.slug}-probate-attorney`} />
         <meta property="og:type" content="website" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${city.name} Probate Attorney | Flat Fee $2,495 or $3,995`} />
+        <meta name="twitter:title" content={`${city.name} Probate Attorney | Flat Fees from $2,495`} />
 
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
