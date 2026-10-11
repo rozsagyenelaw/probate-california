@@ -37,6 +37,7 @@ export default function LandingEs() {
           <h3 className="font-semibold">{ES.addonsTitle}</h3>
           <ul className="mt-2 space-y-1 text-gray-800">{ES.addons.map((a) => <li key={a}>{a}</li>)}</ul>
           <p className="mt-3 text-sm text-gray-600">{ES.thirdPartyCosts}</p>
+          <p className="mt-3 text-sm text-gray-700">{ES.fullRepresentation} <a className="underline text-blue-900" href={ES.fullRepresentationUrl}>{ES.fullRepresentationLink}</a></p>
         </div>
       </section>
 

@@ -27,8 +27,20 @@ export default function ComparePage() {
         <p className="mt-2 text-sm text-gray-500">Competitor information as published on their websites on {CHECKED_ON}.</p>
 
         {page.rows && (
-          <div className="mt-8 overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[36rem]">
+          <div className="mt-8 md:hidden space-y-4">
+            {page.rows.map((r) => (
+              <div key={r.label} className="rounded-xl border border-gray-200 p-4">
+                <h2 className="font-semibold">{r.label}</h2>
+                <p className="mt-2"><span className="font-medium">{page.columns[0]}: </span>{r.ours}</p>
+                <p className="mt-2"><span className="font-medium">{page.columns[1]}: </span>{r.theirs}</p>
+                <Sources keys={r.src} />
+              </div>
+            ))}
+          </div>
+        )}
+        {page.rows && (
+          <div className="mt-8 hidden md:block">
+            <table className="w-full text-left border-collapse">
               <thead><tr className="border-b-2 border-gray-300">
                 <th scope="col" className="py-3 pr-4 w-1/4"> </th>
                 {page.columns.map((c) => <th key={c} scope="col" className="py-3 pr-4">{c}</th>)}
@@ -53,6 +65,7 @@ export default function ComparePage() {
                 <h2 className="text-xl font-semibold">{s.name}</h2>
                 <p className="mt-2"><span className="font-medium">Price: </span>{s.price}</p>
                 <p className="mt-1"><span className="font-medium">Legal advice: </span>{s.legal}</p>
+                {s.files && <p className="mt-1"><span className="font-medium">Who files and goes to court: </span>{s.files}</p>}
                 <Sources keys={s.src} />
               </div>
             ))}

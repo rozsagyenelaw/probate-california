@@ -356,6 +356,12 @@ service cloud.firestore {
         request.resource.data.createdBy == resource.data.createdBy;
     }
 
+    // 65 + decision 30: transaction count for the accounting add-on tier, written only by a function
+    match /cases/{caseId}/ledgerStats/{docId} {
+      allow read: if ownsCaseOrAdmin(caseId);
+      allow write: if false;
+    }
+
     // 67: unclaimed property and life insurance searches (found / not found)
     match /cases/{caseId}/assetSearches/{searchKey} {
       allow read: if ownsCaseOrAdmin(caseId);

@@ -24,9 +24,9 @@ export const PAGES = {
     columns: ['MyProbateCA', 'Trust & Will probate'],
     rows: [
       { label: 'Who prepares the court papers', ours: 'Law Offices of Rozsa Gyene, a California law firm (attorney Rozsa Gyene, 26+ years, 500+ cases). We prepare your court papers and answer the court’s probate notes, in simplified and full probate.', theirs: 'EZ-Probate helps prepare “ready-to-sign court forms”, with legal counsel from a California partner attorney and an “expert probate team” to help answer questions.', src: ['twCa'] },
-      { label: 'Who files and goes to court', ours: 'You sign and file the papers we prepare, as the petitioner, with step-by-step filing instructions. Rozsa can appear at a hearing for you as limited scope representation: optional, $500 per hearing.', theirs: 'Its page says it “connects you with an attorney in your area for the legal counsel you need.”', src: ['twCa'] },
+      { label: 'Who files and goes to court', ours: 'You sign and file the papers we prepare, as the petitioner, with step-by-step filing instructions. Rozsa can appear at a hearing for you as limited scope representation: optional, $500 per hearing.', theirs: 'Its page does not say who files or appears in court. It says it “connects you with an attorney in your area for the legal counsel you need.”', src: ['twCa'] },
       { label: 'Is the company a law firm?', ours: 'Yes.', theirs: 'Trust & Will says: “We are not a law firm, we do not provide legal advice.” Legal counsel comes from its partner attorney.', src: ['twMain', 'twCa'] },
-      { label: 'Flat fee', ours: '$2,495 simplified probate; $3,995 full probate.', theirs: 'Starting at $5,000.', src: ['twCa'] },
+      { label: 'Flat fee', ours: '$2,495 simplified probate. Full probate: $3,995 for a probate estate up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000. Final accounting, if needed, is a separate add-on.', theirs: 'Starting at $5,000.', src: ['twCa'] },
       { label: 'Payment plan', ours: 'Pay in 3 payments that add up to the same price.', theirs: 'Starting at $500 per month.', src: ['twCa'] },
       { label: 'Online account', ours: 'Yes: a client home with a step-by-step progress bar, messages with our office, documents, e-signing, deadline reminders and a guide for every step.', theirs: 'Yes: an online probate account (“Login to Your Probate Account”).', src: ['twMain'] },
     ],
@@ -40,11 +40,11 @@ export const PAGES = {
     columns: ['Service', 'Price (as published)', 'What the company says about legal advice'],
     software: [
       { name: 'SwiftProbate', price: 'Free tier; $39 one time for the full plan.', legal: '“We are not a law firm.” “No attorney-client relationship is created by using this service.”', src: ['swift', 'swiftDisc'] },
-      { name: 'Atticus', price: '$499, with plans starting at $175.', legal: '“Atticus is not a law firm or an attorney.” “Our users represent themselves in their matters.”', src: ['atticusFam', 'atticusFaq'] },
+      { name: 'Atticus', price: '$499, with plans starting at $175.', legal: '“Atticus is not a law firm or an attorney.”', files: '“Our users represent themselves in their matters.”', src: ['atticusFam', 'atticusFaq'] },
       { name: 'EstateExec', price: '$199 one time after a 10-day free trial.', legal: 'Its terms say it “does NOT provide legal or financial advice.”', src: ['eePricing', 'eeTerms'] },
-      { name: 'EverSettled', price: '$1,999 total for the estate.', legal: '“EverSettled is not a law firm and does not give legal advice.”', src: ['ever'] },
+      { name: 'EverSettled', price: '$1,999 total for the estate.', legal: '“EverSettled is not a law firm and does not give legal advice.”', files: '“You provide the details, review, sign, and submit everything.”', src: ['ever'] },
     ],
-    ours: { name: 'MyProbateCA (Law Offices of Rozsa Gyene)', price: '$2,495 simplified probate; $3,995 full probate. Court hearing appearance optional at $500 per hearing; final accounting is a separate add-on.', legal: 'A California law firm prepares your court papers and clears the probate notes; you file them as the petitioner and follow every step online. Questions go to our office through your portal messages.' },
+    ours: { name: 'MyProbateCA (Law Offices of Rozsa Gyene)', price: '$2,495 simplified probate. Full probate: $3,995 for a probate estate up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000. Final accounting, if needed, is a separate add-on.', legal: 'A California law firm prepares your court papers and answers the court\u2019s probate notes. Questions go to our office through your portal messages.', files: 'You file the papers we prepare, as the petitioner. Rozsa can appear at a hearing for you as limited scope representation: optional, $500 per hearing.' },
     closing: 'If your estate is simple and you are comfortable preparing the court papers yourself, software may be enough. If you want a California attorney\u2019s office to prepare your court papers, clear the court\u2019s notes and answer your legal questions while you file them yourself, you can start your case online today.',
   },
 };
