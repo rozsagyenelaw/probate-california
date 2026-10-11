@@ -1380,6 +1380,7 @@ const LandingPage = () => {
                   <li><strong>Final accounting:</strong> Simple $995 (fewer than 50 transactions) or Complex $1,995 (50 or more transactions).</li>
                   <li><strong>Court appearance:</strong> $500 per hearing, as limited scope representation.</li>
                 </ul>
+                <p className="text-xs text-gray-500 mt-4">Prefer an attorney to handle everything, including court? Rozsa Gyene can represent you directly as your attorney. The fee is the statutory fee set by California law (Probate Code 10810), approved by the court. <a href="https://portal.livingtrust-attorneys.com/book" className="underline">Full representation</a></p>
               </div>
             </div>
           </div>
