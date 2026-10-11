@@ -128,6 +128,30 @@ test('inventory puts the estate in another tier: refund or balance due for Rozsa
   assert.strictEqual(a.kind, 'none');
 });
 
+test('house sale add-on: $995 (Notice of Proposed Action) or $1,495 (court confirmation) per property, outside the 10810 limit', () => {
+  let o = buildOrder({ serviceType: 'full', estateValueCents: 5000000, houseSale: 'npa' }, {});
+  assert.strictEqual(o.totalCents, 299500);        // $2,000 capped fee + $995 sale (not capped)
+  assert.strictEqual(o.ordinaryCents, 200000);
+  o = buildOrder({ serviceType: 'house_sale', houseSale: 'confirmation', houseSaleCount: 2, capContext: { fullProbate: true, estateValueCents: 5000000, priorOrdinaryCents: 200000 } }, {});
+  assert.strictEqual(o.totalCents, 299000);        // still charged in full after the cap is used up
+  assert.throws(() => buildOrder({ serviceType: 'house_sale' }, {}), /kind of house sale/);
+  assert.strictEqual(require('../lib/businessDefaults').accountingTierRule, 'transactions');
+});
+
+test('accounting tier by ledger transactions: refund or charge for Rozsa to confirm, inside the 10810 limit for full probate', () => {
+  const base = { serviceType: 'full', estateValueCents: 50000000, addOns: { accounting: 'simple' }, feeStages: {} };
+  const pays = [{ id: 'p', serviceType: 'full', amountCents: 499000, totalPriceCents: 399500, ordinaryCents: 499000, addOns: { accounting: 'simple' } }];
+  let a = computeCaseTrust({ ...base, ledgerTransactionCount: 72 }, pays, [], []).accountingAdjustment;
+  assert.deepStrictEqual([a.shouldTier, a.kind, a.amountCents], ['complex', 'balance', 100000]);
+  a = computeCaseTrust({ ...base, addOns: { accounting: 'complex' }, ledgerTransactionCount: 12 }, [{ ...pays[0], addOns: { accounting: 'complex' } }], [], []).accountingAdjustment;
+  assert.deepStrictEqual([a.shouldTier, a.kind, a.amountCents], ['simple', 'refund', 100000]);
+  a = computeCaseTrust({ ...base, ledgerTransactionCount: 30 }, pays, [], []).accountingAdjustment;
+  assert.strictEqual(a.kind, 'none');
+  // small estate: a balance cannot push ordinary services above the 10810 amount ($50,000 -> $2,000)
+  a = computeCaseTrust({ ...base, estateValueCents: 5000000, ledgerTransactionCount: 80 }, [{ id: 'p', serviceType: 'full', amountCents: 200000, totalPriceCents: 200000, ordinaryCents: 200000, addOns: { accounting: 'simple' } }], [], []).accountingAdjustment;
+  assert.strictEqual(a.amountCents, 0);
+});
+
 if (!process.env.FIRESTORE_EMULATOR_HOST || !/^demo-/.test(process.env.GCLOUD_PROJECT || '')) {
   test('emulator tests need the Firestore emulator', { skip: true }, () => {});
   return;
@@ -254,4 +278,46 @@ test('fee agreement (when switched on): checkout refused until this client signe
   await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, buildOrder({ serviceType: 'full' }, {})), e => e.code === 'fee_agreement_required'); // different fee
   await assert.rejects(requireSignedFeeAgreement(db, { ...params, paymentPlan: 'installments', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // different plan
   assert.strictEqual(await requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, order), ref.id);
+});
+
+test('checkout.session.async_payment_succeeded is recorded like a completed checkout, once; foreign ones ignored', async () => {
+  process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_fake';
+  const realStripe = require('stripe')('sk_test_fake');
+  const wh = require('../stripe-webhook.js');
+  wh._setStripeForTests(Object.assign(require('stripe')('sk_test_fake'), { checkout: { sessions: { listLineItems: async () => ({ data: [{ price: { id: 'p', product: { metadata: { site: 'myprobateca' } } } }] }) } } }));
+  const email = `rozsagyenelaw1+w2pasync${Date.now()}@gmail.com`;
+  const uid = 'async-' + Date.now();
+  await db.collection('users').doc(uid).set({ email });
+  const send = async (type, obj) => { const payload = JSON.stringify({ id: 'evt_' + Math.random(), object: 'event', type, data: { object: obj } }); return wh.handler({ httpMethod: 'POST', headers: { 'stripe-signature': realStripe.webhooks.generateTestHeaderString({ payload, secret: 'whsec_test_fake' }) }, body: payload, isBase64Encoded: false }); };
+  const s = { id: 'cs_test_async_' + uid, object: 'checkout.session', customer_email: email, amount_total: 399500, success_url: 'https://myprobateca.com/payment-success', livemode: false,
+    metadata: { app: 'probate', site: 'myprobateca', serviceType: 'full', paymentPlan: 'full', userId: uid, estateValueCents: '50000000', ordinaryCents: '399500' } };
+  let r = await send('checkout.session.completed', { ...s, payment_status: 'unpaid' });   // bank or Klarna still pending
+  assert.strictEqual(r.statusCode, 200);
+  assert.strictEqual((await db.collection('payments').doc(s.id).get()).exists, false);
+  r = await send('checkout.session.async_payment_succeeded', { ...s, payment_status: 'paid' });
+  assert.strictEqual((await db.collection('payments').doc(s.id).get()).data().amountCents, 399500);
+  r = await send('checkout.session.async_payment_succeeded', { ...s, payment_status: 'paid' }); // repeat delivery
+  assert.match(r.body, /duplicate/);
+  assert.strictEqual((await db.collection('payments').where('stripeSessionId', '==', s.id).get()).size, 1);
+  r = await send('checkout.session.async_payment_succeeded', { ...s, id: 'cs_test_async_foreign', success_url: 'https://livingtrustcalifornia.com/thank-you.html', metadata: { app: 'livingtrust' }, payment_status: 'paid' });
+  assert.match(r.body, /not a MyProbateCA checkout/);
+  assert.strictEqual((await db.collection('payments').doc('cs_test_async_foreign').get()).exists, false);
+});
+
+test('charge.refunded: recorded once on payment, case and refunds (repeat delivery changes nothing); other sites ignored', async () => {
+  const { recordChargeRefunded } = require('../lib/recordPayment');
+  const caseRef = await db.collection('cases').add({ userId: 'r1', serviceType: 'full', createdAt: admin.firestore.Timestamp.now() });
+  const payRef = db.collection('payments').doc('cs_test_refund_' + Date.now());
+  await payRef.set({ caseId: caseRef.id, userId: 'r1', amountCents: 399500, stripePaymentIntentId: 'pi_test_r1', refundedCents: 0 });
+  const charge = { id: 'ch_test_r1', payment_intent: 'pi_test_r1', amount: 399500, amount_refunded: 50000, livemode: false, refunds: { data: [{ id: 're_test_r1', amount: 50000, status: 'succeeded', created: 1791700000, metadata: {} }] } };
+  const stub = { charges: { retrieve: async () => charge }, invoices: { retrieve: async () => ({}) } };
+  await recordChargeRefunded(stub, db, { id: 'ch_test_r1' });
+  await recordChargeRefunded(stub, db, { id: 'ch_test_r1' });   // repeat
+  assert.strictEqual((await payRef.get()).data().refundedCents, 50000);
+  assert.strictEqual((await caseRef.get()).data().billing.totalRefunded, 50000);
+  assert.strictEqual((await db.collection('refunds').doc('re_test_r1').get()).data().requestedBy, 'stripe-dashboard');
+  const foreign = { ...charge, id: 'ch_test_lt', payment_intent: 'pi_livingtrust', refunds: { data: [{ id: 're_test_lt', amount: 100, status: 'succeeded', created: 1791700000, metadata: {} }] } };
+  const r = await recordChargeRefunded({ charges: { retrieve: async () => foreign }, invoices: { retrieve: async () => ({}) } }, db, { id: 'ch_test_lt' });
+  assert.strictEqual(r.matched, false);
+  assert.strictEqual((await db.collection('refunds').doc('re_test_lt').get()).exists, false);
 });

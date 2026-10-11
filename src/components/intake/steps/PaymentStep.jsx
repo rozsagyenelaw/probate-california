@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { CreditCard, Check, Shield, Clock, CheckCircle, Loader2, Home, Building2, AlertCircle, Star, Calculator, FileSpreadsheet, Plus, Calendar, Gavel, Info } from 'lucide-react';
 import { CA_COUNTY_LIST } from '../../../data/californiaCourts';
 import { assessEligibility, ROUTES } from '../../../lib/eligibility';
+import HouseSaleAddon, { HOUSE_SALE_PRICES } from '../../common/HouseSaleAddon';
 import { useBusinessSettings, refundPolicyText, contestedOffered, contestedPrice, accountingTierNote, installmentAmounts, fmtDollars, fullProbateFee, capOrdinaryDollars } from '../../../services/businessSettings';
 
 const HEARING_TYPES = [
@@ -33,6 +34,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [accountingAddon, setAccountingAddon] = useState(null); // null, 'simple', 'complex'
   const [courtAppearance, setCourtAppearance] = useState(null); // null, 'remote', 'contested'
+  const [houseSale, setHouseSale] = useState(null); // null, 'npa', 'confirmation' (full probate, per property)
+  const [houseSaleCount, setHouseSaleCount] = useState(1);
   const [hearingDetails, setHearingDetails] = useState({
     caseNumber: '',
     county: formData.decedent?.lastAddress?.county || '',
@@ -95,6 +98,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
     let total = paid ? 0 : c.fee;
     total += c.accounting + c.remote;
     if (courtAppearance === 'contested') total += courtAppearancePricing.contested.price;
+    if (selectedProbateType === 'full' && houseSale) total += HOUSE_SALE_PRICES[houseSale] * houseSaleCount; // outside the 10810 limit
     return total;
   };
 
@@ -145,6 +149,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
     onSubmitCase({
       probateType: selectedProbateType,
       accountingAddon: accountingAddon,
+      houseSale: selectedProbateType === 'full' ? houseSale : null,
+      houseSaleCount,
       courtAppearance: courtAppearance ? {
         type: courtAppearance,
         ...hearingDetails
@@ -385,21 +391,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               </div>
             </div>
             <p className="text-xl font-bold text-purple-600 mb-2">+$995</p>
-            {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
-            {settings.accountingTierRule && (<>
-            <ul className="text-xs text-gray-600 space-y-1">
-              {accountingTierNote(settings.accountingTierRule, 'simple') && (
-                <li className="flex items-center">
-                <Check className="h-3 w-3 text-gray-400 mr-1" />
-                  {accountingTierNote(settings.accountingTierRule, 'simple')}
-                </li>
-              )}
-              <li className="flex items-center">
-                <Check className="h-3 w-3 text-gray-400 mr-1" />
-                Basic income (interest, dividends)
-              </li>
-            </ul>
-            </>)}
+            {/* Accounting tier: one plain line by number of transactions (decisions section 30) */}
+              {accountingTierNote(settings.accountingTierRule, 'simple') && <p className="text-sm text-gray-700 mb-3" data-testid="tier-line-simple">{accountingTierNote(settings.accountingTierRule, 'simple')}</p>}
           </button>
 
           {/* Complex Accounting */}
@@ -432,25 +425,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               </div>
             </div>
             <p className="text-xl font-bold text-purple-600 mb-2">+$1,995</p>
-            {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
-            {settings.accountingTierRule && (<>
-            <ul className="text-xs text-gray-600 space-y-1">
-              {accountingTierNote(settings.accountingTierRule, 'complex') && (
-                <li className="flex items-center">
-                <Plus className="h-3 w-3 text-purple-500 mr-1" />
-                  {accountingTierNote(settings.accountingTierRule, 'complex')}
-                </li>
-              )}
-              <li className="flex items-center">
-                <Plus className="h-3 w-3 text-purple-500 mr-1" />
-                Business income/rental properties
-              </li>
-              <li className="flex items-center">
-                <Plus className="h-3 w-3 text-purple-500 mr-1" />
-                Multi-year accounting
-              </li>
-            </ul>
-            </>)}
+            {/* Accounting tier: one plain line by number of transactions (decisions section 30) */}
+              {accountingTierNote(settings.accountingTierRule, 'complex') && <p className="text-sm text-gray-700 mb-3" data-testid="tier-line-complex">{accountingTierNote(settings.accountingTierRule, 'complex')}</p>}
           </button>
         </div>
 
@@ -667,6 +643,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
         )}
       </div>
 
+      {selectedProbateType === 'full' && (
+        <HouseSaleAddon value={houseSale} count={houseSaleCount} onChange={(v, n) => { setHouseSale(v); setHouseSaleCount(n); }} />
+      )}
+
       {/* Order Summary */}
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <h4 className="font-medium text-gray-900 mb-3">Order Summary</h4>
@@ -694,6 +674,12 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
             <div className="flex justify-between text-amber-700">
               <span>{courtAppearancePricing[courtAppearance].label}</span>
               <span className="font-medium">{courtAppearance === 'remote' && charged().remote < courtAppearancePricing.remote.price ? (charged().remote === 0 ? 'Included' : `+$${fmtDollars(charged().remote)}`) : `+$${courtAppearancePricing[courtAppearance].price.toLocaleString()}`}</span>
+            </div>
+          )}
+          {houseSale && selectedProbateType === 'full' && (
+            <div className="flex justify-between">
+              <span className="text-gray-600">House sale papers ({houseSale === 'npa' ? 'Notice of Proposed Action' : 'court confirmation'}){houseSaleCount > 1 ? ` x ${houseSaleCount}` : ''}</span>
+              <span className="font-medium">+${(HOUSE_SALE_PRICES[houseSale] * houseSaleCount).toLocaleString()}</span>
             </div>
           )}
           <div className="border-t pt-2 mt-2 flex justify-between font-bold text-lg">

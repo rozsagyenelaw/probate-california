@@ -28,7 +28,10 @@ async function loadCase(db, caseId) {
   const payments = p.docs.map(d => ({ id: d.id, ...d.data(), date: ymd(d.data().createdAt) }));
   const refunds = r.docs.map(d => ({ id: d.id, ...d.data(), date: ymd(d.data().createdAt) }));
   const transfers = t.docs.map(d => ({ id: d.id, ...d.data(), date: ymd(d.data().createdAt) }));
-  return { caseRef: c.ref, caseDoc: { id: c.id, ...c.data() }, payments, refunds, transfers };
+  // Accounting tier check (decisions section 30): number of entries in the client's estate ledger (W3-beyond item 65)
+  let ledgerTransactionCount = null;
+  try { ledgerTransactionCount = (await db.collection('cases').doc(caseId).collection('ledger').count().get()).data().count; } catch { /* no ledger */ }
+  return { caseRef: c.ref, caseDoc: { id: c.id, ...c.data(), ledgerTransactionCount }, payments, refunds, transfers };
 }
 
 exports.handler = async (event) => {
@@ -56,7 +59,7 @@ exports.handler = async (event) => {
           percentEarned: t.percentEarned, capRefundDueCents: t.capRefundDueCents, test: l.payments.every(p => p.livemode === false) });
       }
       rows.sort((a, b) => b.readyToMoveCents - a.readyToMoveCents);
-      return reply(200, { rows, note: 'Figures are this client\'s ledger only, never a bank balance.' });
+      return reply(200, { rows, note: 'Per client: amount paid, amount earned as stages complete, and refunds. Stripe pays card payments out to the operating account; moving funds to the trust account and back out when earned is done by Rozsa. Never a bank balance.' });
     }
 
     const caseId = String(body.caseId || '');
@@ -85,21 +88,24 @@ exports.handler = async (event) => {
 
     // Rozsa confirms the fee change after the inventory. Refund: she then refunds through the refund screen (admin-refund).
     // Balance due: a Stripe payment link for exactly that amount is created for her to send to the client.
-    if (body.action === 'confirmFeeAdjustment') {
+    if (body.action === 'confirmFeeAdjustment' || body.action === 'confirmAccountingAdjustment') {
       const t = computeCaseTrust(l.caseDoc, l.payments, l.refunds, l.transfers);
-      const a = t.feeAdjustment;
-      if (!a || a.kind === 'none') return reply(400, { error: 'No fee change to confirm for this case' });
+      const isAcct = body.action === 'confirmAccountingAdjustment';
+      const a = isAcct ? t.accountingAdjustment : t.feeAdjustment;
+      if (!a || a.kind === 'none') return reply(400, { error: 'No change to confirm for this case' });
       const phrase = `${a.kind === 'refund' ? 'REFUND' : 'BALANCE'} ${money(a.amountCents)}`;
       if (String(body.confirmPhrase || '').trim() !== phrase) return reply(409, { error: `To confirm, type exactly: ${phrase}`, confirmPhrase: phrase });
-      const record = { inventoryValueCents: a.inventoryValueCents, kind: a.kind, amountCents: a.amountCents, tierNow: a.tierNow, confirmedBy: caller.email, confirmedAt: admin.firestore.FieldValue.serverTimestamp() };
+      const record = isAcct
+        ? { transactions: a.transactions, paidTier: a.paidTier, shouldTier: a.shouldTier, kind: a.kind, amountCents: a.amountCents, confirmedBy: caller.email, confirmedAt: admin.firestore.FieldValue.serverTimestamp() }
+        : { inventoryValueCents: a.inventoryValueCents, kind: a.kind, amountCents: a.amountCents, tierNow: a.tierNow, confirmedBy: caller.email, confirmedAt: admin.firestore.FieldValue.serverTimestamp() };
       let link = null;
       if (a.kind === 'balance') {
         const settings = await getBusinessSettings(db);
-        const co = await createCheckout(stripe, db, { serviceType: 'fee_balance', balanceCents: a.amountCents, paymentPlan: 'full', customerEmail: l.caseDoc.clientEmail || null, caseId, userId: l.caseDoc.userId || '', source: 'fee-adjustment', cancelPath: '/dashboard' }, settings);
+        const co = await createCheckout(stripe, db, { serviceType: 'fee_balance', balanceCents: a.amountCents, balanceLabel: isAcct ? 'Accounting adjustment (more transactions than expected)' : null, paymentPlan: 'full', customerEmail: l.caseDoc.clientEmail || null, caseId, userId: l.caseDoc.userId || '', source: 'fee-adjustment', cancelPath: '/dashboard' }, settings);
         link = co.url; record.paymentLink = co.url; record.stripeSessionId = co.sessionId;
       }
-      await l.caseRef.update({ feeAdjustment: record, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
-      await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: 'trust.feeAdjustment', caseId, target: `cases/${caseId}`, meta: { kind: a.kind, amountCents: a.amountCents } });
+      await l.caseRef.update({ [isAcct ? 'accountingAdjustment' : 'feeAdjustment']: record, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+      await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: isAcct ? 'trust.accountingAdjustment' : 'trust.feeAdjustment', caseId, target: `cases/${caseId}`, meta: { kind: a.kind, amountCents: a.amountCents } });
       return reply(200, { confirmed: true, kind: a.kind, amountCents: a.amountCents, paymentLink: link, next: a.kind === 'refund' ? 'Refund it from the refund screen (it asks you to confirm again).' : 'Send the payment link to the client.' });
     }
 

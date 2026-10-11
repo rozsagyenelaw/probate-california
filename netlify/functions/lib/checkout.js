@@ -126,6 +126,7 @@ async function createCheckout(stripe, db, params, settings) {
   if (settings && settings.feeAgreementEnabled === true && ['simplified', 'full'].includes(params.serviceType)) {
     feeAgreementId = await requireSignedFeeAgreement(db, params, order);
   }
+  if (paymentPlan === 'installments' && params.serviceType === 'house_sale') throw new UserError('House sale papers are paid in one payment.');
   // Standalone court appearances are paid in full (a hearing date is too close for a 3-month plan)
   if (paymentPlan === 'installments' && params.serviceType === 'court_appearance') throw new UserError('A court appearance is paid in one payment.');
 
@@ -158,6 +159,7 @@ async function createCheckout(stripe, db, params, settings) {
     probateType: params.probateType || '',
     accountingAddon: params.accountingAddon || '',
     courtAppearance: params.courtAppearance || '',
+    houseSale: params.houseSale ? `${params.houseSale}:${Math.max(1, Math.min(10, Math.floor(Number(params.houseSaleCount) || 1)))}` : '',
     hearing: packHearing(params.hearing),
     paymentPlan,
     caseId: params.caseId || '',

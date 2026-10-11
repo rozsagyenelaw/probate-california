@@ -55,7 +55,7 @@ export const refundPolicyText = (s) => (s && s.refundPolicyText) || REFUND_POLIC
 // Accounting tiers: the split rule follows config/business.accountingTierRule (null: no split shown).
 export function accountingTierNote(rule, tier) {
   if (rule === 'estateSize') return tier === 'simple' ? 'For estates under $500,000' : 'For estates of $500,000 or more';
-  if (rule === 'transactions') return tier === 'simple' ? 'Under 50 transactions' : '50 or more transactions';
+  if (rule === 'transactions') return tier === 'simple' ? 'Fewer than 50 transactions' : '50 or more transactions';
   return null;
 }
 

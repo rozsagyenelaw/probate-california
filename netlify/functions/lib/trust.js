@@ -1,7 +1,7 @@
-// Client trust ledger (Rozsa's decision 7, 2026-10-10): the MyProbateCA fee is deposited in the firm's client
-// trust account and stays there until earned; each stage's part is withdrawn when the stage is complete;
-// anything unearned is refunded. This module computes, per client and case, every deposit, transfer and refund,
-// what is earned, and what is ready to move from trust to operating.
+// Client money view (Rozsa's decision 7, final): card payments are paid out by Stripe to the OPERATING account and
+// Rozsa moves the funds to the firm's client trust account herself. Per client this shows the amount paid, the amount
+// earned as stages complete, every payment, refund and recorded move of earned funds, and what is earned but not yet
+// recorded as moved out of trust. Nothing here implies that Stripe pays into trust.
 // It never stores or shows a bank account number, routing number or bank balance: only this client's own figures.
 
 // Earning stages = the approved refund stages in W2-fee's fee agreement (src/config/feeTerms.js REFUND_POLICY_POINTS,
@@ -78,16 +78,36 @@ function computeCaseTrust(caseDoc, payments, refunds, transfers) {
   const readyToMove = Math.max(0, Math.min(earned - transferred, heldForClient));
 
   const entries = [
-    ...live.map(p => ({ date: p.date, kind: 'deposit', amountCents: p.amountCents, cardFeeCents: p.stripeFeeCents || null, description: p.description + (p.installment ? ` (payment ${p.installment.number} of 3)` : ''), ref: p.id })),
+    ...live.map(p => ({ date: p.date, kind: 'payment', amountCents: p.amountCents, cardFeeCents: p.stripeFeeCents || null, description: p.description + (p.installment ? ` (payment ${p.installment.number} of 3)` : ''), ref: p.id })),
     ...refunds.map(r => ({ date: r.date, kind: 'refund', amountCents: -r.amountCents, description: r.reason || 'Refund', ref: r.id })),
-    ...transfers.map(t => ({ date: t.date, kind: 'transfer to operating', amountCents: -t.amountCents, description: t.note || `Earned: ${t.stageLabel || t.stage || ''}`.trim(), ref: t.id }))
+    ...transfers.map(t => ({ date: t.date, kind: 'earned funds moved out of trust', amountCents: -t.amountCents, description: t.note || `Earned: ${t.stageLabel || t.stage || ''}`.trim(), ref: t.id }))
   ].sort((a, b) => String(a.date).localeCompare(String(b.date)));
 
+  // Accounting tier by the number of transactions in the client's estate ledger (decisions section 30): Simple $995
+  // fewer than 50, Complex $1,995 for 50 or more. If the ledger shows the other tier, the difference is a refund or a
+  // charge for Rozsa to confirm. For full probate the accounting stays inside the 10810 limit.
+  let accountingAdjustment = null;
+  const acctPay = accountingPays[0] || probatePays.find(p => p.addOns && p.addOns.accounting);
+  const paidTier = (caseDoc.addOns && caseDoc.addOns.accounting) || (acctPay && acctPay.addOns && acctPay.addOns.accounting) || null;
+  if (paidTier && Number.isInteger(caseDoc.ledgerTransactionCount)) {
+    const PRICE = { simple: 99500, complex: 199500 };
+    const shouldTier = caseDoc.ledgerTransactionCount >= 50 ? 'complex' : 'simple';
+    let diff = PRICE[shouldTier] - PRICE[paidTier];
+    if (diff > 0 && service === 'full') {
+      const estate = inventoryValueCents || Number(caseDoc.estateValueCents) || 0;
+      if (estate > 0) diff = Math.max(0, Math.min(diff, statutoryFeeCents(estate) - ordinaryCharged));
+    }
+    accountingAdjustment = { transactions: caseDoc.ledgerTransactionCount, paidTier, shouldTier, kind: diff < 0 ? 'refund' : (diff > 0 ? 'balance' : 'none'), amountCents: Math.abs(diff),
+      confirmed: caseDoc.accountingAdjustment && caseDoc.accountingAdjustment.shouldTier === shouldTier ? caseDoc.accountingAdjustment : null };
+  }
+
   return {
-    service, probateFeeCents, stages, percentEarned: pct,
+    service, probateFeeCents, stages, percentEarned: pct, accountingAdjustment,
     earned: { probateCents: probateEarned, accountingCents: accountingEarned, hearingsCents: hearingEarned, totalCents: earned },
     depositedCents: deposited, refundedCents: refunded, transferredCents: transferred,
-    heldForClientCents: heldForClient, readyToMoveCents: readyToMove,
+    paidCents: deposited - refunded,           // amount paid by the client, after refunds
+    heldForClientCents: heldForClient,         // paid, less refunds, less earned funds recorded as moved out of trust
+    readyToMoveCents: readyToMove,             // earned and not yet recorded as moved out of trust
     inventoryValueCents, capUnder10810Cents: capNowCents, ordinaryChargedCents: ordinaryCharged,
     capRefundDueCents, // refund due because the inventory came in lower (Rozsa starts and confirms it in the refund screen)
     feeAdjustment,     // tier or 10810 change after the inventory: refund or balance due, for Rozsa to confirm

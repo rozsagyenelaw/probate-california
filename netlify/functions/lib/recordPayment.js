@@ -15,6 +15,7 @@ function describe(meta) {
   const parts = [];
   if (isProbate(meta.serviceType)) parts.push(LABELS[meta.serviceType]);
   if (meta.accountingAddon) parts.push(LABELS[meta.accountingAddon]);
+  if (meta.houseSale) { const [kind, n] = String(meta.houseSale).split(':'); parts.push((kind === 'confirmation' ? 'House sale papers (court confirmation)' : 'House sale papers (Notice of Proposed Action)') + (Number(n) > 1 ? ` x${n}` : '')); }
   if (meta.courtAppearance) parts.push(LABELS[meta.courtAppearance]);
   return parts.join(' + ') || 'MyProbateCA service';
 }
@@ -74,6 +75,7 @@ async function recordCheckout(stripe, db, session) {
     serviceType: meta.serviceType || 'full',
     probateType: probate ? meta.serviceType : null,
     addOns: { accounting: meta.accountingAddon || null },
+    houseSale: meta.houseSale ? { kind: String(meta.houseSale).split(':')[0], properties: Number(String(meta.houseSale).split(':')[1]) || 1 } : null,
     courtAppearance: meta.courtAppearance ? { kind: meta.courtAppearance, hearing: hearing || null, matchedToCase: !!caseRef } : null,
     description: desc,
     paymentPlan: installments ? 'installments' : 'full',
@@ -139,6 +141,7 @@ async function recordCheckout(stripe, db, session) {
     }
     if (meta.estateValueCents && probate) c.estateValueCents = Number(meta.estateValueCents);
     if (meta.accountingAddon) c['addOns.accounting'] = meta.accountingAddon;
+    if (meta.houseSale) { const [kind, n] = String(meta.houseSale).split(':'); c['addOns.houseSales'] = FV.arrayUnion({ kind, properties: Number(n) || 1, paymentId: session.id, paidAt: admin.firestore.Timestamp.now() }); }
     if (meta.courtAppearance) {
       c.courtAppearance = meta.courtAppearance;
       if (hearing) {

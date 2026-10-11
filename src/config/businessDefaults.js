@@ -9,7 +9,7 @@ export const BUSINESS_DEFAULTS = Object.freeze({
   // 1. Who files with the court. null: say "we prepare your court documents", no claim about filing.
   filingBy: null,
   // 2. Accounting add-on tier split. null: show both tiers without the split rule.
-  accountingTierRule: null,
+  accountingTierRule: 'transactions', // decisions section 30: Simple fewer than 50 transactions, Complex 50 or more
   // 3. Contested hearings: 'current' = keep today's behavior and price (same values as the portal copy).
   contestedHearing: Object.freeze({ offered: 'current', price: 'current' }),
   // 4. Living trust offers on the probate site.

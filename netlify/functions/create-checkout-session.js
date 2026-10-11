@@ -32,13 +32,15 @@ exports.handler = async (event) => {
     }
 
     // Add-ons on a full probate case stay within the Probate Code 10810 cap with what was already charged
-    const capContext = ['accounting_addon', 'court_appearance'].includes(body.serviceType) && caseId ? await capContextForCase(db, caseId) : null;
+    const capContext = ['accounting_addon', 'court_appearance', 'house_sale'].includes(body.serviceType) && caseId ? await capContextForCase(db, caseId) : null;
     const result = await createCheckout(stripe, db, {
       capContext,
       serviceType: body.serviceType,
       probateType: body.probateType || (['simplified', 'full'].includes(body.serviceType) ? body.serviceType : null),
       accountingAddon: body.accountingAddon || null,
       courtAppearance: body.courtAppearance || null,
+      houseSale: ['npa', 'confirmation'].includes(body.houseSale) ? body.houseSale : null,
+      houseSaleCount: body.houseSaleCount || 1,
       hearing: body.hearingDetails || null,
       paymentPlan: body.paymentPlan,
       customerEmail,

@@ -14,6 +14,13 @@ const BASE_CENTS = {
   remote_appearance: 50000
 };
 
+// House sale add-on (decisions section 30): per property. An extraordinary service (Cal. Rules of Court 7.703(c)(1)),
+// so it is never counted inside the 10810 ordinary-services limit.
+const HOUSE_SALE = {
+  npa: { cents: 99500, label: 'House sale papers (Notice of Proposed Action)' },
+  confirmation: { cents: 149500, label: 'House sale papers (court confirmation of sale)' }
+};
+
 const LABELS = {
   simplified: 'Simplified Probate',
   full: 'Full Probate',
@@ -92,14 +99,14 @@ const ORDINARY_KEYS = new Set(['full', 'fee_balance', 'simple_accounting', 'comp
 // What is being bought in this checkout, with a cent amount per line.
 // capContext (full probate with a known estate value): { estateValueCents, priorOrdinaryCents } so purchases made
 // later (add-ons) also stay within the cap. Lines brought to $0 by the cap are kept with included: true.
-function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, capContext, balanceCents }, settings) {
+function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, capContext, balanceCents, balanceLabel, houseSale, houseSaleCount }, settings) {
   const lines = [];
   let fee = null;
   if (serviceType === 'fee_balance') {
     // Balance due after the inventory moved the estate to another tier (created only by the admin, confirmed by Rozsa)
     const c = Math.round(Number(balanceCents));
     if (!(c > 0)) throw new Error('No balance is due');
-    lines.push({ key: 'fee_balance', label: 'Full Probate fee adjustment (estate value from the inventory)', cents: c });
+    lines.push({ key: 'fee_balance', label: balanceLabel || 'Full Probate fee adjustment (estate value from the inventory)', cents: c });
     const totalCents = c;
     return { lines, totalCents, ordinaryCents: c, capCents: null, description: lines[0].label, feeBasis: 'adjustment', estateValueCents: null };
   }
@@ -108,7 +115,7 @@ function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValue
     lines.push({ key: 'full', label: LABELS.full, cents: fee.cents, basis: fee.basis });
   } else if (serviceType === 'simplified') {
     lines.push({ key: serviceType, label: LABELS[serviceType], cents: BASE_CENTS[serviceType] });
-  } else if (!['accounting_only', 'accounting_addon', 'court_appearance'].includes(serviceType)) {
+  } else if (!['accounting_only', 'accounting_addon', 'court_appearance', 'house_sale'].includes(serviceType)) {
     throw new Error('Invalid service type selected');
   }
   if (accountingAddon) {
@@ -121,6 +128,12 @@ function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValue
     if (cents == null) throw new Error('Contested hearings are not offered online.');
     lines.push({ key: courtAppearance === 'remote' ? 'remote_appearance' : 'contested_hearing', label: LABELS[courtAppearance], cents });
   }
+  if (houseSale) {
+    if (!HOUSE_SALE[houseSale]) throw new Error('Invalid house sale service selected');
+    const n = Math.max(1, Math.min(10, Math.floor(Number(houseSaleCount) || 1)));
+    lines.push({ key: `house_sale_${houseSale}`, label: HOUSE_SALE[houseSale].label + (n > 1 ? ` (${n} properties)` : ''), cents: HOUSE_SALE[houseSale].cents * n, quantity: n, unitCents: HOUSE_SALE[houseSale].cents });
+  }
+  if (serviceType === 'house_sale' && !houseSale) throw new Error('Please choose the kind of house sale');
   if ((serviceType === 'accounting_only' || serviceType === 'accounting_addon') && !accountingAddon) throw new Error('Please select an accounting service');
   if (serviceType === 'court_appearance' && !courtAppearance) throw new Error('Please select a court appearance service');
   if (!lines.length) throw new Error('Nothing selected');
@@ -154,4 +167,4 @@ function installmentSchedule(totalCents, settings) {
   return [first, first, first];
 }
 
-module.exports = { FULL_TIERS, fullProbateTier, ORDINARY_KEYS, BASE_CENTS, LABELS, buildOrder, installmentSchedule, courtCents, contestedCents, statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake };
+module.exports = { HOUSE_SALE, FULL_TIERS, fullProbateTier, ORDINARY_KEYS, BASE_CENTS, LABELS, buildOrder, installmentSchedule, courtCents, contestedCents, statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake };

@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { startGuestAccount } from '../utils/guestAccount';
 import { useBusinessSettings, accountingTierNote, refundPolicyText, installmentAmounts, fmtDollars, fullProbateFee, parseDollars, capOrdinaryDollars } from '../services/businessSettings';
 import CheckoutProgress, { checkoutSteps } from './common/CheckoutProgress';
+import HouseSaleAddon, { HOUSE_SALE_PRICES } from './common/HouseSaleAddon';
 import { Link } from 'react-router-dom';
 import {
   CreditCard,
@@ -33,6 +34,9 @@ const PaymentPage = () => {
   const [serviceType, setServiceType] = useState('full');
   // Accounting add-on: null, 'simple', or 'complex'
   const [accountingAddon, setAccountingAddon] = useState(null);
+  // House sale add-on: null, 'npa' or 'confirmation', per property (full probate)
+  const [houseSale, setHouseSale] = useState(null);
+  const [houseSaleCount, setHouseSaleCount] = useState(1);
   // Payment plan: 'full' or 'installments'
   const [selectedPlan, setSelectedPlan] = useState('full');
   const [promoCode, setPromoCode] = useState('');
@@ -105,7 +109,7 @@ const PaymentPage = () => {
       if (serviceType === 'full') {
         // The 10810 limit covers the fee and the accounting add-on together
         const c = capOrdinaryDollars(parseDollars(estateValue), { fee: fullFee.fee, accounting: acct });
-        total = c.fee + c.accounting;
+        total = c.fee + c.accounting + (houseSale ? HOUSE_SALE_PRICES[houseSale] * houseSaleCount : 0); // the sale is outside the 10810 limit
       } else {
         total = (prices.probate[serviceType] || 0) + acct;
       }
@@ -173,6 +177,8 @@ const PaymentPage = () => {
           serviceType: serviceType,
           probateType: serviceType === 'accounting_only' ? null : serviceType,
           accountingAddon: accountingAddon,
+          houseSale: serviceType === 'full' ? houseSale : null,
+          houseSaleCount,
           paymentPlan: selectedPlan,
           customerEmail: payerEmail,
           caseId: '',
@@ -451,29 +457,8 @@ const PaymentPage = () => {
                 </div>
               </div>
 
-              {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
-
-              {settings.accountingTierRule && (<>
-
-              <p className="text-sm text-gray-700 font-medium mb-2">Best for estates with:</p>
-              <ul className="text-sm text-gray-600 space-y-1 mb-3">
-                {accountingTierNote(settings.accountingTierRule, 'simple') && (
-                  <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                    {accountingTierNote(settings.accountingTierRule, 'simple')}
-                  </li>
-                )}
-                <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Basic income (interest, dividends)
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Straightforward distribution
-                </li>
-              </ul>
-
-              </>)}
+              {/* Accounting tier: one plain line by number of transactions (decisions section 30) */}
+              {accountingTierNote(settings.accountingTierRule, 'simple') && <p className="text-sm text-gray-700 mb-3" data-testid="tier-line-simple">{accountingTierNote(settings.accountingTierRule, 'simple')}</p>}
 
               <div className="border-t pt-3">
                 <p className="text-sm text-gray-700 font-medium mb-2">Includes:</p>
@@ -532,33 +517,8 @@ const PaymentPage = () => {
                 </div>
               </div>
 
-              {/* Tier criteria stay hidden until Rozsa answers accountingTierRule (decision 10) */}
-
-              {settings.accountingTierRule && (<>
-
-              <p className="text-sm text-gray-700 font-medium mb-2">Best for estates with:</p>
-              <ul className="text-sm text-gray-600 space-y-1 mb-3">
-                {accountingTierNote(settings.accountingTierRule, 'complex') && (
-                  <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                    {accountingTierNote(settings.accountingTierRule, 'complex')}
-                  </li>
-                )}
-                <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Business income/expenses
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Multiple properties or rental income
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Multi-year accounting
-                </li>
-              </ul>
-
-              </>)}
+              {/* Accounting tier: one plain line by number of transactions (decisions section 30) */}
+              {accountingTierNote(settings.accountingTierRule, 'complex') && <p className="text-sm text-gray-700 mb-3" data-testid="tier-line-complex">{accountingTierNote(settings.accountingTierRule, 'complex')}</p>}
 
               <div className="border-t pt-3">
                 <p className="text-sm text-gray-700 font-medium mb-2">Includes everything in Simple, PLUS:</p>
@@ -591,6 +551,10 @@ const PaymentPage = () => {
             </p>
           )}
         </div>
+
+        {serviceType === 'full' && (
+          <div className="mb-6"><HouseSaleAddon value={houseSale} count={houseSaleCount} onChange={(v, n) => { setHouseSale(v); setHouseSaleCount(n); }} /></div>
+        )}
 
         {/* Step 3: Payment Options & Summary */}
         <div className="grid md:grid-cols-2 gap-6">
@@ -718,11 +682,17 @@ const PaymentPage = () => {
                 </div>
               )}
 
+          {houseSale && serviceType === 'full' && (
+            <div className="flex justify-between">
+              <span className="text-gray-600">House sale papers ({houseSale === 'npa' ? 'Notice of Proposed Action' : 'court confirmation'}){houseSaleCount > 1 ? ` x ${houseSaleCount}` : ''}</span>
+              <span className="font-medium">+${(HOUSE_SALE_PRICES[houseSale] * houseSaleCount).toLocaleString()}</span>
+            </div>
+          )}
               {/* Divider */}
               <div className="border-t pt-3 mt-3">
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total</span>
-                  <span className="text-blue-900">${totalPrice.toLocaleString()}</span>
+                  <span className="text-blue-900">${fmtDollars(totalPrice)}</span>
                 </div>
               </div>
 

@@ -39,16 +39,17 @@ exports.handler = async (event) => {
       // Add-ons chosen in intake that are not already paid for
       const wantsAccounting = sel.accountingAddon && !(found.data.addOns && found.data.addOns.accounting) ? sel.accountingAddon : null;
       const wantsCourt = sel.courtAppearance || null;
-      if (wantsAccounting || wantsCourt) {
+      const wantsSale = ['npa', 'confirmation'].includes(sel.houseSale) ? sel.houseSale : null;
+      if (wantsAccounting || wantsCourt || wantsSale) {
         const capContext = await capContextForCase(db, caseId);
         const co = await createCheckout(stripe, db, {
           capContext,
-          serviceType: wantsCourt ? 'court_appearance' : 'accounting_addon',
-          accountingAddon: wantsAccounting, courtAppearance: wantsCourt, hearing: sel.hearing,
+          serviceType: wantsCourt ? 'court_appearance' : (wantsAccounting ? 'accounting_addon' : 'house_sale'),
+          accountingAddon: wantsAccounting, courtAppearance: wantsCourt, hearing: sel.hearing, houseSale: wantsSale, houseSaleCount: sel.houseSaleCount || 1,
           paymentPlan: 'full', customerEmail: email, caseId, userId: uid, source: 'intake-addon', cancelPath: '/dashboard'
         }, settings);
         if (co.included) {
-          await recordIncluded(db, { caseId, userId: uid, email, serviceType: wantsCourt ? 'court_appearance' : 'accounting_addon', accountingAddon: wantsAccounting, courtAppearance: wantsCourt, hearing: sel.hearing, order: co.order });
+          await recordIncluded(db, { caseId, userId: uid, email, serviceType: wantsCourt ? 'court_appearance' : (wantsAccounting ? 'accounting_addon' : 'house_sale'), accountingAddon: wantsAccounting, courtAppearance: wantsCourt, hearing: sel.hearing, order: co.order });
           return { statusCode: 200, headers, body: JSON.stringify({ status: 'attached', caseId, alreadyPaid: true, how: found.how, includedUnder10810: true }) };
         }
         return { statusCode: 200, headers, body: JSON.stringify({ status: 'attached', caseId, alreadyPaid: true, how: found.how, addOnCheckoutUrl: co.url }) };
@@ -91,6 +92,7 @@ exports.handler = async (event) => {
     const co = await createCheckout(stripe, db, {
       serviceType, probateType: serviceType, accountingAddon: sel.accountingAddon || null,
       courtAppearance: sel.courtAppearance || null, hearing: sel.hearing,
+      houseSale: ['npa', 'confirmation'].includes(sel.houseSale) ? sel.houseSale : null, houseSaleCount: sel.houseSaleCount || 1,
       paymentPlan: sel.paymentPlan === 'installments' ? 'installments' : 'full',
       customerEmail: email, caseId: ref.id, userId: uid, promoCode: sel.promoCode || null, source: 'intake', cancelPath: '/intake?canceled=true',
       estateValueCents: Number(sel.estateValue) > 0 ? Math.round(Number(sel.estateValue) * 100) : estateValueFromIntake(formData), feeAgreementRequestId: sel.feeAgreementRequestId || null

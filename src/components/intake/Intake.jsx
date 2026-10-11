@@ -196,7 +196,9 @@ const Intake = () => {
             courtAppearance: paymentInfo.courtAppearance ? paymentInfo.courtAppearance.type : null,
             hearing: paymentInfo.courtAppearance || null,
             paymentPlan: paymentInfo.paymentPlan === 'installments' ? 'installments' : 'full',
-            estateValue: paymentInfo.estateValue || null
+            estateValue: paymentInfo.estateValue || null,
+            houseSale: paymentInfo.houseSale || null,
+            houseSaleCount: paymentInfo.houseSaleCount || 1
           }
         })
       });

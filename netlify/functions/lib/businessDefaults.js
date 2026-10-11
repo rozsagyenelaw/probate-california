@@ -3,7 +3,7 @@
 // The live values are in Firestore config/business, which wins when a key is present.
 module.exports = {
   filingBy: 'client',
-  accountingTierRule: null,            // STILL OPEN: keep any tier rule out of what clients see
+  accountingTierRule: 'transactions', // decisions section 30
   contestedHearing: { offered: true, price: 600 }, // unchanged
   livingTrustOffers: 'keep-current',
   installmentExact: true,              // three payments add up exactly to the price
