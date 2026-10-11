@@ -61,7 +61,8 @@ export function accountingTierNote(rule, tier) {
 
 // Contested hearing: offered and price follow config/business.contestedHearing.
 export const contestedOffered = (s) => !(s && s.contestedHearing && s.contestedHearing.offered === false);
-export const contestedPrice = (s) => Number((s && s.contestedHearing && s.contestedHearing.price) || 600);
+// The default setting holds the word 'current' (no change), so anything that is not a positive number means the current $600.
+export const contestedPrice = (s) => { const p = Number(s && s.contestedHearing && s.contestedHearing.price); return Number.isFinite(p) && p > 0 ? p : 600; };
 
 // The three charges of the 3-payment plan, in dollars, exactly as Stripe charges them
 // (same rule as netlify/functions/lib/pricing.js installmentSchedule).

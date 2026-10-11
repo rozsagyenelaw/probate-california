@@ -56,7 +56,7 @@ function continueHearing(hearings, hearingId, { date, time, department, note }, 
     ...old, id: newId, date, time: time || old.time || '', department: department || old.department || '', outcome: '', continuedTo: null,
     notes: [old.notes, `Continued from ${old.date}${note ? ': ' + note : ''}`].filter(Boolean).join('. '),
     source: 'continued', carriedFrom: old.id,
-    appearance: old.appearance ? { ...old.appearance, carriedFromHearingId: old.id, newChargeCents: 0 } : old.appearance,
+    appearance: old.appearance ? { ...old.appearance, carriedFromHearingId: old.id, newChargeCents: 0 } : null,
     createdAt: now || admin.firestore.Timestamp.now()
   });
   return { hearings: list, newId };
