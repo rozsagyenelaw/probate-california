@@ -21,7 +21,7 @@ const ROUTE_MESSAGES = {
   [ROUTES.NOTHING_TO_PROBATE]: 'Based on your answers, the assets you listed may all pass outside probate. You can continue now; Rozsa reviews your answers and confirms the simplest route before any papers are prepared.',
   [ROUTES.SMALL_ESTATE_AFFIDAVIT]: 'Based on your answers, this estate may not need a full probate case. A simpler small estate process may work. You can continue now; Rozsa reviews your answers and confirms the simplest route before any papers are prepared.',
   [ROUTES.RESIDENCE_PETITION]: 'Based on your answers, the home may be transferred with the simpler home petition.',
-  [ROUTES.RESIDENCE_PETITION_PLUS_PROBATE]: 'Based on your answers, the home may qualify for the simpler home petition, but the other assets may still need probate. Your attorney will confirm the best path.',
+  [ROUTES.RESIDENCE_PETITION_PLUS_PROBATE]: 'Based on your answers, the home may qualify for the simpler home petition, but the other assets may still need probate. You can continue now; Rozsa reviews your answers and confirms the best path before any papers are prepared.',
   [ROUTES.FULL_PROBATE]: 'Based on your answers, this estate will likely need full probate.'
 };
 
@@ -252,10 +252,10 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
               {estateAnalysis.flags.includes('spouse-may-take-without-probate') && (
                 <p className="mb-2 flex items-start">
                   <Info className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
-                  Property going to a surviving spouse may not need probate. Your attorney will review this with you.
+                  Property going to a surviving spouse may not need probate. Rozsa looks at this when she reviews your answers.
                 </p>
               )}
-              <p className="text-xs text-gray-600">Your attorney reviews every case and confirms the right path before anything is filed.</p>
+              <p className="text-xs text-gray-600">Rozsa reviews every case and confirms the right path before your papers are prepared.</p>
             </div>
           </div>
         </div>
