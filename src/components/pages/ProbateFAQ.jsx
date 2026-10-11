@@ -232,7 +232,7 @@ const ProbateFAQ = () => {
             "name": "Do I need a lawyer if there is a Will?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. In California, a Will does not avoid probate—it simply provides instructions for the court to follow. You still must complete the formal probate process to transfer real estate titles, close bank accounts, and distribute assets. The only way to avoid probate is with a properly funded living trust, joint tenancy, or beneficiary designations."
+              "text": "Yes. In California, a Will does not avoid probate: it simply provides instructions for the court to follow. You still must complete the formal probate process to transfer real estate titles, close bank accounts, and distribute assets. The only way to avoid probate is with a properly funded living trust, joint tenancy, or beneficiary designations."
             }
           },
           {
@@ -240,7 +240,7 @@ const ProbateFAQ = () => {
             "name": "What is the $3,995 flat fee for California probate?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "MyProbateCA offers attorney-prepared probate court papers for a flat $3,995 fee. This includes attorney preparation of all documents for all 11 phases, review by California Bar Attorney #208356, IGN note clearance, and dashboard tracking. This compares to statutory fees of $13,000-$33,000+ for estates valued at $500,000-$1,500,000."
+              "text": "MyProbateCA offers attorney-prepared probate court papers for a flat $3,995 fee. This includes attorney preparation of your court documents, review by California Bar Attorney #208356, clearing the court's probate notes, and dashboard tracking. You file the papers and act as the petitioner, representing yourself; court appearances and the final accounting are optional add-ons. On a $500,000 estate, the statutory attorney fee is $13,000."
             }
           },
           {
@@ -305,7 +305,7 @@ const ProbateFAQ = () => {
           { "@type": "HowToStep", "position": 3, "name": "Publish Notice", "text": "Publish notice in an adjudicated newspaper for 3 consecutive weeks to notify unknown creditors." },
           { "@type": "HowToStep", "position": 4, "name": "Obtain Bond", "text": "If required, obtain a surety bond to protect the estate from executor mismanagement." },
           { "@type": "HowToStep", "position": 5, "name": "Attend Hearing & Obtain Order", "text": "Appear at the probate hearing (or have attorney appear). Judge signs Order for Probate appointing you as executor/administrator." },
-          { "@type": "HowToStep", "position": 6, "name": "Receive Letters Testamentary", "text": "Obtain certified Letters Testamentary (Form DE-150)—your legal authority to act on behalf of the estate." },
+          { "@type": "HowToStep", "position": 6, "name": "Receive Letters Testamentary", "text": "Obtain certified Letters Testamentary (Form DE-150): your legal authority to act on behalf of the estate." },
           { "@type": "HowToStep", "position": 7, "name": "Complete Inventory & Appraisal", "text": "Work with the court-appointed Probate Referee to inventory and appraise all estate assets within 4 months." },
           { "@type": "HowToStep", "position": 8, "name": "Manage Creditor Claims", "text": "Send Notice to Creditors. Allow 4-month claim period. Review, accept, or reject creditor claims." },
           { "@type": "HowToStep", "position": 9, "name": "Clear Court Notes", "text": "Review examiner notes posted before hearing. File Verified Supplements to clear any deficiencies." },
@@ -320,7 +320,7 @@ const ProbateFAQ = () => {
     <>
       <Helmet>
         <title>California Probate FAQ | Attorney Answers on Fees, Forms & Court Notes</title>
-        <meta name="description" content="Get professional answers to California probate questions. Learn about the $3,995 flat fee, clearing Stanley Mosk IGN notes, executor liability, and the 11-phase process." />
+        <meta name="description" content="Get professional answers to California probate questions. Learn about the $3,995 flat fee, clearing Stanley Mosk probate notes, executor liability, and the steps of probate." />
         <meta name="keywords" content="california probate faq, probate court questions, stanley mosk courthouse notes, executor duties ca, probate attorney fee calculator" />
         <link rel="canonical" href="https://myprobateca.com/probate-faq-california" />
 
@@ -492,7 +492,7 @@ const ProbateFAQ = () => {
                 <p className="text-gray-700 mb-3">Yes. While most California attorneys charge <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">"statutory fees"</Link> (a percentage of the estate value), MyProbateCA provides attorney-prepared probate court papers for a <strong>flat fee of $3,995</strong>.</p>
                 <p className="text-gray-700 mb-3">This includes:</p>
                 <ul className="text-gray-700 mb-3 space-y-1 ml-4">
-                  <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Attorney preparation of all documents for all 11 phases</li>
+                  <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Attorney preparation of your court documents, which you file as the petitioner</li>
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Review by California Bar Attorney #208356</li>
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-blue-600 hover:underline">IGN note clearance</Link> and Verified Supplements</li>
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Dashboard tracking throughout the process</li>
@@ -589,7 +589,7 @@ const ProbateFAQ = () => {
                   { num: 3, title: "Publication", desc: "Publish notice in an adjudicated newspaper for 3 consecutive weeks to notify unknown creditors." },
                   { num: 4, title: "Bond", desc: "Obtain a surety bond if required (often waived if the Will waives bond or all beneficiaries consent)." },
                   { num: 5, title: "Order for Probate", desc: "Attend the hearing (or have attorney appear remotely). Judge signs order appointing you as executor/administrator." },
-                  { num: 6, title: "Letters Testamentary", desc: "Receive certified Letters (Form DE-150)—your \"golden ticket\" proving legal authority to act for the estate." },
+                  { num: 6, title: "Letters Testamentary", desc: "Receive certified Letters (Form DE-150): your \"golden ticket\" proving legal authority to act for the estate." },
                   { num: 7, title: "Inventory & Appraisal", desc: "Work with the court-appointed Probate Referee to inventory and value all estate assets within 4 months." },
                   { num: 8, title: "Notice to Creditors", desc: "Send formal notice to known creditors. Manage the 4-month claim period. Accept, reject, or negotiate claims." },
                   { num: 9, title: "Clear Court Notes", desc: "Review examiner IGN notes posted before hearings. File Verified Supplements to satisfy deficiencies." },
@@ -632,7 +632,7 @@ const ProbateFAQ = () => {
                   <li>Manage investment accounts</li>
                   <li>File tax returns for the estate</li>
                 </ul>
-                <p className="text-gray-700 mt-3">Order multiple certified copies (at least 5-10)—many institutions require originals and won't return them.</p>
+                <p className="text-gray-700 mt-3">Order multiple certified copies (at least 5-10): many institutions require originals and won't return them.</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -643,7 +643,7 @@ const ProbateFAQ = () => {
                   <li>Signs the official Inventory & Appraisal (Form DE-160)</li>
                   <li>Charges 0.1% of asset value (minimum $75)</li>
                 </ul>
-                <p className="text-gray-700 mt-3">You don't choose the referee—they're assigned by the court on a rotating basis.</p>
+                <p className="text-gray-700 mt-3">You don't choose the referee: they're assigned by the court on a rotating basis.</p>
               </div>
             </div>
           </section>
@@ -666,7 +666,7 @@ const ProbateFAQ = () => {
                   <li>Missing proof of mailing</li>
                   <li>Publication problems</li>
                 </ul>
-                <p className="text-gray-700 mt-3">If you don't file a Verified Supplement clearing the notes before your hearing, the judge will <strong>continue (postpone)</strong> your case—often by 3+ months.</p>
+                <p className="text-gray-700 mt-3">If you don't file a Verified Supplement clearing the notes before your hearing, the judge will <strong>continue (postpone)</strong> your case, often by 3+ months.</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -708,8 +708,8 @@ const ProbateFAQ = () => {
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Which court do I file in?</h3>
-                <p className="text-gray-700 mb-3">You must file in the <strong>Superior Court of the county where the decedent resided</strong> at the time of death—not where the property is located or where you live.</p>
-                <p className="text-gray-700">If the decedent lived in Glendale (Los Angeles County), you file at Stanley Mosk Courthouse—even if their only asset is a vacation home in San Diego.</p>
+                <p className="text-gray-700 mb-3">You must file in the <strong>Superior Court of the county where the decedent resided</strong> at the time of death, not where the property is located or where you live.</p>
+                <p className="text-gray-700">If the decedent lived in Glendale (Los Angeles County), you file at Stanley Mosk Courthouse, even if their only asset is a vacation home in San Diego.</p>
               </div>
             </div>
           </section>
@@ -724,7 +724,7 @@ const ProbateFAQ = () => {
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Am I personally liable for estate debts?</h3>
                 <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
-                  <p className="text-red-800"><strong>Yes, you can be.</strong> If you distribute assets before paying valid creditors or taxes, you can be held "personally surcharged"—meaning you pay from your own pocket.</p>
+                  <p className="text-red-800"><strong>Yes, you can be.</strong> If you distribute assets before paying valid creditors or taxes, you can be held "personally surcharged", meaning you pay from your own pocket.</p>
                 </div>
                 <p className="text-gray-700 mb-3">To protect yourself:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
@@ -768,7 +768,7 @@ const ProbateFAQ = () => {
                   <li>Simply not filing the petition</li>
                   <li>Filing a formal declination with the court</li>
                 </ul>
-                <p className="text-gray-700 mt-3">If you decline, the alternate executor named in the Will can serve. If there's no alternate (or no Will), the court will appoint an administrator—typically the next of kin.</p>
+                <p className="text-gray-700 mt-3">If you decline, the alternate executor named in the Will can serve. If there's no alternate (or no Will), the court will appoint an administrator, typically the next of kin.</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -843,7 +843,7 @@ const ProbateFAQ = () => {
             <div className="space-y-6">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Do I need probate if there is a Will?</h3>
-                <p className="text-gray-700 mb-3"><strong>Yes.</strong> A common misconception is that a Will "avoids" probate. In California, a Will does not avoid probate—it simply provides instructions for the court to follow.</p>
+                <p className="text-gray-700 mb-3"><strong>Yes.</strong> A common misconception is that a Will "avoids" probate. In California, a Will does not avoid probate: it simply provides instructions for the court to follow.</p>
                 <p className="text-gray-700 mb-3">You still must complete the formal probate process to:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
                   <li>Transfer real estate titles</li>
@@ -919,7 +919,7 @@ const ProbateFAQ = () => {
                 <p className="text-gray-600">California State Bar #208356</p>
                 <p className="text-gray-600">26+ Years Experience in Los Angeles Superior Court</p>
                 <p className="text-gray-600">Specialist: Clearing Stanley Mosk IGN Supplements</p>
-                <p className="text-gray-700 mt-3 italic">"Attorney-prepared probate papers shouldn't cost $20,000."</p>
+                <p className="text-gray-700 mt-3 italic">"On a $1,000,000 estate, the statutory attorney fee is $23,000. Our flat fee is $3,995."</p>
                 <div className="flex flex-wrap gap-4 mt-4">
                   <a
                     href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
