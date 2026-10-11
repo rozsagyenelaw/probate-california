@@ -67,7 +67,10 @@ const ReviewStep = ({ formData, onEditStep }) => {
 
   const formatDate = (dateStr) => {
     if (!dateStr) return 'Not provided';
-    return new Date(dateStr).toLocaleDateString('en-US', {
+    // A date-only answer (YYYY-MM-DD) is a calendar day: read it as a local date, never as UTC midnight
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr));
+    const d = m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(dateStr);
+    return d.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
