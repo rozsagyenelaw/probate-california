@@ -160,6 +160,8 @@ async function createCheckout(stripe, db, params, settings) {
     courtAppearance: params.courtAppearance || '',
     houseSale: params.houseSale ? `${params.houseSale}:${Math.max(1, Math.min(10, Math.floor(Number(params.houseSaleCount) || 1)))}` : '',
     hearing: packHearing(params.hearing),
+    hearingId: String(params.hearingId || '').slice(0, 120), // W6 F38: the hearing picked in the client home
+    balanceFor: params.balanceFor || '', // W6 N6: 'fee', 'accounting' or both, for a confirmed balance paid online
     paymentPlan,
     caseId: params.caseId || '',
     userId: params.userId || '',
@@ -180,7 +182,8 @@ async function createCheckout(stripe, db, params, settings) {
     payment_method_types: mode === 'payment' ? ['card', 'klarna'] : ['card'],
     // US dollars only: no adaptive pricing (no local-currency conversion), so the amount in trust equals the fee exactly
     adaptive_pricing: { enabled: false },
-    success_url: `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&amount=${(chargedToday / 100).toFixed(2)}${params.successQuery === 'next=portal' ? '&next=portal' : ''}`,
+    // next=portal: back to the thank-you page in the client home (kind=addon for a service added from the client home)
+    success_url: `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&amount=${(chargedToday / 100).toFixed(2)}${params.successQuery === 'next=portal' ? '&next=portal' : (params.successQuery === 'next=portal&kind=addon' ? '&next=portal&kind=addon' : '')}`,
     cancel_url: params.cancelPath ? `${baseUrl}${params.cancelPath}` : `${baseUrl}/payment?canceled=true`,
     metadata
   };
@@ -189,6 +192,10 @@ async function createCheckout(stripe, db, params, settings) {
     cfg.payment_intent_data = { receipt_email: params.customerEmail || undefined, metadata, description: order.description };
   } else {
     cfg.subscription_data = { metadata: { ...metadata, totalPayments: '3' }, description: `${order.description}: 3 monthly payments` };
+    // W6 R9/R18: Stripe shows a plan as a monthly subscription. Say plainly, next to the pay button, that it is three
+    // payments and stops by itself (the webhook ends the plan after the third charge: lib/installments.js).
+    const m = (c) => `$${(c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+    cfg.custom_text = { submit: { message: `This is a 3-payment plan, not a subscription: ${m(amounts[0])} today, then ${m(amounts[1])} and ${m(amounts[2])} one and two months from now, ${m(amounts.reduce((a, b) => a + b, 0))} in all. It stops by itself after the third payment. There is nothing to cancel.` } };
   }
   if (promo) cfg.discounts = [promo.discount]; else cfg.allow_promotion_codes = true;
 

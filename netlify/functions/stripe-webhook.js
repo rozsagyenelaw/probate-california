@@ -48,7 +48,7 @@ exports.handler = async (event) => {
       if (r.duplicate) return ok({ duplicate: true });
       const customerName = r.customerName || (session.customer_details && session.customer_details.name) || null;
       // Every purchase: client confirmation + office alert through the portal outbox (shared templates)
-      await queuePaymentEmails(db, { meta, email: r.payment.email, customerName, amountCents: session.amount_total, orderNumber: r.payment.orderNumber, sessionId: session.id, uid: r.uid, description: r.description, hearing: r.hearing, installmentAmounts: (r.payment.installment && r.payment.installment.amounts) || null });
+      await queuePaymentEmails(db, { meta, email: r.payment.email, customerName, amountCents: session.amount_total, orderNumber: r.payment.orderNumber, sessionId: session.id, uid: r.uid, description: r.description, hearing: r.hearing, intakeDone: r.intakeDone, installmentAmounts: (r.payment.installment && r.payment.installment.amounts) || null });
       console.log('Checkout recorded', session.id.slice(0, 12), r.description, r.stop ? JSON.stringify(r.stop) : '');
       return ok({ recorded: true });
     }

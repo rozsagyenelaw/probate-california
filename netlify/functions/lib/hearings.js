@@ -51,15 +51,33 @@ function continueHearing(hearings, hearingId, { date, time, department, note }, 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ''))) throw new Error('New date must be YYYY-MM-DD');
   const old = list[i];
   const newId = `${old.id}-c${list.filter(h => String(h.id).startsWith(old.id + '-c')).length + 1}`;
+  // W6 F38: the same hearing can be on file twice (the office's entry and the checkout entry with the paid appearance).
+  // Every live entry on that date moves with it; a paid appearance on any of them carries over to the new date.
+  const live = (h) => h && !['continued', 'off-calendar', 'vacated', 'cancelled'].includes(h.outcome) && !h.archived;
+  const twins = list.map((h, j) => (j !== i && live(h) && h.date === old.date ? j : -1)).filter(j => j >= 0);
+  const paidFrom = [old, ...twins.map(j => list[j])].find(h => h.appearance && (h.appearance.paid || h.appearance.includedUnder10810));
   list[i] = { ...old, outcome: 'continued', continuedTo: newId };
+  for (const j of twins) list[j] = { ...list[j], outcome: 'continued', continuedTo: newId };
   list.push({
     ...old, id: newId, date, time: time || old.time || '', department: department || old.department || '', outcome: '', continuedTo: null,
     notes: [old.notes, `Continued from ${old.date}${note ? ': ' + note : ''}`].filter(Boolean).join('. '),
     source: 'continued', carriedFrom: old.id,
-    appearance: old.appearance ? { ...old.appearance, carriedFromHearingId: old.id, newChargeCents: 0 } : null,
+    appearanceRequested: !!(paidFrom || old.appearanceRequested),
+    appearance: paidFrom ? { ...paidFrom.appearance, carriedFromHearingId: paidFrom.id, newChargeCents: 0 } : null,
     createdAt: now || admin.firestore.Timestamp.now()
   });
   return { hearings: list, newId };
 }
 
-module.exports = { hearingEntry, unpackHearing, legacyHearingDetails, mapType, continueHearing };
+// W6 F38: a client who buys the appearance for a hearing the office already entered (picked in the client home by its
+// id) gets the appearance on THAT entry, so there is one hearing per date and a continuance carries the appearance.
+// Returns the new array, or null when no live entry has that id (the caller then adds a checkout entry as before).
+function attachAppearance(hearings, hearingId, appearance) {
+  const list = Array.isArray(hearings) ? hearings.map(h => ({ ...h })) : [];
+  const i = hearingId ? list.findIndex(h => h && h.id === hearingId && !['continued', 'off-calendar', 'vacated', 'cancelled'].includes(h.outcome)) : -1;
+  if (i < 0) return null;
+  list[i] = { ...list[i], appearanceRequested: true, appearance: { ...(list[i].appearance || {}), ...appearance } };
+  return list;
+}
+
+module.exports = { hearingEntry, unpackHearing, legacyHearingDetails, mapType, continueHearing, attachAppearance };

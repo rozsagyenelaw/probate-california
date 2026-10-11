@@ -8,8 +8,6 @@ import { GUEST_EMAIL_KEY } from '../utils/guestAccount';
 import {
   CheckCircle,
   ArrowRight,
-  Phone,
-  Mail,
   FileText,
   Clock,
   Users,
@@ -61,10 +59,12 @@ const PaymentSuccess = () => {
   useEffect(() => {
     if (!toPortal) return undefined;
     const t = setTimeout(() => {
-      window.location.replace(`https://portal.myprobateca.com/?tab=thanks${sessionId ? `&session_id=${encodeURIComponent(sessionId)}` : ''}`);
+      // kind=addon: a service added from the client home (its own thank-you text there, W6 F35)
+      const kind = searchParams.get('kind') === 'addon' ? '&kind=addon' : '';
+      window.location.replace(`https://portal.myprobateca.com/?tab=thanks${kind}${sessionId ? `&session_id=${encodeURIComponent(sessionId)}` : ''}`);
     }, 2500);
     return () => clearTimeout(t);
-  }, [toPortal, sessionId]);
+  }, [toPortal, sessionId, searchParams]);
   if (toPortal) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
@@ -82,7 +82,7 @@ const PaymentSuccess = () => {
             <CheckCircle className="h-12 w-12 text-green-600" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Payment Successful!
+            Payment received. Thank you.
           </h1>
           <p className="text-lg text-gray-600">
             Thank you for choosing the Law Offices of Rozsa Gyene
@@ -106,15 +106,10 @@ const PaymentSuccess = () => {
             <div className="flex items-start">
               <Shield className="h-6 w-6 text-green-600 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-bold text-green-800">Your Case Has Been Activated</h3>
+                <h3 className="font-bold text-green-800">Your payment is recorded</h3>
                 <p className="text-green-700 text-sm mt-1">
-                  A confirmation email has been sent to <strong className="break-all">{shownEmail || 'your email'}</strong>
+                  A confirmation email is on its way to <strong className="break-all">{shownEmail || 'your email'}</strong>
                 </p>
-                {sessionId && (
-                  <p className="text-green-800 text-xs mt-2">
-                    Reference: {sessionId.slice(0, 20)}...
-                  </p>
-                )}
               </div>
             </div>
           </div>
@@ -129,10 +124,10 @@ const PaymentSuccess = () => {
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-900 flex items-center">
                   <Clock className="h-4 w-4 mr-2 text-blue-900" />
-                  Case Review (24-48 hours)
+                  Rozsa reviews your information (1 to 2 business days)
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">
-                  Attorney Rozsa Gyene will personally review your case information and begin preparing your initial court filings.
+                  Nothing is needed from you until then. Your client home shows what happens next.
                 </p>
               </div>
             </div>
@@ -144,10 +139,10 @@ const PaymentSuccess = () => {
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-900 flex items-center">
                   <FileText className="h-4 w-4 mr-2 text-blue-900" />
-                  Document Preparation
+                  Your court papers
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">
-                  We'll prepare all necessary petitions, notices, and court documents. You'll receive notifications as each phase progresses.
+                  Her office prepares your court papers. We email you when they are ready for you to read and sign in your client home.
                 </p>
               </div>
             </div>
@@ -184,25 +179,9 @@ const PaymentSuccess = () => {
           )}
         </div>
 
-        {/* Contact Info */}
+        {/* Questions: portal messages first (client experience rule); contact details stay in the footer line */}
         <div className="bg-gray-50 rounded-xl p-6 text-center">
-          <h3 className="font-semibold text-gray-900 mb-4">Questions? We're Here to Help</h3>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a
-              href="tel:+18183374071"
-              className="flex items-center text-blue-900 hover:text-blue-700"
-            >
-              <Phone className="h-5 w-5 mr-2" />
-              818-337-4071
-            </a>
-            <a
-              href="mailto:rozsa@myprobateca.com"
-              className="flex items-center text-blue-900 hover:text-blue-700"
-            >
-              <Mail className="h-5 w-5 mr-2" />
-              rozsa@myprobateca.com
-            </a>
-          </div>
+          <p className="text-gray-800">Questions? Send us a message in your client home. We answer there.</p>
           <p className="text-gray-500 text-sm mt-4">
             Law Offices of Rozsa Gyene | California State Bar #208356
           </p>

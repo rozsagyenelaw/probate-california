@@ -23,8 +23,6 @@ const PaymentSuccess = lazy(() => import('./components/PaymentSuccess'));
 const Documents = lazy(() => import('./components/documents').then(m => ({ default: m.Documents })));
 const PetitionGeneration = lazy(() => import('./components/petition').then(m => ({ default: m.PetitionGeneration })));
 const Messages = lazy(() => import('./components/messaging').then(m => ({ default: m.Messages })));
-const RequestAccounting = lazy(() => import('./components/accounting/RequestAccounting'));
-const RequestCourtAppearance = lazy(() => import('./components/court/RequestCourtAppearance'));
 
 // Lazy load - Phase components (direct imports for better splitting)
 const PublicationSetup = lazy(() => import('./components/phases/PublicationSetup'));
@@ -192,16 +190,12 @@ function App() {
           <Route path="/final-petition" element={<PortalRedirect />} />
           <Route path="/closing" element={<PortalRedirect />} />
           <Route path="/messages" element={<PortalRedirect />} />
-          <Route path="/request-accounting" element={
-            <ProtectedRoute>
-              <RequestAccounting />
-            </ProtectedRoute>
-          } />
-          <Route path="/request-court-appearance" element={
-            <ProtectedRoute>
-              <RequestCourtAppearance />
-            </ProtectedRoute>
-          } />
+          {/* Added services are bought in the client home (W6 F33, F35, F42) */}
+          <Route path="/request-accounting" element={<PortalRedirect />} />
+          <Route path="/request-court-appearance" element={<PortalRedirect />} />
+          <Route path="/request-house-sale" element={<PortalRedirect />} />
+          <Route path="/pay-balance" element={<PortalRedirect />} />
+          <Route path="/add-service" element={<PortalRedirect />} />
           <Route path="/asset-discovery" element={
             <ProtectedRoute>
               <AssetDiscovery />

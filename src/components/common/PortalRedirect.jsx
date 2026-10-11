@@ -15,7 +15,13 @@ const TABS = {
   '/final-petition': '?tab=distribution',
   '/distribution': '?tab=distribution',
   '/closing': '?tab=distribution',
-  '/accounting': '?tab=accounting'
+  '/accounting': '?tab=accounting',
+  // Services added from the client home are bought there (W6 F33, F35): the old main-site pages open the same place
+  '/request-accounting': '?tab=add&id=accounting',
+  '/request-court-appearance': '?tab=add&id=appearance',
+  '/request-house-sale': '?tab=add&id=house-sale',
+  '/pay-balance': '?tab=add&id=balance',
+  '/add-service': '?tab=add'
 };
 
 export function portalUrlFor(pathname) {

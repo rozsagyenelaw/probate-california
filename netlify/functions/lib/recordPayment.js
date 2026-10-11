@@ -4,7 +4,7 @@
 //  refunds/{refundId}                          one row per refund
 //  cases/{id}.billing                          { totalCharged, totalPaid, totalRefunded, balanceDue } in cents
 const { admin } = require('./firebaseAdmin');
-const { unpackHearing, hearingEntry, legacyHearingDetails } = require('./hearings');
+const { unpackHearing, hearingEntry, legacyHearingDetails, attachAppearance } = require('./hearings');
 const { enforceThreePayments, stopAfterThirdPayment } = require('./installments');
 const { LABELS } = require('./pricing');
 
@@ -130,6 +130,7 @@ async function recordCheckout(stripe, db, session) {
   }
 
   // The case
+  let caseIntakeDone = null;
   if (caseRef) {
     const c = {
       updatedAt: FV.serverTimestamp(),
@@ -139,16 +140,34 @@ async function recordCheckout(stripe, db, session) {
     };
     if (probate) {
       Object.assign(c, { paymentStatus: status, serviceType: meta.serviceType, paidAt: FV.serverTimestamp(), 'payment.plan': installments ? 'installments' : 'full', 'payment.status': installments ? 'installments_active' : 'paid', 'payment.paidAt': FV.serverTimestamp() });
+      // W6 F18: the case leaves "pending_payment" the moment the fee is paid (server side, not at the next phase change):
+      // answers already sent -> active; answers still to come -> intake_pending (read as intake). Closed, test and
+      // already active cases keep their status.
+      const cur = (await caseRef.get()).data() || {};
+      if (!cur.status || cur.status === 'pending_payment' || cur.status === 'intake') c.status = cur.intakeCompletedAt ? 'active' : 'intake_pending';
+      else if (cur.status === 'intake_pending' && cur.intakeCompletedAt) c.status = 'active';
+      caseIntakeDone = !!cur.intakeCompletedAt;
+    }
+    // W6 N6: a confirmed balance (fee tier or accounting tier change) paid online is marked paid, so the client
+    // home stops asking for it. Which balance this checkout paid is in metadata.balanceFor ('fee', 'accounting').
+    if (meta.serviceType === 'fee_balance' && meta.balanceFor) {
+      const cur = (await caseRef.get()).data() || {};
+      for (const k of String(meta.balanceFor).split(',')) {
+        const field = k === 'fee' ? 'feeTierChange' : (k === 'accounting' ? 'accountingTierChange' : null);
+        if (field && cur[field]) Object.assign(c, { [`${field}.paid`]: true, [`${field}.paidAt`]: FV.serverTimestamp(), [`${field}.paymentId`]: session.id });
+      }
     }
     if (meta.estateValueCents && probate) c.estateValueCents = Number(meta.estateValueCents);
     if (meta.accountingAddon) c['addOns.accounting'] = meta.accountingAddon;
     if (meta.houseSale) { const [kind, n] = String(meta.houseSale).split(':'); c['addOns.houseSales'] = FV.arrayUnion({ kind, properties: Number(n) || 1, paymentId: session.id, paidAt: admin.firestore.Timestamp.now() }); }
     if (meta.courtAppearance) {
       c.courtAppearance = meta.courtAppearance;
-      if (hearing) {
+      const onEntry = meta.hearingId ? attachAppearance(((await caseRef.get()).data() || {}).hearings, meta.hearingId, { kind: meta.courtAppearance, paid: true, amountCents: session.amount_total, stripeSessionId: session.id, paymentId: session.id }) : null;
+      if (onEntry) c.hearings = onEntry; // W6 F38: the hearing the client picked in the client home
+      else if (hearing) {
         c.hearings = FV.arrayUnion(hearingEntry(hearing, { appearance: meta.courtAppearance, sessionId: session.id, paymentId: session.id, amountCents: session.amount_total }));
-        c.hearingDetails = legacyHearingDetails(hearing, meta.courtAppearance);
       }
+      if (hearing) c.hearingDetails = legacyHearingDetails(hearing, meta.courtAppearance);
     }
     await caseRef.update(c);
     await recomputeBalance(db, caseRef);
@@ -178,7 +197,7 @@ async function recordCheckout(stripe, db, session) {
     } catch (e) { console.warn('promo usage not tracked:', e.message); }
   }
 
-  return { payment, uid, caseId: caseRef ? caseRef.id : null, description: desc, customerName: userDoc ? ([userDoc.data().firstName, userDoc.data().lastName].filter(Boolean).join(' ') || userDoc.data().displayName || userDoc.data().name || null) : ((session.customer_details && session.customer_details.name) || null), stop, hearing };
+  return { payment, uid, caseId: caseRef ? caseRef.id : null, intakeDone: caseIntakeDone, description: desc, customerName: userDoc ? ([userDoc.data().firstName, userDoc.data().lastName].filter(Boolean).join(' ') || userDoc.data().displayName || userDoc.data().name || null) : ((session.customer_details && session.customer_details.name) || null), stop, hearing };
 }
 
 // balanceDue = totalCharged - totalPaid + totalRefunded is NOT right for refunds of earned fees;
@@ -301,7 +320,7 @@ async function recordChargeRefunded(stripe, db, chargeObj) {
 
 // An add-on that costs nothing because the Probate Code 10810 cap already covers it: recorded on the case the way a
 // payment would be (no Stripe charge, no payments row with money), so the attorney sees it and the hearing is on the calendar.
-async function recordIncluded(db, { caseId, userId, email, serviceType, accountingAddon, courtAppearance, hearing, order }) {
+async function recordIncluded(db, { caseId, userId, email, serviceType, accountingAddon, courtAppearance, hearing, hearingId, order }) {
   const ref = db.collection('includedServices').doc();
   await ref.set({ caseId: caseId || null, userId: userId || null, email: email || null, serviceType, accountingAddon: accountingAddon || null, courtAppearance: courtAppearance || null,
     reason: 'Included under the Probate Code 10810 limit for this estate', lines: (order && order.lines || []).map(l => ({ key: l.key, listCents: l.listCents || l.cents, chargedCents: l.cents })), createdAt: FV.serverTimestamp() });
@@ -311,12 +330,14 @@ async function recordIncluded(db, { caseId, userId, email, serviceType, accounti
     const h = hearing && (hearing.hearingDate || hearing.date) ? { d: String(hearing.hearingDate || hearing.date).slice(0, 10), t: String(hearing.hearingTime || hearing.time || '').slice(0, 5), dept: hearing.department || '', cn: hearing.caseNumber || '', co: hearing.county || '', ty: hearing.hearingType || hearing.type || '', x: hearing.otherDescription || '' } : null;
     if (courtAppearance) {
       c.courtAppearance = courtAppearance;
-      if (h) {
+      const onEntry = hearingId ? attachAppearance(((await db.collection('cases').doc(caseId).get()).data() || {}).hearings, hearingId, { kind: courtAppearance, paid: false, includedUnder10810: true, amountCents: 0, paymentId: null }) : null;
+      if (onEntry) c.hearings = onEntry; // W6 F38: the hearing the client picked in the client home
+      else if (h) {
         const e = hearingEntry(h, { appearance: courtAppearance, sessionId: ref.id, paymentId: null, amountCents: 0 });
         e.appearance.includedUnder10810 = true;
         c.hearings = FV.arrayUnion(e);
-        c.hearingDetails = legacyHearingDetails(h, courtAppearance);
       }
+      if (h) c.hearingDetails = legacyHearingDetails(h, courtAppearance);
     }
     await db.collection('cases').doc(caseId).update(c);
   }

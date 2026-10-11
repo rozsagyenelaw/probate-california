@@ -24,7 +24,7 @@ function allowed(to) {
   return /^rozsagyenelaw1\+[^@]+@gmail\.com$/i.test(to);
 }
 
-async function queuePaymentEmails(db, { meta, email, customerName, amountCents, orderNumber, sessionId, uid, description, hearing, installmentAmounts }) {
+async function queuePaymentEmails(db, { meta, email, customerName, amountCents, orderNumber, sessionId, uid, description, hearing, installmentAmounts, intakeDone }) {
   const data = {
     customerName: customerName || '',
     customerEmail: String(email || '').toLowerCase(),
@@ -33,6 +33,8 @@ async function queuePaymentEmails(db, { meta, email, customerName, amountCents, 
     accountingAddon: meta.accountingAddon || null,
     courtAppearance: meta.courtAppearance || null,
     hearing: hearing || null,
+    intakeDone: intakeDone === true ? true : (intakeDone === false ? false : null), // W6 F17: answers already sent?
+    balanceFor: meta.balanceFor || null,
     description: description || '',
     paymentPlan: meta.paymentPlan || 'full',
     installmentAmounts: Array.isArray(installmentAmounts) && installmentAmounts.length === 3 ? installmentAmounts.map(Number) : null,
