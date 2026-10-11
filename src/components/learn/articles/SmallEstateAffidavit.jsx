@@ -296,7 +296,7 @@ const SmallEstateAffidavit = () => {
       <div className="bg-gray-100 p-6 rounded-lg my-8">
         <h3 className="font-bold text-gray-900 text-lg mb-3">Estate Over the Limit?</h3>
         <p className="text-gray-700 mb-4">
-          If the estate exceeds $184,500 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee of $3,995</Link> — saving you thousands compared to traditional attorney fees.
+          If the estate exceeds $184,500 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee of $3,995</Link>. On a $500,000 estate, the statutory attorney fee is $13,000.
         </p>
         <Link to="/learn-california-probate/how-to-file-probate-california" className="text-blue-600 hover:underline font-medium">
           See our step-by-step probate guide →

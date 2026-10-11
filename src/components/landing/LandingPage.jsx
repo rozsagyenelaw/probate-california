@@ -192,7 +192,7 @@ const LandingPage = () => {
         "@id": "https://myprobateca.com/#webpage",
         "url": "https://myprobateca.com",
         "name": "California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA",
-        "description": "California probate for $3,995 flat fee. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. Save $42,000+ vs traditional attorneys.",
+        "description": "California probate for $3,995 flat fee. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
         "isPartOf": {
           "@id": "https://myprobateca.com/#website"
         },
@@ -211,13 +211,13 @@ const LandingPage = () => {
     <>
       <Helmet>
         <title>California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA</title>
-        <meta name="description" content="California probate for $3,995 flat fee — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. Save $42,000+ vs traditional attorneys." />
+        <meta name="description" content="California probate for $3,995 flat fee — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="keywords" content="California probate, probate attorney, probate lawyer, estate administration, flat fee probate, Los Angeles probate, Glendale probate attorney" />
         <link rel="canonical" href="https://myprobateca.com/" />
 
         {/* Open Graph */}
         <meta property="og:title" content="Don't Pay $46,000 for California Probate | We Do It for $3,995" />
-        <meta property="og:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. Save $42,000+ vs traditional attorneys." />
+        <meta property="og:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta property="og:url" content="https://myprobateca.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyProbateCA" />
@@ -226,7 +226,7 @@ const LandingPage = () => {
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Don't Pay $46,000 for California Probate | We Do It for $3,995" />
-        <meta name="twitter:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. Save $42,000+." />
+        <meta name="twitter:description" content="Not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="twitter:image" content="https://myprobateca.com/Rozsa-Gyene.jpg" />
 
         {/* Schema Markup */}
@@ -420,7 +420,7 @@ const LandingPage = () => {
                 Simplified Probate $2,495 | Full Service $3,995
               </p>
               <p className="text-lg text-white/80 mb-6">
-                Save $20,000+ compared to traditional attorney fees
+                Full probate: On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.
               </p>
               <p className="text-lg md:text-xl text-white/90 mb-8 hero-subheadline">
                 Not DIY forms. Not a document generator. <strong className="text-white">Real attorney-prepared probate</strong> from first filing to final distribution.

@@ -477,7 +477,7 @@ const ProbateFAQ = () => {
               <li>2% of the next $800,000</li>
               <li>1% of the next $9,000,000</li>
             </ul>
-            <p className="text-gray-700">For a <strong>$1 million estate</strong>, statutory fees total <strong>$23,000</strong>. MyProbateCA offers a flat fee of <strong>$3,995</strong> for complete attorney-supervised administration—saving you $19,000+. <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">See our full fee breakdown →</Link></p>
+            <p className="text-gray-700">For a <strong>$1 million estate</strong>, statutory fees total <strong>$23,000</strong>. MyProbateCA offers a flat fee of <strong>$3,995</strong> for attorney-prepared court papers. <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">See our full fee breakdown →</Link></p>
           </section>
 
           {/* ===================== CATEGORY 1: COST QUESTIONS ===================== */}

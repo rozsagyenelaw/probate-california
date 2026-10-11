@@ -423,8 +423,8 @@ const ProbateCourtLocations = () => {
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Learn About California Probate</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
-                  <h3 className="font-bold text-lg text-green-600 mb-2">Save $19,000+ on Fees</h3>
-                  <p className="text-gray-600 text-sm">Why statutory fees cost $23,000 and how our flat fee saves you money.</p>
+                  <h3 className="font-bold text-lg text-green-600 mb-2">Statutory Fees Explained</h3>
+                  <p className="text-gray-600 text-sm">On a $1,000,000 estate, the statutory attorney fee is $23,000. Our flat fee is $3,995.</p>
                 </Link>
                 <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
                   <h3 className="font-bold text-lg text-blue-600 mb-2">Clear IGN Notes</h3>

@@ -42,7 +42,7 @@ const CaliforniaProbateFees = () => {
       relatedArticles={relatedArticles}
     >
       <p className="text-xl text-gray-600 mb-8">
-        One of the biggest shocks for California executors is discovering how much traditional probate attorneys charge. This guide breaks down the statutory fee structure and shows you how to save $15,000-$25,000+ on your case.
+        One of the biggest shocks for California executors is discovering how much traditional probate attorneys charge. This guide breaks down the statutory fee structure and compares it with our flat fee. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What Are Statutory Fees?</h2>
@@ -271,7 +271,7 @@ const CaliforniaProbateFees = () => {
       </ul>
 
       <p className="text-gray-700 mt-8">
-        Ready to save thousands on your probate case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Get started with MyProbateCA</Link> for a flat $3,995 fee.
+        Ready to start your probate case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Get started with MyProbateCA</Link> for a flat $3,995 fee.
       </p>
     </ArticleLayout>
   );

@@ -365,7 +365,7 @@ const CaliforniaProbateAdministration = () => {
         "@id": "https://myprobateca.com/california-probate-administration#webpage",
         "url": "https://myprobateca.com/california-probate-administration",
         "name": "California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee",
-        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee. Save $10,000+ vs statutory fees.",
+        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://myprobateca.com/#website",
@@ -386,7 +386,7 @@ const CaliforniaProbateAdministration = () => {
     <>
       <Helmet>
         <title>California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee | MyProbateCA</title>
-        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee. Save $10,000+ compared to statutory fees." />
+        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="keywords" content="California probate, probate administration, probate attorney, Letters Testamentary, Letters of Administration, Stanley Mosk Courthouse, probate lawyer, estate administration, IGN notes, probate court" />
         <link rel="canonical" href="https://myprobateca.com/california-probate-administration" />
 
@@ -400,7 +400,7 @@ const CaliforniaProbateAdministration = () => {
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="California Probate Administration | $2,495 or $3,995 Flat Fee" />
-        <meta name="twitter:description" content="Professional attorney-led probate administration. Save $10,000+ vs statutory fees." />
+        <meta name="twitter:description" content="Professional attorney-led probate administration. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
 
         {/* Schema Markup */}
         <script type="application/ld+json">
@@ -540,7 +540,7 @@ const CaliforniaProbateAdministration = () => {
               </h1>
               <p className="text-xl md:text-2xl text-blue-100 mb-8">
                 Licensed California attorney handles all 11 phases of probate for a flat $3,995.
-                <span className="font-semibold text-amber-400"> Save $10,000+ compared to statutory fees.</span>
+                <span className="font-semibold text-amber-400"> On a $500,000 estate, the statutory attorney fee is $13,000.</span>
               </p>
               <button
                 onClick={handleStartCase}
@@ -767,7 +767,7 @@ const CaliforniaProbateAdministration = () => {
                 Transparent Flat Fee Pricing
               </h2>
               <p className="text-center text-gray-600 mb-12">
-                Save thousands compared to statutory attorney fees
+                Statutory attorney fees and our flat fee, by estate size
               </p>
 
               {/* Main Pricing Card */}
@@ -941,7 +941,7 @@ const CaliforniaProbateAdministration = () => {
                 >
                   <DollarSign className="h-8 w-8 text-green-600 mb-3" />
                   <h3 className="font-bold text-gray-900 mb-2">Probate Fees Explained</h3>
-                  <p className="text-gray-600 text-sm">Why statutory fees cost $23,000+ and how to save $19,000.</p>
+                  <p className="text-gray-600 text-sm">On a $1,000,000 estate the statutory attorney fee is $23,000. See how fees are set.</p>
                 </Link>
                 <Link
                   to="/learn-california-probate/clear-ign-notes-stanley-mosk"

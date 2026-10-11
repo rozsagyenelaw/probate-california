@@ -49,7 +49,7 @@ const getH1Variation = (city, index) => {
 // Meta description variations
 const getMetaDescriptionVariation = (city, index) => {
   const variations = [
-    `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. Save thousands vs statutory fees.`,
+    `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.`,
     `Need probate help in ${city.name}? Attorney-supervised estate administration for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
     `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case free.`,
     `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
@@ -373,7 +373,7 @@ const CityProbatePage = () => {
               </h1>
               <p className="text-xl text-blue-100 mb-8">
                 Licensed California attorney handles {city.name} probate cases for a flat $3,995.
-                All documents prepared. Court appearances available. Save $10,000+ vs statutory fees.
+                All documents prepared. Court appearances available. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.
               </p>
               <button
                 onClick={handleStartCase}
@@ -756,7 +756,7 @@ const CityProbatePage = () => {
                   to="/learn-california-probate/california-probate-fees-statutory-vs-flat"
                   className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
                 >
-                  <h3 className="font-bold text-blue-900 mb-2">Probate Fees Explained: Save $19,000+</h3>
+                  <h3 className="font-bold text-blue-900 mb-2">Probate Fees Explained</h3>
                   <p className="text-gray-600 text-sm">Why statutory fees on a {city.medianHome} home cost $23,000—and how to pay $3,995.</p>
                 </Link>
                 <Link
