@@ -140,14 +140,14 @@ const LandingPage = () => (
       <title>California Probate, Attorney-Prepared | Flat Fees from $2,495 | MyProbateCA</title>
       <meta name="description" content="California probate papers prepared by an attorney for a flat fee: simplified probate $2,495, full probate from $3,995. You file as the petitioner; we prepare the papers and clear the probate notes. All online." />
       <link rel="canonical" href="https://myprobateca.com/" />
-      <meta property="og:title" content="California probate papers, prepared by an attorney. Flat fee. Online." />
+      <meta property="og:title" content="MyProbateCA: California probate papers, prepared by an attorney. Flat fees from $2,495." />
       <meta property="og:description" content="Simplified probate $2,495. Full probate from $3,995. You file as the petitioner; our office prepares the court papers and clears the probate notes." />
       <meta property="og:url" content="https://myprobateca.com/" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="MyProbateCA" />
       <meta property="og:image" content="https://myprobateca.com/images/attorney/rozsa-gyene-760.jpg" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content="California probate papers, prepared by an attorney. Flat fee. Online." />
+      <meta name="twitter:title" content="MyProbateCA: California probate papers, prepared by an attorney. Flat fees from $2,495." />
       <meta name="twitter:description" content="Simplified probate $2,495. Full probate from $3,995. You file as the petitioner; our office prepares the court papers and clears the probate notes." />
       <meta name="twitter:image" content="https://myprobateca.com/images/attorney/rozsa-gyene-760.jpg" />
       <script type="application/ld+json">{JSON.stringify(schemaMarkup)}</script>
