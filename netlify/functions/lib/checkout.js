@@ -79,13 +79,12 @@ async function requireSignedFeeAgreement(db, params, order) {
   if (!snap.exists) fail();
   const r = snap.data();
   const o = r.order || {};
-  const feeLine = order.lines.find(l => l.key === params.serviceType);
-  const same = (a, b) => (a || null) === (b || null);
+  // Signed earlier in the flow (account -> agreement -> questionnaire -> payment, decisions section 32): the agreement
+  // carries the tier table and the adjustment sentence, so it covers the fee the questionnaire sets, the payment plan
+  // and add-ons chosen later. It must be this client's, signed, and for the same service.
   const ok = r.kind === 'fee_agreement' && r.status === 'signed'
     && String(r.clientEmail || '').toLowerCase() === String(params.customerEmail || '').toLowerCase()
-    && o.service === params.serviceType && same(o.accountingAddon, params.accountingAddon) && same(o.courtAppearance, params.courtAppearance)
-    && (o.paymentPlan || 'full') === (params.paymentPlan === 'installments' ? 'installments' : 'full')
-    && feeLine && Number(o.feeCents) === feeLine.cents;
+    && o.service === params.serviceType;
   if (!ok) fail();
   return id;
 }
@@ -114,7 +113,7 @@ async function createCheckout(stripe, db, params, settings) {
   const paymentPlan = params.paymentPlan === 'installments' ? 'installments' : (params.paymentPlan === 'full' ? 'full' : null);
   if (!paymentPlan) throw new UserError('Invalid payment plan selected');
   // Full probate: the fee depends on the estate value (price tiers), so it is required before checkout
-  if (params.serviceType === 'full' && !(Number(params.estateValueCents) > 0)) {
+  if (params.serviceType === 'full' && !(Number(params.estateValueCents) > 0) && !['up-to-1m', '1m-to-2m', 'over-2m'].includes(params.estateRange)) {
     const e = new UserError('Please enter about how much the estate is worth, so we can show your exact fee before you pay.'); e.code = 'estate_value_required'; throw e;
   }
   let order;

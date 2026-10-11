@@ -99,7 +99,7 @@ const ORDINARY_KEYS = new Set(['full', 'fee_balance', 'simple_accounting', 'comp
 // What is being bought in this checkout, with a cent amount per line.
 // capContext (full probate with a known estate value): { estateValueCents, priorOrdinaryCents } so purchases made
 // later (add-ons) also stay within the cap. Lines brought to $0 by the cap are kept with included: true.
-function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, capContext, balanceCents, balanceLabel, houseSale, houseSaleCount }, settings) {
+function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, estateRange, capContext, balanceCents, balanceLabel, houseSale, houseSaleCount }, settings) {
   const lines = [];
   let fee = null;
   if (serviceType === 'fee_balance') {
@@ -111,7 +111,10 @@ function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValue
     return { lines, totalCents, ordinaryCents: c, capCents: null, description: lines[0].label, feeBasis: 'adjustment', estateValueCents: null };
   }
   if (serviceType === 'full') {
-    fee = fullProbateFeeCents(estateValueCents);
+    // The questionnaire's estate value sets the fee (tier and small-estate rule). Before it is known, the range the
+    // client picked at account creation (decisions section 32) sets the tier fee.
+    const range = FULL_TIERS.find(t => t.key === estateRange);
+    fee = Number(estateValueCents) > 0 ? fullProbateFeeCents(estateValueCents) : (range ? { cents: range.cents, basis: 'tier-range', tier: range.key } : fullProbateFeeCents(estateValueCents));
     lines.push({ key: 'full', label: LABELS.full, cents: fee.cents, basis: fee.basis });
   } else if (serviceType === 'simplified') {
     lines.push({ key: serviceType, label: LABELS[serviceType], cents: BASE_CENTS[serviceType] });

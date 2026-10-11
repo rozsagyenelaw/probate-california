@@ -264,20 +264,25 @@ test('shared Stripe account: foreign checkouts are ignored with 200, no write an
   assert.strictEqual((await db.collection('payments').doc('cs_test_ok1').get()).exists, true);
 });
 
-test('fee agreement (when switched on): checkout refused until this client signed it for this exact purchase', async () => {
+test('fee agreement signed earlier in the flow (section 32): accepted for the same client and service, whatever fee the questionnaire sets', async () => {
   const { requireSignedFeeAgreement } = require('../lib/checkout');
   const email = `rozsagyenelaw1+fa${Date.now()}@gmail.com`;
-  const order = buildOrder({ serviceType: 'full', estateValueCents: 5000000 }, {});
-  const params = { serviceType: 'full', customerEmail: email, accountingAddon: null, courtAppearance: null, paymentPlan: 'full' };
+  const order = buildOrder({ serviceType: 'full', estateValueCents: 5000000 }, {});      // questionnaire: small estate, $2,000
+  const params = { serviceType: 'full', customerEmail: email, accountingAddon: 'simple', courtAppearance: null, paymentPlan: 'installments' };
   await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: null }, order), e => e.code === 'fee_agreement_required');
   const ref = db.collection('signatureRequests').doc('fa-' + Date.now());
-  await ref.set({ kind: 'fee_agreement', stage: 'checkout', status: 'checkout_unsigned', clientEmail: email, order: { service: 'full', accountingAddon: null, courtAppearance: null, paymentPlan: 'full', estateValueCents: 5000000, feeCents: 200000, totalCents: 200000 } });
+  await ref.set({ kind: 'fee_agreement', stage: 'checkout', status: 'checkout_unsigned', clientEmail: email, order: { service: 'full', estateRange: 'up-to-1m', feeCents: 399500 } });
   await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // not signed
   await ref.update({ status: 'signed' });
   await assert.rejects(requireSignedFeeAgreement(db, { ...params, customerEmail: 'rozsagyenelaw1+other@gmail.com', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // other client
-  await assert.rejects(requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, buildOrder({ serviceType: 'full' }, {})), e => e.code === 'fee_agreement_required'); // different fee
-  await assert.rejects(requireSignedFeeAgreement(db, { ...params, paymentPlan: 'installments', feeAgreementRequestId: ref.id }, order), e => e.code === 'fee_agreement_required'); // different plan
+  await assert.rejects(requireSignedFeeAgreement(db, { ...params, serviceType: 'simplified', feeAgreementRequestId: ref.id }, buildOrder({ serviceType: 'simplified' }, {})), e => e.code === 'fee_agreement_required'); // other service
   assert.strictEqual(await requireSignedFeeAgreement(db, { ...params, feeAgreementRequestId: ref.id }, order), ref.id);
+});
+
+test('estate value range from account creation sets the tier fee until the questionnaire value is known', () => {
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateRange: '1m-to-2m' }, {}).totalCents, 599500);
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateRange: 'over-2m' }, {}).totalCents, 799500);
+  assert.strictEqual(buildOrder({ serviceType: 'full', estateRange: 'over-2m', estateValueCents: 5000000 }, {}).totalCents, 200000); // questionnaire value wins
 });
 
 test('checkout.session.async_payment_succeeded is recorded like a completed checkout, once; foreign ones ignored', async () => {
