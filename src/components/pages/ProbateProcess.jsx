@@ -15,7 +15,7 @@ const STAGES = [
   { title: 'Bond (if the court requires one)', you: 'Arrange the bond with a bonding company, if one is required.', we: 'Tell you whether a bond is likely and how much it covers.' },
   { title: 'Your court date', you: 'Check the court\'s notes before the hearing; attend if the court requires it, or add our $500 appearance.', we: 'Tell you what to expect at the hearing.' },
   { title: 'Answering the court\'s questions', you: 'Sign and file the papers that answer the probate notes.', we: 'Read the court\'s probate notes and prepare what clears them.' },
-  { title: 'You are officially in charge', you: 'Pick up your Letters and open the estate bank account.', we: 'Prepare the order and the Letters for the court to sign.' },
+  { title: 'You are officially in charge', you: 'Pick up your Letters and open the estate bank account.', we: 'Prepare the proposed order and the Letters for the court.' },
   { title: 'Listing and valuing what the estate owns', you: 'Gather statements and values; the probate referee appraises the rest.', we: 'Prepare the Inventory and Appraisal.' },
   { title: 'Paying the estate\'s bills', you: 'Pay valid debts from the estate account during the creditor claim period.', we: 'Prepare notices to known creditors and responses to claims.' },
   { title: 'Asking the court to approve the final split', you: 'Sign and file the final petition.', we: 'Prepare the petition for final distribution and the order.' },
@@ -53,7 +53,7 @@ const ProbateProcess = () => (
           ))}
         </ol>
         <p className="mt-8 text-sm text-slate-600 leading-relaxed">
-          The creditor claim period runs at least four months after the court issues Letters (Probate Code 9100), so most full probates take a year or more. Simplified probate for a home worth up to $750,000 (Probate Code 13151) uses a single petition instead of these stages.
+          Creditors have at least four months after the court first issues Letters to file claims (Probate Code 9100), so most full probates take a year or more. Simplified probate for a home worth up to $750,000 (Probate Code 13151) uses a single petition instead of these stages.
         </p>
         <a href={START_URL} className="mp-btn mt-8 px-6 py-3.5 text-lg">
           Start your case

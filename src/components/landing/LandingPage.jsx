@@ -39,14 +39,13 @@ const INCLUDED = [
   'Probate notes cleared before your hearings',
   'Step-by-step guides for filing, mailing the notices and the newspaper notice',
   'Notices and proofs of mailing prepared for you to have mailed',
-  'Ready-to-send letters for Social Security, the DMV and the credit bureaus, which you mail with the death certificate',
   'Your client home: progress bar, deadline reminders and messages with our office',
 ];
 
 const NOT_INCLUDED = [
   'Court filing fees, paid to the court',
   'Newspaper publication, paid to the newspaper',
-  'Probate referee fee for the appraisal (full probate)',
+  'Probate referee fee for the appraisal',
   'Bond premium, only if the court requires a bond',
   'Certified copies of the death certificate and of the Letters',
 ];
@@ -80,7 +79,7 @@ const FAQS = [
   },
   {
     q: 'How long does a full probate take?',
-    a: 'A full probate cannot close until the creditor claim period has ended, which is at least four months after the court issues Letters (Probate Code 9100). With the first hearing, the inventory and the final petition, most full probates take a year or more. Your client home shows where you are and what comes next.',
+    a: 'Creditors have at least four months after the court first issues Letters to file claims (Probate Code 9100), so a full probate stays open at least that long. With the first hearing, the inventory and the final petition, most full probates take a year or more. Your client home shows where you are and what comes next.',
   },
   {
     q: 'How can I pay?',
@@ -197,8 +196,8 @@ const LandingPage = () => (
                 <a href={START_SIMPLIFIED_URL} className="mp-btn mt-5 px-5 py-3 text-base">Start your case</a>
                 <p className="mt-3 text-xs text-slate-600 leading-relaxed">{PAY_LINE}</p>
                 <ul className="mt-5 space-y-2.5 text-sm text-slate-700 border-t border-slate-100 pt-5">
-                  <CheckItem>Petition to transfer the home to the heirs, prepared by an attorney</CheckItem>
-                  <CheckItem>Notice to the heirs prepared, with filing steps</CheckItem>
+                  <CheckItem>Petition asking the court to confirm who inherits the home, prepared by an attorney</CheckItem>
+                  <CheckItem>Notice of the petition to the heirs and beneficiaries prepared, with filing steps</CheckItem>
                   <CheckItem>Probate notes cleared</CheckItem>
                 </ul>
                 <p className="mt-auto pt-5 text-xs text-slate-600">Probate Code 13151, for deaths on or after April 1, 2025.</p>
@@ -223,7 +222,7 @@ const LandingPage = () => (
                   </tbody>
                 </table>
                 <ul className="mt-5 space-y-2.5 text-sm text-slate-700">
-                  <CheckItem>Every court paper from the petition to final distribution, prepared by an attorney</CheckItem>
+                  <CheckItem>The court papers for each stage, from the petition to final distribution, prepared by an attorney (a court accounting and a house sale are add-ons)</CheckItem>
                   <CheckItem>Probate notes cleared before your hearings</CheckItem>
                   <CheckItem>Notices, proofs of mailing and filing guides for each stage</CheckItem>
                 </ul>
@@ -251,7 +250,7 @@ const LandingPage = () => (
               <div className="rounded-xl border border-slate-200 p-5">
                 <div className="flex items-center gap-2"><Gavel className="h-5 w-5 mp-brand" strokeWidth={1.75} aria-hidden="true" /><h4 className="font-semibold text-slate-900">Court appearance</h4></div>
                 <p className="mt-2 text-sm"><span className="text-xl font-semibold text-slate-900">$500</span> <span className="text-slate-600">per hearing</span></p>
-                <p className="mt-2 text-sm text-slate-600 leading-relaxed">Rozsa Gyene appears for you as limited scope counsel. If the hearing is continued, the appearance carries over to the new date.</p>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">Rozsa Gyene appears for you as limited scope counsel. If the hearing is continued, the appearance carries over to the new date. A contested hearing is $600.</p>
               </div>
               <div className="rounded-xl border border-slate-200 p-5">
                 <div className="flex items-center gap-2"><Calculator className="h-5 w-5 mp-brand" strokeWidth={1.75} aria-hidden="true" /><h4 className="font-semibold text-slate-900">Final accounting</h4></div>
@@ -335,7 +334,7 @@ const LandingPage = () => (
               src="/images/attorney/rozsa-gyene-560.webp"
               srcSet="/images/attorney/rozsa-gyene-360.webp 360w, /images/attorney/rozsa-gyene-560.webp 560w, /images/attorney/rozsa-gyene-760.webp 760w"
               sizes="(min-width: 768px) 420px, 100vw"
-              alt="Attorney Rozsa Gyene at her desk"
+              alt="Attorney Rozsa Gyene in her office"
               width="560"
               height="560"
               loading="lazy"
@@ -375,7 +374,7 @@ const LandingPage = () => (
               ))}
             </div>
             <p className="mt-5 text-xs text-slate-600 leading-relaxed max-w-3xl">
-              Reviews from actual clients. A testimonial or endorsement does not constitute a guarantee, warranty, or prediction regarding the outcome of your legal matter; every case depends on its own facts.
+              Testimonials do not guarantee or predict the outcome of any matter.
             </p>
           </div>
         </section>
