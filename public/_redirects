@@ -13,6 +13,12 @@
 /admin/signatures    https://portal.myprobateca.com/admin/tools/signatures    302!
 /admin/messages    https://portal.myprobateca.com/admin/tools/messages    302!
 /admin    https://portal.myprobateca.com/admin    302!
+# W6 F33, F35, F42: services are added and balances paid in the client home
+/request-court-appearance    https://portal.myprobateca.com/?tab=add&id=appearance    302!
+/request-accounting    https://portal.myprobateca.com/?tab=add&id=accounting    302!
+/request-house-sale    https://portal.myprobateca.com/?tab=add&id=house-sale    302!
+/pay-balance    https://portal.myprobateca.com/?tab=add&id=balance    302!
+/add-service    https://portal.myprobateca.com/?tab=add    302!
 # Old or mistyped addresses that were linked from the site
 /free-consultation    https://portal.myprobateca.com/start    301!
 /book    https://portal.myprobateca.com/start    301!

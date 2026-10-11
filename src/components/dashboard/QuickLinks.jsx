@@ -191,7 +191,7 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
               </div>
               <div className="text-left">
                 <p className="text-sm font-medium text-gray-900">Contested/Complex Hearing</p>
-                <p className="text-xs text-gray-500">2-hour minimum representation</p>
+                <p className="text-xs text-gray-500">When someone objects to your petition</p>
               </div>
             </div>
             <span className="text-sm font-semibold text-purple-600">$600</span>

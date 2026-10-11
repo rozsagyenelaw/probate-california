@@ -38,7 +38,7 @@ const ARTICLES = [
     id: 2,
     slug: 'california-probate-fees-statutory-vs-flat',
     title: 'California Probate Fees Exposed: Statutory vs Flat Fee',
-    description: 'Why a $1M home with a $900K mortgage still costs $23,000 in statutory fees—and how to pay $3,995 instead.',
+    description: 'Why a $1M home with a $900K mortgage still costs $23,000 in statutory fees, and our flat fee by estate value ($3,995, $5,995 or $7,995).',
     category: 'Fees & Costs',
     image: '/images/attorney/rozsa-gyene-probate-attorney.jpg',
     date: 'January 2026',

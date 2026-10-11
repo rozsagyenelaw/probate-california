@@ -27,7 +27,7 @@ const LABELS = {
   simple: 'Simple Accounting',
   complex: 'Complex Accounting',
   remote: 'Remote Court Appearance',
-  contested: 'Contested Hearing (2-hour minimum)'
+  contested: 'Contested Hearing Appearance' // decision 21: $600, no hour-based wording (W6 N13)
 };
 
 // Probate Code 10810(a) amount, in cents, for an estate value in cents (no rounding until the end).

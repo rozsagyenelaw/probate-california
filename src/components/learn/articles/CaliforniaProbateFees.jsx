@@ -8,7 +8,7 @@ const CaliforniaProbateFees = () => {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "California Probate Fees Exposed: Statutory vs Flat Fee",
-    "description": "Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees—and how to pay $3,995 instead.",
+    "description": "Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees, and our flat fee by estate value ($3,995, $5,995 or $7,995).",
     "author": {
       "@type": "Person",
       "@id": "https://myprobateca.com/#attorney",
@@ -33,7 +33,7 @@ const CaliforniaProbateFees = () => {
   return (
     <ArticleLayout
       title="California Probate Fees Exposed: Statutory vs Flat Fee"
-      metaDescription="Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees—and how to pay $3,995 instead."
+      metaDescription="Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees, and our flat fee by estate value ($3,995, $5,995 or $7,995)."
       canonicalUrl="https://myprobateca.com/learn-california-probate/california-probate-fees-statutory-vs-flat"
       publishDate="January 12, 2025"
       readTime="10"
@@ -94,10 +94,9 @@ const CaliforniaProbateFees = () => {
         <ul className="space-y-2 text-red-900">
           <li><strong>Actual equity:</strong> $100,000</li>
           <li><strong>Fee calculation basis:</strong> $1,000,000 (gross value)</li>
-          <li><strong>Statutory attorney fee:</strong> $23,000</li>
-          <li><strong>Statutory executor fee:</strong> $23,000</li>
-          <li><strong>Combined fees:</strong> $46,000 from $100K in equity!</li>
+          <li><strong>Statutory attorney fee:</strong> $23,000, which is 23% of the $100,000 of equity</li>
         </ul>
+        <p className="text-red-900 mt-4 text-sm">The personal representative (executor) may also ask for a statutory commission figured the same way. That commission belongs to the personal representative, not to the attorney, and is the same whichever way the court papers are prepared.</p>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Fee Comparison by Estate Value</h2>

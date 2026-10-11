@@ -4,8 +4,8 @@ import ClientLoginButton from '../common/ClientLoginButton';
 import { useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
-import { getCityBySlug, calculateStatutoryFee, CITY_DATA } from '../../data/cityData';
-import { fullProbateFee } from '../../services/businessSettings';
+import { getCityBySlug, CITY_DATA } from '../../data/cityData';
+import { cityFeeExample } from '../../services/cityFees.mjs';
 import { COMMON_ESTATE_TYPES, LOCAL_STATS, getPublicationInfo } from '../../data/cityDetailedData';
 import {
   Scale,
@@ -50,12 +50,12 @@ const getH1Variation = (city, index) => {
 // Meta description variations
 const getMetaDescriptionVariation = (city, index) => {
   const variations = [
-    `${city.name} probate attorney services for a flat fee from $3,995. Cases filed at ${city.courthouse}. California Bar #208356. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.`,
-    `Need probate help in ${city.name}? Attorney-prepared court documents from $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
+    `${city.name} probate court papers, attorney-prepared, for a flat fee: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above. Cases filed at ${city.courthouse}. California Bar #208356.`,
+    `Need probate help in ${city.name}? Attorney-prepared court papers for a flat fee: $3,995, $5,995 or $7,995 by estate value, or $2,495 simplified. ${city.county} County.`,
     `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case free.`,
-    `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
-    `Probate attorney serving ${city.name}. Fixed fee from $3,995 vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,
-    `${city.county} County probate for ${city.name} families. Flat $3,995 includes all documents, court prep, and IGN note clearance.`
+    `${city.name} estate probate made simple. Attorney-prepared court papers for a flat fee by estate value ($3,995, $5,995 or $7,995). Rozsa Gyene prepares ${city.county} County cases. Start online.`,
+    `Probate papers for ${city.name} estates. Flat fee by estate value: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above. Filed at ${city.courthouse}. California Bar #208356.`,
+    `${city.county} County probate for ${city.name} families. Flat fee ($3,995, $5,995 or $7,995 by estate value) for the court papers and clearing the probate notes.`
   ];
   return variations[index % variations.length];
 };
@@ -152,9 +152,8 @@ const CityProbatePage = () => {
   const bankAccounts = 50000;
   const investments = 100000;
   const totalEstate = homeValue + bankAccounts + investments;
-  const statutoryFee = calculateStatutoryFee(totalEstate);
-  const ourFee = fullProbateFee(totalEstate).fee;
-  const savings = statutoryFee - ourFee;
+  // W6 item i: every figure follows from Probate Code 10810 and the price tier for this estate (services/cityFees.mjs)
+  const { statutoryFee, ourFee, difference: savings, percentLess, tierLabel } = cityFeeExample(totalEstate);
 
   // FAQs specific to this city - now 7 questions
   const faqs = [
@@ -203,7 +202,7 @@ const CityProbatePage = () => {
       {
         "@type": "LegalService",
         "name": `${city.name} Probate Attorney - MyProbateCA`,
-        "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat fee from $3,995 includes all 11 phases of probate.`,
+        "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat fee by estate value for the attorney-prepared court papers: $3,995 up to $1,000,000; $5,995 to $2,000,000; $7,995 above.`,
         "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney`,
         "telephone": "+1-818-337-4071",
         "priceRange": "$2,495 to $7,995",
@@ -266,7 +265,7 @@ const CityProbatePage = () => {
         <link rel="canonical" href={`https://myprobateca.com/locations/${city.slug}-probate-attorney`} />
 
         <meta property="og:title" content={`${city.name} Probate Attorney | Flat Fees from $2,495`} />
-        <meta property="og:description" content={`Attorney-led probate for ${city.name} residents. All documents prepared, court appearances available. Flat $3,995.`} />
+        <meta property="og:description" content={`Attorney-prepared probate papers for ${city.name} residents. Flat fee by estate value: $3,995, $5,995 or $7,995; simplified $2,495.`} />
         <meta property="og:url" content={`https://myprobateca.com/locations/${city.slug}-probate-attorney`} />
         <meta property="og:type" content="website" />
 
@@ -374,8 +373,8 @@ const CityProbatePage = () => {
                 {getH1Variation(city, cityIndex)}
               </h1>
               <p className="text-xl text-blue-100 mb-8">
-                Licensed California attorney handles {city.name} probate cases for a flat fee from $3,995.
-                All documents prepared. Court appearances available. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.
+                Attorney-prepared court papers for {city.name} probate cases, for a flat fee by estate value: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above.
+                All documents prepared. Court appearances available. On a ${totalEstate.toLocaleString()} estate like the example below, the statutory attorney fee is ${statutoryFee.toLocaleString()}. Our flat fee is ${ourFee.toLocaleString()}.
               </p>
               <button
                 onClick={handleStartCase}
@@ -572,18 +571,13 @@ const CityProbatePage = () => {
                     <tbody>
                       <tr className="border-b">
                         <td className="py-3 text-gray-600">Attorney Fee</td>
-                        <td className="py-3 text-center text-red-600 font-bold">$23,000</td>
+                        <td className="py-3 text-center text-red-600 font-bold">${statutoryFee.toLocaleString()}</td>
                         <td className="py-3 text-center text-green-600 font-bold">${ourFee.toLocaleString()}</td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="py-3 text-gray-600">Executor Fee (if waived)</td>
-                        <td className="py-3 text-center text-gray-500">$0 (typically waived)</td>
-                        <td className="py-3 text-center text-gray-500">$0</td>
                       </tr>
                       <tr className="bg-amber-50">
                         <td className="py-3 font-bold text-gray-900">Total Attorney Cost</td>
                         <td className="py-3 text-center">
-                          <span className="text-red-600 font-bold text-xl line-through">$23,000</span>
+                          <span className="text-red-600 font-bold text-xl line-through">${statutoryFee.toLocaleString()}</span>
                         </td>
                         <td className="py-3 text-center">
                           <span className="text-green-600 font-bold text-xl">${ourFee.toLocaleString()}</span>
@@ -597,19 +591,18 @@ const CityProbatePage = () => {
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="bg-red-50 rounded-lg p-4 text-center border border-red-200">
                   <p className="text-sm text-red-600 mb-1">Statutory Attorney Fee</p>
-                  <p className="text-xl font-bold text-red-500 line-through">$23,000</p>
-                  <p className="text-xs text-gray-500 mt-1">(Based on $1M estate)</p>
+                  <p className="text-xl font-bold text-red-500 line-through">${statutoryFee.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500 mt-1">(Probate Code 10810, on ${totalEstate.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })})</p>
                 </div>
                 <div className="bg-blue-900 text-white rounded-lg p-4 text-center">
                   <p className="text-sm text-blue-200 mb-1">Our Flat Fee</p>
                   <p className="text-xl font-bold">${ourFee.toLocaleString()}</p>
-                  <p className="text-xs text-blue-100">Simplified Probate: $2,495</p>
-                  <p className="text-xs text-blue-200 mt-1">Same quality, fixed price</p>
+                  <p className="text-xs text-blue-200 mt-1">Full probate, estate {tierLabel}</p>
                 </div>
                 <div className="bg-green-100 rounded-lg p-4 text-center border border-green-200">
-                  <p className="text-sm text-green-600 mb-1">You Save</p>
-                  <p className="text-xl font-bold text-green-700">$19,005+</p>
-                  <p className="text-xs text-gray-500 mt-1">83% less than statutory</p>
+                  <p className="text-sm text-green-600 mb-1">Difference</p>
+                  <p className="text-xl font-bold text-green-700">${savings.toLocaleString()}</p>
+                  <p className="text-xs text-gray-500 mt-1">{percentLess}% less than the statutory attorney fee</p>
                 </div>
               </div>
             </div>
@@ -759,7 +752,7 @@ const CityProbatePage = () => {
                   className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
                 >
                   <h3 className="font-bold text-blue-900 mb-2">Probate Fees Explained</h3>
-                  <p className="text-gray-600 text-sm">Why statutory fees on a {city.medianHome} home cost $23,000—and how to pay $3,995.</p>
+                  <p className="text-gray-600 text-sm">How the statutory attorney fee is figured under Probate Code 10810, compared with our flat fee by estate value.</p>
                 </Link>
                 <Link
                   to="/learn-california-probate/letters-testamentary-california-guide"
@@ -801,7 +794,7 @@ const CityProbatePage = () => {
               <h2 className="text-3xl font-bold mb-4">Start Your {city.name} Probate Case</h2>
               <p className="text-blue-100 text-lg mb-8">
                 Complete the free intake questionnaire in about 30 minutes. We'll recommend
-                simplified probate ($2,495) or full administration (from $3,995) based on your estate.
+                simplified probate ($2,495) or full administration ($3,995, $5,995 or $7,995 by estate value) based on your estate.
               </p>
               <button
                 onClick={handleStartCase}

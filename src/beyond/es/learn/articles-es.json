@@ -488,17 +488,18 @@
           "items": [
             "Valor neto real: $100,000",
             "Base para calcular el honorario: $1,000,000 (valor bruto)",
-            "Honorario legal del abogado: $23,000",
-            "Honorario legal del albacea: $23,000",
-            "Honorarios combinados: ¡$46,000 de $100K de valor neto!"
+            "Honorario legal del abogado: $23,000, que es el 23% de los $100,000 de valor neto"
           ],
           "en": [
             "Actual equity: $100,000",
             "Fee calculation basis: $1,000,000 (gross value)",
-            "Statutory attorney fee: $23,000",
-            "Statutory executor fee: $23,000",
-            "Combined fees: $46,000 from $100K in equity!"
+            "Statutory attorney fee: $23,000, which is 23% of the $100,000 of equity"
           ]
+        },
+        {
+          "type": "p",
+          "text": "El representante personal (albacea) también puede pedir una comisión legal que se calcula de la misma manera. Esa comisión es del representante personal, no del abogado, y es la misma sin importar cómo se preparen los documentos para la corte.",
+          "en": "The personal representative (executor) may also ask for a statutory commission figured the same way. That commission belongs to the personal representative, not to the attorney, and is the same whichever way the court papers are prepared."
         },
         {
           "type": "h2",

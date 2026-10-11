@@ -129,7 +129,7 @@ const ProbateFAQ = () => {
             "name": "How much does probate cost in California?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional statutory attorney fees are calculated as 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, and 1% of the next $9 million. For a $1 million estate, statutory fees total $23,000. MyProbateCA offers a flat fee of $3,995 for attorney-prepared court papers on an estate up to $1,000,000."
+              "text": "California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional statutory attorney fees are calculated as 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, and 1% of the next $9 million. For a $1 million estate, statutory fees total $23,000. MyProbateCA offers a flat fee for attorney-prepared court papers by estate value: $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000."
             }
           },
           {
@@ -398,13 +398,13 @@ const ProbateFAQ = () => {
               <li>2% of the next $800,000</li>
               <li>1% of the next $9,000,000</li>
             </ul>
-            <p className="text-gray-700">For a <strong>$1 million estate</strong>, statutory fees total <strong>$23,000</strong>. MyProbateCA offers a flat fee of <strong>$3,995</strong> for attorney-prepared court papers. <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">See our full fee breakdown →</Link></p>
+            <p className="text-gray-700">For a <strong>$1 million estate</strong>, statutory fees total <strong>$23,000</strong>. MyProbateCA's flat fee for attorney-prepared court papers on that estate is <strong>$3,995</strong> (the full price list: $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000). <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">See our full fee breakdown →</Link></p>
           </section>
 
           {/* ===================== CATEGORY 1: COST QUESTIONS ===================== */}
           <section id="cost-questions" className="mb-16">
             <h2 className="text-2xl font-bold text-gray-900 mb-8 pb-4 border-b-2 border-blue-600 flex items-center">
-              <DollarSign className="h-6 w-6 mr-2 text-blue-600" /> Probate Costs & The $3,995 Flat Fee
+              <DollarSign className="h-6 w-6 mr-2 text-blue-600" /> Probate Costs & Our Flat Fees
             </h2>
 
             <div className="space-y-6">
@@ -480,8 +480,8 @@ const ProbateFAQ = () => {
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Can I pay in installments?</h3>
                 <p className="text-gray-700 mb-3">Yes. We offer flexible payment options:</p>
                 <ul className="text-gray-700 space-y-2 ml-4">
-                  <li><strong>Pay in Full:</strong> $3,995 (Full Probate) or $2,495 (Simplified)</li>
-                  <li><strong>3 Monthly Payments:</strong> ${fmtDollars(planFull[0])} a month (Full) or ${fmtDollars(planSimplified[0])} a month (Simplified), and the plan stops after the third payment</li>
+                  <li><strong>Pay in Full:</strong> Full Probate $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000; Simplified $2,495</li>
+                  <li><strong>3 Monthly Payments:</strong> exact thirds of your fee, for example ${fmtDollars(planFull[0])} a month on a $3,995 Full Probate fee (${fmtDollars(installmentAmounts(5995, businessSettings)[0])} on $5,995; ${fmtDollars(installmentAmounts(7995, businessSettings)[0])} on $7,995) or ${fmtDollars(planSimplified[0])} a month (Simplified), and the plan stops after the third payment</li>
                   <li><strong>Klarna:</strong> pay over time, subject to Klarna's approval. Klarna shows you its plan and the exact amounts before you agree.</li>
                 </ul>
               </div>
@@ -796,7 +796,7 @@ const ProbateFAQ = () => {
                     <li><strong>Simplified Real Property Petition:</strong> Primary residence under $750,000 + personal property under $208,850</li>
                   </ul>
                 </div>
-                <p className="text-gray-700 mt-3">Our flat fee for Simplified Probate is <strong>$2,495</strong> (full probate starts at $3,995).</p>
+                <p className="text-gray-700 mt-3">Our flat fee for Simplified Probate is <strong>$2,495</strong> (full probate: $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000).</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -840,7 +840,7 @@ const ProbateFAQ = () => {
                 <p className="text-gray-600">California State Bar #208356</p>
                 <p className="text-gray-600">26+ Years Experience in Los Angeles Superior Court</p>
                 <p className="text-gray-600">Specialist: Clearing Stanley Mosk IGN Supplements</p>
-                <p className="text-gray-700 mt-3 italic">"On a $1,000,000 estate, the statutory attorney fee is $23,000. Our flat fee is $3,995."</p>
+                <p className="text-gray-700 mt-3 italic">"On a $1,000,000 estate, the statutory attorney fee is $23,000. Our flat fee is $3,995." (Full probate: $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000.)</p>
                 <div className="flex flex-wrap gap-4 mt-4">
                   <a
                     href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
