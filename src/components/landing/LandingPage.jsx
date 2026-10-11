@@ -108,8 +108,10 @@ const LandingPage = () => {
   const [expandedFaq, setExpandedFaq] = useState(null);
 
   // Navigate to intake if logged in, otherwise to register
-  const handleStartCase = () => {
-    window.location.href = user ? 'https://portal.myprobateca.com/?tab=intake' : 'https://portal.myprobateca.com/start';
+  // A service card passes its service so the start screen shows that service and price (W6 F3)
+  const handleStartCase = (service) => {
+    const q = service === 'simplified' || service === 'full' ? `?service=${service}` : '';
+    window.location.href = user ? 'https://portal.myprobateca.com/?tab=intake' : `https://portal.myprobateca.com/start${q}`;
   };
 
   const scrollToSection = (sectionId) => {
@@ -958,7 +960,7 @@ const LandingPage = () => {
                   </div>
 
                   <button
-                    onClick={handleStartCase}
+                    onClick={() => handleStartCase('simplified')}
                     className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
                   >
                     Start Your Case - Free
@@ -1026,7 +1028,7 @@ const LandingPage = () => {
                   </div>
 
                   <button
-                    onClick={handleStartCase}
+                    onClick={() => handleStartCase('full')}
                     className="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
                   >
                     Start Your Case - Free
