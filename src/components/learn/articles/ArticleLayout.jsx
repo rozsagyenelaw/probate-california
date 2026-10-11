@@ -258,7 +258,7 @@ const ArticleLayout = ({
           {/* CTA */}
           <div className="bg-gradient-to-r from-green-600 to-green-500 text-white p-6 rounded-lg mt-8 text-center">
             <h3 className="text-xl font-bold mb-2">Need Help With Your Probate Case?</h3>
-            <p className="text-green-100 mb-4">Get attorney-prepared court papers for a flat $3,995 fee. On a $1,000,000 estate, the statutory attorney fee is $23,000.</p>
+            <p className="text-green-100 mb-4">Get attorney-prepared court papers for a flat fee from $3,995. On a $1,000,000 estate, the statutory attorney fee is $23,000.</p>
             <button onClick={handleStartCase} className="bg-white text-green-700 px-6 py-3 rounded-lg font-bold hover:bg-green-50 transition">
               Start Your Case - Free
             </button>

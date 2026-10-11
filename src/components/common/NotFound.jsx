@@ -93,7 +93,7 @@ const NotFound = () => {
           <div className="bg-blue-900 text-white rounded-xl p-8">
             <h3 className="text-xl font-bold mb-2">Need Help with California Probate?</h3>
             <p className="text-blue-100 mb-6">
-              Attorney-prepared probate court documents for a flat fee, all online: $2,495 for simplified probate or $3,995 for full probate.
+              Attorney-prepared probate court documents for a flat fee, all online: $2,495 for simplified probate or from $3,995 for full probate.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

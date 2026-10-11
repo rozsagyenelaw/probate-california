@@ -155,7 +155,7 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       q: 'What if heirs disagree about the estate?',
-      a: 'Disputes among heirs can complicate probate. Our $3,995 flat fee covers uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing. We recommend mediation first when possible to preserve family relationships and reduce costs.'
+      a: 'Disputes among heirs can complicate probate. Our flat fees cover uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing. We recommend mediation first when possible to preserve family relationships and reduce costs.'
     },
     {
       q: 'Do you handle probate in all California counties?',
@@ -195,7 +195,7 @@ const CaliforniaProbateAdministration = () => {
         "@type": "LegalService",
         "@id": "https://myprobateca.com/#legalservice",
         "name": "MyProbateCA - California Probate Administration",
-        "description": "Professional attorney-led probate administration service in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee.",
+        "description": "Professional attorney-led probate administration service in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995.",
         "url": "https://myprobateca.com/california-probate-administration",
         "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
@@ -329,7 +329,7 @@ const CaliforniaProbateAdministration = () => {
             "name": "What if heirs disagree about the estate?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Disputes among heirs can complicate probate. Our $3,995 flat fee covers uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing."
+              "text": "Disputes among heirs can complicate probate. Our flat fees cover uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing."
             }
           },
           {
@@ -365,7 +365,7 @@ const CaliforniaProbateAdministration = () => {
         "@id": "https://myprobateca.com/california-probate-administration#webpage",
         "url": "https://myprobateca.com/california-probate-administration",
         "name": "California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee",
-        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
+        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://myprobateca.com/#website",
@@ -386,13 +386,13 @@ const CaliforniaProbateAdministration = () => {
     <>
       <Helmet>
         <title>California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee | MyProbateCA</title>
-        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat $3,995 fee. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
+        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="keywords" content="California probate, probate administration, probate attorney, Letters Testamentary, Letters of Administration, Stanley Mosk Courthouse, probate lawyer, estate administration, IGN notes, probate court" />
         <link rel="canonical" href="https://myprobateca.com/california-probate-administration" />
 
         {/* Open Graph */}
         <meta property="og:title" content="California Probate Administration | Attorney-Led Service | $2,495 or $3,995 Flat Fee" />
-        <meta property="og:description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat $3,995 fee." />
+        <meta property="og:description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat fee from $3,995." />
         <meta property="og:url" content="https://myprobateca.com/california-probate-administration" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyProbateCA" />
@@ -539,7 +539,7 @@ const CaliforniaProbateAdministration = () => {
                 Professional Attorney-Led Probate Administration: Beyond the Paperwork
               </h1>
               <p className="text-xl md:text-2xl text-blue-100 mb-8">
-                Licensed California attorney handles all 11 phases of probate for a flat $3,995.
+                Licensed California attorney handles all 11 phases of probate for a flat fee from $3,995.
                 <span className="font-semibold text-amber-400"> On a $500,000 estate, the statutory attorney fee is $13,000.</span>
               </p>
               <button
@@ -669,7 +669,7 @@ const CaliforniaProbateAdministration = () => {
                   <CheckCircle className="h-8 w-8 mr-4 flex-shrink-0" />
                   <div>
                     <h3 className="font-bold text-lg mb-2">
-                      Our "Note Clearance" service is included in your $3,995 fee
+                      Our "Note Clearance" service is included in your flat fee
                     </h3>
                     <p>
                       We monitor the court portal, identify the examiners' concerns, and file the
@@ -778,6 +778,7 @@ const CaliforniaProbateAdministration = () => {
                     <span className="text-5xl font-bold">$3,995</span>
                     <span className="text-blue-200 ml-2">flat fee</span>
                   </div>
+                  <p className="text-blue-200 text-sm mt-2">For estates up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000</p>
                   <p className="text-blue-100 mt-2">Simplified Probate: $2,495 flat fee</p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">

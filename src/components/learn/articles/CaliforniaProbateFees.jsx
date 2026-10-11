@@ -134,17 +134,18 @@ const CaliforniaProbateFees = () => {
             <tr>
               <td className="p-4">$1,500,000</td>
               <td className="p-4">$28,000</td>
-              <td className="p-4 font-medium text-green-700">$3,995</td>
-              <td className="p-4 font-bold text-green-700">$24,005</td>
+              <td className="p-4 font-medium text-green-700">$5,995</td>
+              <td className="p-4 font-bold text-green-700">$22,005</td>
             </tr>
             <tr>
               <td className="p-4">$2,000,000</td>
               <td className="p-4">$33,000</td>
-              <td className="p-4 font-medium text-green-700">$3,995</td>
-              <td className="p-4 font-bold text-green-700">$29,005</td>
+              <td className="p-4 font-medium text-green-700">$5,995</td>
+              <td className="p-4 font-bold text-green-700">$27,005</td>
             </tr>
           </tbody>
         </table>
+        <p className="text-sm text-gray-600 mt-2">Full probate: $3,995 for an estate up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000 (estate value is the property that goes through probate).</p>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Are Statutory Fees So High?</h2>
@@ -202,7 +203,7 @@ const CaliforniaProbateFees = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">How MyProbateCA Offers $3,995</h2>
       <p className="text-gray-700 mb-4">
-        Our flat fee of $3,995 provides attorney-prepared court papers from Rozsa Gyene (Bar #208356) at a fraction of the traditional cost. We achieve this through:
+        Our flat fee (from $3,995) provides attorney-prepared court papers from Rozsa Gyene (Bar #208356) at a fraction of the traditional cost. We achieve this through:
       </p>
 
       <ul className="space-y-2 mb-6">
@@ -262,7 +263,7 @@ const CaliforniaProbateFees = () => {
         </li>
         <li className="flex items-start">
           <span className="bg-indigo-600 text-white rounded-full px-2 py-0.5 text-xs font-medium mr-3 mt-1">3</span>
-          <span className="text-gray-700">MyProbateCA prepares the court papers for $3,995</span>
+          <span className="text-gray-700">MyProbateCA prepares the court papers for a flat fee from $3,995</span>
         </li>
         <li className="flex items-start">
           <span className="bg-indigo-600 text-white rounded-full px-2 py-0.5 text-xs font-medium mr-3 mt-1">4</span>
@@ -271,7 +272,7 @@ const CaliforniaProbateFees = () => {
       </ul>
 
       <p className="text-gray-700 mt-8">
-        Ready to start your probate case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Get started with MyProbateCA</Link> for a flat $3,995 fee.
+        Ready to start your probate case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Get started with MyProbateCA</Link> for a flat fee from $3,995.
       </p>
     </ArticleLayout>
   );

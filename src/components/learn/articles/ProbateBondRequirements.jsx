@@ -250,7 +250,7 @@ const ProbateBondRequirements = () => {
       <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
         <h3 className="font-bold text-green-900 mb-2">How MyProbateCA Helps with Bonds</h3>
         <p className="text-green-900 mb-4">
-          Our $3,995 flat fee includes assistance with bond requirements:
+          Our flat fee includes assistance with bond requirements:
         </p>
         <ul className="space-y-2">
           <li className="flex items-start">

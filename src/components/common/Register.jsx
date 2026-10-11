@@ -73,7 +73,7 @@ const Register = () => {
             Start Your Probate Case
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Complete California Probate for $3,995
+            Complete California Probate from $3,995
           </p>
         </div>
 

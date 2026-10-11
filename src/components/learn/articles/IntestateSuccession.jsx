@@ -363,7 +363,7 @@ const IntestateSuccession = () => {
       <div className="bg-gray-100 p-6 rounded-lg my-8">
         <h3 className="font-bold text-gray-900 text-lg mb-3">Need Help With an Intestate Estate?</h3>
         <p className="text-gray-700 mb-4">
-          Administering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee of $3,995</Link>. On a $500,000 estate, the statutory attorney fee is $13,000.
+          Administering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. On a $500,000 estate, the statutory attorney fee is $13,000.
         </p>
         <Link to="/register" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
           Start Your Case Today

@@ -5,6 +5,7 @@ import { useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
 import { getCityBySlug, calculateStatutoryFee, CITY_DATA } from '../../data/cityData';
+import { fullProbateFee } from '../../services/businessSettings';
 import { COMMON_ESTATE_TYPES, LOCAL_STATS, getPublicationInfo } from '../../data/cityDetailedData';
 import {
   Scale,
@@ -49,11 +50,11 @@ const getH1Variation = (city, index) => {
 // Meta description variations
 const getMetaDescriptionVariation = (city, index) => {
   const variations = [
-    `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.`,
-    `Need probate help in ${city.name}? Attorney-prepared court documents for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
+    `${city.name} probate attorney services for a flat fee from $3,995. Cases filed at ${city.courthouse}. California Bar #208356. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.`,
+    `Need probate help in ${city.name}? Attorney-prepared court documents from $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
     `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case free.`,
     `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
-    `Probate attorney serving ${city.name}. Fixed $3,995 fee vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,
+    `Probate attorney serving ${city.name}. Fixed fee from $3,995 vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,
     `${city.county} County probate for ${city.name} families. Flat $3,995 includes all documents, court prep, and IGN note clearance.`
   ];
   return variations[index % variations.length];
@@ -152,7 +153,8 @@ const CityProbatePage = () => {
   const investments = 100000;
   const totalEstate = homeValue + bankAccounts + investments;
   const statutoryFee = calculateStatutoryFee(totalEstate);
-  const savings = statutoryFee - 3995;
+  const ourFee = fullProbateFee(totalEstate).fee;
+  const savings = statutoryFee - ourFee;
 
   // FAQs specific to this city - now 7 questions
   const faqs = [
@@ -166,7 +168,7 @@ const CityProbatePage = () => {
     },
     {
       q: `How much does probate cost in ${city.name}?`,
-      a: `Our flat fee is $3,995 for full probate or $2,495 for simplified. Court filing fees (~$435-500), publication (~$200-300), and probate referee fees (0.1% of assets) are separate.`
+      a: `Our flat fee for full probate starts at $3,995 ($5,995 for estates from $1,000,000 to $2,000,000; $7,995 above that), or $2,495 for simplified. Court filing fees (~$435-500), publication (~$200-300), and probate referee fees (0.1% of assets) are separate.`
     },
     {
       q: `Do I need probate if I own a home in ${city.name}?`,
@@ -201,7 +203,7 @@ const CityProbatePage = () => {
       {
         "@type": "LegalService",
         "name": `${city.name} Probate Attorney - MyProbateCA`,
-        "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat $3,995 fee includes all 11 phases of probate.`,
+        "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat fee from $3,995 includes all 11 phases of probate.`,
         "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney`,
         "telephone": "+1-818-337-4071",
         "priceRange": "$2,495 to $3,995",
@@ -372,7 +374,7 @@ const CityProbatePage = () => {
                 {getH1Variation(city, cityIndex)}
               </h1>
               <p className="text-xl text-blue-100 mb-8">
-                Licensed California attorney handles {city.name} probate cases for a flat $3,995.
+                Licensed California attorney handles {city.name} probate cases for a flat fee from $3,995.
                 All documents prepared. Court appearances available. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.
               </p>
               <button
@@ -571,7 +573,7 @@ const CityProbatePage = () => {
                       <tr className="border-b">
                         <td className="py-3 text-gray-600">Attorney Fee</td>
                         <td className="py-3 text-center text-red-600 font-bold">$23,000</td>
-                        <td className="py-3 text-center text-green-600 font-bold">$3,995</td>
+                        <td className="py-3 text-center text-green-600 font-bold">${ourFee.toLocaleString()}</td>
                       </tr>
                       <tr className="border-b">
                         <td className="py-3 text-gray-600">Executor Fee (if waived)</td>
@@ -584,7 +586,7 @@ const CityProbatePage = () => {
                           <span className="text-red-600 font-bold text-xl line-through">$23,000</span>
                         </td>
                         <td className="py-3 text-center">
-                          <span className="text-green-600 font-bold text-xl">$3,995</span>
+                          <span className="text-green-600 font-bold text-xl">${ourFee.toLocaleString()}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -600,7 +602,7 @@ const CityProbatePage = () => {
                 </div>
                 <div className="bg-blue-900 text-white rounded-lg p-4 text-center">
                   <p className="text-sm text-blue-200 mb-1">Our Flat Fee</p>
-                  <p className="text-xl font-bold">$3,995</p>
+                  <p className="text-xl font-bold">${ourFee.toLocaleString()}</p>
                   <p className="text-xs text-blue-100">Simplified Probate: $2,495</p>
                   <p className="text-xs text-blue-200 mt-1">Same quality, fixed price</p>
                 </div>
@@ -799,7 +801,7 @@ const CityProbatePage = () => {
               <h2 className="text-3xl font-bold mb-4">Start Your {city.name} Probate Case</h2>
               <p className="text-blue-100 text-lg mb-8">
                 Complete the free intake questionnaire in about 30 minutes. We'll recommend
-                simplified probate ($2,495) or full administration ($3,995) based on your estate.
+                simplified probate ($2,495) or full administration (from $3,995) based on your estate.
               </p>
               <button
                 onClick={handleStartCase}

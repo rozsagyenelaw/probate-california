@@ -471,7 +471,7 @@ const LearnHub = () => {
               Ready to Start Your Probate Case?
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Our free intake questionnaire takes about 30 minutes. Get started for a flat $3,995 fee.
+              Our free intake questionnaire takes about 30 minutes. Get started for a flat fee from $3,995.
             </p>
             <button
               onClick={handleStartCase}

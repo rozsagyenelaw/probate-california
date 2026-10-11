@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
 import ClientLoginButton from '../common/ClientLoginButton';
-import { useBusinessSettings, installmentAmounts, fmtDollars } from '../../services/businessSettings';
+import { useBusinessSettings, installmentAmounts, fmtDollars, fullProbateFee } from '../../services/businessSettings';
 import {
   Scale,
   Check,
@@ -153,7 +153,7 @@ const LandingPage = () => {
     },
     {
       q: 'What court fees are not included?',
-      a: 'Court filing fees (~$435-500), newspaper publication (~$200-300), probate referee fees (0.1% of assets), and bond premiums (if required) are paid directly to third parties. Our flat fees ($2,495 simplified or $3,995 full probate) cover all attorney services, form preparation, and case management.'
+      a: 'Court filing fees (~$435-500), newspaper publication (~$200-300), probate referee fees (0.1% of assets), and bond premiums (if required) are paid directly to third parties. Our flat fees ($2,495 simplified, or from $3,995 for full probate) cover all attorney services, form preparation, and case management.'
     },
     {
       q: 'Can you help if the house has to be sold?',
@@ -165,7 +165,7 @@ const LandingPage = () => {
     },
     {
       q: 'What payment options do you offer?',
-      a: 'We offer several ways to pay: Pay in full ($2,495 or $3,995), split into 3 monthly payments (one third of the fee each month, and the plan stops after the third payment), or pay over time with Klarna, subject to Klarna\'s approval. Klarna shows you its plan and the exact amounts before you agree. You choose how to pay at checkout.'
+      a: 'We offer several ways to pay: Pay in full ($2,495, or from $3,995 for full probate), split into 3 monthly payments (one third of the fee each month, and the plan stops after the third payment), or pay over time with Klarna, subject to Klarna\'s approval. Klarna shows you its plan and the exact amounts before you agree. You choose how to pay at checkout.'
     }
   ];
 
@@ -196,7 +196,7 @@ const LandingPage = () => {
         "@id": "https://myprobateca.com/#webpage",
         "url": "https://myprobateca.com",
         "name": "California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA",
-        "description": "California probate for $3,995 flat fee. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
+        "description": "California probate for a flat fee from $3,995. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
         "isPartOf": {
           "@id": "https://myprobateca.com/#website"
         },
@@ -215,7 +215,7 @@ const LandingPage = () => {
     <>
       <Helmet>
         <title>California Probate Services | Attorney-Led | Flat Fee $2,495 or $3,995 | MyProbateCA</title>
-        <meta name="description" content="California probate for $3,995 flat fee — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
+        <meta name="description" content="California probate for a flat fee from $3,995 — not DIY forms. Full attorney service includes AI asset discovery, automated death notifications, all court documents, and progress dashboard. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
         <meta name="keywords" content="California probate, probate attorney, probate lawyer, estate administration, flat fee probate, Los Angeles probate, Glendale probate attorney" />
         <link rel="canonical" href="https://myprobateca.com/" />
 
@@ -421,7 +421,7 @@ const LandingPage = () => {
                 Don't Pay $46,000 for California Probate
               </h1>
               <p className="text-2xl md:text-3xl font-bold text-amber-300 mb-2">
-                Simplified Probate $2,495 | Full Service $3,995
+                Simplified Probate $2,495 | Full Probate from $3,995
               </p>
               <p className="text-lg text-white/80 mb-6">
                 Full probate: On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.
@@ -823,8 +823,8 @@ const LandingPage = () => {
               <div className="bg-green-50 rounded-xl p-6 text-center border-2 border-green-300">
                 <p className="text-sm font-medium text-green-700 mb-2">Our Flat Fee</p>
                 <p className="text-sm text-gray-500 mb-1">(Full Probate)</p>
-                <p className="text-3xl font-bold text-green-600">$3,995</p>
-                <p className="text-xs text-gray-500 mt-2">Fixed price</p>
+                <p className="text-3xl font-bold text-green-600">${fmtDollars(fullProbateFee(estateValue).fee)}</p>
+                <p className="text-xs text-gray-500 mt-2">Flat fee for this estate value</p>
               </div>
 
               {/* Savings */}
@@ -832,10 +832,10 @@ const LandingPage = () => {
                 <p className="text-sm font-medium text-blue-200 mb-2">YOU SAVE</p>
                 <p className="text-sm text-blue-300 mb-1">&nbsp;</p>
                 <p className="text-3xl font-bold text-white">
-                  ${Math.max(0, calculateStatutoryFee(estateValue) - 3995).toLocaleString()}
+                  ${Math.max(0, calculateStatutoryFee(estateValue) - fullProbateFee(estateValue).fee).toLocaleString()}
                 </p>
                 <p className="text-xs text-blue-300 mt-2">
-                  {Math.round((1 - 3995 / calculateStatutoryFee(estateValue)) * 100)}% less
+                  {Math.round((1 - fullProbateFee(estateValue).fee / calculateStatutoryFee(estateValue)) * 100)}% less
                 </p>
               </div>
             </div>
@@ -881,8 +881,8 @@ const LandingPage = () => {
                   <tr>
                     <td className="px-4 py-3 font-medium">$2,000,000</td>
                     <td className="px-4 py-3 text-center text-red-600">$33,000</td>
-                    <td className="px-4 py-3 text-center text-green-600 font-bold">$3,995</td>
-                    <td className="px-4 py-3 text-center text-blue-900 font-bold">$29,005</td>
+                    <td className="px-4 py-3 text-center text-green-600 font-bold">$5,995</td>
+                    <td className="px-4 py-3 text-center text-blue-900 font-bold">$27,005</td>
                   </tr>
                 </tbody>
               </table>
@@ -985,7 +985,8 @@ const LandingPage = () => {
               <div className="p-6 flex flex-col flex-grow">
                 <div className="text-center mb-6">
                   <p className="text-4xl font-bold text-gray-900">$3,995</p>
-                  <p className="text-gray-500">flat fee</p>
+                  <p className="text-gray-500">flat fee for estates up to $1,000,000</p>
+                  <p className="text-xs text-gray-500 mt-1">$5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000</p>
                   <p className="text-sm text-blue-600 mt-1">or 3 monthly payments of ${fmtDollars(planFull[0])}, then the plan stops</p>
                   <p className="text-sm text-gray-600 mt-2">
                     or pay over time with <span className="font-bold text-pink-600">Klarna</span> (subject to approval)
@@ -1293,7 +1294,7 @@ const LandingPage = () => {
       <section className="py-16 md:py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What You Get for $3,995</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">What You Get with Full Probate</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">

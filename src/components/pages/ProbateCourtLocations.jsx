@@ -55,7 +55,7 @@ const ProbateCourtLocations = () => {
         "@type": "LegalService",
         "@id": "https://myprobateca.com/#legalservice",
         "name": "MyProbateCA - California Probate Locations",
-        "description": "Professional attorney-led probate administration across 35 California cities. Flat $3,995 fee.",
+        "description": "Professional attorney-led probate administration across 35 California cities. Flat fee from $3,995.",
         "url": "https://myprobateca.com/probate-court-locations-california",
         "telephone": "+1-818-337-4071",
         "priceRange": "$2,495 to $3,995",
@@ -118,7 +118,7 @@ const ProbateCourtLocations = () => {
             "name": "Can you help if I already started the case and got stuck with court notes?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. We specialize in reviewing examiner IGN notes and filing the necessary Verified Supplements to clear them. This Note Clearance service is included in the $3,995 flat fee."
+              "text": "Yes. We specialize in reviewing examiner IGN notes and filing the necessary Verified Supplements to clear them. This Note Clearance service is included in our flat fee."
             }
           },
           {
@@ -126,7 +126,7 @@ const ProbateCourtLocations = () => {
             "name": "How much does probate cost in different California counties?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Court filing fees range from $435-500 depending on county. Our attorney flat fee of $3,995 is the same regardless of which county your case is filed in, covering all 58 California counties."
+              "text": "Court filing fees range from $435-500 depending on county. Our attorney flat fees (from $3,995) are the same regardless of which county your case is filed in, covering all 58 California counties."
             }
           }
         ]
@@ -147,19 +147,19 @@ const ProbateCourtLocations = () => {
     <>
       <Helmet>
         <title>California Probate Court Locations | 35 Service Areas | MyProbateCA</title>
-        <meta name="description" content="Probate attorney services across 35 California cities. Los Angeles, San Diego, San Francisco, Orange County & more. Flat $3,995 fee. Bar #208356." />
+        <meta name="description" content="Probate attorney services across 35 California cities. Los Angeles, San Diego, San Francisco, Orange County & more. Flat fee from $3,995. Bar #208356." />
         <meta name="keywords" content="California probate locations, probate attorney near me, Los Angeles probate, San Diego probate, Orange County probate, Bay Area probate" />
         <link rel="canonical" href="https://myprobateca.com/probate-court-locations-california" />
 
         <meta property="og:title" content="California Probate Court Locations | 35 Service Areas" />
-        <meta property="og:description" content="Attorney-led probate services across 35 California cities. Flat $3,995 fee." />
+        <meta property="og:description" content="Attorney-led probate services across 35 California cities. Flat fee from $3,995." />
         <meta property="og:url" content="https://myprobateca.com/probate-court-locations-california" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://myprobateca.com/images/california-probate-locations-og.jpg" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="California Probate Locations | 35 Cities" />
-        <meta name="twitter:description" content="Attorney-led probate service for all California counties. Same flat $3,995 fee statewide." />
+        <meta name="twitter:description" content="Attorney-led probate service for all California counties. Same flat fees statewide, from $3,995." />
 
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
@@ -271,7 +271,7 @@ const ProbateCourtLocations = () => {
                 Attorney-led probate services across <span className="text-amber-400 font-semibold">35 California cities</span>
               </p>
               <p className="text-lg text-blue-200 mb-8">
-                Flat $3,995 fee. All documents prepared. Court appearances available.
+                Flat fee from $3,995. All documents prepared. Court appearances available.
               </p>
               <button
                 onClick={handleStartCase}
@@ -395,12 +395,12 @@ const ProbateCourtLocations = () => {
                 </div>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-3">Can you help if I already started the case and got stuck with court notes?</h3>
-                  <p className="text-gray-600">Absolutely. This is a common request. We can step in, review the examiner's notes, and file the necessary Supplements to get the judge to sign your order. Our "Note Clearance" service is included in the $3,995 flat fee.</p>
+                  <p className="text-gray-600">Absolutely. This is a common request. We can step in, review the examiner's notes, and file the necessary Supplements to get the judge to sign your order. Our "Note Clearance" service is included in our flat fee.</p>
                 </div>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-3">How much does probate cost in different California counties?</h3>
                   <p className="text-gray-600">
-                    Court filing fees range from $435-500 depending on county. Our attorney flat fee of $3,995 is the same regardless of which county your case is filed in. See the{' '}
+                    Court filing fees range from $435-500 depending on county. Our attorney flat fees (from $3,995) are the same regardless of which county your case is filed in. See the{' '}
                     <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=10810" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                       California Probate Code §10810
                     </a>{' '}

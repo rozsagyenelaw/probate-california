@@ -208,7 +208,7 @@ const ProbateFAQ = () => {
             "name": "How much does probate cost in California?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional statutory attorney fees are calculated as 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, and 1% of the next $9 million. For a $1 million estate, statutory fees total $23,000. MyProbateCA offers a flat fee of $3,995 for attorney-prepared court papers."
+              "text": "California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional statutory attorney fees are calculated as 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, and 1% of the next $9 million. For a $1 million estate, statutory fees total $23,000. MyProbateCA offers a flat fee of $3,995 for attorney-prepared court papers on an estate up to $1,000,000."
             }
           },
           {
@@ -240,7 +240,7 @@ const ProbateFAQ = () => {
             "name": "What is the $3,995 flat fee for California probate?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "MyProbateCA offers attorney-prepared probate court papers for a flat $3,995 fee. This includes attorney preparation of your court documents, review by California Bar Attorney #208356, clearing the court's probate notes, and dashboard tracking. You file the papers and act as the petitioner, representing yourself; court appearances and the final accounting are optional add-ons. On a $500,000 estate, the statutory attorney fee is $13,000."
+              "text": "MyProbateCA offers attorney-prepared probate court papers for a flat fee from $3,995 ($3,995 up to $1,000,000; $5,995 to $2,000,000; $7,995 above). This includes attorney preparation of your court documents, review by California Bar Attorney #208356, clearing the court's probate notes, and dashboard tracking. You file the papers and act as the petitioner, representing yourself; court appearances and the final accounting are optional add-ons. On a $500,000 estate, the statutory attorney fee is $13,000."
             }
           },
           {
@@ -320,7 +320,7 @@ const ProbateFAQ = () => {
     <>
       <Helmet>
         <title>California Probate FAQ | Attorney Answers on Fees, Forms & Court Notes</title>
-        <meta name="description" content="Get professional answers to California probate questions. Learn about the $3,995 flat fee, clearing Stanley Mosk probate notes, executor liability, and the steps of probate." />
+        <meta name="description" content="Get professional answers to California probate questions. Learn about our flat fees, clearing Stanley Mosk probate notes, executor liability, and the steps of probate." />
         <meta name="keywords" content="california probate faq, probate court questions, stanley mosk courthouse notes, executor duties ca, probate attorney fee calculator" />
         <link rel="canonical" href="https://myprobateca.com/probate-faq-california" />
 
@@ -488,8 +488,8 @@ const ProbateFAQ = () => {
 
             <div className="space-y-6">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-3">Is the $3,995 flat fee for probate real?</h3>
-                <p className="text-gray-700 mb-3">Yes. While most California attorneys charge <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">"statutory fees"</Link> (a percentage of the estate value), MyProbateCA provides attorney-prepared probate court papers for a <strong>flat fee of $3,995</strong>.</p>
+                <h3 className="font-bold text-lg text-gray-900 mb-3">Is the flat fee for probate real?</h3>
+                <p className="text-gray-700 mb-3">Yes. While most California attorneys charge <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">"statutory fees"</Link> (a percentage of the estate value), MyProbateCA provides attorney-prepared probate court papers for a <strong>flat fee of $3,995</strong> for estates up to $1,000,000 ($5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000).</p>
                 <p className="text-gray-700 mb-3">This includes:</p>
                 <ul className="text-gray-700 mb-3 space-y-1 ml-4">
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Attorney preparation of your court documents, which you file as the petitioner</li>
@@ -672,7 +672,7 @@ const ProbateFAQ = () => {
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Can you help if I already started my case and got stuck with court notes?</h3>
                 <p className="text-gray-700 mb-3"><strong>Yes.</strong> This is actually a common request. Many people start probate themselves, get hit with IGN notes they don't understand, and need professional help.</p>
-                <p className="text-gray-700 mb-3">Our <strong>Note Clearance Service</strong> is included in the $3,995 flat fee. We:</p>
+                <p className="text-gray-700 mb-3">Our <strong>Note Clearance Service</strong> is included in our flat fee. We:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Review all examiner notes</li>
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Identify exactly what's needed</li>
@@ -862,7 +862,7 @@ const ProbateFAQ = () => {
                   <li>Assets pass according to a legal formula (spouse, children, parents, siblings, etc.)</li>
                   <li>Bond is typically required</li>
                 </ul>
-                <p className="text-gray-700 mt-3">Our $3,995 flat fee applies to both testate (with Will) and intestate (no Will) cases.</p>
+                <p className="text-gray-700 mt-3">Our flat fee applies to both testate (with Will) and intestate (no Will) cases.</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
@@ -875,7 +875,7 @@ const ProbateFAQ = () => {
                     <li><strong>Simplified Real Property Petition:</strong> Primary residence under $750,000 + personal property under $208,850</li>
                   </ul>
                 </div>
-                <p className="text-gray-700 mt-3">Our flat fee for Simplified Probate is <strong>$2,495</strong> (vs $3,995 for full probate).</p>
+                <p className="text-gray-700 mt-3">Our flat fee for Simplified Probate is <strong>$2,495</strong> (full probate starts at $3,995).</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">

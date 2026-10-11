@@ -271,7 +271,7 @@ const HowToFileProbate = () => {
       <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
         <h3 className="font-bold text-green-900 text-lg mb-3">Need Help Filing?</h3>
         <p className="text-green-800 mb-4">
-          MyProbateCA handles all 11 phases of California probate for a flat fee of $3,995. On a $1,000,000 estate, the statutory attorney fee is $23,000. We prepare all documents, clear IGN notes, and guide you through every step.
+          MyProbateCA handles all 11 phases of California probate for a flat fee from $3,995. On a $1,000,000 estate, the statutory attorney fee is $23,000. We prepare all documents, clear IGN notes, and guide you through every step.
         </p>
         <Link to="/register" className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition">
           Start Your Case - Free

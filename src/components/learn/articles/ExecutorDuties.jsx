@@ -453,7 +453,7 @@ const ExecutorDuties = () => {
       <div className="bg-gray-100 p-6 rounded-lg my-8">
         <h3 className="font-bold text-gray-900 text-lg mb-3">Overwhelmed by Executor Duties?</h3>
         <p className="text-gray-700 mb-4">
-          You don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee of $3,995</Link>. We handle the paperwork, court filings, and deadlines — you focus on your family.
+          You don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. We handle the paperwork, court filings, and deadlines — you focus on your family.
         </p>
         <Link to="/register" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
           Get Executor Support Today

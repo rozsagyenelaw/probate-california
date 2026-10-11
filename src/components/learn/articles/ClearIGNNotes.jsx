@@ -188,7 +188,7 @@ const ClearIGNNotes = () => {
       <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
         <h3 className="font-bold text-green-900 mb-2">How MyProbateCA Handles IGN Notes</h3>
         <p className="text-green-900 mb-4">
-          Our <strong>flat $3,995 fee</strong> includes complete IGN note clearance. When notes appear on your case, we:
+          Our <strong>flat fee</strong> includes complete IGN note clearance. When notes appear on your case, we:
         </p>
         <ul className="space-y-2">
           <li className="flex items-start">
@@ -231,7 +231,7 @@ const ClearIGNNotes = () => {
       </ul>
 
       <p className="text-gray-700 mt-8">
-        Have IGN notes on your case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Start your case with MyProbateCA</Link> and get professional help clearing them—included in our flat $3,995 fee.
+        Have IGN notes on your case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Start your case with MyProbateCA</Link> and get professional help clearing them—included in our flat fee.
       </p>
     </ArticleLayout>
   );
