@@ -119,6 +119,11 @@ const PaymentPage = () => {
   };
 
   const totalPrice = calculateTotal();
+  // Order summary lines show what is charged: the tier fee (or the 10810 amount) and the capped accounting,
+  // so the lines add up to the total (decisions sections 28 and 21).
+  const summaryFull = serviceType === 'full'
+    ? capOrdinaryDollars(parseDollars(estateValue), { fee: fullFee.fee, accounting: accountingAddon ? prices.accounting[accountingAddon] : 0 })
+    : null;
   const installments = installmentAmounts(totalPrice, settings);
   const installmentPrice = installments[0];
 
@@ -665,7 +670,7 @@ const PaymentPage = () => {
                   <span className="text-gray-600">
                     {serviceType === 'simplified' ? 'Simplified Probate' : 'Full Probate'}
                   </span>
-                  <span className="font-medium">${prices.probate[serviceType].toLocaleString()}</span>
+                  <span className="font-medium">${fmtDollars(summaryFull ? summaryFull.fee : prices.probate[serviceType])}</span>
                 </div>
               )}
 
@@ -677,7 +682,7 @@ const PaymentPage = () => {
                     {serviceType !== 'accounting_only' && ' (Add-on)'}
                   </span>
                   <span className="font-medium">
-                    {serviceType !== 'accounting_only' && '+'}${prices.accounting[accountingAddon].toLocaleString()}
+                    {serviceType !== 'accounting_only' && '+'}${fmtDollars(summaryFull ? summaryFull.accounting : prices.accounting[accountingAddon])}
                   </span>
                 </div>
               )}
