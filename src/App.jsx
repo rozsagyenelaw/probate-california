@@ -155,12 +155,6 @@ const HomeRoute = () => <LandingPage />;
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
-      {import.meta.env.VITE_DRAFT_PREVIEW === '1' && (
-        // Shown only on the W7-landing draft preview build (never set for production builds)
-        <div role="note" className="bg-amber-100 text-amber-900 text-sm text-center px-4 py-2 border-b border-amber-300">
-          Draft preview for review only. Do not use this page to start a case or to pay.
-        </div>
-      )}
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
           {/* Public routes */}
