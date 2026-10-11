@@ -194,7 +194,7 @@ const LearnHub = () => {
         "url": "https://myprobateca.com/",
         "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
-        "priceRange": "$2,495 to $3,995"
+        "priceRange": "$2,495 to $7,995"
       },
       {
         "@type": "Blog",

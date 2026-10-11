@@ -206,7 +206,7 @@ const CityProbatePage = () => {
         "description": `Attorney-led probate administration for ${city.name}, ${city.county} County residents. Flat fee from $3,995 includes all 11 phases of probate.`,
         "url": `https://myprobateca.com/locations/${city.slug}-probate-attorney`,
         "telephone": "+1-818-337-4071",
-        "priceRange": "$2,495 to $3,995",
+        "priceRange": "$2,495 to $7,995",
         "areaServed": {
           "@type": "City",
           "name": city.name,

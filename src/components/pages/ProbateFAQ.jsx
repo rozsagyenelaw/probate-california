@@ -72,7 +72,7 @@ const ProbateFAQ = () => {
         "url": "https://myprobateca.com/",
         "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
-        "priceRange": "$2,495 to $3,995",
+        "priceRange": "$2,495 to $7,995",
         "image": "https://myprobateca.com/images/rozsa-gyene-probate-attorney.jpg",
         "address": {
           "@type": "PostalAddress",
