@@ -83,14 +83,15 @@ const HeirsStep = ({ formData, updateFormData }) => {
             </p>
             {!willExists && (
               <div className="mt-3 text-sm text-blue-800">
-                <p className="font-medium mb-2">Who to include as heirs (in order of priority):</p>
-                <ol className="list-decimal list-inside space-y-1 ml-2">
-                  <li><span className="font-medium">Surviving Spouse</span> — Always if alive</li>
-                  <li><span className="font-medium">Children</span> (including adopted) — Always if any exist</li>
-                  <li><span className="font-medium">Grandchildren</span> — Only if their parent (decedent's child) is deceased</li>
-                  <li><span className="font-medium">Parents</span> — Only if NO surviving spouse or children</li>
-                  <li><span className="font-medium">Siblings</span> — Only if NO spouse, children, or parents</li>
-                </ol>
+                <p className="font-medium mb-2">Who to list when there is no will:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>A surviving husband or wife.</li>
+                  <li>Every child, including adopted children. If a child has died, list that child's children.</li>
+                  <li>If there are no children or grandchildren: the parents. If no parent is living: the brothers and sisters (and the children of a brother or sister who has died).</li>
+                  <li>When there is a surviving husband or wife but no children, the parents (or, if none, the brothers and sisters) share the property the person owned on their own with the husband or wife, so list them too.</li>
+                </ul>
+                <p className="mt-2">Not sure? List everyone close to the person. Rozsa confirms who inherits.</p>
+                <p className="mt-1 text-xs text-blue-700">Sources: Probate Code sections 6401(c) and 6402.</p>
               </div>
             )}
             <p className="text-sm text-blue-800 mt-3 font-medium">

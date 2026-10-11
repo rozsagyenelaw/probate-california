@@ -340,17 +340,14 @@ const ReviewStep = ({ formData, onEditStep }) => {
         )}
       </Section>
 
-      {/* Payment Plans Available */}
-      <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
+      {/* Payment plan (exact three payments; no third-party financing offered here) */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-start">
-          <CreditCard className="h-5 w-5 mr-2 mt-0.5" style={{color: '#FFB3C7'}} />
+          <CreditCard className="h-5 w-5 mr-2 mt-0.5 text-blue-900" />
           <div>
-            <p className="font-medium text-gray-900">
-              Payment Plans Available with <span style={{color: '#FFB3C7'}} className="font-bold">Klarna</span>
-            </p>
+            <p className="font-medium text-gray-900">Pay in full or in three payments</p>
             <p className="text-sm text-gray-700 mt-1">
-              Pay over time with Klarna, subject to Klarna's approval. Choose Klarna at checkout;
-              Klarna shows you its plan and the exact amounts before you agree.
+              You can pay the full fee now, or in three payments that add up exactly to the fee. You see the exact amounts before you pay.
             </p>
           </div>
         </div>

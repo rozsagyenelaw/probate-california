@@ -417,9 +417,11 @@ const DocumentsStep = ({ formData, updateFormData }) => {
           <Info className="h-5 w-5 text-gray-500 mr-2 mt-0.5" />
           <div>
             <p className="text-sm text-gray-600">
-              <strong>Note:</strong> Original documents (especially the will and death certificate)
-              may need to be mailed or delivered to our office. We'll provide instructions after
-              your case is created.
+              <strong>The original will:</strong> keep it safe and do not mail it to our office. California
+              law says whoever has the original will must deliver it to the clerk of the superior court
+              (in person or by registered or certified mail) within 30 days of learning of the death.
+              Your step-by-step instructions in your client home show how. Upload a copy here.
+              <span className="block mt-1 text-xs text-gray-500">Source: Probate Code section 8200.</span>
             </p>
           </div>
         </div>
