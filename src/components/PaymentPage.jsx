@@ -86,7 +86,7 @@ const PaymentPage = () => {
     },
   };
 
-  const fullFee = fullProbateFee(parseDollars(estateValue), prices.probate.full);
+  const fullFee = fullProbateFee(parseDollars(estateValue));
   const needsFeeAgreement = settings.feeAgreementEnabled === true && (serviceType === 'simplified' || serviceType === 'full');
   const steps = checkoutSteps(settings.feeAgreementEnabled === true);
   const progressIndex = needsFeeAgreement && !feeAgreementId ? 2 : steps.indexOf('Payment');
@@ -104,7 +104,7 @@ const PaymentPage = () => {
       const acct = accountingAddon ? prices.accounting[accountingAddon] : 0;
       if (serviceType === 'full') {
         // The 10810 limit covers the fee and the accounting add-on together
-        const c = capOrdinaryDollars(parseDollars(estateValue), { fee: prices.probate.full, accounting: acct });
+        const c = capOrdinaryDollars(parseDollars(estateValue), { fee: fullFee.fee, accounting: acct });
         total = c.fee + c.accounting;
       } else {
         total = (prices.probate[serviceType] || 0) + acct;
@@ -358,7 +358,7 @@ const PaymentPage = () => {
                 For all estates requiring formal probate
               </p>
               <p className="text-2xl font-bold text-blue-900">${prices.probate.full.toLocaleString()}</p>
-              <p className="text-xs text-gray-500">or 3 payments of ${fmtDollars(installmentAmounts(prices.probate.full, settings)[0])}</p>
+              <p className="text-xs text-gray-500">for estates up to $1,000,000; $5,995 up to $2,000,000; $7,995 above that</p>
             </div>
 
             {/* Accounting Only */}
@@ -392,20 +392,22 @@ const PaymentPage = () => {
 
         {serviceType === 'full' && (
           <div className="bg-white rounded-xl shadow-md p-6 mb-6" data-testid="estate-value">
-            <label htmlFor="estate-value" className="block font-semibold text-gray-900">About how much was everything the person owned worth?</label>
-            <p className="text-sm text-gray-600 mt-1">Include the home, bank accounts and other property, before any debts. A rough number is fine. For a smaller estate, your fee may be lower.</p>
+            <label htmlFor="estate-value" className="block font-semibold text-gray-900">What is the estate worth? <span className="text-red-600">*</span></label>
+            <p className="text-sm text-gray-600 mt-1">The total value of what goes through probate, before any debts: for example the home and accounts in the person's name alone. Do not count a living trust, property held in joint tenancy, or accounts with a named beneficiary. A good estimate is fine; your fee is set by this value.</p>
             <div className="mt-3 flex items-center max-w-xs">
               <span className="text-gray-500 mr-2">$</span>
-              <input id="estate-value" inputMode="decimal" value={estateValue} onChange={(e) => setEstateValue(e.target.value)} placeholder="for example 80,000"
+              <input id="estate-value" inputMode="decimal" required aria-required="true" value={estateValue} onChange={(e) => setEstateValue(e.target.value)} placeholder="for example 650,000"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
             </div>
-            {fullFee.reduced ? (
+            {!fullFee.known ? (
+              <p className="mt-3 text-sm text-gray-600">Enter the value to see your exact fee.</p>
+            ) : fullFee.reduced ? (
               <p className="mt-3 text-green-800 bg-green-50 border border-green-200 rounded-lg p-3" data-testid="reduced-fee">
                 Because the estate is smaller, your fee is <strong>${fmtDollars(fullFee.fee)}</strong> instead of ${prices.probate.full.toLocaleString()}.
                 <span className="block text-xs text-green-700 mt-1">The lower of our flat fee and the amount California law sets for an estate of this size (Probate Code section 10810).</span>
               </p>
             ) : (
-              <p className="mt-3 text-sm text-gray-600">Your fee: <strong>${fmtDollars(fullFee.fee)}</strong>.</p>
+              <p className="mt-3 text-gray-800" data-testid="tier-fee">Your fee: <strong>${fmtDollars(fullFee.fee)}</strong> <span className="text-sm text-gray-600">(estates {fullFee.tier.label})</span>.</p>
             )}
           </div>
         )}
@@ -464,10 +466,6 @@ const PaymentPage = () => {
                 <li className="flex items-center">
                   <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
                   Basic income (interest, dividends)
-                </li>
-                <li className="flex items-center">
-                  <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
-                  Single property sale
                 </li>
                 <li className="flex items-center">
                   <Check className="h-3 w-3 text-gray-400 mr-2 flex-shrink-0" />
@@ -748,7 +746,7 @@ const PaymentPage = () => {
             <button
               type="button"
               onClick={handlePayment}
-              disabled={isLoading || (serviceType === 'accounting_only' && !accountingAddon) || (needsFeeAgreement && !feeAgreementId)}
+              disabled={isLoading || (serviceType === 'accounting_only' && !accountingAddon) || (needsFeeAgreement && !feeAgreementId) || (serviceType === 'full' && !fullFee.known)}
               className="w-full mt-6 bg-blue-900 text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {isLoading ? (

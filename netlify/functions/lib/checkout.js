@@ -113,6 +113,10 @@ async function capContextForCase(db, caseId) {
 async function createCheckout(stripe, db, params, settings) {
   const paymentPlan = params.paymentPlan === 'installments' ? 'installments' : (params.paymentPlan === 'full' ? 'full' : null);
   if (!paymentPlan) throw new UserError('Invalid payment plan selected');
+  // Full probate: the fee depends on the estate value (price tiers), so it is required before checkout
+  if (params.serviceType === 'full' && !(Number(params.estateValueCents) > 0)) {
+    const e = new UserError('Please enter about how much the estate is worth, so we can show your exact fee before you pay.'); e.code = 'estate_value_required'; throw e;
+  }
   let order;
   try { order = buildOrder(params, settings); } catch (e) { throw new UserError(e.message); }
 

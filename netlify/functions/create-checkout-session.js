@@ -16,6 +16,7 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body || '{}'); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid request' }) }; }
 
   try {
+    if (body.serviceType === 'fee_balance') return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid service type selected' }) }; // admin only
     let db = null; let settings = defaults;
     try { db = getDb(); settings = await getBusinessSettings(db); } catch (e) { console.warn('Firestore unavailable, using default settings:', e.message); }
 

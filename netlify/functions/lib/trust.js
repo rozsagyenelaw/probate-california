@@ -21,7 +21,7 @@ const STAGES = {
 // Add-ons: the accounting is earned when delivered; a hearing appearance fee when the Firm appears at that hearing.
 
 const isProbate = (t) => t === 'simplified' || t === 'full';
-const { statutoryFeeCents } = require('./pricing');
+const { statutoryFeeCents, fullProbateFeeCents } = require('./pricing');
 // Ordinary services under Probate Code 10810 (fee, accounting, uncontested appearance); legacy rows: all but contested
 const ordinaryOf = (p) => p.ordinaryCents != null ? Number(p.ordinaryCents) : ((p.courtAppearance && p.courtAppearance.kind === 'contested') ? 0 : Number(p.amountCents || 0));
 const sum = (arr, f) => arr.reduce((s, x) => s + (Number(f(x)) || 0), 0);
@@ -36,7 +36,8 @@ function computeCaseTrust(caseDoc, payments, refunds, transfers) {
 
   const probatePays = live.filter(p => isProbate(p.serviceType));
   const firstProbate = probatePays.find(p => p.totalPriceCents) || probatePays[0];
-  const probateFeeCents = firstProbate ? Number(firstProbate.totalPriceCents || firstProbate.amountCents || 0) - Number(firstProbate.amountDiscountCents || 0) : 0;
+  const balancePays = live.filter(p => p.serviceType === 'fee_balance');
+  const probateFeeCents = (firstProbate ? Number(firstProbate.totalPriceCents || firstProbate.amountCents || 0) - Number(firstProbate.amountDiscountCents || 0) : 0) + sum(balancePays, p => p.amountCents);
   const stages = (STAGES[service] || []).map(s => ({ ...s, completedOn: st[s.key] || null }));
   const reached = stages.filter(s => s.completedOn);
   const pct = reached.length ? Math.max(...reached.map(s => s.pct)) : 0;
@@ -53,6 +54,21 @@ function computeCaseTrust(caseDoc, payments, refunds, transfers) {
   const probateEarned = Math.round(probateBase * pct / 100);
   const ordinaryCharged = sum(payments, ordinaryOf) - sum(refunds, r => r.amountCents);
   const capRefundDueCents = capNowCents != null ? Math.max(0, ordinaryCharged - capNowCents) : 0;
+  // Price tier / 10810 check once the inventory and appraisal is in (decisions sections 21 and 28): what the ordinary
+  // services should total for the inventory value, against what was charged. Rozsa confirms any change; never automatic.
+  let feeAdjustment = null;
+  if (service === 'full' && inventoryValueCents) {
+    const nowFee = fullProbateFeeCents(inventoryValueCents);
+    const addOns = Math.max(0, ordinaryCharged - probateFeeCents);
+    const shouldBe = Math.min(nowFee.cents + addOns, statutoryFeeCents(inventoryValueCents));
+    const diff = shouldBe - ordinaryCharged;
+    feeAdjustment = {
+      inventoryValueCents, tierNow: nowFee.tier, feeNowCents: nowFee.cents, feePaidCents: probateFeeCents,
+      ordinaryShouldBeCents: shouldBe, ordinaryChargedCents: ordinaryCharged,
+      kind: diff < 0 ? 'refund' : (diff > 0 ? 'balance' : 'none'), amountCents: Math.abs(diff),
+      confirmed: caseDoc.feeAdjustment && caseDoc.feeAdjustment.inventoryValueCents === inventoryValueCents ? caseDoc.feeAdjustment : null
+    };
+  }
 
   const deposited = sum(live, p => p.amountCents);
   const refunded = sum(refunds, r => r.amountCents);
@@ -74,6 +90,7 @@ function computeCaseTrust(caseDoc, payments, refunds, transfers) {
     heldForClientCents: heldForClient, readyToMoveCents: readyToMove,
     inventoryValueCents, capUnder10810Cents: capNowCents, ordinaryChargedCents: ordinaryCharged,
     capRefundDueCents, // refund due because the inventory came in lower (Rozsa starts and confirms it in the refund screen)
+    feeAdjustment,     // tier or 10810 change after the inventory: refund or balance due, for Rozsa to confirm
     entries
   };
 }

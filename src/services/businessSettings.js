@@ -82,11 +82,19 @@ export function statutoryFeeDollars(estateValueDollars) {
   }
   return left > 0 ? Infinity : Math.round(fee * 100) / 100;
 }
-export function fullProbateFee(estateValueDollars, flat = 3995) {
+// Full probate price tiers (decisions section 28): up to $1,000,000 $3,995 (and below that never more than the
+// 10810 amount); $1,000,000 to $2,000,000 $5,995; over $2,000,000 $7,995. Same rule as netlify/functions/lib/pricing.js.
+export const FULL_PROBATE_TIERS = [
+  { upTo: 1000000, fee: 3995, label: 'up to $1,000,000' },
+  { upTo: 2000000, fee: 5995, label: '$1,000,000 to $2,000,000' },
+  { upTo: Infinity, fee: 7995, label: 'over $2,000,000' }
+];
+export function fullProbateFee(estateValueDollars) {
   const v = Number(estateValueDollars) || 0;
-  if (!(v > 0)) return { fee: flat, reduced: false };
+  if (!(v > 0)) return { fee: 3995, reduced: false, known: false, tier: null };
+  const tier = FULL_PROBATE_TIERS.find(t => v <= t.upTo);
   const s = statutoryFeeDollars(v);
-  return s < flat ? { fee: s, reduced: true } : { fee: flat, reduced: false };
+  return s < tier.fee ? { fee: s, reduced: true, known: true, tier } : { fee: tier.fee, reduced: false, known: true, tier };
 }
 export const parseDollars = (txt) => { const f = parseFloat(String(txt || '').replace(/[$,\s]/g, '')); return Number.isFinite(f) && f > 0 ? f : 0; };
 

@@ -3,11 +3,15 @@
 // POST { action: 'case', caseId }                    -> full ledger for that case (every deposit, transfer, refund) and stages
 // POST { action: 'markStage', caseId, stage, date, done } -> records that an earning stage is complete (or undoes it)
 // POST { action: 'setInventoryValue', caseId, valueCents } -> the filed inventory total; shows any refund due under 10810
+// POST { action: 'confirmFeeAdjustment', caseId, confirmPhrase } -> Rozsa confirms a tier or 10810 change after the inventory
 // POST { action: 'recordTransfer', caseId, amountCents, note, confirmPhrase } -> records money Rozsa moved from trust to
 //      operating for this case (she moves it at the bank; this is the ledger entry). Never more than ready to move.
 // Never stores or returns a bank account number, routing number or bank balance.
 const { admin, getDb, corsHeaders, verifyCaller, isAdminToken } = require('./lib/firebaseAdmin');
 const { STAGES, computeCaseTrust } = require('./lib/trust');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const { createCheckout } = require('./lib/checkout');
+const { getBusinessSettings } = require('./lib/business');
 
 const ymd = (t) => (t && t.toDate ? t.toDate().toISOString().slice(0, 10) : (typeof t === 'string' ? t.slice(0, 10) : null));
 const money = (c) => '$' + (Math.round(c) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -77,6 +81,26 @@ exports.handler = async (event) => {
       await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: 'trust.inventoryValue', caseId, target: `cases/${caseId}`, meta: { valueCents: v } });
       const after = await loadCase(db, caseId);
       return reply(200, { caseId, ...computeCaseTrust(after.caseDoc, after.payments, after.refunds, after.transfers) });
+    }
+
+    // Rozsa confirms the fee change after the inventory. Refund: she then refunds through the refund screen (admin-refund).
+    // Balance due: a Stripe payment link for exactly that amount is created for her to send to the client.
+    if (body.action === 'confirmFeeAdjustment') {
+      const t = computeCaseTrust(l.caseDoc, l.payments, l.refunds, l.transfers);
+      const a = t.feeAdjustment;
+      if (!a || a.kind === 'none') return reply(400, { error: 'No fee change to confirm for this case' });
+      const phrase = `${a.kind === 'refund' ? 'REFUND' : 'BALANCE'} ${money(a.amountCents)}`;
+      if (String(body.confirmPhrase || '').trim() !== phrase) return reply(409, { error: `To confirm, type exactly: ${phrase}`, confirmPhrase: phrase });
+      const record = { inventoryValueCents: a.inventoryValueCents, kind: a.kind, amountCents: a.amountCents, tierNow: a.tierNow, confirmedBy: caller.email, confirmedAt: admin.firestore.FieldValue.serverTimestamp() };
+      let link = null;
+      if (a.kind === 'balance') {
+        const settings = await getBusinessSettings(db);
+        const co = await createCheckout(stripe, db, { serviceType: 'fee_balance', balanceCents: a.amountCents, paymentPlan: 'full', customerEmail: l.caseDoc.clientEmail || null, caseId, userId: l.caseDoc.userId || '', source: 'fee-adjustment', cancelPath: '/dashboard' }, settings);
+        link = co.url; record.paymentLink = co.url; record.stripeSessionId = co.sessionId;
+      }
+      await l.caseRef.update({ feeAdjustment: record, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+      await db.collection('auditLog').add({ at: admin.firestore.FieldValue.serverTimestamp(), actorType: 'admin', actorUid: caller.uid, actorEmail: caller.email, action: 'trust.feeAdjustment', caseId, target: `cases/${caseId}`, meta: { kind: a.kind, amountCents: a.amountCents } });
+      return reply(200, { confirmed: true, kind: a.kind, amountCents: a.amountCents, paymentLink: link, next: a.kind === 'refund' ? 'Refund it from the refund screen (it asks you to confirm again).' : 'Send the payment link to the client.' });
     }
 
     if (body.action === 'recordTransfer') {

@@ -28,7 +28,7 @@ test('small estates: full probate fee is the lower of $3,995 and the Probate Cod
   assert.strictEqual(statutoryFeeCents(10000000), 400000);     // $100,000 -> $4,000
   assert.strictEqual(statutoryFeeCents(20000000), 700000);     // $200,000 -> $7,000
   assert.strictEqual(statutoryFeeCents(100000000), 2300000);   // $1,000,000 -> $23,000
-  assert.deepStrictEqual(fullProbateFeeCents(5000000), { cents: 200000, basis: '10810', estateValueCents: 5000000 });
+  assert.deepStrictEqual(fullProbateFeeCents(5000000), { cents: 200000, basis: '10810', tier: 'up-to-1m', estateValueCents: 5000000 });
   assert.strictEqual(fullProbateFeeCents(9987500).cents, 399500);   // $99,875 -> exactly $3,995
   assert.strictEqual(fullProbateFeeCents(9900000).cents, 396000);   // $99,000 -> $3,960
   assert.strictEqual(fullProbateFeeCents(50000000).cents, 399500);  // larger estates pay the flat fee
@@ -91,6 +91,41 @@ test('continued hearing: the paid appearance carries over to the new date with n
   assert.strictEqual(moved.appearance.paymentId, 'cs1');
   assert.strictEqual(moved.appearance.newChargeCents, 0);
   assert.throws(() => continueHearing([], 'x', { date: '2026-12-14' }), /not found/);
+});
+
+test('full probate price tiers by estate value (decisions section 28), with the small-estate rule below $1,000,000', () => {
+  const f = (d) => fullProbateFeeCents(d * 100);
+  assert.strictEqual(f(50000).cents, 200000);    // small estate: 10810 amount
+  assert.strictEqual(f(500000).cents, 399500);
+  assert.strictEqual(f(1000000).cents, 399500);  // "up to $1,000,000" includes $1,000,000
+  assert.strictEqual(f(1000001).cents, 599500);
+  assert.strictEqual(f(2000000).cents, 599500);
+  assert.strictEqual(f(2000001).cents, 799500);
+  assert.strictEqual(f(9000000).cents, 799500);
+  assert.strictEqual(fullProbateFeeCents(0).needsEstateValue, true);
+  assert.deepStrictEqual(installmentSchedule(599500, { installmentExact: true }), [199834, 199834, 199832]);
+  assert.deepStrictEqual(installmentSchedule(799500, { installmentExact: true }), [266500, 266500, 266500]);
+  assert.strictEqual(buildOrder({ serviceType: 'simplified', estateValueCents: 300000000 }, {}).totalCents, 249500); // simplified unchanged
+});
+
+test('full probate checkout refuses to start without the estate value (the fee depends on it)', async () => {
+  const { createCheckout } = require('../lib/checkout');
+  await assert.rejects(createCheckout({}, null, { serviceType: 'full', paymentPlan: 'full', customerEmail: 'rozsagyenelaw1+x@gmail.com' }, {}), e => e.code === 'estate_value_required');
+});
+
+test('inventory puts the estate in another tier: refund or balance due for Rozsa to confirm', () => {
+  const pay = (c) => [{ id: 'p', serviceType: 'full', amountCents: c, totalPriceCents: c, ordinaryCents: c }];
+  let a = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 150000000, feeStages: {} }, pay(399500), [], []).feeAdjustment;
+  assert.deepStrictEqual([a.kind, a.amountCents, a.tierNow], ['balance', 200000, '1m-to-2m']);
+  a = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 90000000, feeStages: {} }, pay(599500), [], []).feeAdjustment;
+  assert.deepStrictEqual([a.kind, a.amountCents], ['refund', 200000]);
+  a = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 5000000, feeStages: {} }, pay(399500), [], []).feeAdjustment;
+  assert.deepStrictEqual([a.kind, a.amountCents], ['refund', 199500]);   // small estate: down to the 10810 amount
+  a = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 50000000, feeStages: {} }, pay(399500), [], []).feeAdjustment;
+  assert.strictEqual(a.kind, 'none');
+  // a confirmed balance paid later counts toward the fee
+  a = computeCaseTrust({ serviceType: 'full', inventoryValueCents: 150000000, feeStages: {} }, [...pay(399500), { id: 'b', serviceType: 'fee_balance', amountCents: 200000, ordinaryCents: 200000 }], [], []).feeAdjustment;
+  assert.strictEqual(a.kind, 'none');
 });
 
 if (!process.env.FIRESTORE_EMULATOR_HOST || !/^demo-/.test(process.env.GCLOUD_PROJECT || '')) {

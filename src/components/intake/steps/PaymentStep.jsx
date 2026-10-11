@@ -398,10 +398,6 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
                 <Check className="h-3 w-3 text-gray-400 mr-1" />
                 Basic income (interest, dividends)
               </li>
-              <li className="flex items-center">
-                <Check className="h-3 w-3 text-gray-400 mr-1" />
-                Single property sale
-              </li>
             </ul>
             </>)}
           </button>

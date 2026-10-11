@@ -33,12 +33,26 @@ function statutoryFeeCents(estateValueCents) {
   return Math.round(fee);
 }
 
-// Full probate fee: lower of the flat fee and the 10810 amount. Unknown or zero value: the flat fee.
+// Full probate price tiers (Rozsa, decisions section 28, approved 2026-10-11), by the gross probate estate value:
+//   up to $1,000,000: $3,995 (and below that the small-estate rule: never more than the 10810 amount);
+//   $1,000,000 to $2,000,000: $5,995;   over $2,000,000: $7,995.
+const FULL_TIERS = [
+  { key: 'up-to-1m', upToCents: 100000000, cents: 399500, label: 'Estates up to $1,000,000' },
+  { key: '1m-to-2m', upToCents: 200000000, cents: 599500, label: 'Estates from $1,000,000 to $2,000,000' },
+  { key: 'over-2m', upToCents: Infinity, cents: 799500, label: 'Estates over $2,000,000' }
+];
+function fullProbateTier(estateValueCents) {
+  const v = Math.floor(Number(estateValueCents) || 0);
+  return FULL_TIERS.find(t => v <= t.upToCents);
+}
+// Full probate fee for an estate value. Unknown value: { cents: null } (the value must be entered before checkout).
 function fullProbateFeeCents(estateValueCents) {
   const v = Math.floor(Number(estateValueCents) || 0);
-  if (!(v > 0)) return { cents: BASE_CENTS.full, basis: 'flat' };
+  if (!(v > 0)) return { cents: BASE_CENTS.full, basis: 'flat', tier: null, needsEstateValue: true };
+  const tier = fullProbateTier(v);
   const statutory = statutoryFeeCents(v);
-  return statutory < BASE_CENTS.full ? { cents: statutory, basis: '10810', estateValueCents: v } : { cents: BASE_CENTS.full, basis: 'flat', estateValueCents: v };
+  if (statutory < tier.cents) return { cents: statutory, basis: '10810', tier: tier.key, estateValueCents: v };
+  return { cents: tier.cents, basis: tier.key === 'up-to-1m' ? 'flat' : 'tier', tier: tier.key, estateValueCents: v };
 }
 
 // Gross estate value from intake answers (10810(b): without reference to encumbrances), in cents.
@@ -73,14 +87,22 @@ function courtCents(kind, settings) {
 // Ordinary services under Probate Code 10810 for FULL probate (Rozsa's ruling, decisions section 21): the flat fee,
 // the accounting add-on and any uncontested (remote) court appearance together never exceed the 10810 amount.
 // A contested hearing is not an ordinary service and is not capped. Simplified (13151) is not capped at all.
-const ORDINARY_KEYS = new Set(['full', 'simple_accounting', 'complex_accounting', 'remote_appearance']);
+const ORDINARY_KEYS = new Set(['full', 'fee_balance', 'simple_accounting', 'complex_accounting', 'remote_appearance']);
 
 // What is being bought in this checkout, with a cent amount per line.
 // capContext (full probate with a known estate value): { estateValueCents, priorOrdinaryCents } so purchases made
 // later (add-ons) also stay within the cap. Lines brought to $0 by the cap are kept with included: true.
-function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, capContext }, settings) {
+function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValueCents, capContext, balanceCents }, settings) {
   const lines = [];
   let fee = null;
+  if (serviceType === 'fee_balance') {
+    // Balance due after the inventory moved the estate to another tier (created only by the admin, confirmed by Rozsa)
+    const c = Math.round(Number(balanceCents));
+    if (!(c > 0)) throw new Error('No balance is due');
+    lines.push({ key: 'fee_balance', label: 'Full Probate fee adjustment (estate value from the inventory)', cents: c });
+    const totalCents = c;
+    return { lines, totalCents, ordinaryCents: c, capCents: null, description: lines[0].label, feeBasis: 'adjustment', estateValueCents: null };
+  }
   if (serviceType === 'full') {
     fee = fullProbateFeeCents(estateValueCents);
     lines.push({ key: 'full', label: LABELS.full, cents: fee.cents, basis: fee.basis });
@@ -132,4 +154,4 @@ function installmentSchedule(totalCents, settings) {
   return [first, first, first];
 }
 
-module.exports = { ORDINARY_KEYS, BASE_CENTS, LABELS, buildOrder, installmentSchedule, courtCents, contestedCents, statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake };
+module.exports = { FULL_TIERS, fullProbateTier, ORDINARY_KEYS, BASE_CENTS, LABELS, buildOrder, installmentSchedule, courtCents, contestedCents, statutoryFeeCents, fullProbateFeeCents, estateValueFromIntake };
