@@ -501,6 +501,11 @@ const ProbateFAQ = () => {
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="font-bold text-lg text-gray-900 mb-3">Can you help if the house has to be sold?</h3>
+                <p className="text-gray-700">Yes, as an optional add-on. With full independent administration powers, the house can be sold without court confirmation after a Notice of Proposed Action (form DE-165) is given to the heirs and beneficiaries whose interests are affected, at least 15 days before the sale. Our fee for those papers is $995. Without those powers, a notice of sale is usually published in a newspaper first, the court must confirm the sale, and the court cannot confirm a private sale below 90% of the appraised value. Our fee for the Report of Sale and Petition for Order Confirming Sale (form DE-260), its notice and the order is $1,495. We prepare the papers and clear any probate notes on them; you sign, serve and file them, and you pay the newspaper. A court appearance at the confirmation hearing is not included; you can add our $500 limited scope appearance.</p>
+              </div>
+
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Why is statutory probate so expensive?</h3>
                 <p className="text-gray-700 mb-3">Statutory fees are set by <a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PROB&sectionNum=10810" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">California Probate Code Section 10810</a>. The law dates to an era when attorneys hand-typed documents and made multiple courthouse trips.</p>
                 <p className="text-gray-700 mb-3">Today's technology enables dramatic efficiency. For a <strong>$1.5 million estate</strong>, statutory attorney fees are <strong>$28,000</strong>. We believe this is excessive for standard administration when modern systems can streamline the process.</p>

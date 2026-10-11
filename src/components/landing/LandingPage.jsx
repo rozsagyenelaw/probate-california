@@ -156,6 +156,10 @@ const LandingPage = () => {
       a: 'Court filing fees (~$435-500), newspaper publication (~$200-300), probate referee fees (0.1% of assets), and bond premiums (if required) are paid directly to third parties. Our flat fees ($2,495 simplified or $3,995 full probate) cover all attorney services, form preparation, and case management.'
     },
     {
+      q: 'Can you help if the house has to be sold?',
+      a: 'Yes, as an optional add-on. With full independent administration powers, the house can be sold without court confirmation after a Notice of Proposed Action (form DE-165) is given to the heirs and beneficiaries whose interests are affected, at least 15 days before the sale. Our fee for those papers is $995. Without those powers, a notice of sale is usually published in a newspaper first, the court must confirm the sale, and the court cannot confirm a private sale below 90% of the appraised value. Our fee for the Report of Sale and Petition for Order Confirming Sale (form DE-260), its notice and the order is $1,495. We prepare the papers and clear any probate notes on them; you sign, serve and file them, and you pay the newspaper. A court appearance at the confirmation hearing is not included; you can add our $500 limited scope appearance.'
+    },
+    {
       q: 'What if the estate is small?',
       a: 'Estates with personal property under $208,850 may qualify for a small estate affidavit (no court required). Primary residences valued under $750,000 may qualify for our simplified probate process ($2,495). We\'ll evaluate your situation during intake and recommend the most cost-effective approach.'
     },
@@ -1365,6 +1369,16 @@ const LandingPage = () => {
                     <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
                     Bond premium (if required)
                   </li>
+                </ul>
+              </div>
+
+              {/* Optional add-ons (decisions section 30) */}
+              <div className="bg-white rounded-xl p-6 border border-gray-200">
+                <h3 className="text-lg font-bold text-gray-700 mb-4">OPTIONAL ADD-ONS</h3>
+                <ul className="space-y-3 text-gray-700 text-sm">
+                  <li><strong>House sale:</strong> $995 when the house is sold by Notice of Proposed Action (with full independent administration powers); $1,495 when the court must confirm the sale. We prepare the sale papers and clear any probate notes on them; you sign, serve and file them, and pay the newspaper for any notice of sale. A court appearance at a confirmation hearing is not included.</li>
+                  <li><strong>Final accounting:</strong> Simple $995 (fewer than 50 transactions) or Complex $1,995 (50 or more transactions).</li>
+                  <li><strong>Court appearance:</strong> $500 per hearing, as limited scope representation.</li>
                 </ul>
               </div>
             </div>
