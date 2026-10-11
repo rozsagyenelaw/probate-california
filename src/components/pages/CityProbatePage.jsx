@@ -50,7 +50,7 @@ const getH1Variation = (city, index) => {
 const getMetaDescriptionVariation = (city, index) => {
   const variations = [
     `${city.name} probate attorney services for $3,995 flat fee. Cases filed at ${city.courthouse}. California Bar #208356. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.`,
-    `Need probate help in ${city.name}? Attorney-supervised estate administration for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
+    `Need probate help in ${city.name}? Attorney-prepared court documents for $3,995. All 11 phases included. ${city.county} County courthouse expertise.`,
     `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case free.`,
     `${city.name} estate probate made simple. $3,995 covers everything. Attorney Rozsa Gyene handles ${city.county} County cases. Start free.`,
     `Probate attorney serving ${city.name}. Fixed $3,995 fee vs $23,000+ statutory. ${city.courthouse} specialists. California Bar #208356.`,

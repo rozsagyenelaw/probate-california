@@ -202,7 +202,7 @@ const CaliforniaProbateFees = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">How MyProbateCA Offers $3,995</h2>
       <p className="text-gray-700 mb-4">
-        Our flat fee of $3,995 provides the same attorney oversight from Rozsa Gyene (Bar #208356) at a fraction of the traditional cost. We achieve this through:
+        Our flat fee of $3,995 provides attorney-prepared court papers from Rozsa Gyene (Bar #208356) at a fraction of the traditional cost. We achieve this through:
       </p>
 
       <ul className="space-y-2 mb-6">
@@ -262,7 +262,7 @@ const CaliforniaProbateFees = () => {
         </li>
         <li className="flex items-start">
           <span className="bg-indigo-600 text-white rounded-full px-2 py-0.5 text-xs font-medium mr-3 mt-1">3</span>
-          <span className="text-gray-700">MyProbateCA provides the same attorney oversight for $3,995</span>
+          <span className="text-gray-700">MyProbateCA prepares the court papers for $3,995</span>
         </li>
         <li className="flex items-start">
           <span className="bg-indigo-600 text-white rounded-full px-2 py-0.5 text-xs font-medium mr-3 mt-1">4</span>

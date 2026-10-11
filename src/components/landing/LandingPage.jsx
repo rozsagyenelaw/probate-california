@@ -1655,7 +1655,7 @@ const LandingPage = () => {
                 <span className="ml-2 text-xl font-bold">California Probate</span>
               </div>
               <p className="text-gray-400 mb-4 text-sm">
-                Professional probate services for California residents. Flat fee pricing with attorney oversight at every step.
+                Professional probate services for California residents. Flat fee pricing with attorney-prepared court papers at every step.
               </p>
               <p className="text-gray-500 text-sm">
                 Law Offices of Rozsa Gyene<br />

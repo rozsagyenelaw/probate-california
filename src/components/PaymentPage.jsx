@@ -753,7 +753,7 @@ const PaymentPage = () => {
               <ul className="space-y-2">
                 <li className="flex items-start">
                   <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">Attorney-supervised process</span>
+                  <span className="text-gray-700">Attorney-prepared court papers</span>
                 </li>
                 <li className="flex items-start">
                   <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />

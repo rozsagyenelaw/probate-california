@@ -208,7 +208,7 @@ const ProbateFAQ = () => {
             "name": "How much does probate cost in California?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional statutory attorney fees are calculated as 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, and 1% of the next $9 million. For a $1 million estate, statutory fees total $23,000. MyProbateCA offers a flat fee of $3,995 for complete attorney-supervised administration."
+              "text": "California probate costs include court filing fees ($435-500), publication costs ($200-350), probate referee fees (0.1% of assets), and attorney fees. Traditional statutory attorney fees are calculated as 4% of the first $100,000, 3% of the next $100,000, 2% of the next $800,000, and 1% of the next $9 million. For a $1 million estate, statutory fees total $23,000. MyProbateCA offers a flat fee of $3,995 for attorney-prepared court papers."
             }
           },
           {
@@ -240,7 +240,7 @@ const ProbateFAQ = () => {
             "name": "What is the $3,995 flat fee for California probate?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "MyProbateCA offers complete attorney-supervised probate administration for a flat $3,995 fee. This includes attorney preparation of all documents for all 11 phases, review by California Bar Attorney #208356, IGN note clearance, and dashboard tracking. This compares to statutory fees of $13,000-$33,000+ for estates valued at $500,000-$1,500,000."
+              "text": "MyProbateCA offers attorney-prepared probate court papers for a flat $3,995 fee. This includes attorney preparation of all documents for all 11 phases, review by California Bar Attorney #208356, IGN note clearance, and dashboard tracking. This compares to statutory fees of $13,000-$33,000+ for estates valued at $500,000-$1,500,000."
             }
           },
           {
@@ -256,7 +256,7 @@ const ProbateFAQ = () => {
             "name": "Can I do California probate myself without a lawyer?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Technically yes, but it's risky. Self-represented executors face a high rejection rate at filing, IGN notes they don't understand, personal liability for mistakes, and an average 6+ month longer timeline. Court examiners don't provide legal advice. MyProbateCA provides attorney oversight at a fraction of traditional attorney costs."
+              "text": "Technically yes, but it's risky. Self-represented executors face a high rejection rate at filing, IGN notes they don't understand, personal liability for mistakes, and an average 6+ month longer timeline. Court examiners don't provide legal advice. MyProbateCA provides attorney-prepared court papers at a fraction of traditional attorney costs."
             }
           },
           {
@@ -489,7 +489,7 @@ const ProbateFAQ = () => {
             <div className="space-y-6">
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Is the $3,995 flat fee for probate real?</h3>
-                <p className="text-gray-700 mb-3">Yes. While most California attorneys charge <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">"statutory fees"</Link> (a percentage of the estate value), MyProbateCA provides complete attorney-supervised probate administration for a <strong>flat fee of $3,995</strong>.</p>
+                <p className="text-gray-700 mb-3">Yes. While most California attorneys charge <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">"statutory fees"</Link> (a percentage of the estate value), MyProbateCA provides attorney-prepared probate court papers for a <strong>flat fee of $3,995</strong>.</p>
                 <p className="text-gray-700 mb-3">This includes:</p>
                 <ul className="text-gray-700 mb-3 space-y-1 ml-4">
                   <li className="flex items-start"><Check className="h-4 w-4 text-green-600 mr-2 mt-1 flex-shrink-0" /> Attorney preparation of all documents for all 11 phases</li>
@@ -893,7 +893,7 @@ const ProbateFAQ = () => {
                   <li><strong>Personal liability:</strong> Mistakes in creditor notice or distribution can cost you personally</li>
                   <li><strong>Longer timeline:</strong> DIY probate averages 6+ months longer than attorney-assisted</li>
                 </ul>
-                <p className="text-gray-700 mt-3">Court examiners cannot provide legal advice. MyProbateCA provides attorney oversight at a fraction of traditional costs.</p>
+                <p className="text-gray-700 mt-3">Court examiners cannot provide legal advice. MyProbateCA provides attorney-prepared court papers at a fraction of traditional costs.</p>
               </div>
             </div>
           </section>
@@ -919,7 +919,7 @@ const ProbateFAQ = () => {
                 <p className="text-gray-600">California State Bar #208356</p>
                 <p className="text-gray-600">26+ Years Experience in Los Angeles Superior Court</p>
                 <p className="text-gray-600">Specialist: Clearing Stanley Mosk IGN Supplements</p>
-                <p className="text-gray-700 mt-3 italic">"Professional attorney oversight shouldn't cost $20,000."</p>
+                <p className="text-gray-700 mt-3 italic">"Attorney-prepared probate papers shouldn't cost $20,000."</p>
                 <div className="flex flex-wrap gap-4 mt-4">
                   <a
                     href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
