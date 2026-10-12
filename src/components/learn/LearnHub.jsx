@@ -93,7 +93,7 @@ const ARTICLES = [
     id: 7,
     slug: 'small-estate-affidavit-california',
     title: 'Small Estate Affidavit California: When You Don\'t Need Probate',
-    description: 'Learn when California estates under $184,500 can skip probate entirely using the simplified affidavit process.',
+    description: 'Learn when California estates under $208,850 (deaths on or after April 1, 2025) can skip probate entirely using the simplified affidavit process.',
     category: 'Avoid Probate',
     image: '/images/blog/avoid-probate1.jpg',
     date: 'January 2025',

@@ -220,11 +220,11 @@ const WhatIsProbateReferee = () => {
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-            <span className="text-green-900">We communicate with the referee on your behalf</span>
+            <span className="text-green-900">We tell you what the referee needs from you and when</span>
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-            <span className="text-green-900">We prepare and file Form DE-160 correctly</span>
+            <span className="text-green-900">We prepare Form DE-160 for you to sign and file</span>
           </li>
         </ul>
       </div>

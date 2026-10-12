@@ -448,8 +448,8 @@ const CityProbatePage = () => {
 
               <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8">
                 <p className="text-gray-800">
-                  We monitor the {city.courthouse} portal for examiner notes and file Verified Supplements
-                  to clear any deficiencies before your hearing.
+                  We check the {city.courthouse} examiner notes and prepare Verified Supplements that answer
+                  them, for you to sign and file before your hearing.
                 </p>
               </div>
 
@@ -625,15 +625,15 @@ const CityProbatePage = () => {
                 <ul className="grid md:grid-cols-2 gap-3">
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-600 mr-2" />
-                    Attorney prepares all 11 phases of documents
+                    Attorney-prepared court papers for you to sign and file as the petitioner
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-600 mr-2" />
-                    Coordination with {city.county} County Probate Referee
+                    Inventory papers for the {city.county} County probate referee, who values the property
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-600 mr-2" />
-                    Publication in {city.county} County newspapers
+                    Which {city.county} County newspaper to use and the exact notice text; you place it
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-600 mr-2" />
@@ -669,7 +669,7 @@ const CityProbatePage = () => {
                 Also Serving {city.nearby.slice(0, 3).join(', ')}
               </h2>
               <p className="text-gray-600 mb-8">
-                We handle probate cases throughout {city.county} County, including:
+                We prepare probate court papers for families throughout {city.county} County, including:
               </p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {city.nearbySlug.map((slug) => {
@@ -688,7 +688,7 @@ const CityProbatePage = () => {
                 })}
               </div>
               <p className="text-gray-600 mt-6">
-                All {city.county} County cases are filed at the same courthouse, so our expertise transfers seamlessly across the region.
+                All {city.county} County cases are filed at the same courthouse, so the same filing steps apply across the region.
               </p>
             </div>
           </div>

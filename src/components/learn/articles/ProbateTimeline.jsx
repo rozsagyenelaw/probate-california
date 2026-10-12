@@ -346,7 +346,7 @@ const ProbateTimeline = () => {
                 <strong>Important:</strong> If the estate qualifies for a{' '}
                 <Link to="/learn-california-probate/small-estate-affidavit-california" className="text-amber-700 hover:underline">
                   small estate affidavit
-                </Link> (under $184,500 in assets), you may be able to avoid probate entirely and
+                </Link> (under $208,850 in assets for deaths on or after April 1, 2025), you may be able to avoid probate entirely and
                 transfer assets in as little as 40 days after death.
               </p>
             </div>
@@ -454,7 +454,7 @@ const ProbateTimeline = () => {
                     preferences, and how to avoid common mistakes that cause delays. Our{' '}
                     <Link to="/california-probate-administration" className="text-blue-600 hover:underline">
                       flat-fee probate service
-                    </Link> handles all 11 phases efficiently.
+                    </Link> prepares the court papers for each step and clears the probate notes; you file them as the petitioner.
                   </p>
                 </div>
               </div>

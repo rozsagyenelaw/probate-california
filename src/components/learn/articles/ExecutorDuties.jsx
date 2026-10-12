@@ -151,7 +151,7 @@ const ExecutorDuties = () => {
         <div className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5" />
           <div>
-            <p className="font-medium text-gray-900">Obtain 10-15 certified death certificates</p>
+            <p className="font-medium text-gray-900">Obtain several certified death certificates</p>
             <p className="text-gray-600 text-sm">You'll need these for banks, title companies, insurance, and government agencies.</p>
           </div>
         </div>
@@ -453,7 +453,7 @@ const ExecutorDuties = () => {
       <div className="bg-gray-100 p-6 rounded-lg my-8">
         <h3 className="font-bold text-gray-900 text-lg mb-3">Overwhelmed by Executor Duties?</h3>
         <p className="text-gray-700 mb-4">
-          You don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. We handle the paperwork, court filings, and deadlines: you focus on your family.
+          You don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. We prepare the court papers and track the deadlines; you sign and file with step-by-step instructions.
         </p>
         <Link to="/register" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
           Get Executor Support Today

@@ -267,7 +267,7 @@ const ProbateBondRequirements = () => {
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-            <span className="text-green-900">We handle blocked account arrangements if needed</span>
+            <span className="text-green-900">We prepare the papers for a blocked account if the court allows one</span>
           </li>
         </ul>
       </div>

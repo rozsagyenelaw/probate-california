@@ -185,7 +185,7 @@ const ProbateFAQ = () => {
             "name": "What triggers probate in California?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Probate is required when a California resident dies owning assets titled solely in their name worth more than $184,500 (personal property) or any real estate not held in trust, joint tenancy, or with a transfer-on-death deed. Even with a Will, these assets must go through probate court."
+              "text": "Probate is required when a California resident dies owning assets titled solely in their name worth more than $208,850 (personal property, for deaths on or after April 1, 2025) or any real estate not held in trust, joint tenancy, or with a transfer-on-death deed. Even with a Will, these assets must go through probate court."
             }
           },
           {

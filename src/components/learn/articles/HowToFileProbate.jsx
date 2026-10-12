@@ -87,7 +87,7 @@ const HowToFileProbate = () => {
 
       <div className="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
         <p className="font-bold text-blue-800">Before You Start</p>
-        <p className="text-blue-900">California probate is required when someone dies owning assets titled solely in their name worth more than $184,500 (or any real estate not in a trust). If the estate qualifies, you may be able to use a <Link to="/learn-california-probate/small-estate-affidavit-california" className="text-blue-600 hover:underline">Small Estate Affidavit</Link> instead.</p>
+        <p className="text-blue-900">California probate is required when someone dies owning assets titled solely in their name worth more than $208,850 for deaths on or after April 1, 2025 (or any real estate not in a trust). If the estate qualifies, you may be able to use a <Link to="/learn-california-probate/small-estate-affidavit-california" className="text-blue-600 hover:underline">Small Estate Affidavit</Link> instead.</p>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 1: Gather Essential Documents</h2>
@@ -100,7 +100,7 @@ const HowToFileProbate = () => {
         </li>
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Certified Death Certificates</strong>: order 10-15 copies from the county recorder</span>
+          <span className="text-gray-700"><strong>Certified Death Certificates</strong>: order several certified copies from the county recorder</span>
         </li>
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
@@ -271,7 +271,7 @@ const HowToFileProbate = () => {
       <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
         <h3 className="font-bold text-green-900 text-lg mb-3">Need Help Filing?</h3>
         <p className="text-green-800 mb-4">
-          MyProbateCA handles all 11 phases of California probate for a flat fee from $3,995. On a $1,000,000 estate, the statutory attorney fee is $23,000. We prepare all documents, clear IGN notes, and guide you through every step.
+          MyProbateCA prepares your California probate court papers for a flat fee by estate value ($3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000). On a $1,000,000 estate, the statutory attorney fee is $23,000. We prepare the court papers, clear the probate notes, and guide you through every step; you file as the petitioner.
         </p>
         <Link to="/register" className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition">
           Start Your Case - Free

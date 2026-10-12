@@ -229,7 +229,7 @@ const CaliforniaProbateFees = () => {
         <ul className="space-y-2">
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-            <span className="text-green-900">Attorney preparation of all documents for all 11 phases</span>
+            <span className="text-green-900">Attorney-prepared court papers for each step you file (the final accounting and house sale papers are separate add-ons)</span>
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />

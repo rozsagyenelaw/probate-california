@@ -353,7 +353,7 @@ const ProbateCourtLocations = () => {
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">58 Counties Covered</h3>
                   <p className="text-gray-600 text-sm">
-                    We handle probate filings in every California county courthouse
+                    We prepare probate papers for filing in every California county courthouse
                   </p>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm text-center">
@@ -371,7 +371,7 @@ const ProbateCourtLocations = () => {
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">IGN Note Clearance</h3>
                   <p className="text-gray-600 text-sm">
-                    We monitor court portals and clear examiner notes before hearings
+                    We check the court's posted notes and prepare the answers before hearings
                   </p>
                 </div>
               </div>

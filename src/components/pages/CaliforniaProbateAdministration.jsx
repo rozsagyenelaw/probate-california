@@ -69,50 +69,50 @@ const CaliforniaProbateAdministration = () => {
     {
       num: 1,
       title: 'Initial Petition & Venue Selection',
-      desc: 'We analyze where the decedent lived and where property is held to ensure the case is filed in the correct county.'
+      desc: 'We check where the decedent lived and where property is held, so you file the case in the correct county.'
     },
     {
       num: 2,
       title: 'Notice of Petition',
-      desc: 'We handle the complex mailing requirements to all heirs, including "due diligence" searches for missing relatives.'
+      desc: 'We prepare the notice and the proof of mailing for everyone who must receive it. An adult who is not part of the case and inherits nothing, such as a friend or relative, mails it and signs the proof; your client home explains each step.'
     },
     {
       num: 3,
       title: 'Mandatory Publication',
-      desc: 'We coordinate with adjudicated newspapers in the city of death to ensure the "Notice of Petition to Administer Estate" is published correctly.'
+      desc: 'You place the "Notice of Petition to Administer Estate" in the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court.'
     },
     {
       num: 4,
       title: 'Bond Coordination',
-      desc: 'If the court requires a bond, we connect you with specialized sureties and prepare the necessary applications.',
+      desc: 'If the court requires a bond, we tell you the amount it is likely to require and prepare the court papers about it; you obtain the bond from a surety company.',
       link: '/learn-california-probate/probate-bond-requirements-california'
     },
     {
       num: 5,
       title: 'Issuance of Letters',
-      desc: 'We obtain the "Letters Testamentary" or "Letters of Administration" that grant you legal power to manage bank accounts and real estate.',
+      desc: 'We prepare the papers you hand to the clerk to receive your "Letters Testamentary" or "Letters of Administration", which give you legal power to manage bank accounts and real estate.',
       link: '/learn-california-probate/letters-testamentary-california-guide'
     },
     {
       num: 6,
       title: 'Inventory & Appraisal',
-      desc: 'We coordinate with the court-assigned Referee to value homes, business interests, and personal property.',
+      desc: 'We prepare the inventory forms; the probate referee the court assigns values homes, business interests, and personal property.',
       link: '/learn-california-probate/what-is-probate-referee-california'
     },
     {
       num: 7,
       title: 'Creditor Management',
-      desc: 'We protect the Executor by properly noticing known creditors and managing the 4-month claim period.'
+      desc: 'We prepare the notice to known creditors for you to have mailed, and your client home shows when the claim period ends.'
     },
     {
       num: 8,
       title: 'Notice to State Agencies',
-      desc: 'We handle required notices to the Franchise Tax Board and Director of Health Care Services.'
+      desc: 'We prepare the required notices to the Franchise Tax Board and the Director of Health Care Services for you to sign and mail.'
     },
     {
       num: 9,
       title: 'Clearing Court Notes (IGN Supplements)',
-      desc: 'We monitor the court portal, identify examiners\' concerns, and file Verified Supplements to clear notes before your hearing.',
+      desc: 'We check the court\'s posted notes, identify the examiners\' concerns, and prepare the Verified Supplements for you to sign and file before your hearing.',
       link: '/learn-california-probate/clear-ign-notes-stanley-mosk'
     },
     {
@@ -123,7 +123,7 @@ const CaliforniaProbateAdministration = () => {
     {
       num: 11,
       title: 'Order of Final Distribution',
-      desc: 'We obtain the judge\'s signature on the final order, allowing you to legally transfer titles and distribute funds.'
+      desc: 'We prepare the final petition and the proposed order for you to file; once the judge signs the order, you can transfer titles and distribute funds.'
     }
   ];
 
@@ -143,11 +143,11 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       q: 'Can I be executor if I live out of state?',
-      a: 'Yes. California allows out-of-state executors. However, you may need to post a bond and appoint a California agent for service of process. Our remote service is ideal for out-of-state executors: we handle everything and can appear at hearings on your behalf for $500.'
+      a: 'Yes. California allows out-of-state executors. However, you may need to post a bond and appoint a California agent for service of process. Everything happens online, so it works well for out-of-state executors: we prepare the court papers, and Rozsa can appear at a hearing for you for $500 per hearing, as limited scope representation.'
     },
     {
       q: 'What are IGN notes and how do you clear them?',
-      a: 'IGN stands for "Incomplete/Needs": notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We monitor the court portal 5-10 days before your hearing and file Verified Supplements to address each concern, often resulting in first-hearing approval.'
+      a: 'IGN stands for "Incomplete/Needs": notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We check the court\'s posted notes 5-10 days before your hearing and prepare Verified Supplements that answer each concern, for you to sign and file.'
     },
     {
       q: 'What court fees are not included in your flat fee?',
@@ -195,7 +195,7 @@ const CaliforniaProbateAdministration = () => {
         "@type": "LegalService",
         "@id": "https://myprobateca.com/#legalservice",
         "name": "MyProbateCA - California Probate Administration",
-        "description": "Professional attorney-led probate administration service in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995.",
+        "description": "Attorney-prepared California probate court papers for a flat fee by estate value ($3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000). Our office prepares the papers and clears the probate notes; you file them as the petitioner.",
         "url": "https://myprobateca.com/california-probate-administration",
         "telephone": "+1-818-337-4071",
         "email": "rozsa@myprobateca.com",
@@ -268,9 +268,9 @@ const CaliforniaProbateAdministration = () => {
           "@type": "Offer",
           "price": "3995",
           "priceCurrency": "USD",
-          "description": "Complete probate administration including all 11 phases, attorney drafting and review, publication coordination, bond assistance, IGN note clearance, and remote court appearances if needed."
+          "description": "Attorney-prepared court papers for each step you file, the exact newspaper notice text, help with the bond papers, clearing the probate notes, and an optional court appearance at $500 per hearing."
         },
-        "description": "Complete probate administration service covering all 11 phases from initial petition to final distribution."
+        "description": "Attorney-prepared probate court papers from the first petition to final distribution, for you to sign and file as the petitioner."
       },
       {
         "@type": "FAQPage",
@@ -313,7 +313,7 @@ const CaliforniaProbateAdministration = () => {
             "name": "What are IGN notes and how do you clear them?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "IGN stands for 'Incomplete/Needs': notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We monitor the court portal and file Verified Supplements to address each concern."
+              "text": "IGN stands for 'Incomplete/Needs': notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We check the court's posted notes and prepare Verified Supplements that answer each concern, for you to sign and file."
             }
           },
           {
@@ -365,7 +365,7 @@ const CaliforniaProbateAdministration = () => {
         "@id": "https://myprobateca.com/california-probate-administration#webpage",
         "url": "https://myprobateca.com/california-probate-administration",
         "name": "California Probate Administration | Attorney-Led Service | Flat Fees from $2,495",
-        "description": "Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995.",
+        "description": "Attorney-prepared California probate court papers for a flat fee by estate value ($3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000). On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee for that estate is $3,995.",
         "isPartOf": {
           "@type": "WebSite",
           "@id": "https://myprobateca.com/#website",
@@ -386,13 +386,13 @@ const CaliforniaProbateAdministration = () => {
     <>
       <Helmet>
         <title>California Probate Administration | Attorney-Led Service | Flat Fees from $2,495 | MyProbateCA</title>
-        <meta name="description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases of probate for a flat fee from $3,995. On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee is $3,995." />
+        <meta name="description" content="Attorney-prepared California probate court papers for a flat fee by estate value ($3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000). On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee for that estate is $3,995." />
         <meta name="keywords" content="California probate, probate administration, probate attorney, Letters Testamentary, Letters of Administration, Stanley Mosk Courthouse, probate lawyer, estate administration, IGN notes, probate court" />
         <link rel="canonical" href="https://myprobateca.com/california-probate-administration" />
 
         {/* Open Graph */}
         <meta property="og:title" content="California Probate Administration | Attorney-Led Service | Flat Fees from $2,495" />
-        <meta property="og:description" content="Professional attorney-led probate administration in California. Licensed attorney handles all 11 phases for a flat fee from $3,995." />
+        <meta property="og:description" content="Attorney-prepared California probate court papers for a flat fee by estate value ($3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000). You file as the petitioner." />
         <meta property="og:url" content="https://myprobateca.com/california-probate-administration" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="MyProbateCA" />
@@ -539,7 +539,7 @@ const CaliforniaProbateAdministration = () => {
                 Professional Attorney-Led Probate Administration: Beyond the Paperwork
               </h1>
               <p className="text-xl md:text-2xl text-blue-100 mb-8">
-                Licensed California attorney handles all 11 phases of probate for a flat fee from $3,995.
+                A licensed California attorney prepares your probate court papers and clears the probate notes, for a flat fee by estate value: $3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000. You file them as the petitioner.
                 <span className="font-semibold text-amber-400"> On a $500,000 estate, the statutory attorney fee is $13,000.</span>
               </p>
               <button
@@ -596,7 +596,7 @@ const CaliforniaProbateAdministration = () => {
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">Full Accountability</h3>
                   <p className="text-gray-600 text-sm">
-                    From arranging publication in local newspapers to coordinating with the Probate Referee for appraisals, we handle the logistics.
+                    From the exact newspaper notice text to the papers for the probate referee, we prepare what each step needs, with plain instructions for what you do.
                   </p>
                 </div>
               </div>
@@ -672,8 +672,8 @@ const CaliforniaProbateAdministration = () => {
                       Our "Note Clearance" service is included in your flat fee
                     </h3>
                     <p>
-                      We monitor the court portal, identify the examiners' concerns, and file the
-                      Verified Supplements needed to clear the notes. This often results in your
+                      We check the court's posted notes, identify the examiners' concerns, and prepare the
+                      Verified Supplements needed to clear the notes, for you to sign and file. This often results in your
                       petition being granted on the first hearing, avoiding the "three-month continuance" cycle.
                     </p>
                   </div>
@@ -911,7 +911,7 @@ const CaliforniaProbateAdministration = () => {
                 California Courthouse Coverage
               </h2>
               <p className="text-gray-600 mb-8">
-                We Handle Probate in All California Courts
+                We Prepare Probate Papers for Every California Court
               </p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {courthouses.map((courthouse, index) => (

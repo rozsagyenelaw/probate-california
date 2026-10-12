@@ -8,7 +8,7 @@ const SmallEstateAffidavit = () => {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "Small Estate Affidavit California: When You Don't Need Probate",
-    "description": "Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $184,500 limit, requirements, and step-by-step process.",
+    "description": "Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $208,850 limit (deaths on or after April 1, 2025), requirements, and step-by-step process.",
     "author": {
       "@type": "Person",
       "@id": "https://myprobateca.com/#attorney",
@@ -34,7 +34,7 @@ const SmallEstateAffidavit = () => {
   return (
     <ArticleLayout
       title="Small Estate Affidavit California: When You Don't Need Probate"
-      metaDescription="Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $184,500 limit, requirements, and step-by-step process."
+      metaDescription="Learn when you can use California's Small Estate Affidavit to transfer assets without probate. Understand the $208,850 limit (deaths on or after April 1, 2025), requirements, and step-by-step process."
       canonicalUrl="https://myprobateca.com/learn-california-probate/small-estate-affidavit-california"
       publishDate="January 12, 2026"
       readTime="10"
@@ -48,7 +48,7 @@ const SmallEstateAffidavit = () => {
 
       <div className="bg-green-50 border-l-4 border-green-500 p-4 my-6">
         <p className="font-bold text-green-800">Good News</p>
-        <p className="text-green-900">California has some of the most generous small estate thresholds in the country. As of April 1, 2022, you can transfer up to <strong>$184,500</strong> in personal property without probate.</p>
+        <p className="text-green-900">California has some of the most generous small estate thresholds in the country. For deaths on or after April 1, 2025, you can transfer up to <strong>$208,850</strong> in personal property without probate (Probate Code 13100, as adjusted under section 890).</p>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">What is a Small Estate Affidavit?</h2>
@@ -87,11 +87,11 @@ const SmallEstateAffidavit = () => {
           <tbody>
             <tr className="border-b">
               <td className="py-3 text-gray-700"><strong>Personal Property Affidavit</strong><br /><span className="text-sm text-gray-500">(No court filing required)</span></td>
-              <td className="py-3 text-right font-bold text-green-600 text-xl">$184,500</td>
+              <td className="py-3 text-right font-bold text-green-600 text-xl">$208,850</td>
             </tr>
             <tr className="border-b">
-              <td className="py-3 text-gray-700"><strong>Simplified Real Property Petition</strong><br /><span className="text-sm text-gray-500">(Streamlined court process)</span></td>
-              <td className="py-3 text-right font-bold text-blue-600 text-xl">$184,500</td>
+              <td className="py-3 text-gray-700"><strong>Simplified Petition for the Primary Residence</strong><br /><span className="text-sm text-gray-500">(Streamlined court process, Probate Code 13151)</span></td>
+              <td className="py-3 text-right font-bold text-blue-600 text-xl">$750,000</td>
             </tr>
             <tr>
               <td className="py-3 text-gray-700"><strong>Spousal Property Petition</strong><br /><span className="text-sm text-gray-500">(For surviving spouses)</span></td>
@@ -128,7 +128,7 @@ const SmallEstateAffidavit = () => {
           <Check className="h-6 w-6 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
           <div>
             <p className="font-bold text-gray-900">Under the Limit</p>
-            <p className="text-gray-600 text-sm">Total value of ALL estate property in California is $184,500 or less</p>
+            <p className="text-gray-600 text-sm">Total value of ALL estate property in California is $208,850 or less</p>
           </div>
         </div>
         <div className="flex items-start bg-gray-50 p-4 rounded-lg">
@@ -147,7 +147,7 @@ const SmallEstateAffidavit = () => {
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">What DOESN'T Count Toward the $184,500 Limit</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">What DOESN'T Count Toward the $208,850 Limit</h2>
       <p className="text-gray-700 mb-4">
         Good news: many assets are excluded when calculating whether you're under the limit:
       </p>
@@ -162,7 +162,7 @@ const SmallEstateAffidavit = () => {
             <li>• Retirement accounts (401k, IRA with beneficiary)</li>
             <li>• Payable-on-death bank accounts</li>
             <li>• Transfer-on-death securities</li>
-            <li>• Vehicles under $184,500 (with DMV affidavit)</li>
+            <li>• Vehicles registered with the DMV, whatever their value (Probate Code 13050)</li>
           </ul>
         </div>
         <div className="bg-red-50 p-4 rounded-lg">
@@ -220,7 +220,7 @@ const SmallEstateAffidavit = () => {
 
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <h4 className="font-bold text-blue-900 mb-3">Affidavit for Real Property of Small Value</h4>
-        <p className="text-blue-800 mb-3">If the gross value of all real property in California is $184,500 or less (increasing to $750,000 for primary residences on April 1, 2025), you can file a simplified petition with the court. This is faster and cheaper than full probate.</p>
+        <p className="text-blue-800 mb-3">If the gross value of all real property in California is $69,625 or less (deaths on or after April 1, 2025; Probate Code 13200), you can file this affidavit with the court instead of a full probate. For a primary residence worth up to $750,000, a simplified petition is available (Probate Code 13151).</p>
         <p className="text-blue-700 text-sm">Requirements: 6 months must pass after death, no probate pending, property value under threshold.</p>
       </div>
 
@@ -258,7 +258,7 @@ const SmallEstateAffidavit = () => {
             </tr>
             <tr>
               <td className="px-4 py-3">Asset Limit</td>
-              <td className="px-4 py-3 text-center text-green-600 font-medium">$184,500</td>
+              <td className="px-4 py-3 text-center text-green-600 font-medium">$208,850</td>
               <td className="px-4 py-3 text-center text-red-600">No limit</td>
             </tr>
           </tbody>
@@ -273,7 +273,7 @@ const SmallEstateAffidavit = () => {
       <ul className="space-y-3 mb-6">
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700">Estate value exceeds $184,500</span>
+          <span className="text-gray-700">Estate value exceeds $208,850</span>
         </li>
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
@@ -296,7 +296,7 @@ const SmallEstateAffidavit = () => {
       <div className="bg-gray-100 p-6 rounded-lg my-8">
         <h3 className="font-bold text-gray-900 text-lg mb-3">Estate Over the Limit?</h3>
         <p className="text-gray-700 mb-4">
-          If the estate exceeds $184,500 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. On a $500,000 estate, the statutory attorney fee is $13,000.
+          If the estate exceeds $208,850 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. On a $500,000 estate, the statutory attorney fee is $13,000.
         </p>
         <Link to="/learn-california-probate/how-to-file-probate-california" className="text-blue-600 hover:underline font-medium">
           See our step-by-step probate guide →
