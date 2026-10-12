@@ -118,7 +118,7 @@ const ProbateCourtLocations = () => {
             "name": "Can you help if I already started the case and got stuck with court notes?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. We specialize in reviewing examiner IGN notes and filing the necessary Verified Supplements to clear them. This Note Clearance service is included in our flat fee."
+              "text": "Yes. We review the examiner notes and prepare the Verified Supplements to clear them. This Note Clearance service is included in our flat fee."
             }
           },
           {

@@ -145,7 +145,7 @@ const ProbateFAQ = () => {
             "name": "What are IGN notes at the Stanley Mosk Courthouse?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "IGN notes are 'Incomplete,' 'Grant,' or 'Needs' notes posted by probate examiners 5-10 days before your hearing. They indicate deficiencies in your filing that must be corrected before the judge will sign your order. MyProbateCA specializes in drafting and filing the Verified Supplements required to clear these notes."
+              "text": "IGN notes are 'Incomplete,' 'Grant,' or 'Needs' notes posted by probate examiners 5-10 days before your hearing. They indicate deficiencies in your filing that must be corrected before the judge will sign your order. MyProbateCA prepares the Verified Supplements that answer these notes, for you to sign and file."
             }
           },
           {
@@ -839,7 +839,7 @@ const ProbateFAQ = () => {
                 <h2 className="text-xl font-bold text-gray-900 mb-2">Answers Verified by Rozsa Gyene, Esq.</h2>
                 <p className="text-gray-600">California State Bar #208356</p>
                 <p className="text-gray-600">26+ Years Experience in Los Angeles Superior Court</p>
-                <p className="text-gray-600">Specialist: Clearing Stanley Mosk IGN Supplements</p>
+                <p className="text-gray-600">Focus: clearing Stanley Mosk probate notes</p>
                 <p className="text-gray-700 mt-3 italic">"On a $1,000,000 estate, the statutory attorney fee is $23,000. Our flat fee is $3,995." (Full probate: $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000.)</p>
                 <div className="flex flex-wrap gap-4 mt-4">
                   <a

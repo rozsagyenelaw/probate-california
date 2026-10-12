@@ -83,8 +83,8 @@ const Register = () => {
           <ul className="space-y-1">
             {[
               'Step-by-step guidance through all 11 phases',
-              'All court forms prepared and filed',
-              'Publication coordination',
+              'Court forms prepared for you to sign and file',
+              'Exact newspaper notice text and which newspaper to use',
               'Dedicated support throughout'
             ].map((feature, index) => (
               <li key={index} className="flex items-center text-sm text-blue-800">

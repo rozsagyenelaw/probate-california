@@ -336,11 +336,11 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
         </h3>
         <ul className="space-y-2">
           {[
-            'Complete case management from start to finish',
+            'Your client home shows each step from start to finish',
             'All California probate forms prepared for you',
-            'Court filing coordination',
-            'Publication in approved newspaper',
-            'Creditor notification management',
+            'Step-by-step filing instructions',
+            'Exact newspaper notice text and which newspaper to use',
+            'Notice to creditors prepared for you to have mailed',
             'Inventory and appraisal guidance',
             'Final distribution preparation',
             'Attorney review at key milestones',

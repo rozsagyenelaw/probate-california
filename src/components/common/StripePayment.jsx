@@ -47,10 +47,10 @@ const StripePayment = () => {
         </h3>
         <ul className="space-y-2">
           {[
-            'Complete case management from start to finish',
+            'Your client home shows each step from start to finish',
             'All 11 phases of California probate guided',
             'Court forms prepared and reviewed',
-            'Publication coordination',
+            'Exact newspaper notice text and which newspaper to use',
             'Document management and storage',
             'Attorney review at key milestones',
             'Unlimited support via messaging'

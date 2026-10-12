@@ -207,7 +207,7 @@ const WhatIsProbateReferee = () => {
       <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
         <h3 className="font-bold text-green-900 mb-2">How MyProbateCA Helps</h3>
         <p className="text-green-900 mb-4">
-          Our flat fee includes full coordination with the Probate Referee:
+          Our flat fee includes the papers and instructions for the Probate Referee step:
         </p>
         <ul className="space-y-2">
           <li className="flex items-start">
@@ -230,7 +230,7 @@ const WhatIsProbateReferee = () => {
       </div>
 
       <p className="text-gray-700 mt-8">
-        Need help with the Inventory & Appraisal process? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Get started with MyProbateCA</Link> for complete probate referee coordination.
+        Need help with the Inventory & Appraisal process? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Get started with MyProbateCA</Link> for the inventory papers and plain instructions for the referee step.
       </p>
     </ArticleLayout>
   );

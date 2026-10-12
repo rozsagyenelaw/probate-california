@@ -145,8 +145,8 @@
     },
     {
       "type": "p",
-      "en": "Rozsa Gyene specializes in California probate administration, with extensive experience at the Stanley Mosk Courthouse in Los Angeles.",
-      "text": "Rozsa Gyene se especializa en la administración de sucesiones (probate) en California, con amplia experiencia en el Stanley Mosk Courthouse de Los Ángeles."
+      "en": "Rozsa Gyene focuses on California probate administration, with extensive experience at the Stanley Mosk Courthouse in Los Angeles.",
+      "text": "Rozsa Gyene se enfoca en la administración de sucesiones (probate) en California, con amplia experiencia en el Stanley Mosk Courthouse de Los Ángeles."
     },
     {
       "type": "p",
@@ -692,13 +692,13 @@
           "items": [
             "Eficiencia gracias a la tecnología. Nuestra aplicación se encarga de reunir los datos y generar los documentos",
             "Procesos simplificados. Hemos completado más de 500 casos y sabemos exactamente lo que se necesita",
-            "Servicio enfocado. Nos especializamos exclusivamente en sucesiones en California",
+            "Servicio enfocado. MyProbateCA solo prepara documentos para la corte en sucesiones de California",
             "Diseño remoto primero. Todo se maneja en línea, lo que ahorra gastos generales"
           ],
           "en": [
             "Technology-enabled efficiency - Our app handles data gathering and document generation",
             "Streamlined processes - We've completed 500+ cases and know exactly what's needed",
-            "Focused service - We specialize exclusively in California probate",
+            "Focused service: MyProbateCA prepares California probate court papers only",
             "Remote-first design - Everything is handled online, saving overhead"
           ]
         },
@@ -714,14 +714,14 @@
             "Revisión por la abogada del Colegio de Abogados de California #208356",
             "Resolución de notas IGN y Suplementos Verificados",
             "Seguimiento en el panel durante todo el proceso",
-            "Coordinación con el evaluador de la sucesión"
+            "Documentos del inventario para el evaluador de la sucesión"
           ],
           "en": [
             "Attorney-prepared court papers for each step you file (the final accounting and house sale papers are separate add-ons)",
             "Review by California Bar Attorney #208356",
             "IGN note clearance and Verified Supplements",
             "Dashboard tracking throughout the process",
-            "Coordination with probate referee"
+            "Inventory papers for the probate referee"
           ]
         },
         {
@@ -942,8 +942,8 @@
         },
         {
           "type": "p",
-          "text": "Nuestra tarifa fija de $3,995 incluye la coordinación completa con el evaluador de la sucesión:",
-          "en": "Our $3,995 flat fee includes full coordination with the Probate Referee:"
+          "text": "Nuestra tarifa fija incluye los documentos y las instrucciones para el paso del evaluador de la sucesión:",
+          "en": "Our flat fee includes the papers and instructions for the Probate Referee step:"
         },
         {
           "type": "ul",
@@ -962,8 +962,8 @@
         },
         {
           "type": "p",
-          "text": "¿Necesita ayuda con el proceso de inventario y avalúo? Comience con MyProbateCA para una coordinación completa con el evaluador de la sucesión.",
-          "en": "Need help with the Inventory & Appraisal process? Get started with MyProbateCA for complete probate referee coordination."
+          "text": "¿Necesita ayuda con el proceso de inventario y avalúo? Comience con MyProbateCA para los documentos del inventario e instrucciones claras para el paso del evaluador.",
+          "en": "Need help with the Inventory & Appraisal process? Get started with MyProbateCA for the inventory papers and plain instructions for the referee step."
         }
       ]
     },
@@ -1682,8 +1682,8 @@
         },
         {
           "type": "callout",
-          "text": "Publicación en el periódico\nPublique el \"Aviso de Petición para Administrar el Patrimonio\" (Notice of Petition to Administer Estate) en un periódico autorizado durante 3 semanas consecutivas. El periódico debe estar en la ciudad donde vivía el difunto.",
-          "en": "Newspaper Publication\nPublish \"Notice of Petition to Administer Estate\" in an adjudicated newspaper for 3 consecutive weeks. The newspaper must be in the city where the decedent lived."
+          "text": "Publicación en el periódico\nPublique el \"Aviso de Petición para Administrar el Patrimonio\" (Notice of Petition to Administer Estate) en un periódico autorizado durante 3 semanas consecutivas. Según el Código de Sucesiones 8121, use un periódico de circulación general publicado en la ciudad donde vivía el difunto, si existe; si no, uno del condado.",
+          "en": "Newspaper Publication\nPublish \"Notice of Petition to Administer Estate\" in an adjudicated newspaper for 3 consecutive weeks. Under Probate Code 8121, use a newspaper of general circulation published in the city where the decedent lived, if there is one; otherwise, one in the county."
         },
         {
           "type": "callout",

@@ -179,7 +179,7 @@ const CityProbatePage = () => {
     },
     {
       q: `What if I live out of state but need to probate an estate in ${city.name}?`,
-      a: `We specialize in helping out-of-state executors. Everything is handled remotely through our online platform, and Attorney Rozsa Gyene can appear at ${city.courthouse} hearings on your behalf for $500. You never need to travel to California.`
+      a: `Out-of-state executors can do everything online through our platform, and Attorney Rozsa Gyene can appear at ${city.courthouse} hearings on your behalf for $500. You never need to travel to California.`
     },
     {
       q: `How do I know if simplified probate is available for a ${city.name} estate?`,

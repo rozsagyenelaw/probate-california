@@ -242,7 +242,7 @@ const ArticleLayout = ({
               <div>
                 <p className="font-bold text-gray-900">Rozsa Gyene, Esq.</p>
                 <p className="text-sm text-gray-600 mb-2">California State Bar #208356 • 26+ Years Experience</p>
-                <p className="text-sm text-gray-700">Rozsa Gyene specializes in California probate administration, with extensive experience at the Stanley Mosk Courthouse in Los Angeles.</p>
+                <p className="text-sm text-gray-700">Rozsa Gyene focuses on California probate administration, with extensive experience at the Stanley Mosk Courthouse in Los Angeles.</p>
                 <a
                   href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
                   target="_blank"

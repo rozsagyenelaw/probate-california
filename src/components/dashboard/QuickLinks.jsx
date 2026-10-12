@@ -163,7 +163,7 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
       <div className="bg-white rounded-lg shadow-sm p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-2">Court Appearance</h3>
         <p className="text-sm text-gray-600 mb-3">
-          Need an attorney to appear at your hearing? We can represent you in court.
+          Want an attorney at your hearing? Rozsa can appear for that hearing as limited scope representation; you remain the petitioner.
         </p>
         <div className="space-y-2">
           <button

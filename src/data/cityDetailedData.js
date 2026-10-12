@@ -251,7 +251,7 @@ export const LOCAL_STATS = {
   'montecito': {
     avgDuration: "12-18 months",
     filingVolume: "Lower volume, ultra-high value",
-    examinerNotes: "Complex estates with multiple appraisers require careful coordination",
+    examinerNotes: "The court-appointed probate referee values each property in the inventory; high-value estates often have many items to list",
     localTip: "High-value estates benefit from early contact with the probate referee"
   },
   'goleta': {

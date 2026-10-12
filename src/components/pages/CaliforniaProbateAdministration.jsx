@@ -83,7 +83,7 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       num: 4,
-      title: 'Bond Coordination',
+      title: 'Bond Papers',
       desc: 'If the court requires a bond, we tell you the amount it is likely to require and prepare the court papers about it; you obtain the bond from a surety company.',
       link: '/learn-california-probate/probate-bond-requirements-california'
     },
@@ -117,8 +117,8 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       num: 10,
-      title: 'Final Accounting & Report',
-      desc: 'We prepare the detailed accounting of every dollar that moved through the estate.'
+      title: 'Final Accounting (Add-on)',
+      desc: 'An optional add-on, not part of the probate package: Simple $995 for fewer than 50 transactions, Complex $1,995 for 50 or more. We prepare the accounting from the estate\'s records for you to sign and file.'
     },
     {
       num: 11,
@@ -158,8 +158,8 @@ const CaliforniaProbateAdministration = () => {
       a: 'Disputes among heirs can complicate probate. Our flat fees cover uncontested cases. If a formal objection is filed, we offer contested hearing representation at $600 per hearing. We recommend mediation first when possible to preserve family relationships and reduce costs.'
     },
     {
-      q: 'Do you handle probate in all California counties?',
-      a: 'Yes. We prepare documents for all 58 California counties and can appear remotely at hearings statewide. Whether your case is at Stanley Mosk (Los Angeles), Lamoreaux (Orange County), or any other courthouse, we\'ve got you covered.'
+      q: 'Do you prepare probate papers for every California county?',
+      a: 'Yes. We prepare the court papers for cases in all 58 California counties; you file them in your county as the petitioner. If you add a court appearance ($500 per hearing), Rozsa can appear remotely for that hearing as limited scope representation.'
     }
   ];
 
@@ -334,10 +334,10 @@ const CaliforniaProbateAdministration = () => {
           },
           {
             "@type": "Question",
-            "name": "Do you handle probate in all California counties?",
+            "name": "Do you prepare probate papers for every California county?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. We prepare documents for all 58 California counties and can appear remotely at hearings statewide."
+              "text": "Yes. We prepare the court papers for cases in all 58 California counties; you file them in your county as the petitioner. If you add a court appearance ($500 per hearing), Rozsa can appear remotely for that hearing as limited scope representation."
             }
           }
         ]
@@ -565,9 +565,9 @@ const CaliforniaProbateAdministration = () => {
               </h2>
               <div className="bg-amber-50 border-l-4 border-amber-500 p-6 mb-8">
                 <p className="text-gray-800">
-                  Many "online probate services" are mere document preparation companies. They are not licensed
-                  to provide legal advice, they cannot represent you in court, and they cannot clear notes
-                  when a judge issues a deficiency.
+                  Many "online probate services" are document preparation companies. They are not law offices,
+                  so they cannot give legal advice, and they cannot prepare the answers that clear the court's notes
+                  when an examiner posts them.
                 </p>
               </div>
               <p className="text-xl font-semibold text-blue-900 mb-6">We are different:</p>
@@ -578,16 +578,16 @@ const CaliforniaProbateAdministration = () => {
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">Attorney-Drafted & Reviewed</h3>
                   <p className="text-gray-600 text-sm">
-                    Every petition (DE-111), inventory, and accounting is drafted or reviewed by a licensed California lawyer.
+                    Every petition (DE-111), inventory, and any accounting you add is drafted or reviewed by a licensed California lawyer.
                   </p>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                     <Building2 className="h-6 w-6 text-blue-900" />
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-2">Stanley Mosk Specialists</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">Built for the Stanley Mosk Probate Examiners</h3>
                   <p className="text-gray-600 text-sm">
-                    We have specialized our workflows to match the exact requirements of the Central District's probate examiners.
+                    Our papers follow the requirements the Central District's probate examiners check, and we prepare the answers to their notes for you to sign and file.
                   </p>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -785,7 +785,7 @@ const CaliforniaProbateAdministration = () => {
                   <ul className="space-y-3">
                     <li className="flex items-center">
                       <Check className="h-5 w-5 text-amber-400 mr-2" />
-                      All 11 phases of administration
+                      Court papers for each step you file
                     </li>
                     <li className="flex items-center">
                       <Check className="h-5 w-5 text-amber-400 mr-2" />
@@ -793,7 +793,7 @@ const CaliforniaProbateAdministration = () => {
                     </li>
                     <li className="flex items-center">
                       <Check className="h-5 w-5 text-amber-400 mr-2" />
-                      Publication coordination
+                      Exact newspaper notice text and which newspaper to use
                     </li>
                   </ul>
                   <ul className="space-y-3">
@@ -807,7 +807,7 @@ const CaliforniaProbateAdministration = () => {
                     </li>
                     <li className="flex items-center">
                       <Check className="h-5 w-5 text-amber-400 mr-2" />
-                      Court appearance (remote) if needed
+                      Optional court appearance ($500 per hearing)
                     </li>
                   </ul>
                 </div>

@@ -35,3 +35,22 @@ test('current small estate limit: $208,850 (deaths on or after April 1, 2025), n
   }
   assert.deepStrictEqual(hits, []);
 });
+
+// Item l: no "specialist" or specializing claims (State Bar rules), no court representation offered as part of the
+// package (only the optional limited scope appearance and the separate full representation retainer, decision 28), the
+// accounting only as an add-on, and Probate Code 8121 stated accurately.
+test('item l: no specialist claims, no representation claims, accounting as an add-on, 8121 stated accurately', () => {
+  const BAD_L = [/stanley mosk specialists/i, /specialized our workflows/i, /\bspecialist:/i, /\bwe specialize\b/i, /specializes in (california probate|drafting)/i,
+    /se especializa en la administraci/i, /nos especializamos/i, /bond coordination/i, /publication coordination/i, /court filing coordination/i,
+    /all 11 phases of administration/i, /cannot represent you in court/i, /we can represent you in court/i, /we prepare the detailed accounting/i,
+    /do you handle probate in all california counties/i, /require careful coordination/i, /coordination with (the )?probate referee/i,
+    /complete probate referee coordination/i, /full coordination with the probate referee/i, /the newspaper must be in the city where the decedent lived/i,
+    /court appearance \(remote\) if needed/i, /complete case management/i, /creditor notification management/i, /prepared and filed/i];
+  const hits = [];
+  for (const f of files) { const s = fs.readFileSync(f, 'utf8'); for (const re of BAD_L) { const m = s.match(re); if (m) hits.push(`${path.relative(root, f)}: ${m[0]}`); } }
+  assert.deepStrictEqual(hits.filter(h => !/legal\/TermsOfService/.test(h)), []); // Terms wording is HOLD for Rozsa's approval
+  const how = fs.readFileSync(path.join(root, 'src/components/learn/articles/HowToFileProbate.jsx'), 'utf8');
+  assert.ok(how.includes('Under Probate Code 8121, use a newspaper of general circulation published in the city where the decedent lived, if there is one; otherwise, one in the county.'));
+  const adm = fs.readFileSync(path.join(root, 'src/components/pages/CaliforniaProbateAdministration.jsx'), 'utf8');
+  assert.ok(adm.includes('Simple $995 for fewer than 50 transactions, Complex $1,995 for 50 or more'));
+});

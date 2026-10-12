@@ -203,7 +203,7 @@ const HowToFileProbate = () => {
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <div className="bg-gray-50 p-5 rounded-lg">
           <h4 className="font-bold text-gray-900 mb-2">Newspaper Publication</h4>
-          <p className="text-gray-700 text-sm">Publish "Notice of Petition to Administer Estate" in an adjudicated newspaper for 3 consecutive weeks. The newspaper must be in the city where the decedent lived.</p>
+          <p className="text-gray-700 text-sm">Publish "Notice of Petition to Administer Estate" in an adjudicated newspaper for 3 consecutive weeks. Under Probate Code 8121, use a newspaper of general circulation published in the city where the decedent lived, if there is one; otherwise, one in the county.</p>
         </div>
         <div className="bg-gray-50 p-5 rounded-lg">
           <h4 className="font-bold text-gray-900 mb-2">Mail Notice (DE-120/121)</h4>
