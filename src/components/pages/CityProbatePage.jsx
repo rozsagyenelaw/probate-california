@@ -42,7 +42,7 @@ const getMetaDescriptionVariation = (city, index) => {
   const variations = [
     `${city.name} probate court papers, attorney-prepared, for a flat fee: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above. Cases filed at ${city.courthouse}. California Bar #208356.`,
     `Need probate help in ${city.name}? Attorney-prepared court papers for a flat fee: $3,995, $5,995 or $7,995 by estate value, or $2,495 simplified. ${city.county} County.`,
-    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case free.`,
+    `Flat fee probate services for ${city.name}, CA estates. ${city.courthouse} filings handled. 26+ years experience. Start your case.`,
     `${city.name} estate probate made simple. Attorney-prepared court papers for a flat fee by estate value ($3,995, $5,995 or $7,995). Rozsa Gyene prepares ${city.county} County cases. Start online.`,
     `Probate papers for ${city.name} estates. Flat fee by estate value: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above. Filed at ${city.courthouse}. California Bar #208356.`,
     `${city.county} County probate for ${city.name} families. Flat fee ($3,995, $5,995 or $7,995 by estate value) for the court papers and clearing the probate notes.`
