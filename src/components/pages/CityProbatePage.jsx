@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
 import LazyMapFrame from '../common/LazyMapFrame';
-import ClientLoginButton from '../common/ClientLoginButton';
 import { useNavigate, Link, useParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Helmet } from 'react-helmet-async';
+import SiteHeader from '../site/SiteHeader';
+import SiteFooter from '../site/SiteFooter';
+import { Breadcrumbs, PageHero, StartBand, HERO_BUTTON, BAND_BUTTON } from '../site/PagePieces';
 import { getCityBySlug, CITY_DATA } from '../../data/cityData';
 import { cityFeeExample } from '../../services/cityFees.mjs';
 import { COMMON_ESTATE_TYPES, LOCAL_STATS, getPublicationInfo } from '../../data/cityDetailedData';
 import {
-  Scale,
-  MapPin,
   ArrowRight,
-  Phone,
-  Mail,
-  Menu,
-  X,
-  LogIn,
-  LogOut,
-  LayoutDashboard,
-  Shield,
   Building2,
   Check,
   ExternalLink,
@@ -28,10 +20,8 @@ import {
   DollarSign,
   Clock,
   FileText,
-  Users,
-  Home,
   Lightbulb,
-  BarChart3
+  BarChart3,
 } from 'lucide-react';
 
 // H1 variations to avoid duplicate title patterns across 35+ location pages
@@ -112,8 +102,7 @@ const COURTHOUSE_IMAGES = {
 const CityProbatePage = () => {
   const { citySlug } = useParams();
   const navigate = useNavigate();
-  const { user, logout, isAdmin } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
   const [expandedFaq, setExpandedFaq] = useState(null);
 
   // Remove "-probate-attorney" suffix to get the city slug
@@ -133,15 +122,6 @@ const CityProbatePage = () => {
   // Get city index for H1/meta variations (to avoid duplicate patterns)
   const cityKeys = Object.keys(CITY_DATA);
   const cityIndex = cityKeys.indexOf(cleanSlug);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
 
   const handleStartCase = () => {
     navigate(user ? '/intake' : '/register');
@@ -279,175 +259,86 @@ const CityProbatePage = () => {
 
       <div className="min-h-screen bg-white">
         {/* Navigation */}
-        <nav className="bg-blue-900 text-white sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex justify-between items-center h-16">
-              <Link to="/" className="flex items-center space-x-2">
-                <Scale className="h-8 w-8" />
-                <span className="font-bold text-xl">MyProbateCA</span>
-              </Link>
-
-              <div className="hidden lg:flex items-center gap-4 xl:gap-6 whitespace-nowrap">
-                <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
-                <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
-                <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
-                {user ? (
-                  <div className="flex items-center space-x-4">
-                    <button onClick={() => navigate('/dashboard')} className="flex items-center space-x-1 hover:text-blue-200">
-                      <LayoutDashboard className="h-4 w-4" />
-                      <span>Dashboard</span>
-                    </button>
-                    {isAdmin && (
-                      <button onClick={() => navigate('/admin')} className="flex items-center space-x-1 hover:text-blue-200">
-                        <Shield className="h-4 w-4" />
-                        <span>Admin</span>
-                      </button>
-                    )}
-                    <button onClick={handleLogout} className="flex items-center space-x-1 hover:text-blue-200">
-                      <LogOut className="h-4 w-4" />
-                      <span>Logout</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-4">
-                    <ClientLoginButton tone="dark" />
-                    <button onClick={handleStartCase} className="bg-amber-500 hover:bg-amber-600 px-4 py-2 rounded-lg font-semibold">
-                      Get Started
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="lg:hidden ml-auto mr-2"><ClientLoginButton tone="dark" compact /></div>
-
-              <button aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2">
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-
-            {mobileMenuOpen && (
-              <div className="lg:hidden py-4 border-t border-blue-800">
-                <div className="flex flex-col space-y-3">
-                  <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
-                  <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
-                  <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
-                  {user ? (
-                    <>
-                      <button onClick={() => navigate('/dashboard')} className="text-left hover:text-blue-200">Dashboard</button>
-                      <button onClick={handleLogout} className="text-left hover:text-blue-200">Logout</button>
-                    </>
-                  ) : (
-                    <>
-                      <ClientLoginButton tone="dark" compact onNavigate={() => setMobileMenuOpen(false)} />
-                      <button onClick={handleStartCase} className="bg-amber-500 px-4 py-2 rounded-lg font-semibold text-center">
-                        Get Started
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </nav>
+        <SiteHeader />
 
         {/* Breadcrumb */}
-        <div className="bg-gray-100 py-3">
-          <div className="max-w-7xl mx-auto px-4">
-            <nav className="text-sm text-gray-600">
-              <Link to="/" className="hover:text-blue-900">Home</Link>
-              <span className="mx-2">&gt;</span>
-              <Link to="/probate-court-locations-california" className="hover:text-blue-900">Locations</Link>
-              <span className="mx-2">&gt;</span>
-              <span className="text-gray-900">{city.name} Probate Attorney</span>
-            </nav>
-          </div>
-        </div>
+        <Breadcrumbs items={[{ to: '/', label: 'Home' }, { to: '/probate-court-locations-california', label: 'Locations' }, { label: `${city.name} Probate Attorney` }]} />
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-16">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-5xl font-bold mb-6">
-                {getH1Variation(city, cityIndex)}
-              </h1>
-              <p className="text-xl text-blue-100 mb-8">
-                Attorney-prepared court papers for {city.name} probate cases, for a flat fee by estate value: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above.
-                All documents prepared. Court appearances available. On a ${totalEstate.toLocaleString()} estate like the example below, the statutory attorney fee is ${statutoryFee.toLocaleString()}. Our flat fee is ${ourFee.toLocaleString()}.
-              </p>
-              <button
-                onClick={handleStartCase}
-                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center"
-              >
-                Start Your Case - Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </div>
+        <PageHero title={getH1Variation(city, cityIndex)}>
+          <p className="mt-4 text-base md:text-xl text-slate-700 leading-relaxed">
+            Attorney-prepared court papers for {city.name} probate cases, for a flat fee by estate value: $3,995 up to $1,000,000, $5,995 to $2,000,000, $7,995 above.
+            All court papers prepared for you to sign and file. Optional attorney appearance at a hearing ($500 per hearing, limited scope representation). On a ${totalEstate.toLocaleString()} estate like the example below, the statutory attorney fee is ${statutoryFee.toLocaleString()}. Our flat fee is ${ourFee.toLocaleString()}.
+          </p>
+          <div className="mt-6">
+            <button onClick={handleStartCase} className={HERO_BUTTON}>
+              Start your case
+              <ArrowRight className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+            </button>
           </div>
-        </section>
+        </PageHero>
 
         {/* Local Courthouse Info */}
         <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-8">
                 Where {city.name} Probate Cases Are Filed
               </h2>
               {/* Courthouse Image and Map */}
               {COURTHOUSE_IMAGES[city.county] && (
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div className="rounded-lg overflow-hidden shadow-md">
+                  <div className="rounded-xl overflow-hidden border border-slate-200">
                     <img
                       src={COURTHOUSE_IMAGES[city.county].image}
                       alt={COURTHOUSE_IMAGES[city.county].alt}
-                      className="w-full h-64 object-contain bg-gray-100"
+                      className="w-full h-64 object-contain bg-slate-100"
                       loading="lazy"
                     />
                   </div>
-                  <div className="rounded-lg overflow-hidden shadow-md h-64">
+                  <div className="rounded-xl overflow-hidden border border-slate-200 h-64">
                     <LazyMapFrame src={`https://maps.google.com/maps?q=${encodeURIComponent(city.courthouse + ', ' + city.courthouseAddress)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} title={`${city.courthouse} Location Map`} />
                   </div>
                 </div>
               )}
 
-              <div className="bg-gray-50 rounded-xl p-6 mb-8">
+              <div className="bg-slate-50 rounded-xl p-6 mb-8">
                 <div className="flex items-start">
-                  <Building2 className="h-8 w-8 text-blue-900 mr-4 flex-shrink-0" />
+                  <Building2 className="h-8 w-8 mp-brand mr-4 flex-shrink-0" />
                   <div>
-                    <h3 className="font-bold text-xl text-gray-900 mb-2">{city.courthouse}</h3>
-                    <p className="text-gray-600 mb-2">{city.courthouseAddress}</p>
-                    <p className="text-gray-600">{city.county} County Superior Court{city.district && ` - ${city.district}`}</p>
+                    <h3 className="font-semibold text-xl text-slate-900 mb-2">{city.courthouse}</h3>
+                    <p className="text-slate-600 mb-2">{city.courthouseAddress}</p>
+                    <p className="text-slate-600">{city.county} County Superior Court{city.district && ` - ${city.district}`}</p>
                   </div>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mb-8">
-                <div className="bg-blue-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-xl p-4">
                   <div className="flex items-center mb-2">
-                    <DollarSign className="h-5 w-5 text-blue-900 mr-2" />
-                    <span className="font-semibold text-gray-900">Filing Fee</span>
+                    <DollarSign className="h-5 w-5 mp-brand mr-2" />
+                    <span className="font-semibold text-slate-900">Filing Fee</span>
                   </div>
-                  <p className="text-gray-600">~$435-500</p>
+                  <p className="text-slate-600">~$435-500</p>
                 </div>
-                <div className="bg-blue-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-xl p-4">
                   <div className="flex items-center mb-2">
-                    <Clock className="h-5 w-5 text-blue-900 mr-2" />
-                    <span className="font-semibold text-gray-900">Wait for Hearing</span>
+                    <Clock className="h-5 w-5 mp-brand mr-2" />
+                    <span className="font-semibold text-slate-900">Wait for Hearing</span>
                   </div>
-                  <p className="text-gray-600">{city.waitTime} weeks</p>
+                  <p className="text-slate-600">{city.waitTime} weeks</p>
                 </div>
-                <div className="bg-blue-50 rounded-lg p-4">
+                <div className="bg-slate-50 rounded-xl p-4">
                   <div className="flex items-center mb-2">
-                    <FileText className="h-5 w-5 text-blue-900 mr-2" />
-                    <span className="font-semibold text-gray-900">IGN Notes Posted</span>
+                    <FileText className="h-5 w-5 mp-brand mr-2" />
+                    <span className="font-semibold text-slate-900">IGN Notes Posted</span>
                   </div>
-                  <p className="text-gray-600">5-10 days before hearing</p>
+                  <p className="text-slate-600">5-10 days before hearing</p>
                 </div>
               </div>
 
-              <div className="bg-amber-50 border-l-4 border-amber-500 p-4 mb-8">
-                <p className="text-gray-800">
+              <div className="bg-slate-50 border border-slate-200 p-4 mb-8">
+                <p className="text-slate-800">
                   We check the {city.courthouse} examiner notes and prepare Verified Supplements that answer
                   them, for you to sign and file before your hearing.
                 </p>
@@ -455,31 +346,31 @@ const CityProbatePage = () => {
 
               {/* NEW: Local Probate Timeline & Statistics */}
               {localStats && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8">
                   <div className="flex items-center mb-4">
-                    <BarChart3 className="h-5 w-5 text-yellow-700 mr-2" />
-                    <h3 className="text-lg font-bold text-yellow-900">{city.name} Probate Timeline & Statistics</h3>
+                    <BarChart3 className="h-5 w-5 mp-brand mr-2" />
+                    <h3 className="text-lg font-semibold text-slate-900">{city.name} Probate Timeline & Statistics</h3>
                   </div>
                   <div className="grid md:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <span className="text-sm text-yellow-700 font-medium">Average Duration:</span>
-                      <p className="text-gray-800 font-semibold">{localStats.avgDuration}</p>
+                      <span className="text-sm mp-brand font-medium">Average Duration:</span>
+                      <p className="text-slate-800 font-semibold">{localStats.avgDuration}</p>
                     </div>
                     <div>
-                      <span className="text-sm text-yellow-700 font-medium">Court Volume:</span>
-                      <p className="text-gray-800">{localStats.filingVolume}</p>
+                      <span className="text-sm mp-brand font-medium">Court Volume:</span>
+                      <p className="text-slate-800">{localStats.filingVolume}</p>
                     </div>
                   </div>
                   <div className="mb-3">
-                    <span className="text-sm text-yellow-700 font-medium">Examiner Notes:</span>
-                    <p className="text-gray-700">{localStats.examinerNotes}</p>
+                    <span className="text-sm mp-brand font-medium">Examiner Notes:</span>
+                    <p className="text-slate-700">{localStats.examinerNotes}</p>
                   </div>
-                  <div className="bg-yellow-100 p-3 rounded">
+                  <div className="bg-white border border-slate-200 p-3 rounded-xl">
                     <div className="flex items-start">
-                      <Lightbulb className="h-4 w-4 text-yellow-800 mr-2 mt-0.5 flex-shrink-0" />
+                      <Lightbulb className="h-4 w-4 text-slate-700 mr-2 mt-0.5 flex-shrink-0" />
                       <div>
-                        <span className="text-sm text-yellow-800 font-medium">Local Tip:</span>
-                        <p className="text-gray-700 text-sm mt-1">{localStats.localTip}</p>
+                        <span className="text-sm text-slate-700 font-medium">Local Tip:</span>
+                        <p className="text-slate-700 text-sm mt-1">{localStats.localTip}</p>
                       </div>
                     </div>
                   </div>
@@ -487,67 +378,67 @@ const CityProbatePage = () => {
               )}
 
               {/* NEW: Publication Requirements */}
-              <div className="bg-gray-50 p-4 rounded-lg mb-6 text-sm">
-                <h4 className="font-semibold text-gray-800 mb-2 flex items-center">
-                  <FileText className="h-4 w-4 mr-2 text-gray-600" />
+              <div className="bg-slate-50 p-4 rounded-xl mb-6 text-sm">
+                <h4 className="font-semibold text-slate-800 mb-2 flex items-center">
+                  <FileText className="h-4 w-4 mr-2 text-slate-600" />
                   Publication Requirements for {city.county} County
                 </h4>
-                <p className="text-gray-600"><strong>Newspapers:</strong> {publicationInfo.newspapers}</p>
-                <p className="text-gray-600"><strong>Duration:</strong> {publicationInfo.duration}</p>
-                <p className="text-gray-500 text-xs mt-2 italic">{publicationInfo.note}</p>
+                <p className="text-slate-600"><strong>Newspapers:</strong> {publicationInfo.newspapers}</p>
+                <p className="text-slate-600"><strong>Duration:</strong> {publicationInfo.duration}</p>
+                <p className="text-slate-500 text-xs mt-2 italic">{publicationInfo.note}</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Local Market Context */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 bg-slate-50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-4">
                 Probate Thresholds & {city.name} Real Estate
               </h2>
-              <p className="text-gray-600 mb-8">
-                With {city.name}'s median home price of <span className="font-bold text-blue-900">{city.medianHome}</span>,
+              <p className="text-slate-600 mb-8">
+                With {city.name}'s median home price of <span className="font-semibold mp-brand">{city.medianHome}</span>,
                 most estates will exceed California's simplified probate threshold.
               </p>
 
-              <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">California Probate Thresholds (2025)</h3>
-                <ul className="space-y-2 text-gray-600">
+              <div className="bg-white rounded-xl border border-slate-200 p-6 mb-8">
+                <h3 className="font-semibold text-lg text-slate-900 mb-4">California Probate Thresholds (2025)</h3>
+                <ul className="space-y-2 text-slate-600">
                   <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 mp-brand mr-2 flex-shrink-0 mt-0.5" />
                     <span><strong>Simplified Probate:</strong> Primary residence under $750,000 + personal property under $208,850</span>
                   </li>
                   <li className="flex items-start">
-                    <Check className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 mp-brand mr-2 flex-shrink-0 mt-0.5" />
                     <span><strong>Full Probate:</strong> All other estates</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
-                <div className="bg-blue-900 text-white p-4">
-                  <h3 className="font-bold text-lg">{city.name} Estate Example</h3>
+              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-8">
+                <div className="bg-slate-50 border-b border-slate-200 text-slate-900 p-4">
+                  <h3 className="font-semibold text-lg">{city.name} Estate Example</h3>
                 </div>
                 <div className="p-6">
                   <table className="w-full">
                     <tbody>
-                      <tr className="border-b">
-                        <td className="py-2 text-gray-600">{city.name} Home</td>
+                      <tr className="border-b border-slate-200">
+                        <td className="py-2 text-slate-600">{city.name} Home</td>
                         <td className="py-2 text-right font-medium">{city.medianHome}</td>
                       </tr>
-                      <tr className="border-b">
-                        <td className="py-2 text-gray-600">Bank Accounts</td>
+                      <tr className="border-b border-slate-200">
+                        <td className="py-2 text-slate-600">Bank Accounts</td>
                         <td className="py-2 text-right font-medium">$50,000</td>
                       </tr>
-                      <tr className="border-b">
-                        <td className="py-2 text-gray-600">Investments</td>
+                      <tr className="border-b border-slate-200">
+                        <td className="py-2 text-slate-600">Investments</td>
                         <td className="py-2 text-right font-medium">$100,000</td>
                       </tr>
-                      <tr className="bg-gray-50">
-                        <td className="py-2 font-bold text-gray-900">Total Estate</td>
-                        <td className="py-2 text-right font-bold text-gray-900">${totalEstate.toLocaleString()}</td>
+                      <tr className="bg-slate-50">
+                        <td className="py-2 font-semibold text-slate-900">Total Estate</td>
+                        <td className="py-2 text-right font-semibold text-slate-900">${totalEstate.toLocaleString()}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -555,32 +446,32 @@ const CityProbatePage = () => {
               </div>
 
               {/* Fee Comparison Table */}
-              <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
-                <div className="bg-gray-800 text-white p-4">
-                  <h3 className="font-bold text-lg text-center">Fee Comparison: Traditional vs MyProbateCA</h3>
+              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-6">
+                <div className="bg-slate-50 border-b border-slate-200 text-slate-900 p-4">
+                  <h3 className="font-semibold text-lg text-center">Fee Comparison: Traditional vs MyProbateCA</h3>
                 </div>
                 <div className="p-6">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b-2">
-                        <th className="py-2 text-left text-gray-600">Fee Type</th>
-                        <th className="py-2 text-center text-gray-600">Traditional Attorney</th>
-                        <th className="py-2 text-center text-blue-900 font-bold">MyProbateCA</th>
+                      <tr className="border-b border-slate-300">
+                        <th className="py-2 text-left text-slate-600">Fee Type</th>
+                        <th className="py-2 text-center text-slate-600">Traditional Attorney</th>
+                        <th className="py-2 text-center mp-brand font-semibold">MyProbateCA</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="border-b">
-                        <td className="py-3 text-gray-600">Attorney Fee</td>
-                        <td className="py-3 text-center text-red-600 font-bold">${statutoryFee.toLocaleString()}</td>
-                        <td className="py-3 text-center text-green-600 font-bold">${ourFee.toLocaleString()}</td>
+                      <tr className="border-b border-slate-200">
+                        <td className="py-3 text-slate-600">Attorney Fee</td>
+                        <td className="py-3 text-center text-slate-900 font-semibold">${statutoryFee.toLocaleString()}</td>
+                        <td className="py-3 text-center mp-brand font-semibold">${ourFee.toLocaleString()}</td>
                       </tr>
-                      <tr className="bg-amber-50">
-                        <td className="py-3 font-bold text-gray-900">Total Attorney Cost</td>
+                      <tr className="bg-slate-50">
+                        <td className="py-3 font-semibold text-slate-900">Total Attorney Cost</td>
                         <td className="py-3 text-center">
-                          <span className="text-red-600 font-bold text-xl line-through">${statutoryFee.toLocaleString()}</span>
+                          <span className="text-slate-900 font-semibold text-xl">${statutoryFee.toLocaleString()}</span>
                         </td>
                         <td className="py-3 text-center">
-                          <span className="text-green-600 font-bold text-xl">${ourFee.toLocaleString()}</span>
+                          <span className="mp-brand font-semibold text-xl">${ourFee.toLocaleString()}</span>
                         </td>
                       </tr>
                     </tbody>
@@ -589,20 +480,20 @@ const CityProbatePage = () => {
               </div>
 
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="bg-red-50 rounded-lg p-4 text-center border border-red-200">
-                  <p className="text-sm text-red-600 mb-1">Statutory Attorney Fee</p>
-                  <p className="text-xl font-bold text-red-500 line-through">${statutoryFee.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500 mt-1">(Probate Code 10810, on ${totalEstate.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })})</p>
+                <div className="bg-white rounded-xl p-4 text-center border border-slate-200">
+                  <p className="text-sm text-slate-600 mb-1">Statutory Attorney Fee</p>
+                  <p className="text-xl font-semibold text-slate-900">${statutoryFee.toLocaleString()}</p>
+                  <p className="text-xs text-slate-500 mt-1">(Probate Code 10810, on {totalEstate.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })})</p>
                 </div>
-                <div className="bg-blue-900 text-white rounded-lg p-4 text-center">
-                  <p className="text-sm text-blue-200 mb-1">Our Flat Fee</p>
-                  <p className="text-xl font-bold">${ourFee.toLocaleString()}</p>
-                  <p className="text-xs text-blue-200 mt-1">Full probate, estate {tierLabel}</p>
+                <div className="bg-white rounded-xl p-4 text-center border-2 border-[var(--mp-navy)] text-slate-900">
+                  <p className="text-sm text-slate-600 mb-1">Our Flat Fee</p>
+                  <p className="text-xl font-semibold">${ourFee.toLocaleString()}</p>
+                  <p className="text-xs text-slate-600 mt-1">Full probate, estate {tierLabel}</p>
                 </div>
-                <div className="bg-green-100 rounded-lg p-4 text-center border border-green-200">
-                  <p className="text-sm text-green-600 mb-1">Difference</p>
-                  <p className="text-xl font-bold text-green-700">${savings.toLocaleString()}</p>
-                  <p className="text-xs text-gray-500 mt-1">{percentLess}% less than the statutory attorney fee</p>
+                <div className="bg-slate-50 rounded-xl p-4 text-center border border-slate-200">
+                  <p className="text-sm mp-brand mb-1">Difference</p>
+                  <p className="text-xl font-semibold text-slate-900">${savings.toLocaleString()}</p>
+                  <p className="text-xs text-slate-500 mt-1">{percentLess}% less than the statutory attorney fee</p>
                 </div>
               </div>
             </div>
@@ -611,40 +502,40 @@ const CityProbatePage = () => {
 
         {/* Why Choose Us for This City */}
         <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-6">
                 {city.name} Probate Expertise
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-600 mb-6">
                 {city.localHook}
               </p>
 
-              <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                <h3 className="font-bold text-lg text-gray-900 mb-4">Our {city.name} service includes:</h3>
+              <div className="bg-slate-50 rounded-xl p-6 mb-8">
+                <h3 className="font-semibold text-lg text-slate-900 mb-4">Our {city.name} service includes:</h3>
                 <ul className="grid md:grid-cols-2 gap-3">
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
+                    <Check className="h-5 w-5 mp-brand mr-2" />
                     Attorney-prepared court papers for you to sign and file as the petitioner
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
+                    <Check className="h-5 w-5 mp-brand mr-2" />
                     Inventory papers for the {city.county} County probate referee, who values the property
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
+                    <Check className="h-5 w-5 mp-brand mr-2" />
                     Which {city.county} County newspaper to use and the exact notice text; you place it
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
+                    <Check className="h-5 w-5 mp-brand mr-2" />
                     IGN note clearance at {city.courthouse}
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
+                    <Check className="h-5 w-5 mp-brand mr-2" />
                     Optional remote court appearance ($500 per hearing, limited scope)
                   </li>
                   <li className="flex items-center">
-                    <Check className="h-5 w-5 text-green-600 mr-2" />
+                    <Check className="h-5 w-5 mp-brand mr-2" />
                     Dashboard tracking until case closes
                   </li>
                 </ul>
@@ -653,8 +544,8 @@ const CityProbatePage = () => {
               {/* NEW: Common Estate Types Section */}
               {estateTypes && (
                 <div className="mb-10">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{estateTypes.title}</h2>
-                  <p className="text-gray-700 leading-relaxed">{estateTypes.content}</p>
+                  <h2 className="text-2xl font-semibold text-slate-900 mb-4">{estateTypes.title}</h2>
+                  <p className="text-slate-700 leading-relaxed">{estateTypes.content}</p>
                 </div>
               )}
             </div>
@@ -662,13 +553,13 @@ const CityProbatePage = () => {
         </section>
 
         {/* Nearby Areas */}
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 bg-slate-50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-4">
                 Also Serving {city.nearby.slice(0, 3).join(', ')}
               </h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-slate-600 mb-8">
                 We prepare probate court papers for families throughout {city.county} County, including:
               </p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -679,15 +570,15 @@ const CityProbatePage = () => {
                     <Link
                       key={slug}
                       to={`/locations/${slug}-probate-attorney`}
-                      className="bg-white p-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:shadow-md transition-all"
+                      className="bg-white p-4 rounded-xl border border-slate-200 hover:border-[var(--mp-navy)] transition-all"
                     >
-                      <p className="font-medium text-gray-900">{nearbyCity.name}</p>
-                      <p className="text-sm text-gray-500">{nearbyCity.county} County</p>
+                      <p className="font-medium text-slate-900">{nearbyCity.name}</p>
+                      <p className="text-sm text-slate-500">{nearbyCity.county} County</p>
                     </Link>
                   );
                 })}
               </div>
-              <p className="text-gray-600 mt-6">
+              <p className="text-slate-600 mt-6">
                 All {city.county} County cases are filed at the same courthouse, so the same filing steps apply across the region.
               </p>
             </div>
@@ -696,31 +587,31 @@ const CityProbatePage = () => {
 
         {/* Local FAQ - Now 7 questions */}
         <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-center text-slate-900 mb-8">
                 {city.name} Probate FAQ
               </h2>
               <div className="space-y-4">
                 {faqs.map((faq, index) => (
                   <div
                     key={index}
-                    className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden"
+                    className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden"
                   >
                     <button
                       onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                      className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-100"
+                      className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-100"
                     >
-                      <span className="font-medium text-gray-900 pr-4">{faq.q}</span>
+                      <span className="font-medium text-slate-900 pr-4">{faq.q}</span>
                       {expandedFaq === index ? (
-                        <ChevronUp className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                        <ChevronUp className="h-5 w-5 text-slate-500 flex-shrink-0" />
                       ) : (
-                        <ChevronDown className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                        <ChevronDown className="h-5 w-5 text-slate-500 flex-shrink-0" />
                       )}
                     </button>
                     {expandedFaq === index && (
                       <div className="px-6 pb-4">
-                        <p className="text-gray-600">{faq.a}</p>
+                        <p className="text-slate-600">{faq.a}</p>
                       </div>
                     )}
                   </div>
@@ -731,56 +622,56 @@ const CityProbatePage = () => {
         </section>
 
         {/* Related Resources - Internal Linking for SEO */}
-        <section className="py-12 bg-gray-100">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-12 bg-slate-100">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl font-semibold text-slate-900 mb-6">
                 Helpful Probate Resources for {city.name} Executors
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {city.county === 'Los Angeles' && (
                   <Link
                     to="/learn-california-probate/clear-ign-notes-stanley-mosk"
-                    className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                    className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                   >
-                    <h3 className="font-bold text-blue-900 mb-2">How to Clear IGN Notes at Stanley Mosk</h3>
-                    <p className="text-gray-600 text-sm">Essential guide for {city.name} executors filing at the LA courthouse.</p>
+                    <h3 className="font-semibold mp-brand mb-2">How to Clear IGN Notes at Stanley Mosk</h3>
+                    <p className="text-slate-600 text-sm">Essential guide for {city.name} executors filing at the LA courthouse.</p>
                   </Link>
                 )}
                 <Link
                   to="/learn-california-probate/california-probate-fees-statutory-vs-flat"
-                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                  className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                 >
-                  <h3 className="font-bold text-blue-900 mb-2">Probate Fees Explained</h3>
-                  <p className="text-gray-600 text-sm">How the statutory attorney fee is figured under Probate Code 10810, compared with our flat fee by estate value.</p>
+                  <h3 className="font-semibold mp-brand mb-2">Probate Fees Explained</h3>
+                  <p className="text-slate-600 text-sm">How the statutory attorney fee is figured under Probate Code 10810, compared with our flat fee by estate value.</p>
                 </Link>
                 <Link
                   to="/learn-california-probate/letters-testamentary-california-guide"
-                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                  className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                 >
-                  <h3 className="font-bold text-blue-900 mb-2">Letters Testamentary: Your Legal Authority</h3>
-                  <p className="text-gray-600 text-sm">How to use Letters from {city.courthouse} to access bank accounts and transfer property.</p>
+                  <h3 className="font-semibold mp-brand mb-2">Letters Testamentary: Your Legal Authority</h3>
+                  <p className="text-slate-600 text-sm">How to use Letters from {city.courthouse} to access bank accounts and transfer property.</p>
                 </Link>
                 <Link
                   to="/learn-california-probate/what-is-probate-referee-california"
-                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                  className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                 >
-                  <h3 className="font-bold text-blue-900 mb-2">Probate Referee: Asset Appraisal Process</h3>
-                  <p className="text-gray-600 text-sm">What to expect when the {city.county} County probate referee values estate assets.</p>
+                  <h3 className="font-semibold mp-brand mb-2">Probate Referee: Asset Appraisal Process</h3>
+                  <p className="text-slate-600 text-sm">What to expect when the {city.county} County probate referee values estate assets.</p>
                 </Link>
                 <Link
                   to="/learn-california-probate/probate-bond-requirements-california"
-                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                  className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                 >
-                  <h3 className="font-bold text-blue-900 mb-2">Probate Bond Requirements</h3>
-                  <p className="text-gray-600 text-sm">When {city.county} County requires a bond and when it can be waived.</p>
+                  <h3 className="font-semibold mp-brand mb-2">Probate Bond Requirements</h3>
+                  <p className="text-slate-600 text-sm">When {city.county} County requires a bond and when it can be waived.</p>
                 </Link>
                 <Link
                   to="/probate-faq-california"
-                  className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
+                  className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                 >
-                  <h3 className="font-bold text-blue-900 mb-2">California Probate FAQ</h3>
-                  <p className="text-gray-600 text-sm">50+ common questions about probate answered by Attorney Rozsa Gyene.</p>
+                  <h3 className="font-semibold mp-brand mb-2">California Probate FAQ</h3>
+                  <p className="text-slate-600 text-sm">50+ common questions about probate answered by Attorney Rozsa Gyene.</p>
                 </Link>
               </div>
             </div>
@@ -788,33 +679,25 @@ const CityProbatePage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Start Your {city.name} Probate Case</h2>
-              <p className="text-blue-100 text-lg mb-8">
-                Complete the free intake questionnaire in about 30 minutes. We'll recommend
-                simplified probate ($2,495) or full administration ($3,995, $5,995 or $7,995 by estate value) based on your estate.
-              </p>
-              <button
-                onClick={handleStartCase}
-                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center"
-              >
-                Start Your Case - Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </div>
-          </div>
-        </section>
+        <StartBand title={`Start Your ${city.name} Probate Case`}>
+          <p className="mt-3 text-white/90 text-lg mb-8">
+            Complete the free intake questionnaire in about 30 minutes. We'll recommend
+            simplified probate ($2,495) or full administration ($3,995, $5,995 or $7,995 by estate value) based on your estate.
+          </p>
+          <button onClick={handleStartCase} className={BAND_BUTTON}>
+            Start your case
+            <ArrowRight className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+          </button>
+        </StartBand>
 
         {/* Credentials with Office */}
-        <section className="py-12 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-12 bg-slate-50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 {/* Office Image */}
                 <div className="md:w-1/3">
-                  <div className="rounded-lg overflow-hidden shadow-lg">
+                  <div className="rounded-xl overflow-hidden border border-slate-200">
                     <img
                       src="/Rozsa-Gyene.jpg"
                       alt="Law Offices of Rozsa Gyene, 3500 W. Olive Ave., Suite 300, Burbank, CA 91505"
@@ -826,21 +709,21 @@ const CityProbatePage = () => {
                 {/* Attorney Info */}
                 <div className="md:w-2/3 text-center md:text-left">
                   <div className="flex items-center justify-center md:justify-start mb-4">
-                    <Award className="h-8 w-8 text-blue-900" />
+                    <Award className="h-8 w-8 mp-brand" />
                   </div>
-                  <h3 className="font-bold text-xl text-gray-900 mb-2">Rozsa Gyene, Esq.</h3>
-                  <p className="text-gray-600 mb-4">3500 W. Olive Ave., Suite 300, Burbank, CA 91505</p>
-                  <ul className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-600 mb-4">
+                  <h3 className="font-semibold text-xl text-slate-900 mb-2">Rozsa Gyene, Esq.</h3>
+                  <p className="text-slate-600 mb-4">3500 W. Olive Ave., Suite 300, Burbank, CA 91505</p>
+                  <ul className="flex flex-wrap justify-center md:justify-start gap-4 text-slate-600 mb-4">
                     <li className="flex items-center">
-                      <Check className="h-4 w-4 text-green-600 mr-1" />
+                      <Check className="h-4 w-4 mp-brand mr-1" />
                       California State Bar #208356
                     </li>
                     <li className="flex items-center">
-                      <Check className="h-4 w-4 text-green-600 mr-1" />
+                      <Check className="h-4 w-4 mp-brand mr-1" />
                       26+ Years Experience
                     </li>
                     <li className="flex items-center">
-                      <Check className="h-4 w-4 text-green-600 mr-1" />
+                      <Check className="h-4 w-4 mp-brand mr-1" />
                       500+ Cases
                     </li>
                   </ul>
@@ -848,7 +731,7 @@ const CityProbatePage = () => {
                     href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/208356"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                    className="inline-flex items-center mp-brand hover:text-slate-800 font-medium"
                   >
                     Verify License <ExternalLink className="h-4 w-4 ml-1" />
                   </a>
@@ -859,58 +742,7 @@ const CityProbatePage = () => {
         </section>
 
         {/* Footer */}
-        <footer className="bg-gray-900 text-gray-300 py-12">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="grid md:grid-cols-4 gap-8">
-              <div>
-                <div className="flex items-center space-x-2 text-white mb-4">
-                  <Scale className="h-6 w-6" />
-                  <span className="font-bold text-lg">MyProbateCA</span>
-                </div>
-                <p className="text-sm text-gray-400">
-                  Professional attorney-led probate administration for California estates.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-4">Services</h4>
-                <ul className="space-y-2 text-sm">
-                  <li><Link to="/california-probate-administration" className="hover:text-white">Full Probate</Link></li>
-                  <li><Link to="/probate-court-locations-california" className="hover:text-white">All Locations</Link></li>
-                  <li><Link to="/probate-faq-california" className="hover:text-white">Probate FAQ</Link></li>
-                  <li><Link to="/learn-california-probate" className="hover:text-white">Learn Center</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-4">Legal</h4>
-                <ul className="space-y-2 text-sm">
-                  <li><Link to="/terms" className="hover:text-white">Terms of Service</Link></li>
-                  <li><Link to="/privacy" className="hover:text-white">Privacy Policy</Link></li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-white mb-4">Contact</h4>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center">
-                    <Phone className="h-4 w-4 mr-2" />
-                    818-337-4071
-                  </li>
-                  <li className="flex items-center">
-                    <Mail className="h-4 w-4 mr-2" />
-                    rozsa@myprobateca.com
-                  </li>
-                  <li className="flex items-start">
-                    <MapPin className="h-4 w-4 mr-2 mt-1" />
-                    <span>3500 W. Olive Ave., Suite 300<br />Burbank, CA 91505</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-              <p>&copy; {new Date().getFullYear()} Law Offices of Rozsa Gyene. All rights reserved.</p>
-              <p className="mt-2">California State Bar #208356</p>
-            </div>
-          </div>
-        </footer>
+        <SiteFooter />
       </div>
     </>
   );
