@@ -243,7 +243,7 @@ const LettersTestamentary = () => {
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-            <span className="text-green-900">Attorney appearance at hearing if needed ($500 additional)</span>
+            <span className="text-green-900">Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)</span>
           </li>
         </ul>
       </div>

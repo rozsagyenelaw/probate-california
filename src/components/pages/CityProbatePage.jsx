@@ -641,7 +641,7 @@ const CityProbatePage = () => {
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-600 mr-2" />
-                    Remote court appearances ($500 add-on)
+                    Optional remote court appearance ($500 per hearing, limited scope)
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-600 mr-2" />

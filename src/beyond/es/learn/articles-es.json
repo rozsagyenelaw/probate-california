@@ -15,7 +15,7 @@
       },
       {
         "component": "LettersTestamentary",
-        "sentence": "Attorney appearance at hearing if needed ($500 additional)"
+        "sentence": "Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)"
       },
       {
         "component": "ProbateBondRequirements",
@@ -1165,13 +1165,13 @@
             "Preparación de todos los documentos necesarios para obtener las Cartas",
             "Orientación sobre cuántas copias certificadas pedir",
             "Instrucciones para usar las Cartas con bancos e instituciones",
-            "Comparecencia de la abogada en la audiencia si es necesario ($500 adicionales)"
+            "Comparecencia opcional de la abogada en una audiencia ($500 por audiencia, representación de alcance limitado)"
           ],
           "en": [
             "Preparation of all documents needed to obtain Letters",
             "Guidance on how many certified copies to order",
             "Instructions for using Letters with banks and institutions",
-            "Attorney appearance at hearing if needed ($500 additional)"
+            "Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)"
           ]
         },
         {

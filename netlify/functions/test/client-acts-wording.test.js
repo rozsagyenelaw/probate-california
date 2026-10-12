@@ -78,3 +78,16 @@ test('item p2: APPROVAL-8 rows 1 to 10', () => {
   assert.ok(read('netlify/functions/lib/stripeText.js').includes("name: 'Contested Hearing Appearance ($600 per hearing, limited scope)'"), 'row 9 (item o)');
   assert.ok(read(pages[3]).includes('Want an attorney at your hearing? Rozsa Gyene can appear for you at that hearing'), 'row 10');
 });
+
+// Item t (third message, point 8, approved in writing): the city service line and the Letters article add-on line.
+test('item t: city service line and Letters add-on line, every copy', () => {
+  const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
+  const all = files.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+  assert.ok(!all.includes('($500 add-on)') && !all.includes('($500 additional)') && !all.includes('($500 adicionales)'));
+  assert.ok(read('src/components/pages/CityProbatePage.jsx').includes('Optional remote court appearance ($500 per hearing, limited scope)'));
+  const L = 'Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)';
+  assert.ok(read('src/components/learn/articles/LettersTestamentary.jsx').includes(L));
+  assert.strictEqual(read('src/beyond/es/learn/articles-es.json').split(L).length - 1, 2);
+  assert.ok(read('src/beyond/es/learn/articles-es.json').includes('Comparecencia opcional de la abogada en una audiencia ($500 por audiencia, representación de alcance limitado)'));
+  assert.ok(read('netlify/functions/ai-helper-data/learn-articles.json').includes(L));
+});
