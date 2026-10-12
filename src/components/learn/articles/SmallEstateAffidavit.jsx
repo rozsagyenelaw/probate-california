@@ -79,7 +79,7 @@ const SmallEstateAffidavit = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">California Small Estate Limits (2024-2025)</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">California Small Estate Limits (deaths on or after April 1, 2025)</h2>
 
       <div className="bg-white border-2 border-blue-200 rounded-lg p-6 mb-6">
         <h3 className="font-bold text-blue-900 text-xl mb-4">Current Thresholds</h3>
@@ -100,7 +100,7 @@ const SmallEstateAffidavit = () => {
           </tbody>
         </table>
         <p className="mt-4 text-sm text-gray-600">
-          <strong>Note:</strong> Effective April 1, 2025, these limits increase to <strong>$208,850</strong> for personal property and <strong>$750,000</strong> for real property (primary residence only).
+          <strong>Note:</strong> These amounts apply to deaths on or after April 1, 2025: <strong>$208,850</strong> for the small estate affidavit (Probate Code 13100) and <strong>$750,000</strong> for the petition for the primary residence (Probate Code 13151). Source: Judicial Council of California, <a href="https://courts.ca.gov/system/files/file/probate-code-890-adjusted-amounts.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Maximum Amounts for Determining Eligibility for Summary Succession Procedures</a>. The amounts are next adjusted on April 1, 2028.
         </p>
       </div>
 

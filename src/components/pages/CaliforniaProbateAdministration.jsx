@@ -430,7 +430,7 @@ const CaliforniaProbateAdministration = () => {
                   Pricing
                 </button>
                 <Link to="/probate-court-locations-california" className="hover:text-blue-200 transition-colors">
-                  Locations
+                  City Guides
                 </Link>
                 <Link to="/probate-faq-california" className="hover:text-blue-200 transition-colors">
                   FAQ
@@ -502,7 +502,7 @@ const CaliforniaProbateAdministration = () => {
                   <button onClick={() => scrollToSection('pricing')} className="text-left hover:text-blue-200">
                     Pricing
                   </button>
-                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
+                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">City Guides</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                   <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                   {user ? (
@@ -982,8 +982,8 @@ const CaliforniaProbateAdministration = () => {
                     <MapPin className="h-8 w-8 text-red-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900">35 Service Locations</h3>
-                    <p className="text-gray-600 text-sm">Find probate help in your California city.</p>
+                    <h3 className="font-bold text-gray-900">City Guides</h3>
+                    <p className="text-gray-600 text-sm">Local probate court guides. We prepare probate papers for estates anywhere in California.</p>
                   </div>
                 </Link>
               </div>
@@ -1028,7 +1028,7 @@ const CaliforniaProbateAdministration = () => {
                 <h4 className="font-semibold text-white mb-4">Services</h4>
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/california-probate-administration" className="hover:text-white">Full Probate Administration</Link></li>
-                  <li><Link to="/probate-court-locations-california" className="hover:text-white">All Locations</Link></li>
+                  <li><Link to="/probate-court-locations-california" className="hover:text-white">All City Guides</Link></li>
                   <li><Link to="/probate-faq-california" className="hover:text-white">Probate FAQ</Link></li>
                   <li><Link to="/learn-california-probate" className="hover:text-white">Learn Center</Link></li>
                 </ul>

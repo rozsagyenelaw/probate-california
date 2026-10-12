@@ -178,7 +178,7 @@
       "en": [
         "→ How Our Process Works",
         "→ Probate FAQ (50+ Questions)",
-        "→ 35 California Locations",
+        "→ City guides",
         "→ Los Angeles Probate",
         "→ San Francisco Probate",
         "→ San Diego Probate"
@@ -186,7 +186,7 @@
       "items": [
         "Cómo funciona nuestro proceso",
         "Preguntas frecuentes sobre la sucesión (más de 50 preguntas)",
-        "35 ubicaciones en California",
+        "Guías por ciudad",
         "Sucesión en Los Ángeles",
         "Sucesión en San Francisco",
         "Sucesión en San Diego"
@@ -1584,8 +1584,8 @@
         },
         {
           "type": "p",
-          "text": "Vea las 35 ubicaciones de cortes de sucesión en California →",
-          "en": "See all 35 California probate court locations →"
+          "text": "Vea nuestras guías por ciudad sobre las cortes de sucesiones →",
+          "en": "See our city guides to local probate courts →"
         },
         {
           "type": "h2",
@@ -1831,7 +1831,7 @@
         {
           "type": "h2",
           "text": "Límites para patrimonios pequeños en California (2024-2025)",
-          "en": "California Small Estate Limits (2024-2025)"
+          "en": "California Small Estate Limits (deaths on or after April 1, 2025)"
         },
         {
           "type": "h3",
@@ -1872,7 +1872,7 @@
         {
           "type": "p",
           "text": "Nota: A partir del 1 de abril de 2025, estos límites aumentan a $208,850 para bienes muebles y a $750,000 para bienes inmuebles (solo residencia principal).",
-          "en": "Note: Effective April 1, 2025, these limits increase to $208,850 for personal property and $750,000 for real property (primary residence only)."
+          "en": "Note: These amounts apply to deaths on or after April 1, 2025: $208,850 for the small estate affidavit (Probate Code 13100) and $750,000 for the petition for the primary residence (Probate Code 13151). Source: Judicial Council of California, Maximum Amounts for Determining Eligibility for Summary Succession Procedures. The amounts are next adjusted on April 1, 2028."
         },
         {
           "type": "h2",

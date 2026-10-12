@@ -242,7 +242,7 @@ const LearnHub = () => {
 
               <div className="hidden lg:flex items-center gap-4 xl:gap-6 whitespace-nowrap">
                 <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
+                <Link to="/probate-court-locations-california" className="hover:text-blue-200">City Guides</Link>
                 <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                 <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                 {user ? (
@@ -283,7 +283,7 @@ const LearnHub = () => {
               <div className="lg:hidden py-4 border-t border-blue-800">
                 <div className="flex flex-col space-y-3">
                   <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
+                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">City Guides</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                   <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                   {user ? (

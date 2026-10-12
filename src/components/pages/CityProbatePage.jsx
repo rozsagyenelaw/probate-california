@@ -8,7 +8,7 @@ import SiteFooter from '../site/SiteFooter';
 import { Breadcrumbs, PageHero, StartBand, HERO_BUTTON, BAND_BUTTON } from '../site/PagePieces';
 import { getCityBySlug, CITY_DATA } from '../../data/cityData';
 import { cityFeeExample } from '../../services/cityFees.mjs';
-import { COMMON_ESTATE_TYPES, LOCAL_STATS, getPublicationInfo } from '../../data/cityDetailedData';
+import { COMMON_ESTATE_TYPES, SUPERIOR_COURTS, getPublicationInfo } from '../../data/cityDetailedData';
 import {
   ArrowRight,
   Building2,
@@ -20,11 +20,10 @@ import {
   DollarSign,
   Clock,
   FileText,
-  Lightbulb,
-  BarChart3,
+  Landmark,
 } from 'lucide-react';
 
-// H1 variations to avoid duplicate title patterns across 35+ location pages
+// H1 variations to avoid duplicate title patterns across the city guide pages
 const getH1Variation = (city, index) => {
   const variations = [
     `${city.name} Probate Attorney | Flat Fee Estate Administration`,
@@ -116,7 +115,7 @@ const CityProbatePage = () => {
 
   // Get detailed city data
   const estateTypes = COMMON_ESTATE_TYPES[cleanSlug];
-  const localStats = LOCAL_STATS[cleanSlug];
+  const localCourt = SUPERIOR_COURTS[city.county];
   const publicationInfo = getPublicationInfo(city.county);
 
   // Get city index for H1/meta variations (to avoid duplicate patterns)
@@ -143,7 +142,7 @@ const CityProbatePage = () => {
     },
     {
       q: `How long does probate take in ${city.name}?`,
-      a: `Most ${city.name} probate cases take 9-18 months. The ${city.courthouse} typically schedules initial hearings within ${city.waitTime} weeks of filing.`
+      a: `The court sets the first hearing date when the petition is filed. How long the whole case takes depends on the court's calendar and the estate; full probate often takes about 9 to 18 months (estimate).`
     },
     {
       q: `How much does probate cost in ${city.name}?`,
@@ -151,7 +150,7 @@ const CityProbatePage = () => {
     },
     {
       q: `Do I need probate if I own a home in ${city.name}?`,
-      a: `With ${city.name}'s median home price of ${city.medianHome}, most estates require full probate unless the property was held in a living trust, joint tenancy, or has a transfer-on-death deed.`
+      a: `A home in the person's name alone usually needs a court process, unless it was held in a living trust, in joint tenancy, or with a transfer-on-death deed or passes to a surviving spouse. If it was the primary residence and is worth $750,000 or less (deaths on or after April 1, 2025), the simplified petition (Probate Code 13151) may be enough; otherwise full probate is needed.`
     },
     {
       q: `Can you appear in court for me in ${city.name}?`,
@@ -163,7 +162,7 @@ const CityProbatePage = () => {
     },
     {
       q: `How do I know if simplified probate is available for a ${city.name} estate?`,
-      a: `California simplified probate requires: primary residence under $750,000, total personal property under $208,850, and death after April 1, 2025. With ${city.name}'s median home price of ${city.medianHome}, most estates require full probate. Our free intake questionnaire automatically determines which option applies to your situation.`
+      a: `For deaths on or after April 1, 2025, simplified probate (Probate Code 13151) can transfer the primary residence in California if it is worth $750,000 or less, with no limit on the other property. Other property totaling $208,850 or less can be collected separately with a small estate affidavit (Probate Code 13100). Our free intake questions show which option fits your situation.`
     }
   ];
 
@@ -175,7 +174,7 @@ const CityProbatePage = () => {
         "@type": "BreadcrumbList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myprobateca.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://myprobateca.com/probate-court-locations-california" },
+          { "@type": "ListItem", "position": 2, "name": "City Guides", "item": "https://myprobateca.com/probate-court-locations-california" },
           { "@type": "ListItem", "position": 3, "name": `${city.name} Probate Attorney`, "item": `https://myprobateca.com/locations/${city.slug}-probate-attorney` }
         ]
       },
@@ -187,12 +186,8 @@ const CityProbatePage = () => {
         "telephone": "+1-818-337-4071",
         "priceRange": "$2,495 to $7,995",
         "areaServed": {
-          "@type": "City",
-          "name": city.name,
-          "containedInPlace": {
-            "@type": "State",
-            "name": "California"
-          }
+          "@type": "State",
+          "name": "California"
         },
         "provider": {
           "@type": "Person",
@@ -262,7 +257,7 @@ const CityProbatePage = () => {
         <SiteHeader />
 
         {/* Breadcrumb */}
-        <Breadcrumbs items={[{ to: '/', label: 'Home' }, { to: '/probate-court-locations-california', label: 'Locations' }, { label: `${city.name} Probate Attorney` }]} />
+        <Breadcrumbs items={[{ to: '/', label: 'Home' }, { to: '/probate-court-locations-california', label: 'City Guides' }, { label: `${city.name} Probate Attorney` }]} />
 
         {/* Hero Section */}
         <PageHero title={getH1Variation(city, cityIndex)}>
@@ -324,16 +319,16 @@ const CityProbatePage = () => {
                 <div className="bg-slate-50 rounded-xl p-4">
                   <div className="flex items-center mb-2">
                     <Clock className="h-5 w-5 mp-brand mr-2" />
-                    <span className="font-semibold text-slate-900">Wait for Hearing</span>
+                    <span className="font-semibold text-slate-900">Hearing Date</span>
                   </div>
-                  <p className="text-slate-600">{city.waitTime} weeks</p>
+                  <p className="text-slate-600">set by the court when you file</p>
                 </div>
                 <div className="bg-slate-50 rounded-xl p-4">
                   <div className="flex items-center mb-2">
                     <FileText className="h-5 w-5 mp-brand mr-2" />
-                    <span className="font-semibold text-slate-900">Probate Notes Posted</span>
+                    <span className="font-semibold text-slate-900">Probate Notes</span>
                   </div>
-                  <p className="text-slate-600">5-10 days before hearing</p>
+                  <p className="text-slate-600">we check the court's probate notes and prepare the answers before your hearing.</p>
                 </div>
               </div>
 
@@ -344,36 +339,17 @@ const CityProbatePage = () => {
                 </p>
               </div>
 
-              {/* NEW: Local Probate Timeline & Statistics */}
-              {localStats && (
+              {/* Local court (eighth message I2): the county Superior Court and its own published probate page */}
+              {localCourt && (
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-8">
-                  <div className="flex items-center mb-4">
-                    <BarChart3 className="h-5 w-5 mp-brand mr-2" />
-                    <h3 className="text-lg font-semibold text-slate-900">{city.name} Probate Timeline & Statistics</h3>
+                  <div className="flex items-center mb-3">
+                    <Landmark className="h-5 w-5 mp-brand mr-2" strokeWidth={1.75} aria-hidden="true" />
+                    <h3 className="text-lg font-semibold text-slate-900">Local court</h3>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <span className="text-sm mp-brand font-medium">Average Duration:</span>
-                      <p className="text-slate-800 font-semibold">{localStats.avgDuration}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm mp-brand font-medium">Court Volume:</span>
-                      <p className="text-slate-800">{localStats.filingVolume}</p>
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <span className="text-sm mp-brand font-medium">Examiner Notes:</span>
-                    <p className="text-slate-700">{localStats.examinerNotes}</p>
-                  </div>
-                  <div className="bg-white border border-slate-200 p-3 rounded-xl">
-                    <div className="flex items-start">
-                      <Lightbulb className="h-4 w-4 text-slate-700 mr-2 mt-0.5 flex-shrink-0" />
-                      <div>
-                        <span className="text-sm text-slate-700 font-medium">Local Tip:</span>
-                        <p className="text-slate-700 text-sm mt-1">{localStats.localTip}</p>
-                      </div>
-                    </div>
-                  </div>
+                  <a href={localCourt.url} target="_blank" rel="noopener noreferrer" className="mp-link inline-flex items-center">
+                    {localCourt.name}
+                    <ExternalLink className="h-4 w-4 ml-1" strokeWidth={1.75} aria-hidden="true" />
+                  </a>
                 </div>
               )}
 
@@ -399,33 +375,37 @@ const CityProbatePage = () => {
                 Probate Thresholds & {city.name} Real Estate
               </h2>
               <p className="text-slate-600 mb-8">
-                With {city.name}'s median home price of <span className="font-semibold mp-brand">{city.medianHome}</span>,
-                most estates will exceed California's simplified probate threshold.
+                Whether an estate needs full probate depends on what the person owned and how it was titled. The example below shows how the statutory fee compares with our flat fee.
               </p>
 
               <div className="bg-white rounded-xl border border-slate-200 p-6 mb-8">
-                <h3 className="font-semibold text-lg text-slate-900 mb-4">California Probate Thresholds (2025)</h3>
+                <h3 className="font-semibold text-lg text-slate-900 mb-4">California Probate Thresholds (deaths on or after April 1, 2025)</h3>
                 <ul className="space-y-2 text-slate-600">
                   <li className="flex items-start">
                     <Check className="h-5 w-5 mp-brand mr-2 flex-shrink-0 mt-0.5" />
-                    <span><strong>Simplified Probate:</strong> Primary residence under $750,000 + personal property under $208,850</span>
+                    <span><strong>Simplified Probate (Probate Code 13151):</strong> a court petition for the primary residence in California, if it is worth $750,000 or less. There is no limit on the other property for this petition.</span>
                   </li>
                   <li className="flex items-start">
                     <Check className="h-5 w-5 mp-brand mr-2 flex-shrink-0 mt-0.5" />
-                    <span><strong>Full Probate:</strong> All other estates</span>
+                    <span><strong>Small Estate Affidavit (Probate Code 13100):</strong> a separate form, with no court filing, to collect other property if it totals $208,850 or less. The house transferred by the 13151 petition is not counted.</span>
+                  </li>
+                  <li className="flex items-start">
+                    <Check className="h-5 w-5 mp-brand mr-2 flex-shrink-0 mt-0.5" />
+                    <span><strong>Full Probate:</strong> when neither of these covers the property.</span>
                   </li>
                 </ul>
+                <p className="mt-4 text-sm text-slate-600">Property in a living trust, in joint tenancy or with a named beneficiary does not count toward these limits.</p>
               </div>
 
               <div className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-8">
                 <div className="bg-slate-50 border-b border-slate-200 text-slate-900 p-4">
-                  <h3 className="font-semibold text-lg">{city.name} Estate Example</h3>
+                  <h3 className="font-semibold text-lg">Example Estate in {city.name}</h3>
                 </div>
                 <div className="p-6">
                   <table className="w-full">
                     <tbody>
                       <tr className="border-b border-slate-200">
-                        <td className="py-2 text-slate-600">{city.name} Home</td>
+                        <td className="py-2 text-slate-600">Home (example value)</td>
                         <td className="py-2 text-right font-medium">{city.medianHome}</td>
                       </tr>
                       <tr className="border-b border-slate-200">
@@ -442,6 +422,7 @@ const CityProbatePage = () => {
                       </tr>
                     </tbody>
                   </table>
+                  <p className="mt-3 text-xs text-slate-500">Example figures, not market data.</p>
                 </div>
               </div>
 
@@ -505,10 +486,10 @@ const CityProbatePage = () => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900 mb-6">
-                {city.name} Probate Expertise
+                Probate in {city.name}
               </h2>
               <p className="text-slate-600 mb-6">
-                {city.localHook}
+                When the person who died lived in {city.name}, the probate case is filed in the {city.county} County Superior Court. Our office prepares the court papers for {city.name} families and clears the probate notes; you file them as the petitioner, with step-by-step instructions.
               </p>
 
               <div className="bg-slate-50 rounded-xl p-6 mb-8">

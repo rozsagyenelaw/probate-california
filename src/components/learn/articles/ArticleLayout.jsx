@@ -126,7 +126,7 @@ const ArticleLayout = ({
 
               <div className="hidden lg:flex items-center gap-4 xl:gap-6 whitespace-nowrap">
                 <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
+                <Link to="/probate-court-locations-california" className="hover:text-blue-200">City Guides</Link>
                 <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                 <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                 {user ? (
@@ -167,7 +167,7 @@ const ArticleLayout = ({
               <div className="lg:hidden py-4 border-t border-blue-800">
                 <div className="flex flex-col space-y-3">
                   <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">Locations</Link>
+                  <Link to="/probate-court-locations-california" className="hover:text-blue-200">City Guides</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                   <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                   {user ? (
@@ -275,7 +275,7 @@ const ArticleLayout = ({
                 → Probate FAQ (50+ Questions)
               </Link>
               <Link to="/probate-court-locations-california" className="text-blue-700 hover:text-blue-900 hover:underline">
-                → 35 California Locations
+                → City guides
               </Link>
               <Link to="/locations/los-angeles-probate-attorney" className="text-blue-700 hover:text-blue-900 hover:underline">
                 → Los Angeles Probate
@@ -339,9 +339,9 @@ const ArticleLayout = ({
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold text-white mb-4">Locations</h4>
+                <h4 className="font-semibold text-white mb-4">City Guides</h4>
                 <ul className="space-y-2 text-sm">
-                  <li><Link to="/probate-court-locations-california" className="hover:text-white">All Locations</Link></li>
+                  <li><Link to="/probate-court-locations-california" className="hover:text-white">All City Guides</Link></li>
                   <li><Link to="/locations/los-angeles-probate-attorney" className="hover:text-white">Los Angeles</Link></li>
                   <li><Link to="/locations/glendale-probate-attorney" className="hover:text-white">Glendale</Link></li>
                 </ul>

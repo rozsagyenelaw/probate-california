@@ -161,7 +161,7 @@ const ProbateFAQ = () => {
             "name": "What is simplified probate in California?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "California offers simplified probate for smaller estates. For deaths after April 1, 2025: Small Estate Affidavit (no court) for personal property under $208,850, and Simplified Real Property Petition for primary residences under $750,000 with total personal property under $208,850. These have shorter timelines and lower costs than full probate."
+              "text": "California offers simpler procedures for smaller estates. For deaths on or after April 1, 2025: a Small Estate Affidavit (no court) when the property totals $208,850 or less, and a Simplified Petition (Probate Code 13151) for a primary residence worth $750,000 or less, with no limit on the other property. These have shorter timelines and lower costs than full probate."
             }
           },
           {
@@ -679,8 +679,8 @@ const ProbateFAQ = () => {
                 <div className="bg-slate-50 p-4 rounded mt-3">
                   <p className="font-semibold text-slate-800">For deaths after April 1, 2025:</p>
                   <ul className="text-slate-700 text-sm space-y-2 mt-2">
-                    <li><strong>Small Estate Affidavit:</strong> Personal property under $208,850 (no court filing required)</li>
-                    <li><strong>Simplified Real Property Petition:</strong> Primary residence under $750,000 + personal property under $208,850</li>
+                    <li><strong>Small Estate Affidavit (Probate Code 13100):</strong> property worth $208,850 or less in total, not counting a home transferred by the 13151 petition (no court filing required)</li>
+                    <li><strong>Simplified Petition for the Primary Residence (Probate Code 13151):</strong> the home is worth $750,000 or less; no limit on the other property</li>
                   </ul>
                 </div>
                 <p className="text-slate-700 mt-3">Our flat fee for Simplified Probate is <strong>$2,495</strong> (full probate: $3,995 up to $1,000,000; $5,995 from $1,000,000 to $2,000,000; $7,995 over $2,000,000).</p>
@@ -771,7 +771,7 @@ const ProbateFAQ = () => {
               <div>
                 <h4 className="font-semibold text-slate-800 mb-2">Location Guides</h4>
                 <ul className="space-y-1 text-slate-600">
-                  <li><Link to="/probate-court-locations-california" className="hover:text-[var(--mp-navy)]">All 35 California Locations</Link></li>
+                  <li><Link to="/probate-court-locations-california" className="hover:text-[var(--mp-navy)]">City guides</Link></li>
                   <li><Link to="/locations/los-angeles-probate-attorney" className="hover:text-[var(--mp-navy)]">Los Angeles (Stanley Mosk)</Link></li>
                   <li><Link to="/locations/glendale-probate-attorney" className="hover:text-[var(--mp-navy)]">Glendale</Link></li>
                   <li><Link to="/locations/san-francisco-probate-attorney" className="hover:text-[var(--mp-navy)]">San Francisco</Link></li>

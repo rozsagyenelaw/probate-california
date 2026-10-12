@@ -131,7 +131,7 @@ const HowToFileProbate = () => {
           <li><strong>Santa Clara County:</strong> Downtown Superior Court, 191 N. First Street</li>
         </ul>
         <p className="mt-4 text-sm text-gray-600">
-          <Link to="/probate-court-locations-california" className="text-blue-600 hover:underline">See all 35 California probate court locations →</Link>
+          <Link to="/probate-court-locations-california" className="text-blue-600 hover:underline">See our city guides to local probate courts →</Link>
         </p>
       </div>
 
