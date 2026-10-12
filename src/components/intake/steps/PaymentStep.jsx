@@ -446,8 +446,8 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
           <h3 className="text-lg font-semibold text-amber-900">Optional Add-On: Remote Court Appearance</h3>
         </div>
         <p className="text-sm text-amber-700 mb-4">
-          Can't attend your hearing? Most California probate hearings allow remote appearances.
-          Attorney Rozsa Gyene can appear on your behalf from anywhere in California.
+          Want an attorney at your hearing? Rozsa Gyene can appear for you at that hearing
+          as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection). You remain the petitioner.
         </p>
 
         <div className="grid md:grid-cols-2 gap-4 mb-4">

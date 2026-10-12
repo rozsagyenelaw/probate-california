@@ -102,7 +102,7 @@ const ProbateCourtLocations = () => {
             "name": "Do I have to live in California to start probate for a California resident?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. Many out-of-state executors handle California probate remotely. Attorney Rozsa Gyene can appear at court hearings on your behalf at venues like the Stanley Mosk Courthouse for a $500 flat fee."
+              "text": "No. Many out-of-state executors handle California probate remotely. Rozsa Gyene can appear at a hearing as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection)."
             }
           },
           {
@@ -362,7 +362,7 @@ const ProbateCourtLocations = () => {
                   </div>
                   <h3 className="font-bold text-gray-900 mb-2">Remote Appearances</h3>
                   <p className="text-gray-600 text-sm">
-                    Attorney can appear at hearings remotely for $500 add-on
+                    Optional: Rozsa appears at a hearing as limited scope counsel, $500 per hearing ($600 contested)
                   </p>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm text-center">
@@ -387,7 +387,7 @@ const ProbateCourtLocations = () => {
               <div className="space-y-6">
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-3">Do I have to live in California to start probate for a California resident?</h3>
-                  <p className="text-gray-600">No. We represent many out-of-state executors. Our app allows you to handle everything remotely, and our attorney handles required court appearances at venues like the Stanley Mosk Courthouse on your behalf for just $500.</p>
+                  <p className="text-gray-600">No. Many out-of-state executors use MyProbateCA. You do everything online, and if you want an attorney at a hearing, Rozsa Gyene can appear for you at that hearing as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection). You remain the petitioner.</p>
                 </div>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-3">What if the property is in a different city than where the decedent lived?</h3>

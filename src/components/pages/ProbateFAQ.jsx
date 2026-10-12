@@ -617,8 +617,8 @@ const ProbateFAQ = () => {
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="font-bold text-lg text-gray-900 mb-3">Do I have to appear in court?</h3>
-                <p className="text-gray-700 mb-3">Not necessarily. Most California probate courts now allow <strong>remote appearances</strong> via Zoom or Microsoft Teams for standard hearings.</p>
-                <p className="text-gray-700 mb-3">Attorney Rozsa Gyene can appear on your behalf for a <strong>$500 flat fee</strong>. This is especially helpful if you:</p>
+                <p className="text-gray-700 mb-3">Not always. Many California probate hearings can be attended remotely, if the court allows it for your hearing. Your client home shows each hearing date and what to do.</p>
+                <p className="text-gray-700 mb-3">If you want an attorney at a hearing, Rozsa Gyene can appear for you at that hearing as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection). You remain the petitioner. This is especially helpful if you:</p>
                 <ul className="text-gray-700 space-y-1 ml-4">
                   <li>Live out of state</li>
                   <li>Can't take time off work</li>
@@ -679,7 +679,7 @@ const ProbateFAQ = () => {
                   <li>Post a bond (even if the Will waives it)</li>
                   <li>Appoint a California resident as agent for service of process</li>
                 </ul>
-                <p className="text-gray-700 mt-3">Our service is specifically designed for out-of-state executors. Everything is handled remotely through our online platform, and Attorney Gyene can appear at hearings on your behalf.</p>
+                <p className="text-gray-700 mt-3">Out-of-state executors can do everything online in the client home. If you want an attorney at a hearing, Rozsa Gyene can appear for you as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection).</p>
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-6">

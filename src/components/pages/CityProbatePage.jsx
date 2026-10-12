@@ -175,11 +175,11 @@ const CityProbatePage = () => {
     },
     {
       q: `Can you appear in court for me in ${city.name}?`,
-      a: `Yes. Attorney Rozsa Gyene can appear remotely at ${city.courthouse} hearings for $500. Most ${city.county} County probate hearings allow remote appearances.`
+      a: `Yes, as an option. Rozsa Gyene can appear for you at a ${city.courthouse} hearing as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection). You remain the petitioner.`
     },
     {
       q: `What if I live out of state but need to probate an estate in ${city.name}?`,
-      a: `Out-of-state executors can do everything online through our platform, and Attorney Rozsa Gyene can appear at ${city.courthouse} hearings on your behalf for $500. You never need to travel to California.`
+      a: `Out-of-state executors can do everything online. If you want an attorney at a ${city.courthouse} hearing, Rozsa Gyene can appear for you as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection). Many hearings can be attended remotely, if the court allows it.`
     },
     {
       q: `How do I know if simplified probate is available for a ${city.name} estate?`,

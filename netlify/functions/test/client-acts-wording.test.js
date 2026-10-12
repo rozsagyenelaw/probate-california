@@ -54,3 +54,27 @@ test('item l: no specialist claims, no representation claims, accounting as an a
   const adm = fs.readFileSync(path.join(root, 'src/components/pages/CaliforniaProbateAdministration.jsx'), 'utf8');
   assert.ok(adm.includes('Simple $995 for fewer than 50 transactions, Complex $1,995 for 50 or more'));
 });
+
+// Item p2 (APPROVAL-8, approved in writing: point 8 all 10 rows): court appearance wording is limited scope counsel,
+// $500 per hearing ($600 if someone has filed an objection); no "on your behalf", flat fee, Zoom or hourly wording.
+test('item p2: APPROVAL-8 rows 1 to 10', () => {
+  const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
+  const pages = ['src/components/pages/ProbateFAQ.jsx', 'src/components/pages/ProbateCourtLocations.jsx', 'src/components/pages/CityProbatePage.jsx', 'src/components/intake/steps/PaymentStep.jsx'];
+  const BAD = [/on your behalf/i, /\$500 flat fee/i, /zoom or microsoft/i, /we represent many/i, /specifically designed for out-of-state/i, /2-hour/i, /can't attend your hearing/i];
+  const hits = [];
+  for (const f of pages) { const s = read(f); for (const re of BAD) { const m = s.match(re); if (m) hits.push(`${f}: ${m[0]}`); } }
+  assert.deepStrictEqual(hits, []);
+  const faq = read(pages[0]);
+  assert.ok(faq.includes('Not always. Many California probate hearings can be attended remotely, if the court allows it for your hearing. Your client home shows each hearing date and what to do.'), 'row 1');
+  assert.ok(faq.includes('If you want an attorney at a hearing, Rozsa Gyene can appear for you at that hearing as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection). You remain the petitioner.'), 'row 2');
+  assert.ok(faq.includes('Out-of-state executors can do everything online in the client home.'), 'row 3');
+  const loc = read(pages[1]);
+  assert.ok(loc.includes('Optional: Rozsa appears at a hearing as limited scope counsel, $500 per hearing ($600 contested)') && !loc.includes('$500 add-on'), 'row 4');
+  assert.ok(loc.includes('No. Many out-of-state executors use MyProbateCA. You do everything online,'), 'row 5');
+  assert.ok(loc.includes('Rozsa Gyene can appear at a hearing as limited scope counsel, for $500 per hearing ($600 if someone has filed an objection).'), 'row 6');
+  const city = read(pages[2]);
+  assert.ok(city.includes('Out-of-state executors can do everything online. If you want an attorney at a ${city.courthouse} hearing'), 'row 7');
+  assert.ok(city.includes('Yes, as an option. Rozsa Gyene can appear for you at a ${city.courthouse} hearing as limited scope counsel'), 'row 8');
+  assert.ok(read('netlify/functions/lib/stripeText.js').includes("name: 'Contested Hearing Appearance ($600 per hearing, limited scope)'"), 'row 9 (item o)');
+  assert.ok(read(pages[3]).includes('Want an attorney at your hearing? Rozsa Gyene can appear for you at that hearing'), 'row 10');
+});
