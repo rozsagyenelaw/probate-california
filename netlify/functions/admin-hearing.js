@@ -4,6 +4,7 @@
 const { admin, getDb, corsHeaders, verifyCaller, isAdminToken } = require('./lib/firebaseAdmin');
 const { continueHearing } = require('./lib/hearings');
 const { decideAppearance } = require('./lib/appearanceDecision');
+const { declineAddon } = require('./lib/addonDecline');
 
 let stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -23,6 +24,17 @@ exports.handler = async (event) => {
       return { statusCode: 200, headers, body: JSON.stringify(out) };
     } catch (err) {
       console.error('admin-hearing appearance:', err.message);
+      return { statusCode: err.status || 500, headers, body: JSON.stringify({ error: err.message }) };
+    }
+  }
+  // Item L (eighth message, approved): decline an add-on paid with no paid probate package and refund it in full, once.
+  // POST { action: 'addon-decline', caseId, paymentId }. The office decides each time; it is never automatic.
+  if (body.action === 'addon-decline') {
+    try {
+      const out = await declineAddon(getDb(), stripe, { caseId: String(body.caseId || ''), paymentId: String(body.paymentId || ''), actorEmail: caller.email });
+      return { statusCode: 200, headers, body: JSON.stringify(out) };
+    } catch (err) {
+      console.error('admin-hearing addon-decline:', err.message);
       return { statusCode: err.status || 500, headers, body: JSON.stringify({ error: err.message }) };
     }
   }
