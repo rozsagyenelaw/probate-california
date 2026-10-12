@@ -211,7 +211,7 @@ const CaliforniaProbateAdministration = () => {
           "Letters Testamentary",
           "Letters of Administration",
           "Probate Court Filing",
-          "IGN Note Clearance"
+          "Checking the court's probate notes and preparing the answers"
         ],
         "provider": {
           "@type": "Attorney",
@@ -641,12 +641,12 @@ const CaliforniaProbateAdministration = () => {
           </div>
         </section>
 
-        {/* Stanley Mosk IGN Note Clearance Section */}
+        {/* Stanley Mosk Probate Notes Section */}
         <section id="ign-notes" className="py-16 bg-blue-900 text-white">
           <div className="max-w-7xl mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-center mb-6">
-                Stanley Mosk IGN Note Clearance
+                Stanley Mosk Probate Notes
               </h2>
               <p className="text-blue-100 text-center mb-8">
                 The Stanley Mosk Courthouse is known for its rigorous Probate Examiners. For many
@@ -669,7 +669,7 @@ const CaliforniaProbateAdministration = () => {
                   <CheckCircle className="h-8 w-8 mr-4 flex-shrink-0" />
                   <div>
                     <h3 className="font-bold text-lg mb-2">
-                      Our "Note Clearance" service is included in your flat fee
+                      Checking the court's notes is part of your flat fee
                     </h3>
                     <p>
                       We check the court's posted notes, identify the examiners' concerns, and prepare the
@@ -803,7 +803,7 @@ const CaliforniaProbateAdministration = () => {
                     </li>
                     <li className="flex items-center">
                       <Check className="h-5 w-5 text-amber-400 mr-2" />
-                      IGN note clearance
+                      We check the court's probate notes and prepare the answers before your hearing
                     </li>
                     <li className="flex items-center">
                       <Check className="h-5 w-5 text-amber-400 mr-2" />

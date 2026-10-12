@@ -91,3 +91,18 @@ test('item t: city service line and Letters add-on line, every copy', () => {
   assert.ok(read('src/beyond/es/learn/articles-es.json').includes('Comparecencia opcional de la abogada en una audiencia ($500 por audiencia, representación de alcance limitado)'));
   assert.ok(read('netlify/functions/ai-helper-data/learn-articles.json').includes(L));
 });
+
+// Item s2 (eighth message A, approved in writing): 'already started' answers, the court locations card, no IGN note clearance anywhere.
+test('item s2: already-started answers with the 10810 ending and link, Probate Notes card, every IGN note clearance copy', () => {
+  const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
+  const END = 'under a separate written agreement with her law office. The fee is the statutory fee set by California law (Probate Code 10810), paid from the estate as approved by the court.';
+  const LINK = new RegExp('Rozsa Gyene can <a href="https://portal\\.livingtrust-attorneys\\.com/book" target="_blank" rel="noopener noreferrer" className="[^"]+">represent you directly</a> ' + END.replace(/[.()]/g, '\\$&'));
+  const loc = read('src/components/pages/ProbateCourtLocations.jsx');
+  const faq = read('src/components/pages/ProbateFAQ.jsx');
+  assert.ok(loc.includes('Rozsa Gyene can represent you directly ' + END), 'search data copy');
+  assert.ok(LINK.test(loc) && LINK.test(faq), 'page copies with the link');
+  for (const t of [loc, faq]) assert.ok(!/consult/i.test(t.split('already started')[1].slice(0, 900)), 'no consultation wording');
+  assert.ok(loc.includes('<h3 className="font-bold text-gray-900 mb-2">Probate Notes</h3>') && loc.includes("We check the court's probate notes and prepare the answers before your hearing. You sign the answers (Verified Supplements) and file them."), 'card');
+  const all = files.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+  assert.ok(!/IGN note clearance|IGN Note Clearance|notas IGN y Suplementos|Note Clearance" service/.test(all), 'no IGN note clearance copy left');
+});

@@ -237,7 +237,7 @@ const CaliforniaProbateFees = () => {
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
-            <span className="text-green-900">IGN note clearance and Verified Supplements</span>
+            <span className="text-green-900">We check the court's probate notes and prepare the answers (Verified Supplements) before your hearing</span>
           </li>
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />

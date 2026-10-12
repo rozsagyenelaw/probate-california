@@ -528,7 +528,7 @@ const CityProbatePage = () => {
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 mp-brand mr-2" />
-                    IGN note clearance at {city.courthouse}
+                    We check the {city.courthouse} probate notes and prepare the answers before your hearing
                   </li>
                   <li className="flex items-center">
                     <Check className="h-5 w-5 mp-brand mr-2" />

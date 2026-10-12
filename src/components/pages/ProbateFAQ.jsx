@@ -302,7 +302,7 @@ const ProbateFAQ = () => {
                 <ul className="text-slate-700 mb-3 space-y-1 ml-4">
                   <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Attorney preparation of your court documents, which you file as the petitioner</li>
                   <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Review by California Bar Attorney #208356</li>
-                  <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> <span><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-[var(--mp-navy)] underline underline-offset-2">IGN note clearance</Link> and Verified Supplements</span></li>
+                  <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> <span><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-[var(--mp-navy)] underline underline-offset-2">We check the court's probate notes</Link> and prepare the answers (Verified Supplements) before your hearing</span></li>
                   <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Dashboard tracking throughout the process</li>
                 </ul>
                 <p className="text-slate-700">It does <strong>not</strong> include third-party costs: court filing fees (~$465), publication (~$200-350), <Link to="/learn-california-probate/what-is-probate-referee-california" className="text-[var(--mp-navy)] underline underline-offset-2">probate referee fees</Link> (0.1% of assets), or <Link to="/learn-california-probate/probate-bond-requirements-california" className="text-[var(--mp-navy)] underline underline-offset-2">bond premiums</Link> if required.</p>
@@ -479,13 +479,13 @@ const ProbateFAQ = () => {
 
               <div className="bg-white border border-slate-200 rounded-xl p-6">
                 <h3 className="font-semibold text-lg text-slate-900 mb-3">Can you help if I already started my case and got stuck with court notes?</h3>
-                <p className="text-slate-700 mb-3"><strong>Yes.</strong> This is actually a common request. Many people start probate themselves, get hit with IGN notes they don't understand, and need professional help.</p>
-                <p className="text-slate-700 mb-3">Our <strong>Note Clearance Service</strong> is included in our flat fee. We:</p>
+                <p className="text-slate-700 mb-3">MyProbateCA prepares court papers for cases that begin in the MyProbateCA client home. We do not take over a case that was started somewhere else, and answering the court's notes on such a case is not part of any MyProbateCA fee. If you want an attorney to take over your case, Rozsa Gyene can <a href="https://portal.livingtrust-attorneys.com/book" target="_blank" rel="noopener noreferrer" className="text-[var(--mp-navy)] underline underline-offset-2">represent you directly</a> under a separate written agreement with her law office. The fee is the statutory fee set by California law (Probate Code 10810), paid from the estate as approved by the court.</p>
+                <p className="text-slate-700 mb-3">For cases that begin in MyProbateCA, checking the court's notes is part of the flat fee. We:</p>
                 <ul className="text-slate-700 space-y-1 ml-4">
                   <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Review all examiner notes</li>
                   <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Identify exactly what's needed</li>
-                  <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Draft the Verified Supplement</li>
-                  <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> File before your hearing</li>
+                  <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Draft the Verified Supplement for you to sign</li>
+                  <li className="flex items-start"><Check className="h-4 w-4 mp-brand mr-2 mt-1 flex-shrink-0" /> Tell you how to file it before your hearing</li>
                 </ul>
               </div>
 

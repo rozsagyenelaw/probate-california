@@ -118,7 +118,7 @@ const ProbateCourtLocations = () => {
             "name": "Can you help if I already started the case and got stuck with court notes?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. We review the examiner notes and prepare the Verified Supplements to clear them. This Note Clearance service is included in our flat fee."
+              "text": "MyProbateCA prepares court papers for cases that begin in the MyProbateCA client home. We do not take over a case that was started somewhere else, and answering the court's notes on such a case is not part of any MyProbateCA fee. If you want an attorney to take over your case, Rozsa Gyene can represent you directly under a separate written agreement with her law office. The fee is the statutory fee set by California law (Probate Code 10810), paid from the estate as approved by the court."
             }
           },
           {
@@ -369,9 +369,9 @@ const ProbateCourtLocations = () => {
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Check className="h-6 w-6 text-blue-900" />
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-2">IGN Note Clearance</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">Probate Notes</h3>
                   <p className="text-gray-600 text-sm">
-                    We check the court's posted notes and prepare the answers before hearings
+                    We check the court's probate notes and prepare the answers before your hearing. You sign the answers (Verified Supplements) and file them.
                   </p>
                 </div>
               </div>
@@ -395,7 +395,7 @@ const ProbateCourtLocations = () => {
                 </div>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-3">Can you help if I already started the case and got stuck with court notes?</h3>
-                  <p className="text-gray-600">Absolutely. This is a common request. We can step in, review the examiner's notes, and file the necessary Supplements to get the judge to sign your order. Our "Note Clearance" service is included in our flat fee.</p>
+                  <p className="text-gray-600">MyProbateCA prepares court papers for cases that begin in the MyProbateCA client home. We do not take over a case that was started somewhere else, and answering the court's notes on such a case is not part of any MyProbateCA fee. If you want an attorney to take over your case, Rozsa Gyene can <a href="https://portal.livingtrust-attorneys.com/book" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">represent you directly</a> under a separate written agreement with her law office. The fee is the statutory fee set by California law (Probate Code 10810), paid from the estate as approved by the court.</p>
                 </div>
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                   <h3 className="font-bold text-lg text-gray-900 mb-3">How much does probate cost in different California counties?</h3>
