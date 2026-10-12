@@ -50,7 +50,8 @@ test('item l: no specialist claims, no representation claims, accounting as an a
   for (const f of files) { const s = fs.readFileSync(f, 'utf8'); for (const re of BAD_L) { const m = s.match(re); if (m) hits.push(`${path.relative(root, f)}: ${m[0]}`); } }
   assert.deepStrictEqual(hits.filter(h => !/legal\/TermsOfService/.test(h)), []); // Terms wording is HOLD for Rozsa's approval
   const how = fs.readFileSync(path.join(root, 'src/components/learn/articles/HowToFileProbate.jsx'), 'utf8');
-  assert.ok(how.includes('Under Probate Code 8121, use a newspaper of general circulation published in the city where the decedent lived, if there is one; otherwise, one in the county.'));
+  // item n (third message) restated the 8121 rule from the statute text: 'general circulation in the city', 8121(b)
+  assert.ok(how.includes('Use a newspaper of general circulation in the city where the decedent lived, if there is one; otherwise, one in the county (Probate Code 8121(b)).'));
   const adm = fs.readFileSync(path.join(root, 'src/components/pages/CaliforniaProbateAdministration.jsx'), 'utf8');
   assert.ok(adm.includes('Simple $995 for fewer than 50 transactions, Complex $1,995 for 50 or more'));
 });
