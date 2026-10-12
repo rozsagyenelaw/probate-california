@@ -4,6 +4,8 @@ const { buildOrder, installmentSchedule } = require('./pricing');
 const { stripeTextFor } = require('./stripeText');
 const { checkHearingDate, hearingDateMessage } = require('./courtDays');
 
+const PORTAL_BASE = 'https://portal.myprobateca.com';
+
 class UserError extends Error { constructor(msg, status = 400) { super(msg); this.userFacing = true; this.status = status; } }
 
 // Compact hearing details for Checkout metadata (Stripe allows 500 characters per value).
@@ -188,7 +190,8 @@ async function createCheckout(stripe, db, params, settings) {
     adaptive_pricing: { enabled: false },
     // next=portal: back to the thank-you page in the client home (kind=addon for a service added from the client home)
     success_url: `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&amount=${(chargedToday / 100).toFixed(2)}${params.successQuery === 'next=portal' ? '&next=portal' : (params.successQuery === 'next=portal&kind=addon' ? '&next=portal&kind=addon' : '')}`,
-    cancel_url: params.cancelPath ? `${baseUrl}${params.cancelPath}` : `${baseUrl}/payment?canceled=true`,
+    // Item q (point 10): Stripe's Back never lands on the old /payment page; it goes to the client home
+    cancel_url: params.cancelPath ? `${baseUrl}${params.cancelPath}` : `${PORTAL_BASE}/?tab=payments`,
     metadata
   };
   if (params.stripeCustomerId) cfg.customer = params.stripeCustomerId; else cfg.customer_email = params.customerEmail || undefined;

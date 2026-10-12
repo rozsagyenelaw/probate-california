@@ -10,6 +10,7 @@ const { estateValueFromIntake } = require('./lib/pricing');
 const { createCheckout, UserError, capContextForCase } = require('./lib/checkout');
 const { recordIncluded } = require('./lib/recordPayment');
 const { assessEligibility } = require('./lib/eligibility');
+const { questionsDone, QUESTIONS_NOT_DONE } = require('./lib/newPurchase');
 
 const str = (v, n = 200) => (typeof v === 'string' ? v.slice(0, n) : null);
 
@@ -60,6 +61,8 @@ exports.handler = async (event) => {
 
     // Not paid: open (or reuse) one unpaid case, then the fee checkout
     const serviceType = sel.probateType === 'simplified' ? 'simplified' : 'full';
+    // Item q (point 10): a new probate purchase only once the questions are done
+    if (!questionsDone(formData)) return { statusCode: 400, headers, body: JSON.stringify(QUESTIONS_NOT_DONE) };
     // Rozsa, 2026-10-12: the $2,495 home petition (Probate Code 13151) is sold only when the saved answers fit it.
     // The client home greys the choice out with the reason; this is the backstop on the server.
     if (serviceType === 'simplified' && !assessEligibility(formData).simplifiedFits) {

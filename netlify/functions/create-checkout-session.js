@@ -7,6 +7,7 @@ const { getBusinessSettings, defaults } = require('./lib/business');
 const { createCheckout, capContextForCase } = require('./lib/checkout');
 const { recordIncluded } = require('./lib/recordPayment');
 const { queueShortNoticeIncludedAlert } = require('./lib/paymentEmails');
+const { checkNewPurchase } = require('./lib/newPurchase');
 
 // The balance Rozsa confirmed and made visible to the client, not yet paid (same rule as the client home's balanceDue()).
 function confirmedBalance(c) {
@@ -46,6 +47,11 @@ exports.handler = async (event) => {
       if (!c.exists || (caller && c.data().userId !== caller.uid)) caseId = '';
       else caseDoc = c.data();
     }
+    // Item q (point 10): a new Simplified, Full or Accounting-only purchase needs a signed-in client with a case whose
+    // questions are done. The approved flow buys the probate fee through submit-intake after the questions.
+    const gate = checkNewPurchase({ serviceType: body.serviceType, caller, caseDoc });
+    if (!gate.ok) return { statusCode: gate.status, headers, body: JSON.stringify(gate.body) };
+
     // From the client home (W6 F33/F35): after paying, back to the client home thank-you page; Back from Stripe opens
     // the client home's "Add a service" page. Only for a signed-in client and their own case.
     const portal = body.returnTo === 'portal' && caller && caseId;

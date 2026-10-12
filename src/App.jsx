@@ -172,8 +172,8 @@ function App() {
           {/* Client pages: the one client home is portal.myprobateca.com (W3-home item 51) */}
           <Route path="/distribution" element={<PortalRedirect />} />
           <Route path="/dashboard" element={<PortalRedirect />} />
-          {/* Open to guests: the first step creates or finds their account from their email */}
-          <Route path="/payment" element={<PaymentPage />} />
+          {/* Item q (point 10, approved 2026-10-12): the old payment page opens the portal start (public/_redirects too) */}
+          <Route path="/payment" element={<PortalRedirect />} />
           {/* Open to guests returning from checkout (they are not signed in yet) */}
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/intake" element={<PortalRedirect />} />

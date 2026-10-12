@@ -26,7 +26,7 @@ const TABS = {
 
 export function portalUrlFor(pathname) {
   if (pathname.startsWith('/sign/')) return `${PORTAL_URL}${pathname}`;
-  if (pathname === '/register' || pathname === '/start') return `${PORTAL_URL}/start`;
+  if (pathname === '/register' || pathname === '/start' || pathname === '/payment' || pathname === '/payment/') return `${PORTAL_URL}/start`;
   const base = '/' + (pathname.split('/')[1] || '');
   return `${PORTAL_URL}/${TABS[base] !== undefined ? TABS[base] : ''}`;
 }

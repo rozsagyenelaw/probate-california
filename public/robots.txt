@@ -5,7 +5,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /intake/
-Disallow: /payment/
+Disallow: /payment
 Disallow: /documents/
 Disallow: /messages/
 

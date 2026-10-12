@@ -19,6 +19,10 @@
 /request-house-sale    https://portal.myprobateca.com/?tab=add&id=house-sale    302!
 /pay-balance    https://portal.myprobateca.com/?tab=add&id=balance    302!
 /add-service    https://portal.myprobateca.com/?tab=add    302!
+# Item q (point 10, approved 2026-10-12): the old pricing and payment page goes to the portal start, where the approved
+# order (account, fee agreement, questions, payment) begins. /payment-success stays (Stripe returns there).
+/payment    https://portal.myprobateca.com/start    302!
+/payment/    https://portal.myprobateca.com/start    302!
 # Old or mistyped addresses that were linked from the site
 /free-consultation    https://portal.myprobateca.com/start    301!
 /book    https://portal.myprobateca.com/start    301!
