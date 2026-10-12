@@ -65,6 +65,42 @@ async function queueShortNoticeIncludedAlert(db, { caseId, email, customerName, 
   return { queued: true };
 }
 
+// Item v (Rozsa, fourth message A5): office alerts after a payment that was accepted with something still open.
+//  - paidQuestionsMissing: a probate package paid while the questions are not finished (subject "PAID, questions not finished:")
+//  - addonNoPackage: an add-on paid with no paid probate package on file (subject "ADD-ON, no package:")
+// Same safety as the payment alerts: no office alert from a local Stripe test run outside the emulator.
+const PROBATE = ['simplified', 'full'];
+const ADDONS = ['accounting_addon', 'court_appearance', 'house_sale'];
+async function queueOfficeFollowups(db, { meta, r, session }) {
+  if (testMode()) return { skipped: 'test mode: no office alert' };
+  const c = r.caseNow || null;
+  const u = r.uid ? await db.collection('users').doc(r.uid).get() : null;
+  const ud = u && u.exists ? u.data() : {};
+  const base = {
+    customerName: r.customerName || [ud.firstName, ud.lastName].filter(Boolean).join(' ') || '',
+    customerEmail: String((r.payment && r.payment.email) || ud.email || '').toLowerCase(),
+    phone: ud.phone || (session.customer_details && session.customer_details.phone) || (c && c.petitioner && c.petitioner.phone) || '',
+    description: r.description || '', amount: session.amount_total, orderNumber: (r.payment && r.payment.orderNumber) || '',
+    caseId: r.caseId || null, accountCreated: !!r.accountCreated, stripeSessionId: session.id
+  };
+  const out = [];
+  if (PROBATE.includes(meta.serviceType) && c && !c.intakeCompletedAt) {
+    const id = `office-paid-questions-${session.id}`;
+    await db.collection('mailOutbox').doc(id).set({ template: 'paidQuestionsMissing', to: 'office', replyTo: base.customerEmail || null, source: 'stripe-webhook', createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      data: { ...base, service: meta.serviceType === 'simplified' ? 'Simplified probate' : 'Full probate', missing: Array.isArray(c.questionsMissing) ? c.questionsMissing : [], noAnswersYet: !!c.questionsMissingAll,
+        pricedFrom: c.pricedFrom || meta.pricedFrom || '', priceFlag: c.priceFlag || '', serviceReview: c.serviceReview || '' } });
+    out.push(id);
+  }
+  const paidPackage = c && ['paid', 'installments_active'].includes(c.paymentStatus) && PROBATE.includes(String(c.serviceType || ''));
+  if (ADDONS.includes(meta.serviceType) && !paidPackage) {
+    const id = `office-addon-no-package-${session.id}`;
+    await db.collection('mailOutbox').doc(id).set({ template: 'addonNoPackage', to: 'office', replyTo: base.customerEmail || null, source: 'stripe-webhook', createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      data: { ...base, hasCase: !!c, hearing: r.hearing || null } });
+    out.push(id);
+  }
+  return { queued: out };
+}
+
 // Refund confirmation to the client (admin-refund). Returns { queued } or { skipped }.
 async function queueRefundEmail(db, { refundId, email, customerName, amountCents, full, description, uid }) {
   const to = String(email || '').toLowerCase();
@@ -77,4 +113,4 @@ async function queueRefundEmail(db, { refundId, email, customerName, amountCents
   return { queued: true };
 }
 
-module.exports = { queuePaymentEmails, queueRefundEmail, queueShortNoticeIncludedAlert, kindOf, allowed };
+module.exports = { queuePaymentEmails, queueRefundEmail, queueShortNoticeIncludedAlert, queueOfficeFollowups, kindOf, allowed };

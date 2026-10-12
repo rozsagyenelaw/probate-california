@@ -8,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const PAIRS = [['src/lib/eligibility.js', 'netlify/functions/lib/eligibility.js'], ['src/lib/courtDays.js', 'netlify/functions/lib/courtDays.js']];
+export const PAIRS = [['src/lib/eligibility.js', 'netlify/functions/lib/eligibility.js'], ['src/lib/courtDays.js', 'netlify/functions/lib/courtDays.js'], ['src/lib/questions.js', 'netlify/functions/lib/questions.js']];
 
 export function toCjs(src, from) {
   const names = [];

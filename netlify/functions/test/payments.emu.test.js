@@ -172,8 +172,19 @@ test('item 17: intake attaches to the paid case and keeps it paid', async () => 
   const c = await db.collection('cases').add({ userId: uid, status: 'intake_pending', paymentStatus: 'paid', serviceType: 'full', createdAt: admin.firestore.Timestamp.now() });
   const found = await findPaidCase(db, uid, `rozsagyenelaw1+${uid}@gmail.com`);
   assert.strictEqual(found.ref.id, c.id);
+  // Item v: unfinished answers are saved on the paid case, which stays in intake and lists what is missing
   await attachIntake(db, found, uid, { decedent: { firstName: 'A', lastName: 'B', lastAddress: { county: 'Los Angeles' } }, willExists: false, paymentStatus: 'pending', serviceType: 'simplified' });
+  const mid = (await c.get()).data();
+  assert.strictEqual(mid.paymentStatus, 'paid');
+  assert.strictEqual(mid.status, 'intake_pending');
+  assert.ok(!mid.intakeCompletedAt);
+  assert.ok(mid.questionsMissing.some((x) => /Date of death/.test(x)));
+  // Complete answers: the case becomes active
+  await attachIntake(db, found, uid, { decedent: { firstName: 'A', lastName: 'B', dateOfDeath: '2025-11-03', maritalStatus: 'widowed', lastAddress: { street: '1 Elm St', city: 'Glendora', county: 'Los Angeles' } },
+    petitioner: { firstName: 'C', lastName: 'B', relationship: 'child', phone: '626-555-0100', email: 'rozsagyenelaw1+x@gmail.com', address: { street: '2 Elm St', city: 'Glendora', zip: '91741' } },
+    willExists: false, heirs: [{ name: 'C B' }], paymentStatus: 'pending', serviceType: 'simplified' });
   const after = (await c.get()).data();
+  assert.deepStrictEqual(after.questionsMissing, []);
   assert.strictEqual(after.paymentStatus, 'paid');
   assert.strictEqual(after.serviceType, 'full'); // client-sent fields outside the intake whitelist are ignored
   assert.strictEqual(after.status, 'active');

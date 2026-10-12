@@ -167,6 +167,9 @@ async function createCheckout(stripe, db, params, settings) {
     hearing: packHearing(params.hearing),
     hearingId: String(params.hearingId || '').slice(0, 120), // W6 F38: the hearing picked in the client home
     shortNotice: order.appearanceCheck && order.appearanceCheck.shortNotice ? '1' : '',
+    // Item v: the probate fee line and how it was priced (answers, the first-screen range, or the default $3,995)
+    feeCents: String(((order.lines || []).find(l => l.key === 'full' || l.key === 'simplified') || {}).cents || ''),
+    pricedFrom: params.pricedFrom || '',
     balanceFor: params.balanceFor || '', // W6 N6: 'fee', 'accounting' or both, for a confirmed balance paid online
     paymentPlan,
     caseId: params.caseId || '',

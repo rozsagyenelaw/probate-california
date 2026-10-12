@@ -6,11 +6,13 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { admin, getDb, corsHeaders, verifyCaller } = require('./lib/firebaseAdmin');
 const { getBusinessSettings } = require('./lib/business');
 const { findPaidCase, attachIntake, pickIntake } = require('./lib/intakeCase');
-const { estateValueFromIntake } = require('./lib/pricing');
 const { createCheckout, UserError, capContextForCase } = require('./lib/checkout');
 const { recordIncluded } = require('./lib/recordPayment');
 const { assessEligibility } = require('./lib/eligibility');
-const { questionsDone, QUESTIONS_NOT_DONE } = require('./lib/newPurchase');
+const { missingLines, answersComplete, feeBasisFor } = require('./lib/questions');
+
+// Start screen range keys (portal) to the payment keys
+const RANGE_KEYS = { upTo1M: 'up-to-1m', '1Mto2M': '1m-to-2m', over2M: 'over-2m', 'up-to-1m': 'up-to-1m', '1m-to-2m': '1m-to-2m', 'over-2m': 'over-2m' };
 
 const str = (v, n = 200) => (typeof v === 'string' ? v.slice(0, n) : null);
 
@@ -61,13 +63,17 @@ exports.handler = async (event) => {
 
     // Not paid: open (or reuse) one unpaid case, then the fee checkout
     const serviceType = sel.probateType === 'simplified' ? 'simplified' : 'full';
-    // Item q (point 10): a new probate purchase only once the questions are done
-    if (!questionsDone(formData)) return { statusCode: 400, headers, body: JSON.stringify(QUESTIONS_NOT_DONE) };
-    // Rozsa, 2026-10-12: the $2,495 home petition (Probate Code 13151) is sold only when the saved answers fit it.
-    // The client home greys the choice out with the reason; this is the backstop on the server.
-    if (serviceType === 'simplified' && !assessEligibility(formData).simplifiedFits) {
-      return { statusCode: 400, headers, body: JSON.stringify({ error: 'Simplified probate does not fit the answers saved on your case. Please choose full probate, or go back and check your answers.', code: 'simplified_not_eligible' }) };
-    }
+    // Item v (Rozsa, fourth message A, 2026-10-12): WE NEVER REFUSE A PAYMENT. A client may pay before the questions are
+    // finished; the case records what is still missing, and the fee comes from the estate range chosen on the first
+    // screen until the answers are complete (never from partial answers).
+    const complete = answersComplete(formData);
+    const elig = assessEligibility(formData);
+    const answersValueCents = complete && elig.totals && elig.totals.countedTotal > 0 ? Math.round(elig.totals.countedTotal * 100) : null;
+    let range = sel.estateRange || null;
+    if (!range) { const u = await db.collection('users').doc(uid).get(); const r = u.exists && u.data().startSelection && u.data().startSelection.estateRange; range = RANGE_KEYS[r] || null; }
+    const fb = feeBasisFor({ formData, estateRange: range, answersValueCents });
+    // Simplified that the answers do not (yet) show to fit: accepted, and Rozsa confirms the service after her review
+    const serviceReview = serviceType === 'simplified' && !elig.simplifiedFits ? (complete ? 'simplified-does-not-fit' : 'simplified-to-confirm') : null;
     const intake = pickIntake(formData);
     const d = intake.decedent || {};
     const county = d.lastAddress && d.lastAddress.county;
@@ -90,7 +96,13 @@ exports.handler = async (event) => {
       addOns: { accounting: sel.accountingAddon || null },
       court: { county: county || null, courthouse: courtInfo.courthouse || null, address: courtInfo.address || null, phone: courtInfo.phone || null, caseNumber: null },
       payment: { plan: sel.paymentPlan === 'installments' ? 'installments' : 'full', status: 'pending', paidAt: null },
-      intakeCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+      intakeCompletedAt: complete ? admin.firestore.FieldValue.serverTimestamp() : null,
+      intakeSubmittedAt: admin.firestore.FieldValue.serverTimestamp(),
+      questionsMissing: missingLines(formData),
+      answersValueCents,
+      pricedFrom: serviceType === 'full' ? fb.use : 'flat',
+      priceFlag: serviceType === 'full' ? fb.flag : null,
+      serviceReview,
       intakeSource: body.source || 'main-site-intake',
       updatedAt: admin.firestore.FieldValue.serverTimestamp()
     };
@@ -106,7 +118,8 @@ exports.handler = async (event) => {
       customerEmail: email, caseId: ref.id, userId: uid, promoCode: sel.promoCode || null, source: 'intake', cancelPath: '/intake?canceled=true',
       // Decision 32 (W3-home): the portal flow's thank-you page (password set there) is in the client home
       ...(body.source === 'portal-intake' ? { successQuery: 'next=portal' } : {}),
-      estateValueCents: Number(sel.estateValue) > 0 ? Math.round(Number(sel.estateValue) * 100) : estateValueFromIntake(formData), feeAgreementRequestId: sel.feeAgreementRequestId || null, estateRange: sel.estateRange || null
+      estateValueCents: fb.estateValueCents, feeAgreementRequestId: sel.feeAgreementRequestId || null, estateRange: fb.estateRange,
+      pricedFrom: serviceType === 'full' ? fb.use : 'flat'
     }, settings);
     return { statusCode: 200, headers, body: JSON.stringify({ status: 'checkout', caseId: ref.id, url: co.url }) };
   } catch (err) {

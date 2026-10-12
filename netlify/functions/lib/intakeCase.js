@@ -1,3 +1,5 @@
+const { missingLines, answersComplete } = require('./questions');
+const { assessEligibility } = require('./eligibility');
 // Item 17: a client who already paid is never asked to pay again.
 // Server-side, shared by submit-intake.js today and the portal intake (W3-home) later.
 //
@@ -73,6 +75,12 @@ async function findPaidCase(db, uid, email) {
 }
 
 // Writes intake answers onto the paid case. Never touches paymentStatus, payment amounts or serviceType.
+// The probate estate value from finished answers (what goes through probate), in cents
+function answersValue(formData) {
+  const e = assessEligibility(formData);
+  return e.totals && e.totals.countedTotal > 0 ? Math.round(e.totals.countedTotal * 100) : null;
+}
+
 async function attachIntake(db, found, uid, formData, extras = {}) {
   const intake = pickIntake(formData);
   const d = intake.decedent || {};
@@ -81,10 +89,15 @@ async function attachIntake(db, found, uid, formData, extras = {}) {
     ...intake,
     estateName: d.firstName || d.lastName ? `Estate of ${[d.firstName, d.lastName].filter(Boolean).join(' ')}` : (found.data.estateName || null),
     filingCounty: county || found.data.filingCounty || null,
-    status: 'active',
+    // Item v: the case becomes active once the answers are complete; until then it stays in intake (paid)
+    status: answersComplete(formData) ? 'active' : (found.data.status === 'active' ? 'active' : 'intake_pending'),
     currentPhase: found.data.currentPhase || 1,
     phaseStatuses: found.data.phaseStatuses || { 1: 'in_progress', 2: 'pending', 3: 'pending', 4: 'pending', 5: 'pending', 6: 'pending', 7: 'pending', 8: 'pending', 9: 'pending', 10: 'pending', 11: 'pending' },
-    intakeCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+    // Item v: the answers may still be unfinished after paying; the case lists what is missing
+    intakeCompletedAt: answersComplete(formData) ? admin.firestore.FieldValue.serverTimestamp() : (found.data.intakeCompletedAt || null),
+    intakeSubmittedAt: admin.firestore.FieldValue.serverTimestamp(),
+    questionsMissing: missingLines(formData),
+    answersValueCents: answersComplete(formData) ? answersValue(formData) : null,
     intakeSource: extras.source || 'main-site-intake',
     updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     'payment.status': 'paid' // mirror for the legacy admin case page; paymentStatus itself is untouched

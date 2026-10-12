@@ -7,7 +7,6 @@ const { getBusinessSettings, defaults } = require('./lib/business');
 const { createCheckout, capContextForCase } = require('./lib/checkout');
 const { recordIncluded } = require('./lib/recordPayment');
 const { queueShortNoticeIncludedAlert } = require('./lib/paymentEmails');
-const { checkNewPurchase } = require('./lib/newPurchase');
 
 // The balance Rozsa confirmed and made visible to the client, not yet paid (same rule as the client home's balanceDue()).
 function confirmedBalance(c) {
@@ -47,10 +46,8 @@ exports.handler = async (event) => {
       if (!c.exists || (caller && c.data().userId !== caller.uid)) caseId = '';
       else caseDoc = c.data();
     }
-    // Item q (point 10): a new Simplified, Full or Accounting-only purchase needs a signed-in client with a case whose
-    // questions are done. The approved flow buys the probate fee through submit-intake after the questions.
-    const gate = checkNewPurchase({ serviceType: body.serviceType, caller, caseDoc });
-    if (!gate.ok) return { statusCode: gate.status, headers, body: JSON.stringify(gate.body) };
+    // Item v (Rozsa, fourth message A): we never refuse a payment. A purchase with no case is recorded by the Stripe
+    // webhook, which makes the account and the case from the email (lib/recordPayment.js).
 
     // From the client home (W6 F33/F35): after paying, back to the client home thank-you page; Back from Stripe opens
     // the client home's "Add a service" page. Only for a signed-in client and their own case.
@@ -88,7 +85,9 @@ exports.handler = async (event) => {
       // Full probate for a small estate: the 10810 amount when lower than $3,995 (lib/pricing.js)
       estateValueCents: body.estateValue != null && body.estateValue !== '' ? Math.round(Math.max(0, Number(String(body.estateValue).replace(/[$,\s]/g, '')) || 0) * 100) : null,
       feeAgreementRequestId: body.feeAgreementRequestId || null,
-      estateRange: body.estateRange || null, // range picked at account creation (section 32)
+      // Item v: never refused for a missing estate value; with no value and no range the fee is $3,995, flagged for Rozsa
+      estateRange: body.estateRange || (body.serviceType === 'full' && !(Number(String(body.estateValue || '').replace(/[$,\s]/g, '')) > 0) ? 'up-to-1m' : null), // range picked at account creation (section 32)
+      pricedFrom: body.serviceType === 'full' ? (Number(String(body.estateValue || '').replace(/[$,\s]/g, '')) > 0 ? 'answers' : (body.estateRange ? 'range' : 'default')) : '',
       source: body.serviceType === 'court_appearance' ? 'court-appearance-page' : (body.serviceType === 'accounting_addon' ? 'accounting-page' : 'payment-page'),
       cancelPath: body.serviceType === 'court_appearance' ? '/request-court-appearance?canceled=true' : (body.serviceType === 'accounting_addon' ? '/request-accounting?canceled=true' : undefined),
       ...portalReturn

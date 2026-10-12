@@ -1,3 +1,4 @@
+const { missingLines } = require('./questions');
 // What the Stripe webhook writes to Firestore. Shapes are documented in
 // notes/shared-data-model.md under "W2-payments section".
 //  payments/{checkoutSessionId or invoiceId}  one row per real charge (idempotent on Stripe retries)
@@ -29,6 +30,21 @@ async function findUser(db, userId, email) {
   return s.empty ? null : s.docs[0];
 }
 
+// Find or make the Firebase account for an email, and its users/{uid} profile (item v). Never a second account.
+async function ensureAccount(db, email, session) {
+  let u = null; let created = false;
+  try { u = await admin.auth().getUserByEmail(email); } catch (e) { if (e.code !== 'auth/user-not-found') throw e; }
+  const name = String((session.customer_details && session.customer_details.name) || '').trim();
+  if (!u) { u = await admin.auth().createUser({ email, displayName: name || undefined }); created = true; }
+  const ref = db.collection('users').doc(u.uid);
+  const cur = await ref.get();
+  if (!cur.exists) {
+    const [firstName, ...rest] = name.split(/\s+/).filter(Boolean);
+    await ref.set({ uid: u.uid, email, role: 'client', firstName: firstName || '', lastName: rest.join(' '), phone: (session.customer_details && session.customer_details.phone) || '', source: 'stripe-webhook', createdAt: FV.serverTimestamp() }, { merge: true });
+  }
+  return { doc: await ref.get(), created };
+}
+
 async function newestCase(db, uid) {
   const s = await db.collection('cases').where('userId', '==', uid).get();
   const docs = s.docs.filter(d => !d.data().archived).sort((a, b) => ((b.data().createdAt && b.data().createdAt.toMillis()) || 0) - ((a.data().createdAt && a.data().createdAt.toMillis()) || 0));
@@ -51,7 +67,14 @@ async function recordCheckout(stripe, db, session) {
   const order = orderNumber();
   const hearing = unpackHearing(meta.hearing);
 
-  const userDoc = await findUser(db, meta.userId, email);
+  let userDoc = await findUser(db, meta.userId, email);
+  // Item v (Rozsa, fourth message A2): a payment with no account (for example a guest session) still lands on a case.
+  // The account is made, or found, from the email: one email = one account.
+  let accountCreated = false;
+  if (!userDoc && email) {
+    const r = await ensureAccount(db, email, session);
+    userDoc = r.doc; accountCreated = r.created;
+  }
   const uid = userDoc ? userDoc.id : null;
 
   // Which case this belongs to
@@ -65,8 +88,11 @@ async function recordCheckout(stripe, db, session) {
       await caseRef.set({
         userId: uid, clientEmail: email, status: 'intake_pending', paymentStatus: status,
         serviceType: meta.serviceType, addOns: { accounting: meta.accountingAddon || null },
-        orderNumber: order, source: 'payment', createdAt: FV.serverTimestamp(), paidAt: FV.serverTimestamp()
+        orderNumber: order, source: 'payment', createdAt: FV.serverTimestamp(), paidAt: FV.serverTimestamp(),
+        // Item v: a paid case with the questions still to answer
+        intakeCompletedAt: null, questionsMissing: missingLines({}), questionsMissingAll: true
       });
+      await db.collection('users').doc(uid).set({ currentCaseId: caseRef.id }, { merge: true });
     }
   }
 
@@ -158,6 +184,10 @@ async function recordCheckout(stripe, db, session) {
       }
     }
     if (meta.estateValueCents && probate) c.estateValueCents = Number(meta.estateValueCents);
+    // Item v: what the probate fee was and how it was priced, so a later answers or inventory value can be compared
+    if (probate && Number(meta.feeCents) > 0) c.feeChargedCents = Number(meta.feeCents);
+    if (probate && meta.pricedFrom) c.pricedFrom = meta.pricedFrom;
+    if (probate && meta.pricedFrom === 'default') c.priceFlag = 'no-estate-range';
     if (meta.accountingAddon) c['addOns.accounting'] = meta.accountingAddon;
     if (meta.houseSale) { const [kind, n] = String(meta.houseSale).split(':'); c['addOns.houseSales'] = FV.arrayUnion({ kind, properties: Number(n) || 1, paymentId: session.id, paidAt: admin.firestore.Timestamp.now() }); }
     if (meta.courtAppearance) {
@@ -198,7 +228,8 @@ async function recordCheckout(stripe, db, session) {
     } catch (e) { console.warn('promo usage not tracked:', e.message); }
   }
 
-  return { payment, uid, caseId: caseRef ? caseRef.id : null, intakeDone: caseIntakeDone, description: desc, customerName: userDoc ? ([userDoc.data().firstName, userDoc.data().lastName].filter(Boolean).join(' ') || userDoc.data().displayName || userDoc.data().name || null) : ((session.customer_details && session.customer_details.name) || null), stop, hearing };
+  const caseNow = caseRef ? ((await caseRef.get()).data() || {}) : null;
+  return { payment, uid, accountCreated, caseId: caseRef ? caseRef.id : null, caseNow, intakeDone: caseIntakeDone, description: desc, customerName: userDoc ? ([userDoc.data().firstName, userDoc.data().lastName].filter(Boolean).join(' ') || userDoc.data().displayName || userDoc.data().name || null) : ((session.customer_details && session.customer_details.name) || null), stop, hearing };
 }
 
 // balanceDue = totalCharged - totalPaid + totalRefunded is NOT right for refunds of earned fees;

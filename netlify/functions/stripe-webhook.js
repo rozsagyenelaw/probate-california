@@ -5,7 +5,7 @@ let stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { getDb } = require('./lib/firebaseAdmin');
 const { isMyProbateCheckout } = require('./lib/origin');
 const { recordCheckout, recordInvoicePaid, recordChargeRefunded } = require('./lib/recordPayment');
-const { queuePaymentEmails } = require('./lib/paymentEmails');
+const { queuePaymentEmails, queueOfficeFollowups } = require('./lib/paymentEmails');
 
 const headers = { 'Content-Type': 'application/json' };
 const ok = (extra = {}) => ({ statusCode: 200, headers, body: JSON.stringify({ received: true, ...extra }) });
@@ -49,6 +49,8 @@ exports.handler = async (event) => {
       const customerName = r.customerName || (session.customer_details && session.customer_details.name) || null;
       // Every purchase: client confirmation + office alert through the portal outbox (shared templates)
       await queuePaymentEmails(db, { meta, email: r.payment.email, customerName, amountCents: session.amount_total, orderNumber: r.payment.orderNumber, sessionId: session.id, uid: r.uid, description: r.description, hearing: r.hearing, intakeDone: r.intakeDone, installmentAmounts: (r.payment.installment && r.payment.installment.amounts) || null });
+      // Item v: questions not finished, or an add-on with no paid package: the office is told (never a refusal)
+      await queueOfficeFollowups(db, { meta, r, session }).catch((e) => console.error('office follow-up alert:', e.message));
       console.log('Checkout recorded', session.id.slice(0, 12), r.description, r.stop ? JSON.stringify(r.stop) : '');
       return ok({ recorded: true });
     }
