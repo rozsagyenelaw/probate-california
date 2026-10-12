@@ -8,6 +8,7 @@ const { admin } = require('./firebaseAdmin');
 const { unpackHearing, hearingEntry, legacyHearingDetails, attachAppearance, shortNoticeFields } = require('./hearings');
 const { enforceThreePayments, stopAfterThirdPayment } = require('./installments');
 const { LABELS } = require('./pricing');
+const { stripeTextFor } = require('./stripeText');
 
 const FV = admin.firestore.FieldValue;
 const isProbate = (t) => t === 'simplified' || t === 'full';
@@ -17,7 +18,9 @@ function describe(meta) {
   if (isProbate(meta.serviceType)) parts.push(LABELS[meta.serviceType]);
   if (meta.accountingAddon) parts.push(LABELS[meta.accountingAddon]);
   if (meta.houseSale) { const [kind, n] = String(meta.houseSale).split(':'); parts.push((kind === 'confirmation' ? 'House sale papers (court confirmation)' : 'House sale papers (Notice of Proposed Action)') + (Number(n) > 1 ? ` x${n}` : '')); }
-  if (meta.courtAppearance) parts.push(LABELS[meta.courtAppearance]);
+  // D2 (eighth message): a court appearance is named exactly as on the Stripe page and receipt (lib/stripeText.js),
+  // for example "Court Hearing Appearance ($500 per hearing, limited scope)"
+  if (meta.courtAppearance) parts.push(stripeTextFor({ key: meta.courtAppearance === 'contested' ? 'contested_hearing' : 'remote_appearance' }, { shortNotice: meta.shortNotice === '1' }).name || LABELS[meta.courtAppearance]);
   return parts.join(' + ') || 'MyProbateCA service';
 }
 

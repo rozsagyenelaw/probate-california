@@ -67,7 +67,7 @@ test('court appearance purchase also goes through the outbox, with description a
   const o = (await db.collection('mailOutbox').doc('pay-office-cs_test_w2court').get()).data();
   assert.ok(c && o, 'both outbox jobs written');
   assert.strictEqual(c.template, 'paymentConfirmation');
-  assert.match(c.data.description, /Remote Court Appearance/);
+  assert.match(c.data.description, /^Court Hearing Appearance \(\$500 per hearing, limited scope\)$/); // D2: the Stripe product name
   assert.strictEqual(c.data.courtAppearance, 'remote');
   assert.ok(c.data.hearing, 'hearing passed to the template');
   // the rendered email, with the portal's shared template
@@ -75,5 +75,5 @@ test('court appearance purchase also goes through the outbox, with description a
   const r = previewOne('paymentConfirmation', c.data);
   assert.deepStrictEqual(r.problems, []);
   assert.strictEqual(r.subject, 'Payment received: your court appearance');
-  assert.match(r.text, /\$500 for Remote Court Appearance/);
+  assert.match(r.text, /\$500 for Court Hearing Appearance \(\$500 per hearing, limited scope\)/);
 });
