@@ -60,7 +60,7 @@ async function queueShortNoticeIncludedAlert(db, { caseId, email, customerName, 
   if (testMode()) return { skipped: 'test mode: no office alert' };
   const id = `pay-office-included-${caseId}-${String((hearing && (hearing.hearingDate || hearing.d)) || '').slice(0, 10)}`;
   await db.collection('mailOutbox').doc(id).set({ template: 'paymentAlert', to: 'office', replyTo: email || null, source: 'create-checkout-session', createdAt: admin.firestore.FieldValue.serverTimestamp(),
-    data: { customerName: customerName || '', customerEmail: String(email || '').toLowerCase(), serviceType: 'court_appearance', courtAppearance: courtAppearance || 'remote', amount: 0, description: 'Court appearance (included under the Probate Code 10810 limit)', shortNotice: true, orderNumber: '', stripeSessionId: '',
+    data: { customerName: customerName || '', customerEmail: String(email || '').toLowerCase(), serviceType: 'court_appearance', courtAppearance: courtAppearance || 'remote', amount: 0, included: true, description: 'Court appearance (included under the Probate Code 10810 limit)', shortNotice: true, orderNumber: '', stripeSessionId: '',
       hearing: hearing ? { d: String(hearing.hearingDate || hearing.d || '').slice(0, 10), t: String(hearing.hearingTime || hearing.t || '').slice(0, 5), dept: hearing.department || hearing.dept || '' } : null } });
   return { queued: true };
 }
