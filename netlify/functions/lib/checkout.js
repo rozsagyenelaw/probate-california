@@ -138,7 +138,7 @@ async function createCheckout(stripe, db, params, settings) {
   const stripeNames = order.lines.filter(l => l.cents > 0).map(l => stripeTextFor(l, { balanceFor: params.balanceFor }).name).join(' + ');
   const line_items = [];
   if (mode === 'payment') {
-    for (const l of order.lines) if (l.cents > 0) line_items.push(lineItemFor(l, { balanceFor: params.balanceFor }));
+    for (const l of order.lines) if (l.cents > 0) line_items.push(lineItemFor(l, { balanceFor: params.balanceFor, shortNotice: !!(order.appearanceCheck && order.appearanceCheck.shortNotice) }));
   } else {
     line_items.push({
       price_data: {

@@ -47,6 +47,9 @@ const TEXT = {
   }
 };
 
+// Added to a court appearance line when the hearing is fewer than 7 days away (item m)
+const SHORT_NOTICE_TEXT = 'Short notice: the hearing is fewer than 7 days away. Rozsa confirms within 1 business day; if she cannot appear on that date, this payment is refunded in full automatically.';
+
 const BALANCE_TEXT = {
   fee: { name: 'Full Probate fee balance (estate value from the inventory)', description: 'The balance of your full probate fee after the inventory placed the estate in a higher fee tier, as confirmed by Rozsa.' },
   both: { name: 'Fee balance (fee tier and accounting)', description: 'The balance of your full probate fee after the inventory placed the estate in a higher fee tier, and of your accounting fee after the records showed 50 or more transactions, as confirmed by Rozsa.' },
@@ -78,11 +81,15 @@ function stripeTextFor(line, ctx) {
     const n = Number(line.quantity) || 1;
     return { name: n > 1 ? `${t.name} (${n} properties, ${money(line.unitCents || line.cents / n)} each)` : t.name, description: t.description };
   }
-  const t = TEXT[key];
-  if (!t) return { name: line.label, description: undefined };
+  const t0 = TEXT[key];
+  if (!t0) return { name: line.label, description: undefined };
+  // Short notice appearance (item m, decisions 2026-10-12 point 4): the hearing is fewer than 7 days away
+  const t = (ctx && ctx.shortNotice && (key === 'remote_appearance' || key === 'contested_hearing'))
+    ? { name: `${t0.name}, short notice`, description: `${t0.description} ${SHORT_NOTICE_TEXT}` }
+    : t0;
   // an add-on brought below its list price by the 10810 limit on a full probate case
   if (line.cappedBy10810 && line.listCents) return { name: t.name, description: `${t.description} On your full probate case the total fee stays within the amount California law sets for the estate (Probate Code section 10810), so this charge is ${money(line.cents)} instead of ${money(line.listCents)}.` };
   return t;
 }
 
-module.exports = { stripeTextFor, TEXT, FULL_TIER_TEXT, BALANCE_TEXT, FULL_SCOPE };
+module.exports = { stripeTextFor, TEXT, FULL_TIER_TEXT, BALANCE_TEXT, FULL_SCOPE, SHORT_NOTICE_TEXT };

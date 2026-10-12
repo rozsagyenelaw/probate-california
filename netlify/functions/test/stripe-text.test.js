@@ -60,8 +60,8 @@ test('simplified, accounting, appearances, house sale and balances: corrected na
     [{ serviceType: 'simplified' }, 'Simplified Probate (family home)', 249500],
     [{ serviceType: 'accounting_only', accountingAddon: 'simple' }, 'Simple Accounting (fewer than 50 transactions)', 99500],
     [{ serviceType: 'accounting_only', accountingAddon: 'complex' }, 'Complex Accounting (50 or more transactions)', 199500],
-    [{ serviceType: 'court_appearance', courtAppearance: 'remote' }, 'Court Hearing Appearance ($500 per hearing, limited scope)', 50000],
-    [{ serviceType: 'court_appearance', courtAppearance: 'contested' }, 'Contested Hearing Appearance ($600 per hearing, limited scope)', 60000],
+    [{ serviceType: 'court_appearance', courtAppearance: 'remote', hearing: { hearingDate: '2026-11-30' }, now: new Date('2026-10-12T17:00:00Z') }, 'Court Hearing Appearance ($500 per hearing, limited scope)', 50000],
+    [{ serviceType: 'court_appearance', courtAppearance: 'contested', hearing: { hearingDate: '2026-11-30' }, now: new Date('2026-10-12T17:00:00Z') }, 'Contested Hearing Appearance ($600 per hearing, limited scope)', 60000],
     [{ serviceType: 'house_sale', houseSale: 'npa' }, 'House Sale Papers (Notice of Proposed Action)', 99500],
     [{ serviceType: 'house_sale', houseSale: 'confirmation' }, 'House Sale Papers (sale the court must confirm)', 149500],
     [{ serviceType: 'house_sale', houseSale: 'confirmation', houseSaleCount: 2 }, 'House Sale Papers (sale the court must confirm) (2 properties, $1,495 each)', 299000],
@@ -89,4 +89,14 @@ test('a full probate order with add-ons lists every line by its new name; 3 paym
   const s = captureStripe();
   await createCheckout(s, null, { serviceType: 'full', estateRange: '1m-to-2m', paymentPlan: 'installments', customerEmail: email }, { installmentExact: true });
   assert.strictEqual(s.calls[0].line_items[0].price_data.product_data.name, 'Full Probate (estates from $1,000,000 to $2,000,000) (3 monthly payments)');
+});
+
+// Item m: a court appearance fewer than 7 days before the hearing says so on the Stripe page and receipt
+test('short notice appearance: Stripe name and description say it is confirmed within 1 business day or refunded', async () => {
+  const s = captureStripe();
+  await createCheckout(s, null, { paymentPlan: 'full', customerEmail: email, serviceType: 'court_appearance', courtAppearance: 'remote', hearing: { hearingDate: '2026-10-16' }, now: new Date('2026-10-12T17:00:00Z') }, {});
+  const pd = s.calls[0].line_items[0].price_data;
+  assert.strictEqual(pd.product_data.name, 'Court Hearing Appearance ($500 per hearing, limited scope), short notice');
+  assert.match(pd.product_data.description, /Rozsa confirms within 1 business day; if she cannot appear on that date, this payment is refunded in full automatically\./);
+  checkText({ name: pd.product_data.name, description: pd.product_data.description }, 'short notice');
 });
