@@ -46,8 +46,8 @@ const ProbateCourtLocations = () => {
     "@graph": [
       {
         "@type": "ItemList",
-        "name": "California Probate Service Areas",
-        "description": "Attorney-led probate service locations across California",
+        "name": "California Probate City Guides",
+        "description": "City guides to local probate courts. MyProbateCA prepares probate court papers for estates anywhere in California.",
         "numberOfItems": 35,
         "itemListElement": CITY_ITEM_LIST
       },
@@ -55,7 +55,7 @@ const ProbateCourtLocations = () => {
         "@type": "LegalService",
         "@id": "https://myprobateca.com/#legalservice",
         "name": "MyProbateCA - California Probate Locations",
-        "description": "Professional attorney-led probate administration across 35 California cities. Flat fee from $3,995.",
+        "description": "Attorney-prepared probate court papers for estates anywhere in California. Flat fee from $2,495 (simplified) or $3,995 (full probate).",
         "url": "https://myprobateca.com/probate-court-locations-california",
         "telephone": "+1-818-337-4071",
         "priceRange": "$2,495 to $7,995",
@@ -146,20 +146,20 @@ const ProbateCourtLocations = () => {
   return (
     <>
       <Helmet>
-        <title>California Probate Court Locations | 35 Service Areas | MyProbateCA</title>
-        <meta name="description" content="Probate attorney services across 35 California cities. Los Angeles, San Diego, San Francisco, Orange County & more. Flat fee from $3,995. Bar #208356." />
+        <title>California Probate Courts and City Guides | MyProbateCA</title>
+        <meta name="description" content="Attorney-prepared probate court papers for estates anywhere in California, with guides to local probate courts. Flat fee from $2,495 (simplified) or $3,995 (full probate). Bar #208356." />
         <meta name="keywords" content="California probate locations, probate attorney near me, Los Angeles probate, San Diego probate, Orange County probate, Bay Area probate" />
         <link rel="canonical" href="https://myprobateca.com/probate-court-locations-california" />
 
-        <meta property="og:title" content="California Probate Court Locations | 35 Service Areas" />
-        <meta property="og:description" content="Attorney-led probate services across 35 California cities. Flat fee from $3,995." />
+        <meta property="og:title" content="California Probate Courts and City Guides" />
+        <meta property="og:description" content="Attorney-prepared probate court papers for estates anywhere in California. Flat fee from $2,495 (simplified) or $3,995 (full probate)." />
         <meta property="og:url" content="https://myprobateca.com/probate-court-locations-california" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://myprobateca.com/images/california-probate-locations-og.jpg" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="California Probate Locations | 35 Cities" />
-        <meta name="twitter:description" content="Attorney-led probate service for all California counties. Same flat fees statewide, from $3,995." />
+        <meta name="twitter:title" content="California Probate Courts and City Guides" />
+        <meta name="twitter:description" content="Attorney-prepared probate court papers for estates anywhere in California. Flat fee from $2,495 (simplified) or $3,995 (full probate)." />
 
         <script type="application/ld+json">
           {JSON.stringify(schemaMarkup)}
@@ -181,7 +181,7 @@ const ProbateCourtLocations = () => {
                   Services
                 </Link>
                 <Link to="/probate-court-locations-california" className="text-amber-400 font-medium">
-                  Locations
+                  City Guides
                 </Link>
                 <Link to="/probate-faq-california" className="hover:text-blue-200 transition-colors">
                   FAQ
@@ -227,7 +227,7 @@ const ProbateCourtLocations = () => {
               <div className="lg:hidden py-4 border-t border-blue-800">
                 <div className="flex flex-col space-y-3">
                   <Link to="/california-probate-administration" className="hover:text-blue-200">Services</Link>
-                  <Link to="/probate-court-locations-california" className="text-amber-400">Locations</Link>
+                  <Link to="/probate-court-locations-california" className="text-amber-400">City Guides</Link>
                   <Link to="/probate-faq-california" className="hover:text-blue-200">FAQ</Link>
                   <Link to="/learn-california-probate" className="text-amber-300">Learn</Link>
                   {user ? (
@@ -268,10 +268,10 @@ const ProbateCourtLocations = () => {
                 California Probate Court Locations & Regional Administration Guides
               </h1>
               <p className="text-xl text-blue-100 mb-4">
-                Attorney-led probate services across <span className="text-amber-400 font-semibold">35 California cities</span>
+                Attorney-prepared probate court papers for estates anywhere in California.
               </p>
               <p className="text-lg text-blue-200 mb-8">
-                Flat fee from $3,995. All documents prepared. Court appearances available.
+                Flat fee from $2,495 (simplified) or $3,995 (full probate). Optional attorney appearance at a hearing ($500 per hearing, limited scope representation).
               </p>
               <button
                 onClick={handleStartCase}
@@ -304,10 +304,10 @@ const ProbateCourtLocations = () => {
         <section className="py-12 bg-white">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-              Find Your Location
+              City Guides
             </h2>
             <p className="text-center text-gray-600 mb-12">
-              Select your city to learn about local courthouse procedures and get started
+              We prepare probate papers for estates anywhere in California. Pick a city guide to read about the local probate court.
             </p>
 
             <div className="space-y-12">
@@ -555,7 +555,7 @@ const ProbateCourtLocations = () => {
                   <li><Link to="/locations/sacramento-probate-attorney" className="hover:text-white transition">Sacramento</Link></li>
                   <li><Link to="/locations/santa-barbara-probate-attorney" className="hover:text-white transition">Santa Barbara</Link></li>
                   <li><Link to="/locations/irvine-probate-attorney" className="hover:text-white transition">Irvine</Link></li>
-                  <li><Link to="/probate-court-locations-california" className="hover:text-white transition font-medium text-amber-400">View All 35 Locations</Link></li>
+                  <li><Link to="/probate-court-locations-california" className="hover:text-white transition font-medium text-amber-400">City guides</Link></li>
                 </ul>
               </div>
 
