@@ -46,3 +46,11 @@ test('the checkout charges the range tier and records how it was priced', async 
   assert.strictEqual(cfg.metadata.feeCents, '599500');
   assert.strictEqual(cfg.metadata.pricedFrom, 'range');
 });
+
+test('fix 5 (sixth message): the account email and start-screen name and phone fill "About you"', () => {
+  const { withAccountDefaults } = require('../lib/questions');
+  const filled = withAccountDefaults({ petitioner: { relationship: 'child' } }, { email: 'rozsagyenelaw1+v2@gmail.com', firstName: 'Riley', lastName: 'Navarro', phone: '310-555-0199' });
+  const about = missingLines(filled).find((x) => /^About you/.test(x)) || '';
+  assert.doesNotMatch(about, /Email|Your first name|Your last name|Phone/);
+  assert.strictEqual(withAccountDefaults({ petitioner: { email: 'typed@example.com' } }, { email: 'account@example.com' }).petitioner.email, 'typed@example.com', 'a typed answer is never replaced');
+});

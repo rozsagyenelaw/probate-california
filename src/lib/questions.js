@@ -37,6 +37,16 @@ export function missingQuestions(f) {
   return out;
 }
 
+// Fix 5 (sixth message, 2026-10-12): the client's own details already known from the account and the start screen
+// fill the empty "About you" answers, so the email never shows as missing, nor the name and phone when known.
+export function withAccountDefaults(f, account) {
+  const x = f || {};
+  const a = account || {};
+  const p = x.petitioner || {};
+  const fill = (cur, v) => (cur && String(cur).trim() ? cur : (v || cur || ''));
+  return { ...x, petitioner: { ...p, email: fill(p.email, a.email), firstName: fill(p.firstName, a.firstName), lastName: fill(p.lastName, a.lastName), phone: fill(p.phone, a.phone) } };
+}
+
 export function answersComplete(f) {
   return missingQuestions(f).length === 0;
 }

@@ -1,4 +1,4 @@
-const { missingLines, answersComplete } = require('./questions');
+const { missingLines, answersComplete, withAccountDefaults } = require('./questions');
 const { assessEligibility } = require('./eligibility');
 // Item 17: a client who already paid is never asked to pay again.
 // Server-side, shared by submit-intake.js today and the portal intake (W3-home) later.
@@ -81,8 +81,12 @@ function answersValue(formData) {
   return e.totals && e.totals.countedTotal > 0 ? Math.round(e.totals.countedTotal * 100) : null;
 }
 
-async function attachIntake(db, found, uid, formData, extras = {}) {
-  const intake = pickIntake(formData);
+async function attachIntake(db, found, uid, formDataIn, extras = {}) {
+  // Fix 5: the account's email, and the name and phone from the start screen, count as answered
+  const u = uid ? await db.collection('users').doc(uid).get() : null;
+  const ud = u && u.exists ? u.data() : {};
+  const formData = withAccountDefaults(formDataIn, { email: ud.email || found.data.clientEmail, firstName: ud.firstName, lastName: ud.lastName, phone: ud.phone });
+  const intake = pickIntake(formDataIn);
   const d = intake.decedent || {};
   const county = d.lastAddress && d.lastAddress.county;
   const update = {

@@ -39,6 +39,16 @@ function missingQuestions(f) {
   return out;
 }
 
+// Fix 5 (sixth message, 2026-10-12): the client's own details already known from the account and the start screen
+// fill the empty "About you" answers, so the email never shows as missing, nor the name and phone when known.
+function withAccountDefaults(f, account) {
+  const x = f || {};
+  const a = account || {};
+  const p = x.petitioner || {};
+  const fill = (cur, v) => (cur && String(cur).trim() ? cur : (v || cur || ''));
+  return { ...x, petitioner: { ...p, email: fill(p.email, a.email), firstName: fill(p.firstName, a.firstName), lastName: fill(p.lastName, a.lastName), phone: fill(p.phone, a.phone) } };
+}
+
 function answersComplete(f) {
   return missingQuestions(f).length === 0;
 }
@@ -58,4 +68,4 @@ function feeBasisFor({ formData, estateRange, answersValueCents }) {
   return { use: 'default', estateValueCents: null, estateRange: 'up-to-1m', flag: 'no-estate-range' };
 }
 
-module.exports = { PAGE_TITLES, missingQuestions, answersComplete, missingLines, feeBasisFor };
+module.exports = { PAGE_TITLES, missingQuestions, withAccountDefaults, answersComplete, missingLines, feeBasisFor };

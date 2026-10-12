@@ -9,7 +9,7 @@ const { findPaidCase, attachIntake, pickIntake } = require('./lib/intakeCase');
 const { createCheckout, UserError, capContextForCase } = require('./lib/checkout');
 const { recordIncluded } = require('./lib/recordPayment');
 const { assessEligibility } = require('./lib/eligibility');
-const { missingLines, answersComplete, feeBasisFor } = require('./lib/questions');
+const { missingLines, answersComplete, feeBasisFor, withAccountDefaults } = require('./lib/questions');
 
 // Start screen range keys (portal) to the payment keys
 const RANGE_KEYS = { upTo1M: 'up-to-1m', '1Mto2M': '1m-to-2m', over2M: 'over-2m', 'up-to-1m': 'up-to-1m', '1m-to-2m': '1m-to-2m', 'over-2m': 'over-2m' };
@@ -66,12 +66,16 @@ exports.handler = async (event) => {
     // Item v (Rozsa, fourth message A, 2026-10-12): WE NEVER REFUSE A PAYMENT. A client may pay before the questions are
     // finished; the case records what is still missing, and the fee comes from the estate range chosen on the first
     // screen until the answers are complete (never from partial answers).
-    const complete = answersComplete(formData);
+    // Fix 5: the account's email, and the name and phone from the start screen, count as answered
+    const userSnap = await db.collection('users').doc(uid).get();
+    const ud = userSnap.exists ? userSnap.data() : {};
+    const answers = withAccountDefaults(formData, { email, firstName: ud.firstName, lastName: ud.lastName, phone: ud.phone });
+    const complete = answersComplete(answers);
     const elig = assessEligibility(formData);
     const answersValueCents = complete && elig.totals && elig.totals.countedTotal > 0 ? Math.round(elig.totals.countedTotal * 100) : null;
     let range = sel.estateRange || null;
-    if (!range) { const u = await db.collection('users').doc(uid).get(); const r = u.exists && u.data().startSelection && u.data().startSelection.estateRange; range = RANGE_KEYS[r] || null; }
-    const fb = feeBasisFor({ formData, estateRange: range, answersValueCents });
+    if (!range) { const r = ud.startSelection && ud.startSelection.estateRange; range = RANGE_KEYS[r] || null; }
+    const fb = feeBasisFor({ formData: answers, estateRange: range, answersValueCents });
     // Simplified that the answers do not (yet) show to fit: accepted, and Rozsa confirms the service after her review
     const serviceReview = serviceType === 'simplified' && !elig.simplifiedFits ? (complete ? 'simplified-does-not-fit' : 'simplified-to-confirm') : null;
     const intake = pickIntake(formData);
@@ -98,7 +102,7 @@ exports.handler = async (event) => {
       payment: { plan: sel.paymentPlan === 'installments' ? 'installments' : 'full', status: 'pending', paidAt: null },
       intakeCompletedAt: complete ? admin.firestore.FieldValue.serverTimestamp() : null,
       intakeSubmittedAt: admin.firestore.FieldValue.serverTimestamp(),
-      questionsMissing: missingLines(formData),
+      questionsMissing: missingLines(answers),
       answersValueCents,
       pricedFrom: serviceType === 'full' ? fb.use : 'flat',
       priceFlag: serviceType === 'full' ? fb.flag : null,

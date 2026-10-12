@@ -70,6 +70,15 @@ async function queueShortNoticeIncludedAlert(db, { caseId, email, customerName, 
 //  - addonNoPackage: an add-on paid with no paid probate package on file (subject "ADD-ON, no package:")
 // Same safety as the payment alerts: no office alert from a local Stripe test run outside the emulator.
 const PROBATE = ['simplified', 'full'];
+// The Stripe line name of the probate fee in this charge, with its tier ("Full Probate (estates from $1,000,000 to $2,000,000)")
+function boughtName(meta) {
+  const { stripeTextFor } = require('./stripeText');
+  const cents = Number(meta.feeCents) || 0;
+  if (meta.serviceType === 'simplified') return stripeTextFor({ key: 'simplified', cents }).name;
+  if (meta.serviceType !== 'full' || !cents) return '';
+  const tier = { 399500: 'up-to-1m', 599500: '1m-to-2m', 799500: 'over-2m' }[cents];
+  return stripeTextFor({ key: 'full', cents, tier: tier || 'up-to-1m', basis: tier ? 'tier' : '10810' }).name;
+}
 const ADDONS = ['accounting_addon', 'court_appearance', 'house_sale'];
 async function queueOfficeFollowups(db, { meta, r, session }) {
   if (testMode()) return { skipped: 'test mode: no office alert' };
@@ -86,9 +95,11 @@ async function queueOfficeFollowups(db, { meta, r, session }) {
   const out = [];
   if (PROBATE.includes(meta.serviceType) && c && !c.intakeCompletedAt) {
     const id = `office-paid-questions-${session.id}`;
+    // Fix 1 (sixth message): "Bought", "Amount paid" and the price note all come from THIS Stripe charge (its metadata
+    // and amount), never from older values saved on the case, so they always agree.
     await db.collection('mailOutbox').doc(id).set({ template: 'paidQuestionsMissing', to: 'office', replyTo: base.customerEmail || null, source: 'stripe-webhook', createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      data: { ...base, service: meta.serviceType === 'simplified' ? 'Simplified probate' : 'Full probate', missing: Array.isArray(c.questionsMissing) ? c.questionsMissing : [], noAnswersYet: !!c.questionsMissingAll,
-        pricedFrom: c.pricedFrom || meta.pricedFrom || '', priceFlag: c.priceFlag || '', serviceReview: c.serviceReview || '' } });
+      data: { ...base, description: boughtName(meta) || base.description, service: meta.serviceType === 'simplified' ? 'Simplified probate' : 'Full probate', missing: Array.isArray(c.questionsMissing) ? c.questionsMissing : [], noAnswersYet: !!c.questionsMissingAll,
+        pricedFrom: meta.pricedFrom || '', priceFlag: meta.pricedFrom === 'default' ? 'no-estate-range' : '', serviceReview: c.serviceReview || '' } });
     out.push(id);
   }
   const paidPackage = c && ['paid', 'installments_active'].includes(c.paymentStatus) && PROBATE.includes(String(c.serviceType || ''));

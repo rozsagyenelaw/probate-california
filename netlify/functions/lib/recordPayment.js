@@ -1,4 +1,4 @@
-const { missingLines } = require('./questions');
+const { missingLines, withAccountDefaults } = require('./questions');
 // What the Stripe webhook writes to Firestore. Shapes are documented in
 // notes/shared-data-model.md under "W2-payments section".
 //  payments/{checkoutSessionId or invoiceId}  one row per real charge (idempotent on Stripe retries)
@@ -90,7 +90,7 @@ async function recordCheckout(stripe, db, session) {
         serviceType: meta.serviceType, addOns: { accounting: meta.accountingAddon || null },
         orderNumber: order, source: 'payment', createdAt: FV.serverTimestamp(), paidAt: FV.serverTimestamp(),
         // Item v: a paid case with the questions still to answer
-        intakeCompletedAt: null, questionsMissing: missingLines({}), questionsMissingAll: true
+        intakeCompletedAt: null, questionsMissing: missingLines(withAccountDefaults({}, { email, firstName: userDoc && userDoc.data().firstName, lastName: userDoc && userDoc.data().lastName, phone: userDoc && userDoc.data().phone })), questionsMissingAll: true
       });
       await db.collection('users').doc(uid).set({ currentCaseId: caseRef.id }, { merge: true });
     }
