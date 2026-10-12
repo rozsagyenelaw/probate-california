@@ -331,7 +331,7 @@ const CityProbatePage = () => {
                 <div className="bg-slate-50 rounded-xl p-4">
                   <div className="flex items-center mb-2">
                     <FileText className="h-5 w-5 mp-brand mr-2" />
-                    <span className="font-semibold text-slate-900">IGN Notes Posted</span>
+                    <span className="font-semibold text-slate-900">Probate Notes Posted</span>
                   </div>
                   <p className="text-slate-600">5-10 days before hearing</p>
                 </div>
@@ -634,7 +634,7 @@ const CityProbatePage = () => {
                     to="/learn-california-probate/clear-ign-notes-stanley-mosk"
                     className="bg-white p-5 rounded-xl border border-slate-200  transition border border-slate-200"
                   >
-                    <h3 className="font-semibold mp-brand mb-2">How to Clear IGN Notes at Stanley Mosk</h3>
+                    <h3 className="font-semibold mp-brand mb-2">How to Clear Probate Notes at Stanley Mosk</h3>
                     <p className="text-slate-600 text-sm">Essential guide for {city.name} executors filing at the LA courthouse.</p>
                   </Link>
                 )}

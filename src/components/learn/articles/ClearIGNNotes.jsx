@@ -7,8 +7,8 @@ const ClearIGNNotes = () => {
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "How to Clear IGN Notes at Stanley Mosk Courthouse",
-    "description": "Step-by-step guide to clearing probate examiner notes (IGN) at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements.",
+    "headline": "How to Clear Probate Notes at Stanley Mosk Courthouse",
+    "description": "Step-by-step guide to clearing probate examiner notes at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements.",
     "author": {
       "@type": "Person",
       "@id": "https://myprobateca.com/#attorney",
@@ -33,8 +33,8 @@ const ClearIGNNotes = () => {
 
   return (
     <ArticleLayout
-      title="How to Clear IGN Notes at Stanley Mosk Courthouse"
-      metaDescription="Step-by-step guide to clearing probate examiner notes (IGN) at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements."
+      title="How to Clear Probate Notes at Stanley Mosk Courthouse"
+      metaDescription="Step-by-step guide to clearing probate examiner notes at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements."
       canonicalUrl="https://myprobateca.com/learn-california-probate/clear-ign-notes-stanley-mosk"
       publishDate="January 12, 2025"
       readTime="12"
@@ -43,12 +43,12 @@ const ClearIGNNotes = () => {
       relatedArticles={relatedArticles}
     >
       <p className="text-xl text-gray-600 mb-8">
-        If you're handling a probate case in Los Angeles County, you'll inevitably encounter <strong>IGN notes</strong>: the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them.
+        If you're handling a probate case in Los Angeles County, you'll inevitably encounter <strong>probate notes</strong>: the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What Are IGN Notes?</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What Are Probate Notes?</h2>
       <p className="text-gray-700 mb-4">
-        IGN stands for <strong>Incomplete, Grant, or Needs</strong>. These are notes posted by probate examiners at the <a href="https://www.lacourt.org/courthouse/info/smm" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">Stanley Mosk Courthouse</a> approximately 5-10 days before your scheduled probate hearing.
+        Probate notes are notes posted by probate examiners at the <a href="https://www.lacourt.org/courthouse/info/smm" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">Stanley Mosk Courthouse</a> approximately 5-10 days before your scheduled probate hearing.
       </p>
 
       <p className="text-gray-700 mb-4">
@@ -60,12 +60,12 @@ const ClearIGNNotes = () => {
           <AlertTriangle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
           <div>
             <p className="font-bold text-red-800">Critical Warning</p>
-            <p className="text-red-900">If you appear at your hearing with uncleared IGN notes, the judge will <strong>continue</strong> your case, typically for another 3+ months. This is one of the most common causes of probate delays in LA County.</p>
+            <p className="text-red-900">If you appear at your hearing with unanswered probate notes, the judge will <strong>continue</strong> your case, typically for another 3+ months. This is one of the most common causes of probate delays in LA County.</p>
           </div>
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Common Reasons for IGN Notes</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Common Reasons for Probate Notes</h2>
       <p className="text-gray-700 mb-4">Based on our experience with hundreds of cases, these are the most common issues that trigger examiner notes:</p>
 
       <ul className="space-y-2 mb-6">
@@ -95,7 +95,7 @@ const ClearIGNNotes = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">The 5-Step Process to Clear IGN Notes</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">The 5-Step Process to Clear Probate Notes</h2>
 
       <div className="bg-indigo-50 p-6 rounded-lg mb-8">
         <ol className="space-y-6">
@@ -186,7 +186,7 @@ const ClearIGNNotes = () => {
       </ul>
 
       <div className="bg-green-50 border border-green-200 rounded-lg p-6 my-8">
-        <h3 className="font-bold text-green-900 mb-2">How MyProbateCA Handles IGN Notes</h3>
+        <h3 className="font-bold text-green-900 mb-2">How MyProbateCA Handles Probate Notes</h3>
         <p className="text-green-900 mb-4">
           Our <strong>flat fee</strong> includes checking the court's probate notes and preparing the answers before your hearing. When notes appear on your case, we:
         </p>
@@ -231,7 +231,7 @@ const ClearIGNNotes = () => {
       </ul>
 
       <p className="text-gray-700 mt-8">
-        Have IGN notes on your case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Start your case with MyProbateCA</Link> and get professional help clearing them, included in our flat fee.
+        Have probate notes on your case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Start your case with MyProbateCA</Link> and get professional help clearing them, included in our flat fee.
       </p>
     </ArticleLayout>
   );

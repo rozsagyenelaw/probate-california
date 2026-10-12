@@ -202,14 +202,14 @@ const ExecutorDuties = () => {
           <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5" />
           <div>
             <p className="font-medium text-gray-900">Notify heirs and beneficiaries</p>
-            <p className="text-gray-600 text-sm">Mail Notice of Petition (Form DE-121) at least 15 days before hearing.</p>
+            <p className="text-gray-600 text-sm">Have an adult who is not part of the case mail the Notice of Petition (Form DE-121) at least 15 days before the hearing.</p>
           </div>
         </div>
         <div className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5" />
           <div>
             <p className="font-medium text-gray-900">Publish notice in local newspaper</p>
-            <p className="text-gray-600 text-sm">Required for 3 consecutive weeks to notify unknown creditors.</p>
+            <p className="text-gray-600 text-sm">Published three times before the hearing, the first at least 15 days before it, with at least five days between the first and last (Probate Code 8121(a)).</p>
           </div>
         </div>
         <div className="flex items-start">
@@ -259,7 +259,7 @@ const ExecutorDuties = () => {
           <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5" />
           <div>
             <p className="font-medium text-gray-900">Notify known creditors</p>
-            <p className="text-gray-600 text-sm">Mail Notice to Creditors (Form DE-157) within 30 days of appointment.</p>
+            <p className="text-gray-600 text-sm">Have the Notice of Administration to Creditors (Form DE-157) mailed within four months after your Letters are issued; a creditor you learn about later must be mailed within 30 days after you learn about them.</p>
           </div>
         </div>
         <div className="flex items-start">

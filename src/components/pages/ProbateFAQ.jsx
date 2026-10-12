@@ -110,10 +110,10 @@ const ProbateFAQ = () => {
           },
           {
             "@type": "Question",
-            "name": "What are IGN notes at the Stanley Mosk Courthouse?",
+            "name": "What are probate notes at the Stanley Mosk Courthouse?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "IGN notes are 'Incomplete,' 'Grant,' or 'Needs' notes posted by probate examiners 5-10 days before your hearing. They indicate deficiencies in your filing that must be corrected before the judge will sign your order. MyProbateCA prepares the Verified Supplements that answer these notes, for you to sign and file."
+              "text": "Probate notes are notes posted by probate examiners 5-10 days before your hearing. They indicate deficiencies in your filing that must be corrected before the judge will sign your order. MyProbateCA prepares the Verified Supplements that answer these notes, for you to sign and file."
             }
           },
           {
@@ -145,7 +145,7 @@ const ProbateFAQ = () => {
             "name": "Can I do California probate myself without a lawyer?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Technically yes, but it's risky. Self-represented executors face a high rejection rate at filing, IGN notes they don't understand, personal liability for mistakes, and an average 6+ month longer timeline. Court examiners don't provide legal advice. MyProbateCA provides attorney-prepared court papers at a fraction of traditional attorney costs."
+              "text": "Technically yes, but it's risky. Self-represented executors face a high rejection rate at filing, probate notes they don't understand, personal liability for mistakes, and an average 6+ month longer timeline. Court examiners don't provide legal advice. MyProbateCA provides attorney-prepared court papers at a fraction of traditional attorney costs."
             }
           },
           {
@@ -191,7 +191,7 @@ const ProbateFAQ = () => {
         "step": [
           { "@type": "HowToStep", "position": 1, "name": "File Petition for Probate", "text": "Complete and file Form DE-111 with the Superior Court in the county where the decedent resided. Pay the filing fee ($435-500)." },
           { "@type": "HowToStep", "position": 2, "name": "Send Notice of Petition", "text": "Mail Form DE-120 to all heirs and beneficiaries at least 15 days before the hearing date." },
-          { "@type": "HowToStep", "position": 3, "name": "Publish Notice", "text": "Publish notice in an adjudicated newspaper for 3 consecutive weeks to notify unknown creditors." },
+          { "@type": "HowToStep", "position": 3, "name": "Publish Notice", "text": "Publish the notice three times in a newspaper, the first at least 15 days before the hearing (Probate Code 8121(a))." },
           { "@type": "HowToStep", "position": 4, "name": "Obtain Bond", "text": "If required, obtain a surety bond to protect the estate from executor mismanagement." },
           { "@type": "HowToStep", "position": 5, "name": "Attend Hearing & Obtain Order", "text": "Appear at the probate hearing (or have attorney appear). Judge signs Order for Probate appointing you as executor/administrator." },
           { "@type": "HowToStep", "position": 6, "name": "Receive Letters Testamentary", "text": "Obtain certified Letters Testamentary (Form DE-150): your legal authority to act on behalf of the estate." },
@@ -394,13 +394,13 @@ const ProbateFAQ = () => {
                 {[
                   { num: 1, title: "Petition for Probate", desc: "File Form DE-111 with the Superior Court. Name the executor, identify heirs, and submit the original Will (if any)." },
                   { num: 2, title: "Notice of Petition", desc: "Mail Form DE-120 to all heirs and beneficiaries at least 15 days before the hearing." },
-                  { num: 3, title: "Publication", desc: "Publish notice in an adjudicated newspaper for 3 consecutive weeks to notify unknown creditors." },
+                  { num: 3, title: "Publication", desc: "Publish the notice three times in a newspaper, the first at least 15 days before the hearing (Probate Code 8121(a))." },
                   { num: 4, title: "Bond", desc: "Obtain a surety bond if required (often waived if the Will waives bond or all beneficiaries consent)." },
                   { num: 5, title: "Order for Probate", desc: "Attend the hearing (or have attorney appear remotely). Judge signs order appointing you as executor/administrator." },
                   { num: 6, title: "Letters Testamentary", desc: "Receive certified Letters (Form DE-150): your \"golden ticket\" proving legal authority to act for the estate." },
                   { num: 7, title: "Inventory & Appraisal", desc: "Work with the court-appointed Probate Referee to inventory and value all estate assets within 4 months." },
                   { num: 8, title: "Notice to Creditors", desc: "Send formal notice to known creditors. Manage the 4-month claim period. Accept, reject, or negotiate claims." },
-                  { num: 9, title: "Clear Court Notes", desc: "Review examiner IGN notes posted before hearings. File Verified Supplements to satisfy deficiencies." },
+                  { num: 9, title: "Clear Court Notes", desc: "Review the examiner notes posted before hearings. File Verified Supplements to satisfy deficiencies." },
                   { num: 10, title: "Final Accounting", desc: "Prepare complete accounting of all income, expenses, distributions, and proposed final distribution." },
                   { num: 11, title: "Distribution & Close", desc: "After court approval, distribute assets to beneficiaries, obtain receipts, and file the Order for Final Distribution." }
                 ].map(phase => (
@@ -464,9 +464,9 @@ const ProbateFAQ = () => {
 
             <div className="space-y-6">
               <div className="bg-white border border-slate-200 rounded-xl p-6">
-                <h3 className="font-semibold text-lg text-slate-900 mb-3">What are <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-[var(--mp-navy)] underline underline-offset-2">IGN notes</Link> at the Stanley Mosk Courthouse?</h3>
-                <p className="text-slate-700 mb-3">IGN stands for "Incomplete," "Grant," or "Needs." These are notes posted by probate examiners 5-10 days before your hearing indicating problems with your filing.</p>
-                <p className="text-slate-700 mb-3">Common IGN note issues include:</p>
+                <h3 className="font-semibold text-lg text-slate-900 mb-3">What are <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-[var(--mp-navy)] underline underline-offset-2">probate notes</Link> at the Stanley Mosk Courthouse?</h3>
+                <p className="text-slate-700 mb-3">Probate notes are notes posted by probate examiners 5-10 days before your hearing indicating problems with your filing.</p>
+                <p className="text-slate-700 mb-3">Common probate note issues include:</p>
                 <ul className="text-slate-700 space-y-1 ml-4">
                   <li>Missing heir information</li>
                   <li>Bond calculation errors</li>
@@ -620,7 +620,7 @@ const ProbateFAQ = () => {
                 <p className="text-slate-700 mb-3">Common causes of extended probate timelines:</p>
                 <ul className="text-slate-700 space-y-1 ml-4">
                   <li><strong>Court backlogs:</strong> LA County often has 8-12 week waits for hearing dates</li>
-                  <li><strong>IGN notes:</strong> Uncleared examiner notes cause 3+ month continuances</li>
+                  <li><strong>Probate notes:</strong> Uncleared examiner notes cause 3+ month continuances</li>
                   <li><strong>Real estate sales:</strong> Selling property through probate takes time</li>
                   <li><strong>Creditor disputes:</strong> Contested claims require court resolution</li>
                   <li><strong>Family disputes:</strong> Contested Wills or beneficiary fights</li>
@@ -697,7 +697,7 @@ const ProbateFAQ = () => {
                 <p className="text-slate-700 mb-3">Technically yes, but the risks are significant:</p>
                 <ul className="text-slate-700 space-y-1 ml-4">
                   <li><strong>High rejection rate:</strong> Self-filed petitions often have errors requiring refiling</li>
-                  <li><strong>IGN notes:</strong> Examiners post deficiency notes that non-attorneys struggle to clear</li>
+                  <li><strong>Probate notes:</strong> Examiners post deficiency notes that non-attorneys struggle to clear</li>
                   <li><strong>Personal liability:</strong> Mistakes in creditor notice or distribution can cost you personally</li>
                   <li><strong>Longer timeline:</strong> DIY probate averages 6+ months longer than attorney-assisted</li>
                 </ul>
@@ -761,7 +761,7 @@ const ProbateFAQ = () => {
                 <h4 className="font-semibold text-slate-800 mb-2">Learning Center</h4>
                 <ul className="space-y-1 text-slate-600">
                   <li><Link to="/learn-california-probate" className="hover:text-[var(--mp-navy)]">All Probate Guides</Link></li>
-                  <li><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="hover:text-[var(--mp-navy)]">How to Clear IGN Notes</Link></li>
+                  <li><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="hover:text-[var(--mp-navy)]">How to Clear Probate Notes</Link></li>
                   <li><Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="hover:text-[var(--mp-navy)]">Probate Fees Explained</Link></li>
                   <li><Link to="/learn-california-probate/letters-testamentary-california-guide" className="hover:text-[var(--mp-navy)]">Letters Testamentary Guide</Link></li>
                   <li><Link to="/learn-california-probate/what-is-probate-referee-california" className="hover:text-[var(--mp-navy)]">Probate Referee Explained</Link></li>

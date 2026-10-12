@@ -149,7 +149,7 @@ export const LOCAL_STATS = {
   'glendale': {
     avgDuration: "12-16 months",
     filingVolume: "High volume district",
-    examinerNotes: "Stanley Mosk examiners are thorough: expect IGN notes on 80%+ of first filings",
+    examinerNotes: "Stanley Mosk examiners are thorough: expect probate notes on 80%+ of first filings",
     localTip: "Glendale cases benefit from early examiner communication to identify potential issues"
   },
   'los-angeles': {
@@ -362,77 +362,77 @@ export const LOCAL_STATS = {
 export const PUBLICATION_INFO = {
   'Los Angeles': {
     newspapers: "Los Angeles Daily Journal, Metropolitan News-Enterprise, or other adjudicated newspapers",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $200-350, paid to the newspaper."
   },
   'Orange': {
     newspapers: "Orange County Reporter, Daily Pilot, or other adjudicated newspapers",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $200-300, paid to the newspaper."
   },
   'San Diego': {
     newspapers: "San Diego Daily Transcript, San Diego Union-Tribune legal notices",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $200-300, paid to the newspaper."
   },
   'San Francisco': {
     newspapers: "San Francisco Daily Journal, The Recorder, or SF Examiner legal notices",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $200-350, paid to the newspaper."
   },
   'Santa Clara': {
     newspapers: "Daily Journal (San Jose), The Recorder, or other adjudicated newspapers",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $200-300, paid to the newspaper."
   },
   'Sacramento': {
     newspapers: "Daily Recorder, Sacramento Bee legal notices",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $150-250, paid to the newspaper."
   },
   'Santa Barbara': {
     newspapers: "Santa Barbara News-Press, Santa Barbara Daily Sound legal notices",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $150-250, paid to the newspaper."
   },
   'Alameda': {
     newspapers: "Daily Journal, The Inter-City Express, or other adjudicated newspapers",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $200-300, paid to the newspaper."
   },
   'Riverside': {
     newspapers: "Daily Journal, Press-Enterprise legal notices",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $150-250, paid to the newspaper."
   },
   'San Bernardino': {
     newspapers: "San Bernardino County Sentinel, Daily Journal",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $150-250, paid to the newspaper."
   },
   'Ventura': {
     newspapers: "Ventura County Star legal notices, Daily Journal",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $150-250, paid to the newspaper."
   },
   'Fresno': {
     newspapers: "Fresno Business Journal, The Fresno Bee legal notices",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $125-200, paid to the newspaper."
   },
   'Kern': {
     newspapers: "Bakersfield Californian legal notices, Daily Journal",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $125-200, paid to the newspaper."
   },
   'San Joaquin': {
     newspapers: "The Record (Stockton), Daily Journal",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $125-200, paid to the newspaper."
   },
   'Stanislaus': {
     newspapers: "Modesto Bee legal notices, Daily Journal",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $125-200, paid to the newspaper."
   }
 };
@@ -441,7 +441,7 @@ export const PUBLICATION_INFO = {
 export const getPublicationInfo = (county) => {
   return PUBLICATION_INFO[county] || {
     newspapers: "Court-approved adjudicated newspapers",
-    duration: "3 successive weeks",
+    duration: "Three publications, the first at least 15 days before the hearing (Probate Code 8121(a))",
     note: "You place the notice with the newspaper yourself. Your client home tells you which newspaper to use and gives you the exact notice text and what to ask for, including whether the newspaper files the proof of publication with the court. Costs typically $150-300, paid to the newspaper."
   };
 };

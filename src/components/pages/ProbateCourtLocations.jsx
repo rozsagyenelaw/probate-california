@@ -427,7 +427,7 @@ const ProbateCourtLocations = () => {
                   <p className="text-gray-600 text-sm">On a $1,000,000 estate, the statutory attorney fee is $23,000. Our flat fee is $3,995.</p>
                 </Link>
                 <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
-                  <h3 className="font-bold text-lg text-blue-600 mb-2">Clear IGN Notes</h3>
+                  <h3 className="font-bold text-lg text-blue-600 mb-2">Clear Probate Notes</h3>
                   <p className="text-gray-600 text-sm">The 5-step process to clear examiner notes at Stanley Mosk Courthouse.</p>
                 </Link>
                 <Link to="/probate-faq-california" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">

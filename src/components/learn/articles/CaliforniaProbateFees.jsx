@@ -25,7 +25,7 @@ const CaliforniaProbateFees = () => {
   };
 
   const relatedArticles = [
-    { title: "How to Clear IGN Notes at Stanley Mosk", url: "/learn-california-probate/clear-ign-notes-stanley-mosk", category: "Court Procedures" },
+    { title: "How to Clear Probate Notes at Stanley Mosk", url: "/learn-california-probate/clear-ign-notes-stanley-mosk", category: "Court Procedures" },
     { title: "What is a Probate Referee?", url: "/learn-california-probate/what-is-probate-referee-california", category: "Process" },
     { title: "Probate Bond Requirements", url: "/learn-california-probate/probate-bond-requirements-california", category: "Executor Guide" }
   ];

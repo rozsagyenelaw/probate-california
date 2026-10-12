@@ -216,7 +216,7 @@ const HearingPrep = () => {
           <div className="space-y-3">
             {[
               { key: 'petitionFiled', label: 'Petition filed with court' },
-              { key: 'publicationComplete', label: 'Publication complete (3 weeks)' },
+              { key: 'publicationComplete', label: 'Publication complete (three times)' },
               { key: 'bondObtained', label: 'Bond obtained (if required)' },
               { key: 'noticesServed', label: 'Notices served to all heirs' },
               { key: 'documentsReady', label: 'All documents ready for hearing' }

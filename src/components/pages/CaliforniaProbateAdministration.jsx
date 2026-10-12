@@ -111,7 +111,7 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       num: 9,
-      title: 'Clearing Court Notes (IGN Supplements)',
+      title: 'Clearing Court Notes (Verified Supplements)',
       desc: 'We check the court\'s posted notes, identify the examiners\' concerns, and prepare the Verified Supplements for you to sign and file before your hearing.',
       link: '/learn-california-probate/clear-ign-notes-stanley-mosk'
     },
@@ -146,8 +146,8 @@ const CaliforniaProbateAdministration = () => {
       a: 'Yes. California allows out-of-state executors. However, you may need to post a bond and appoint a California agent for service of process. Everything happens online, so it works well for out-of-state executors: we prepare the court papers, and Rozsa can appear at a hearing for you for $500 per hearing, as limited scope representation.'
     },
     {
-      q: 'What are IGN notes and how do you clear them?',
-      a: 'IGN stands for "Incomplete/Needs": notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We check the court\'s posted notes 5-10 days before your hearing and prepare Verified Supplements that answer each concern, for you to sign and file.'
+      q: 'What are probate notes and how do you clear them?',
+      a: 'Probate notes are notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We check the court\'s posted notes 5-10 days before your hearing and prepare Verified Supplements that answer each concern, for you to sign and file.'
     },
     {
       q: 'What court fees are not included in your flat fee?',
@@ -163,7 +163,7 @@ const CaliforniaProbateAdministration = () => {
     }
   ];
 
-  // Common IGN notes
+  // Common probate notes
   const ignNotes = [
     '"Notice of Hearing not filed for all required parties."',
     '"Proposed Order not submitted 5 days prior to hearing."',
@@ -310,10 +310,10 @@ const CaliforniaProbateAdministration = () => {
           },
           {
             "@type": "Question",
-            "name": "What are IGN notes and how do you clear them?",
+            "name": "What are probate notes and how do you clear them?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "IGN stands for 'Incomplete/Needs': notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We check the court's posted notes and prepare Verified Supplements that answer each concern, for you to sign and file."
+              "text": "Probate notes are notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We check the court's posted notes and prepare Verified Supplements that answer each concern, for you to sign and file."
             }
           },
           {
@@ -387,7 +387,7 @@ const CaliforniaProbateAdministration = () => {
       <Helmet>
         <title>California Probate Administration | Attorney-Led Service | Flat Fees from $2,495 | MyProbateCA</title>
         <meta name="description" content="Attorney-prepared California probate court papers for a flat fee by estate value ($3,995 up to $1,000,000, $5,995 from $1,000,000 to $2,000,000, $7,995 over $2,000,000). On a $500,000 estate, the statutory attorney fee is $13,000. Our flat fee for that estate is $3,995." />
-        <meta name="keywords" content="California probate, probate administration, probate attorney, Letters Testamentary, Letters of Administration, Stanley Mosk Courthouse, probate lawyer, estate administration, IGN notes, probate court" />
+        <meta name="keywords" content="California probate, probate administration, probate attorney, Letters Testamentary, Letters of Administration, Stanley Mosk Courthouse, probate lawyer, estate administration, probate notes, probate court" />
         <link rel="canonical" href="https://myprobateca.com/california-probate-administration" />
 
         {/* Open Graph */}
@@ -424,7 +424,7 @@ const CaliforniaProbateAdministration = () => {
                   11 Phases
                 </button>
                 <button onClick={() => scrollToSection('ign-notes')} className="hover:text-blue-200 transition-colors">
-                  IGN Notes
+                  Probate Notes
                 </button>
                 <button onClick={() => scrollToSection('pricing')} className="hover:text-blue-200 transition-colors">
                   Pricing
@@ -497,7 +497,7 @@ const CaliforniaProbateAdministration = () => {
                     11 Phases
                   </button>
                   <button onClick={() => scrollToSection('ign-notes')} className="text-left hover:text-blue-200">
-                    IGN Notes
+                    Probate Notes
                   </button>
                   <button onClick={() => scrollToSection('pricing')} className="text-left hover:text-blue-200">
                     Pricing
@@ -650,7 +650,7 @@ const CaliforniaProbateAdministration = () => {
               </h2>
               <p className="text-blue-100 text-center mb-8">
                 The Stanley Mosk Courthouse is known for its rigorous Probate Examiners. For many
-                self-represented executors, receiving a list of "Probate Notes" (IGN - Incomplete/Needs)
+                self-represented executors, receiving a list of "Probate Notes"
                 is the moment the process stalls.
               </p>
               <div className="bg-blue-800 rounded-xl p-6 mb-8">
@@ -949,7 +949,7 @@ const CaliforniaProbateAdministration = () => {
                   className="bg-white p-5 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200"
                 >
                   <FileText className="h-8 w-8 text-blue-600 mb-3" />
-                  <h3 className="font-bold text-gray-900 mb-2">Clearing IGN Notes</h3>
+                  <h3 className="font-bold text-gray-900 mb-2">Clearing Probate Notes</h3>
                   <p className="text-gray-600 text-sm">The 5-step process to clear examiner notes at Stanley Mosk.</p>
                 </Link>
                 <Link

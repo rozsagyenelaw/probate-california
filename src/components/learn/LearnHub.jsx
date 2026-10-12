@@ -26,7 +26,7 @@ const ARTICLES = [
   {
     id: 1,
     slug: 'clear-ign-notes-stanley-mosk',
-    title: 'How to Clear IGN Notes at Stanley Mosk Courthouse',
+    title: 'How to Clear Probate Notes at Stanley Mosk Courthouse',
     description: 'The 5-step process for clearing probate examiner notes before your hearing, and avoiding 3-month continuances.',
     category: 'Court Procedures',
     image: '/images/courthouses/stanley-mosk-courthouse.jpg',
@@ -216,8 +216,8 @@ const LearnHub = () => {
     <>
       <Helmet>
         <title>California Probate Learning Center | Attorney Guides & Executor Resources</title>
-        <meta name="description" content="Master California probate with attorney-verified guides. Learn about Stanley Mosk court procedures, clearing IGN notes, bond requirements, and how statutory fees compare with a flat fee." />
-        <meta name="keywords" content="california probate guide, how to probate california, stanley mosk courthouse, probate referee, executor duties california, IGN notes probate" />
+        <meta name="description" content="Master California probate with attorney-verified guides. Learn about Stanley Mosk court procedures, clearing probate notes, bond requirements, and how statutory fees compare with a flat fee." />
+        <meta name="keywords" content="california probate guide, how to probate california, stanley mosk courthouse, probate referee, executor duties california, probate notes probate" />
         <link rel="canonical" href="https://myprobateca.com/learn-california-probate" />
 
         <meta property="og:title" content="California Probate Learning Center | Expert Guides for Executors" />
@@ -508,7 +508,7 @@ const LearnHub = () => {
                 <h4 className="font-semibold text-white mb-4">Learn</h4>
                 <ul className="space-y-2 text-sm">
                   <li><Link to="/learn-california-probate" className="hover:text-white">Learning Center</Link></li>
-                  <li><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="hover:text-white">Clear IGN Notes</Link></li>
+                  <li><Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="hover:text-white">Clear Probate Notes</Link></li>
                   <li><Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="hover:text-white">Fees Explained</Link></li>
                 </ul>
               </div>

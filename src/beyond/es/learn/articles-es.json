@@ -202,25 +202,25 @@
     {
       "component": "ClearIGNNotes",
       "path": "/learn-california-probate/clear-ign-notes-stanley-mosk",
-      "titleEn": "How to Clear IGN Notes at Stanley Mosk Courthouse",
-      "title": "Cómo resolver las notas IGN en el Stanley Mosk Courthouse",
-      "descriptionEn": "Step-by-step guide to clearing probate examiner notes (IGN) at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements.",
-      "description": "Guía paso a paso para resolver las notas del examinador de sucesiones (IGN) en el Stanley Mosk Courthouse. Evite aplazamientos de 3 meses con Suplementos Verificados correctos.",
+      "titleEn": "How to Clear Probate Notes at Stanley Mosk Courthouse",
+      "title": "Cómo resolver las notas de la corte en el Stanley Mosk Courthouse",
+      "descriptionEn": "Step-by-step guide to clearing probate examiner notes at Stanley Mosk Courthouse. Avoid 3-month continuances with proper Verified Supplements.",
+      "description": "Guía paso a paso para resolver las notas del examinador de sucesiones en el Stanley Mosk Courthouse. Evite aplazamientos de 3 meses con Suplementos Verificados correctos.",
       "blocks": [
         {
           "type": "p",
-          "text": "Si usted lleva un caso de sucesión (probate) en el Condado de Los Ángeles, inevitablemente se encontrará con notas IGN, las observaciones del examinador de sucesiones que pueden frustrar su audiencia y agregar meses a su caso. Esta guía explica exactamente qué son y cómo resolverlas.",
-          "en": "If you're handling a probate case in Los Angeles County, you'll inevitably encounter IGN notes: the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them."
+          "text": "Si usted lleva un caso de sucesión (probate) en el Condado de Los Ángeles, inevitablemente se encontrará con notas de la corte, las observaciones del examinador de sucesiones que pueden frustrar su audiencia y agregar meses a su caso. Esta guía explica exactamente qué son y cómo resolverlas.",
+          "en": "If you're handling a probate case in Los Angeles County, you'll inevitably encounter probate notes: the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them."
         },
         {
           "type": "h2",
-          "text": "¿Qué son las notas IGN?",
-          "en": "What Are IGN Notes?"
+          "text": "¿Qué son las notas de la corte?",
+          "en": "What Are Probate Notes?"
         },
         {
           "type": "p",
-          "text": "IGN significa Incomplete, Grant, or Needs (Incompleto, Conceder o Requiere). Son notas que publican los examinadores de sucesiones en el Stanley Mosk Courthouse aproximadamente 5-10 días antes de la audiencia de sucesión programada.",
-          "en": "IGN stands for Incomplete, Grant, or Needs. These are notes posted by probate examiners at the Stanley Mosk Courthouse approximately 5-10 days before your scheduled probate hearing."
+          "text": "Las notas de la corte son notas que publican los examinadores de sucesiones en el Stanley Mosk Courthouse aproximadamente 5-10 días antes de la audiencia de sucesión programada.",
+          "en": "Probate notes are notes posted by probate examiners at the Stanley Mosk Courthouse approximately 5-10 days before your scheduled probate hearing."
         },
         {
           "type": "p",
@@ -229,13 +229,13 @@
         },
         {
           "type": "callout",
-          "text": "Advertencia crítica\nSi usted se presenta a su audiencia con notas IGN sin resolver, el juez aplazará su caso, normalmente por 3 meses o más. Esta es una de las causas más comunes de demoras en la sucesión en el Condado de Los Ángeles.",
-          "en": "Critical Warning\nIf you appear at your hearing with uncleared IGN notes, the judge will continue your case, typically for another 3+ months. This is one of the most common causes of probate delays in LA County."
+          "text": "Advertencia crítica\nSi usted se presenta a su audiencia con notas de la corte sin resolver, el juez aplazará su caso, normalmente por 3 meses o más. Esta es una de las causas más comunes de demoras en la sucesión en el Condado de Los Ángeles.",
+          "en": "Critical Warning\nIf you appear at your hearing with unanswered probate notes, the judge will continue your case, typically for another 3+ months. This is one of the most common causes of probate delays in LA County."
         },
         {
           "type": "h2",
-          "text": "Razones comunes de las notas IGN",
-          "en": "Common Reasons for IGN Notes"
+          "text": "Razones comunes de las notas de la corte",
+          "en": "Common Reasons for Probate Notes"
         },
         {
           "type": "p",
@@ -263,8 +263,8 @@
         },
         {
           "type": "h2",
-          "text": "El proceso de 5 pasos para resolver las notas IGN",
-          "en": "The 5-Step Process to Clear IGN Notes"
+          "text": "El proceso de 5 pasos para resolver las notas de la corte",
+          "en": "The 5-Step Process to Clear Probate Notes"
         },
         {
           "type": "ol",
@@ -335,8 +335,8 @@
         },
         {
           "type": "h3",
-          "text": "Cómo maneja MyProbateCA las notas IGN",
-          "en": "How MyProbateCA Handles IGN Notes"
+          "text": "Cómo maneja MyProbateCA las notas de la corte",
+          "en": "How MyProbateCA Handles Probate Notes"
         },
         {
           "type": "p",
@@ -380,8 +380,8 @@
         },
         {
           "type": "p",
-          "text": "¿Tiene notas IGN en su caso? Inicie su caso con MyProbateCA y reciba ayuda profesional para resolverlas, incluida en nuestra tarifa fija de $3,995.",
-          "en": "Have IGN notes on your case? Start your case with MyProbateCA and get professional help clearing them, included in our flat $3,995 fee."
+          "text": "¿Tiene notas de la corte en su caso? Inicie su caso con MyProbateCA y reciba ayuda profesional para resolverlas, incluida en nuestra tarifa fija de $3,995.",
+          "en": "Have probate notes on your case? Start your case with MyProbateCA and get professional help clearing them, included in our flat $3,995 fee."
         }
       ]
     },
@@ -1059,7 +1059,7 @@
           ],
           "en": [
             "1\nFile Petition for Probate\nSubmit Form DE-111 to the Superior Court requesting appointment as executor.",
-            "2\nComplete Required Notices\nMail notice to heirs (DE-120) and publish in a newspaper.",
+            "2\nComplete Required Notices\nHave an adult who is not part of the case mail the notice to heirs (DE-121), and place the newspaper notice.",
             "3\nAttend Probate Hearing\nAppear at the scheduled hearing (or have your attorney appear). The judge signs the Order for Probate.",
             "4\nRequest Certified Copies\nOrder multiple certified copies of the Letters from the court clerk. You'll need them."
           ]
@@ -1684,8 +1684,8 @@
         },
         {
           "type": "h2",
-          "text": "Paso 5: Publique el aviso y envíelo por correo a los herederos",
-          "en": "Step 5: Publish Notice and Mail to Heirs"
+          "text": "Paso 5: Publique el aviso y pida que se envíe por correo a los herederos",
+          "en": "Step 5: Publish the Notice and Have It Mailed to Heirs"
         },
         {
           "type": "p",
@@ -1694,13 +1694,13 @@
         },
         {
           "type": "callout",
-          "text": "Publicación en el periódico\nPublique el \"Aviso de Petición para Administrar el Patrimonio\" (Notice of Petition to Administer Estate) en un periódico autorizado durante 3 semanas consecutivas. Según el Código de Sucesiones 8121, use un periódico de circulación general publicado en la ciudad donde vivía el difunto, si existe; si no, uno del condado.",
-          "en": "Newspaper Publication\nPublish \"Notice of Petition to Administer Estate\" in an adjudicated newspaper for 3 consecutive weeks. Under Probate Code 8121, use a newspaper of general circulation published in the city where the decedent lived, if there is one; otherwise, one in the county."
+          "text": "Publicación en el periódico\nPublique el \"Aviso de Petición para Administrar el Patrimonio\" (Notice of Petition to Administer Estate) tres veces en un periódico que salga por lo menos una vez por semana. La primera publicación debe ser por lo menos 15 días antes de la audiencia, con por lo menos cinco días entre la primera y la última publicación, sin contar esas fechas (Código de Sucesiones 8121(a)). Use un periódico de circulación general en la ciudad donde vivía el difunto, si existe; si no, uno del condado (Código de Sucesiones 8121(b)). La corte no oye la petición hasta que la constancia de publicación esté presentada (Código de Sucesiones 8124).",
+          "en": "Newspaper Publication\nPublish \"Notice of Petition to Administer Estate\" three times in a newspaper published at least once a week. The first publication must be at least 15 days before the hearing, with at least five days between the first and last publication dates, not counting those dates (Probate Code 8121(a)). Use a newspaper of general circulation in the city where the decedent lived, if there is one; otherwise, one in the county (Probate Code 8121(b)). The court does not hear the petition until the proof of publication is on file (Probate Code 8124)."
         },
         {
           "type": "callout",
           "text": "Aviso por correo (DE-120/121)\nEnvíe por correo el aviso a todos los herederos, beneficiarios y a cualquier acreedor que usted conozca, por lo menos 15 días antes de la fecha de la audiencia.",
-          "en": "Mail Notice (DE-120/121)\nMail notice to all heirs, beneficiaries, and any creditors you know about at least 15 days before the hearing date."
+          "en": "Have the Notice Mailed (DE-121)\nAn adult who is not part of the case, such as a friend or relative who inherits nothing, mails the notice (DE-121) to all heirs and beneficiaries at least 15 days before the hearing and signs the proof of mailing. Known creditors get a separate notice later, the Notice of Administration to Creditors (DE-157)."
         },
         {
           "type": "h2",
@@ -1709,8 +1709,8 @@
         },
         {
           "type": "p",
-          "text": "Aproximadamente de 6 a 10 semanas después de presentar, tendrá su primera audiencia en la corte. Si presenta en el Condado de Los Ángeles, revise las notas IGN de 5 a 10 días antes de su audiencia y presente cualquier suplemento requerido.",
-          "en": "Approximately 6-10 weeks after filing, you'll have your first court hearing. If filing in Los Angeles County, check for IGN notes 5-10 days before your hearing and file any required supplements."
+          "text": "Aproximadamente de 6 a 10 semanas después de presentar, tendrá su primera audiencia en la corte. Si presenta en el Condado de Los Ángeles, revise las notas de la corte de 5 a 10 días antes de su audiencia y presente cualquier suplemento requerido.",
+          "en": "Approximately 6-10 weeks after filing, you'll have your first court hearing. If filing in Los Angeles County, check for probate notes 5-10 days before your hearing and file any required supplements."
         },
         {
           "type": "p",
@@ -2266,21 +2266,21 @@
           "type": "ul",
           "items": [
             "Enviar por correo el Aviso de Petición (Notice of Petition) a todos los herederos y beneficiarios",
-            "Publicar el Aviso de Fallecimiento en un periódico local (3 semanas consecutivas)",
+            "Publicar el Aviso de Petición para Administrar el Patrimonio en el periódico: tres veces, la primera por lo menos 15 días antes de la audiencia, con por lo menos cinco días entre la primera y la última (Código de Sucesiones 8121(a))",
             "Presentar el Comprobante de Notificación (Proof of Service) ante la corte",
             "Prepararse para la audiencia de sucesión"
           ],
           "en": [
-            "Mail Notice of Petition to all heirs and beneficiaries",
-            "Publish Notice of Death in local newspaper (3 consecutive weeks)",
+            "Have an adult who is not part of the case mail the Notice of Petition to all heirs and beneficiaries",
+            "Place the Notice of Petition to Administer Estate in the newspaper: three times, the first at least 15 days before the hearing, at least five days between the first and last (Probate Code 8121(a))",
             "File Proof of Service with the court",
             "Prepare for probate hearing"
           ]
         },
         {
           "type": "callout",
-          "text": "Consejo: Use un periódico aprobado para avisos legales en el condado donde vivía el difunto.",
-          "en": "Pro Tip: Use a newspaper approved for legal notices in the county where the decedent lived."
+          "text": "Consejo: Use un periódico de circulación general en la ciudad donde vivía el difunto, si existe; si no, uno del condado (Código de Sucesiones 8121(b)).",
+          "en": "Pro Tip: Use a newspaper of general circulation in the city where the decedent lived, if there is one; otherwise, one in the county (Probate Code 8121(b))."
         },
         {
           "type": "h3",
@@ -2443,7 +2443,7 @@
             "Calculate statutory fees for executor and attorney",
             "Prepare proposed distribution plan",
             "File Petition for Final Distribution",
-            "Mail notice to all interested parties",
+            "Have an adult who is not part of the case mail the notice to all interested parties",
             "Schedule final hearing"
           ]
         },
@@ -3242,7 +3242,7 @@
         {
           "type": "p",
           "text": "Envíe por correo el Aviso de Petición (Formulario DE-121) por lo menos 15 días antes de la audiencia.",
-          "en": "Mail Notice of Petition (Form DE-121) at least 15 days before hearing."
+          "en": "Have an adult who is not part of the case mail the Notice of Petition (Form DE-121) at least 15 days before the hearing."
         },
         {
           "type": "p",
@@ -3251,8 +3251,8 @@
         },
         {
           "type": "p",
-          "text": "Se requiere durante 3 semanas consecutivas para notificar a los acreedores desconocidos.",
-          "en": "Required for 3 consecutive weeks to notify unknown creditors."
+          "text": "Se publica tres veces antes de la audiencia, la primera por lo menos 15 días antes, con por lo menos cinco días entre la primera y la última (Código de Sucesiones 8121(a)).",
+          "en": "Published three times before the hearing, the first at least 15 days before it, with at least five days between the first and last (Probate Code 8121(a))."
         },
         {
           "type": "p",
@@ -3317,7 +3317,7 @@
         {
           "type": "p",
           "text": "Envíe por correo el Aviso a los Acreedores (Formulario DE-157) dentro de los 30 días siguientes al nombramiento.",
-          "en": "Mail Notice to Creditors (Form DE-157) within 30 days of appointment."
+          "en": "Have the Notice of Administration to Creditors (Form DE-157) mailed within four months after your Letters are issued; a creditor you learn about later must be mailed within 30 days after you learn about them."
         },
         {
           "type": "p",

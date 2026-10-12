@@ -163,8 +163,8 @@ const PublicationSetup = () => {
             <div>
               <p className="font-medium text-blue-900">Phase 3: Notice Publication</p>
               <p className="text-sm text-blue-700">
-                California law requires publishing notice of the probate petition in an adjudicated
-                newspaper for at least 3 consecutive weeks. This gives creditors and interested
+                California law requires publishing notice of the probate petition three times, the first
+                at least 15 days before the hearing (Probate Code 8121(a)). This gives creditors and interested
                 parties an opportunity to respond.
               </p>
             </div>
@@ -195,7 +195,7 @@ const PublicationSetup = () => {
               <div className="flex-1">
                 <h2 className="text-xl font-bold text-yellow-900 mb-2">Publication In Progress</h2>
                 <p className="text-yellow-800">
-                  Your notice is currently being published in the newspaper. Publication runs for 3 consecutive weeks.
+                  Your notice is currently being published in the newspaper. It is published three times before the hearing.
                 </p>
               </div>
             </div>
@@ -258,7 +258,7 @@ const PublicationSetup = () => {
               proceeding, giving them an opportunity to file claims or objections.
             </p>
             <p>
-              <strong>Duration:</strong> The notice must be published once a week for three consecutive weeks.
+              <strong>Duration:</strong> The notice is published three times in a newspaper published at least once a week, with at least five days between the first and last publication dates (Probate Code 8121(a)).
               The first publication date must be at least 15 days before the hearing.
             </p>
             <p>
@@ -296,9 +296,9 @@ const PublicationSetup = () => {
                 {publicationStatus === 'completed' ? <CheckCircle className="h-4 w-4" /> : '2'}
               </div>
               <div>
-                <p className="font-medium text-gray-900">Publication Runs (3 weeks)</p>
+                <p className="font-medium text-gray-900">Publication runs (three times)</p>
                 <p className="text-sm text-gray-600">
-                  Notice appears in newspaper once per week for 3 consecutive weeks
+                  Notice appears in the newspaper three times before the hearing
                 </p>
               </div>
             </div>

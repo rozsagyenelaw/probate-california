@@ -82,12 +82,12 @@ const ProbateTimeline = () => {
       months: "Month 2",
       title: "Notice & Publication",
       tasks: [
-        "Mail Notice of Petition to all heirs and beneficiaries",
-        "Publish Notice of Death in local newspaper (3 consecutive weeks)",
+        "Have an adult who is not part of the case mail the Notice of Petition to all heirs and beneficiaries",
+        "Place the Notice of Petition to Administer Estate in the newspaper: three times, the first at least 15 days before the hearing, at least five days between the first and last (Probate Code 8121(a))",
         "File Proof of Service with the court",
         "Prepare for probate hearing"
       ],
-      tip: "Use a newspaper approved for legal notices in the county where the decedent lived."
+      tip: "Use a newspaper of general circulation in the city where the decedent lived, if there is one; otherwise, one in the county (Probate Code 8121(b))."
     },
     {
       months: "Month 2-3",
@@ -160,7 +160,7 @@ const ProbateTimeline = () => {
         "Calculate statutory fees for executor and attorney",
         "Prepare proposed distribution plan",
         "File Petition for Final Distribution",
-        "Mail notice to all interested parties",
+        "Have an adult who is not part of the case mail the notice to all interested parties",
         "Schedule final hearing"
       ],
       tip: "Accurate accounting is crucial - errors can delay distribution by months."

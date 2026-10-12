@@ -26,7 +26,7 @@ const LettersTestamentary = () => {
 
   const relatedArticles = [
     { title: "What is a Probate Referee?", url: "/learn-california-probate/what-is-probate-referee-california", category: "Process" },
-    { title: "How to Clear IGN Notes", url: "/learn-california-probate/clear-ign-notes-stanley-mosk", category: "Court Procedures" },
+    { title: "How to Clear Probate Notes", url: "/learn-california-probate/clear-ign-notes-stanley-mosk", category: "Court Procedures" },
     { title: "Probate Bond Requirements", url: "/learn-california-probate/probate-bond-requirements-california", category: "Executor Guide" }
   ];
 
@@ -118,7 +118,7 @@ const LettersTestamentary = () => {
           <span className="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 flex-shrink-0">2</span>
           <div>
             <h3 className="font-bold text-gray-900">Complete Required Notices</h3>
-            <p className="text-gray-700 mt-1">Mail notice to heirs (DE-120) and publish in a newspaper.</p>
+            <p className="text-gray-700 mt-1">Have an adult who is not part of the case mail the notice to heirs (DE-121), and place the newspaper notice.</p>
           </div>
         </li>
         <li className="flex items-start">

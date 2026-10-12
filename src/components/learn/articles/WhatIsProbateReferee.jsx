@@ -27,7 +27,7 @@ const WhatIsProbateReferee = () => {
   const relatedArticles = [
     { title: "California Probate Fees Explained", url: "/learn-california-probate/california-probate-fees-statutory-vs-flat", category: "Fees & Costs" },
     { title: "Letters Testamentary California Guide", url: "/learn-california-probate/letters-testamentary-california-guide", category: "Forms & Documents" },
-    { title: "How to Clear IGN Notes", url: "/learn-california-probate/clear-ign-notes-stanley-mosk", category: "Court Procedures" }
+    { title: "How to Clear Probate Notes", url: "/learn-california-probate/clear-ign-notes-stanley-mosk", category: "Court Procedures" }
   ];
 
   return (

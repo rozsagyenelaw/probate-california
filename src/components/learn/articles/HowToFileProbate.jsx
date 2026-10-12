@@ -37,8 +37,8 @@ const HowToFileProbate = () => {
       {
         "@type": "HowToStep",
         "position": 5,
-        "name": "Publish Notice and Mail to Heirs",
-        "text": "Arrange newspaper publication and mail notice to all heirs at least 15 days before the hearing."
+        "name": "Publish the Notice and Have It Mailed to Heirs",
+        "text": "Place the newspaper notice, and have an adult who is not part of the case mail the notice to all heirs at least 15 days before the hearing and sign the proof of mailing."
       },
       {
         "@type": "HowToStep",
@@ -195,7 +195,7 @@ const HowToFileProbate = () => {
         </p>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 5: Publish Notice and Mail to Heirs</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 5: Publish the Notice and Have It Mailed to Heirs</h2>
       <p className="text-gray-700 mb-4">
         California law requires two types of notice before the hearing:
       </p>
@@ -203,17 +203,17 @@ const HowToFileProbate = () => {
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         <div className="bg-gray-50 p-5 rounded-lg">
           <h4 className="font-bold text-gray-900 mb-2">Newspaper Publication</h4>
-          <p className="text-gray-700 text-sm">Publish "Notice of Petition to Administer Estate" in an adjudicated newspaper for 3 consecutive weeks. Under Probate Code 8121, use a newspaper of general circulation published in the city where the decedent lived, if there is one; otherwise, one in the county.</p>
+          <p className="text-gray-700 text-sm">Publish "Notice of Petition to Administer Estate" three times in a newspaper published at least once a week. The first publication must be at least 15 days before the hearing, with at least five days between the first and last publication dates, not counting those dates (Probate Code 8121(a)). Use a newspaper of general circulation in the city where the decedent lived, if there is one; otherwise, one in the county (Probate Code 8121(b)). The court does not hear the petition until the proof of publication is on file (Probate Code 8124).</p>
         </div>
         <div className="bg-gray-50 p-5 rounded-lg">
-          <h4 className="font-bold text-gray-900 mb-2">Mail Notice (DE-120/121)</h4>
-          <p className="text-gray-700 text-sm">Mail notice to all heirs, beneficiaries, and any creditors you know about at least 15 days before the hearing date.</p>
+          <h4 className="font-bold text-gray-900 mb-2">Have the Notice Mailed (DE-121)</h4>
+          <p className="text-gray-700 text-sm">An adult who is not part of the case, such as a friend or relative who inherits nothing, mails the notice (DE-121) to all heirs and beneficiaries at least 15 days before the hearing and signs the proof of mailing. Known creditors get a separate notice later, the Notice of Administration to Creditors (DE-157).</p>
         </div>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Step 6: Attend the Probate Hearing</h2>
       <p className="text-gray-700 mb-4">
-        Approximately 6-10 weeks after filing, you'll have your first court hearing. If filing in Los Angeles County, check for <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-indigo-600 hover:underline">IGN notes</Link> 5-10 days before your hearing and file any required supplements.
+        Approximately 6-10 weeks after filing, you'll have your first court hearing. If filing in Los Angeles County, check for <Link to="/learn-california-probate/clear-ign-notes-stanley-mosk" className="text-indigo-600 hover:underline">probate notes</Link> 5-10 days before your hearing and file any required supplements.
       </p>
 
       <p className="text-gray-700 mb-4">At the hearing, the judge will:</p>
