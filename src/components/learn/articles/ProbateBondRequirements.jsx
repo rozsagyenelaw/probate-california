@@ -51,7 +51,7 @@ const ProbateBondRequirements = () => {
       </p>
 
       <p className="text-gray-700 mb-4">
-        Think of it as protection for the heirs—if something goes wrong, they have financial recourse through the bond company.
+        Think of it as protection for the heirs: if something goes wrong, they have financial recourse through the bond company.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">When is a Bond Required?</h2>
@@ -82,7 +82,7 @@ const ProbateBondRequirements = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">How Much Does a Probate Bond Cost?</h2>
       <p className="text-gray-700 mb-4">
-        The bond amount is typically set at the value of the estate's personal property plus one year's estimated income. The executor doesn't pay the full bond amount—they pay an annual <strong>premium</strong> to a surety company.
+        The bond amount is typically set at the value of the estate's personal property plus one year's estimated income. The executor doesn't pay the full bond amount: they pay an annual <strong>premium</strong> to a surety company.
       </p>
 
       <div className="overflow-x-auto my-6" tabIndex={0}>

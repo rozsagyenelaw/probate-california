@@ -233,7 +233,7 @@ const QuickLinks = ({ probateCase, unreadMessages = 0 }) => {
           <h3 className="text-lg font-semibold">Digital Vault</h3>
         </div>
         <p className="text-sm text-blue-100 mb-4">
-          Securely store your important documents forever — even after probate closes.
+          Securely store your important documents forever, even after probate closes.
         </p>
         <button
           onClick={() => navigate('/vault')}

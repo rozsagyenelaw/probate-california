@@ -43,7 +43,7 @@ const SmallEstateAffidavit = () => {
       relatedArticles={relatedArticles}
     >
       <p className="text-xl text-gray-600 mb-8">
-        Not every estate needs to go through California's lengthy probate process. If the estate is small enough, you may be able to transfer assets using a <strong>Small Estate Affidavit</strong> — a simple form that avoids court entirely.
+        Not every estate needs to go through California's lengthy probate process. If the estate is small enough, you may be able to transfer assets using a <strong>Small Estate Affidavit</strong>: a simple form that avoids court entirely.
       </p>
 
       <div className="bg-green-50 border-l-4 border-green-500 p-4 my-6">
@@ -149,7 +149,7 @@ const SmallEstateAffidavit = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">What DOESN'T Count Toward the $184,500 Limit</h2>
       <p className="text-gray-700 mb-4">
-        Good news — many assets are excluded when calculating whether you're under the limit:
+        Good news: many assets are excluded when calculating whether you're under the limit:
       </p>
 
       <div className="grid md:grid-cols-2 gap-4 mb-8">

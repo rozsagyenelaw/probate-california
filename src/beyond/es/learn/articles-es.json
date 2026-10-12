@@ -31,7 +31,7 @@
       },
       {
         "component": "HowToFileProbate",
-        "sentence": "MyProbateCA handles all 11 phases of California probate for a flat fee of $3,995 — saving you $19,000+ compared to statutory attorney fees."
+        "sentence": "MyProbateCA handles all 11 phases of California probate for a flat fee of $3,995, saving you $19,000+ compared to statutory attorney fees."
       },
       {
         "component": "HowToFileProbate",
@@ -115,7 +115,7 @@
       },
       {
         "component": "IntestateSuccession",
-        "sentence": "Need Help With an Intestate Estate? Administering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a flat fee of $3,995 — saving you thousands compared to traditional attorneys. Start Your Case Today"
+        "sentence": "Need Help With an Intestate Estate? Administering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a flat fee of $3,995, saving you thousands compared to traditional attorneys. Start Your Case Today"
       },
       {
         "component": "ExecutorDuties",
@@ -123,7 +123,7 @@
       },
       {
         "component": "ExecutorDuties",
-        "sentence": "We handle the paperwork, court filings, and deadlines — you focus on your family."
+        "sentence": "We handle the paperwork, court filings, and deadlines: you focus on your family."
       }
     ]
   },
@@ -160,7 +160,7 @@
     },
     {
       "type": "p",
-      "en": "Get attorney oversight for a flat $3,995 fee—save $19,000+ compared to statutory fees.",
+      "en": "Get attorney oversight for a flat $3,995 fee: save $19,000+ compared to statutory fees.",
       "text": "Una abogada prepara sus documentos del tribunal por una tarifa fija de $3,995. En un patrimonio de $1,000,000, los honorarios legales del abogado establecidos por ley son de $23,000."
     },
     {
@@ -210,7 +210,7 @@
         {
           "type": "p",
           "text": "Si usted lleva un caso de sucesión (probate) en el Condado de Los Ángeles, inevitablemente se encontrará con notas IGN, las observaciones del examinador de sucesiones que pueden frustrar su audiencia y agregar meses a su caso. Esta guía explica exactamente qué son y cómo resolverlas.",
-          "en": "If you're handling a probate case in Los Angeles County, you'll inevitably encounter IGN notes—the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them."
+          "en": "If you're handling a probate case in Los Angeles County, you'll inevitably encounter IGN notes: the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them."
         },
         {
           "type": "h2",
@@ -225,12 +225,12 @@
         {
           "type": "p",
           "text": "La Corte Superior de Los Ángeles centraliza todos los casos de sucesión en Stanley Mosk y atiende miles de casos al año. Para manejar este volumen, examinadores de sucesiones especializados revisan cada documento presentado antes de que lo vea el juez. Si encuentran cualquier problema, incluso uno menor, publican notas.",
-          "en": "The Los Angeles Superior Court centralizes all probate cases at Stanley Mosk, handling thousands of cases annually. To manage this volume, specialized probate examiners review every filing before the judge sees it. If they find any issues—even minor ones—they post notes."
+          "en": "The Los Angeles Superior Court centralizes all probate cases at Stanley Mosk, handling thousands of cases annually. To manage this volume, specialized probate examiners review every filing before the judge sees it. If they find any issues, even minor ones, they post notes."
         },
         {
           "type": "callout",
           "text": "Advertencia crítica\nSi usted se presenta a su audiencia con notas IGN sin resolver, el juez aplazará su caso, normalmente por 3 meses o más. Esta es una de las causas más comunes de demoras en la sucesión en el Condado de Los Ángeles.",
-          "en": "Critical Warning\nIf you appear at your hearing with uncleared IGN notes, the judge will continue your case—typically for another 3+ months. This is one of the most common causes of probate delays in LA County."
+          "en": "Critical Warning\nIf you appear at your hearing with uncleared IGN notes, the judge will continue your case, typically for another 3+ months. This is one of the most common causes of probate delays in LA County."
         },
         {
           "type": "h2",
@@ -277,7 +277,7 @@
           ],
           "en": [
             "1\nAccess the Court Portal\nLog into the LA Superior Court website 5-10 days before your scheduled hearing. Navigate to your case and check for any posted examiner notes.",
-            "2\nReview Each Note Carefully\nRead every note in detail. Each one specifies exactly what information is missing or what correction is needed. Don't skip any—all must be addressed.",
+            "2\nReview Each Note Carefully\nRead every note in detail. Each one specifies exactly what information is missing or what correction is needed. Don't skip any; all must be addressed.",
             "3\nDraft Your Verified Supplement\nPrepare a formal \"Supplement to the Petition\" that specifically addresses each deficiency. This must be a verified document (signed under penalty of perjury).",
             "4\nAttorney Review\nHave the supplement reviewed by a licensed California probate attorney to ensure it properly addresses all issues and is formatted correctly for the court.",
             "5\nFile Before Your Hearing\nFile the verified supplement at least 2 court days before your hearing. This gives the examiner time to review and clear the notes from your file."
@@ -381,7 +381,7 @@
         {
           "type": "p",
           "text": "¿Tiene notas IGN en su caso? Inicie su caso con MyProbateCA y reciba ayuda profesional para resolverlas, incluida en nuestra tarifa fija de $3,995.",
-          "en": "Have IGN notes on your case? Start your case with MyProbateCA and get professional help clearing them—included in our flat $3,995 fee."
+          "en": "Have IGN notes on your case? Start your case with MyProbateCA and get professional help clearing them, included in our flat $3,995 fee."
         }
       ]
     },
@@ -390,7 +390,7 @@
       "path": "/learn-california-probate/california-probate-fees-statutory-vs-flat",
       "titleEn": "California Probate Fees Exposed: Statutory vs Flat Fee",
       "title": "Honorarios de sucesión en California al descubierto: legales vs tarifa fija",
-      "descriptionEn": "Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees—and how to pay $3,995 instead.",
+      "descriptionEn": "Understand California Probate Code §10810 statutory fees. See why a $1M home costs $23,000 in attorney fees, and how to pay $3,995 instead.",
       "description": "Entienda los honorarios legales del Código de Sucesiones de California §10810. Vea por qué una casa de $1M cuesta $23,000 en honorarios de abogado, y cómo pagar $3,995 en su lugar.",
       "blocks": [
         {
@@ -598,7 +598,7 @@
         {
           "type": "p",
           "text": "Los abogados de sucesión tradicionales pueden cobrar legalmente estos honorarios, y muchos lo hacen. No están obligados a hacerlo, pero es el camino más fácil, ya que el honorario está aprobado de antemano por la corte.",
-          "en": "Traditional probate attorneys can legally charge these statutory fees—and many do. They're not required to, but it's the easiest path since the fee is pre-approved by the court."
+          "en": "Traditional probate attorneys can legally charge these statutory fees, and many do. They're not required to, but it's the easiest path since the fee is pre-approved by the court."
         },
         {
           "type": "h2",
@@ -762,7 +762,7 @@
         {
           "type": "p",
           "text": "Todo caso de sucesión (probate) en California requiere trabajar con un evaluador de la sucesión (probate referee), un funcionario nombrado por la corte que valúa los bienes del patrimonio. Esta guía explica quiénes son, qué hacen y cómo trabajar con ellos de manera eficaz.",
-          "en": "Every California probate case requires working with a Probate Referee—a court-appointed official who appraises estate assets. This guide explains who they are, what they do, and how to work with them effectively."
+          "en": "Every California probate case requires working with a Probate Referee: a court-appointed official who appraises estate assets. This guide explains who they are, what they do, and how to work with them effectively."
         },
         {
           "type": "h2",
@@ -772,12 +772,12 @@
         {
           "type": "p",
           "text": "Un evaluador de la sucesión es un tasador con calificaciones especiales, nombrado por el Contralor del Estado de California, para valuar los bienes del patrimonio en los procedimientos de sucesión. No son empleados de la corte. Son profesionales independientes autorizados para dar valuaciones oficiales.",
-          "en": "A Probate Referee is a specially qualified appraiser appointed by the California State Controller to value estate assets for probate proceedings. They're not employees of the court—they're independent professionals licensed to provide official valuations."
+          "en": "A Probate Referee is a specially qualified appraiser appointed by the California State Controller to value estate assets for probate proceedings. They're not employees of the court: they're independent professionals licensed to provide official valuations."
         },
         {
           "type": "p",
           "text": "Cuando usted presenta una Petición de Sucesión, la corte asigna automáticamente un evaluador de la sucesión a su caso. Usted no lo elige. Se asignan por turnos en cada condado.",
-          "en": "When you file a Petition for Probate, the court automatically assigns a Probate Referee to your case. You don't choose them—they're assigned on a rotating basis in each county."
+          "en": "When you file a Petition for Probate, the court automatically assigns a Probate Referee to your case. You don't choose them: they're assigned on a rotating basis in each county."
         },
         {
           "type": "h2",
@@ -993,7 +993,7 @@
         {
           "type": "p",
           "text": "Piense en ellas como su \"boleto dorado\", el documento que le permite:",
-          "en": "Think of them as your \"golden ticket\"—the document that allows you to:"
+          "en": "Think of them as your \"golden ticket\": the document that allows you to:"
         },
         {
           "type": "ul",
@@ -1037,7 +1037,7 @@
         {
           "type": "p",
           "text": "Ambos documentos otorgan la misma autoridad legal. La única diferencia es el título (albacea vs administrador), según si hay o no un testamento.",
-          "en": "Both documents grant the same legal authority—the only difference is the title (Executor vs Administrator) based on whether there's a Will."
+          "en": "Both documents grant the same legal authority: the only difference is the title (Executor vs Administrator) based on whether there's a Will."
         },
         {
           "type": "h2",
@@ -1124,7 +1124,7 @@
         {
           "type": "p",
           "text": "La mayoría de los bancos abrirán una \"cuenta del patrimonio\" donde usted puede reunir los fondos del difunto. Esto mantiene el dinero del patrimonio separado de sus fondos personales, lo cual es un requisito legal.",
-          "en": "Most banks will open an \"Estate Account\" where you can consolidate the decedent's funds. This keeps estate money separate from your personal funds—which is legally required."
+          "en": "Most banks will open an \"Estate Account\" where you can consolidate the decedent's funds. This keeps estate money separate from your personal funds, which is legally required."
         },
         {
           "type": "h2",
@@ -1207,7 +1207,7 @@
         {
           "type": "p",
           "text": "Piense en ella como una protección para los herederos. Si algo sale mal, tienen un recurso económico a través de la compañía de fianzas.",
-          "en": "Think of it as protection for the heirs—if something goes wrong, they have financial recourse through the bond company."
+          "en": "Think of it as protection for the heirs: if something goes wrong, they have financial recourse through the bond company."
         },
         {
           "type": "h2",
@@ -1267,7 +1267,7 @@
         {
           "type": "p",
           "text": "El monto de la fianza normalmente se fija en el valor de los bienes muebles del patrimonio más el ingreso estimado de un año. El albacea no paga el monto total de la fianza. Paga una prima anual a una compañía afianzadora.",
-          "en": "The bond amount is typically set at the value of the estate's personal property plus one year's estimated income. The executor doesn't pay the full bond amount—they pay an annual premium to a surety company."
+          "en": "The bond amount is typically set at the value of the estate's personal property plus one year's estimated income. The executor doesn't pay the full bond amount: they pay an annual premium to a surety company."
         },
         {
           "type": "table",
@@ -1531,11 +1531,11 @@
             "Lista de deudas. Hipotecas, tarjetas de crédito, facturas médicas, impuestos adeudados"
           ],
           "en": [
-            "Original Will (if one exists) — the court requires the original, not a copy",
-            "Certified Death Certificates — order 10-15 copies from the county recorder",
-            "List of Assets — real estate, bank accounts, investments, vehicles",
-            "List of Heirs — names, addresses, and relationships of all beneficiaries and legal heirs",
-            "List of Debts — mortgages, credit cards, medical bills, taxes owed"
+            "Original Will (if one exists): the court requires the original, not a copy",
+            "Certified Death Certificates: order 10-15 copies from the county recorder",
+            "List of Assets: real estate, bank accounts, investments, vehicles",
+            "List of Heirs: names, addresses, and relationships of all beneficiaries and legal heirs",
+            "List of Debts: mortgages, credit cards, medical bills, taxes owed"
           ]
         },
         {
@@ -1752,7 +1752,7 @@
         {
           "type": "callout",
           "text": "¿Necesita ayuda para presentar?\nMyProbateCA se encarga de las 11 fases de la sucesión en California por una tarifa fija de $3,995. En un patrimonio de $1,000,000, los honorarios legales del abogado establecidos por ley son de $23,000. Preparamos todos los documentos, resolvemos las notas IGN y lo guiamos en cada paso.\nInicie su caso gratis",
-          "en": "Need Help Filing?\nMyProbateCA handles all 11 phases of California probate for a flat fee of $3,995 — saving you $19,000+ compared to statutory attorney fees. We prepare all documents, clear IGN notes, and guide you through every step.\nStart Your Case - Free"
+          "en": "Need Help Filing?\nMyProbateCA handles all 11 phases of California probate for a flat fee of $3,995, saving you $19,000+ compared to statutory attorney fees. We prepare all documents, clear IGN notes, and guide you through every step.\nStart Your Case - Free"
         },
         {
           "type": "h2",
@@ -1782,7 +1782,7 @@
         {
           "type": "p",
           "text": "No todos los patrimonios tienen que pasar por el largo proceso de sucesión (probate) de California. Si el patrimonio es lo bastante pequeño, tal vez pueda transferir los bienes con una declaración jurada de patrimonio pequeño (small estate affidavit), un formulario sencillo que evita la corte por completo.",
-          "en": "Not every estate needs to go through California's lengthy probate process. If the estate is small enough, you may be able to transfer assets using a Small Estate Affidavit — a simple form that avoids court entirely."
+          "en": "Not every estate needs to go through California's lengthy probate process. If the estate is small enough, you may be able to transfer assets using a Small Estate Affidavit: a simple form that avoids court entirely."
         },
         {
           "type": "callout",
@@ -1905,7 +1905,7 @@
         {
           "type": "p",
           "text": "Buenas noticias: muchos bienes se excluyen al calcular si usted está por debajo del límite:",
-          "en": "Good news — many assets are excluded when calculating whether you're under the limit:"
+          "en": "Good news: many assets are excluded when calculating whether you're under the limit:"
         },
         {
           "type": "h3",
@@ -2134,7 +2134,7 @@
         {
           "type": "callout",
           "text": "¿El patrimonio supera el límite?\nSi el patrimonio supera $184,500 o incluye bienes inmuebles, tendrá que presentar una sucesión. MyProbateCA ofrece la sucesión completa en California por una tarifa fija de $3,995. En un patrimonio de $500,000, los honorarios legales del abogado establecidos por ley son de $13,000.\nVea nuestra guía de sucesión paso a paso →",
-          "en": "Estate Over the Limit?\nIf the estate exceeds $184,500 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a flat fee of $3,995 — saving you thousands compared to traditional attorney fees.\nSee our step-by-step probate guide →"
+          "en": "Estate Over the Limit?\nIf the estate exceeds $184,500 or includes real property, you'll need to file probate. MyProbateCA offers complete California probate for a flat fee of $3,995, saving you thousands compared to traditional attorney fees.\nSee our step-by-step probate guide →"
         }
       ]
     },
@@ -2712,12 +2712,12 @@
         {
           "type": "p",
           "text": "Cuando alguien muere sin un testamento válido en California, su patrimonio no pasa simplemente a quien lo quiera. En cambio, las leyes de sucesión sin testamento de California determinan exactamente quién hereda, y los resultados a menudo sorprenden a las familias.",
-          "en": "When someone dies without a valid will in California, their estate doesn't simply go to whoever wants it. Instead, California's intestate succession laws dictate exactly who inherits — and the results often surprise families."
+          "en": "When someone dies without a valid will in California, their estate doesn't simply go to whoever wants it. Instead, California's intestate succession laws dictate exactly who inherits, and the results often surprise families."
         },
         {
           "type": "callout",
           "text": "Idea equivocada común\nMuchas personas creen que morir sin testamento significa que \"el estado se queda con todo\". Esto casi nunca es cierto. California tiene un sistema detallado para distribuir los bienes entre los familiares. El estado solo hereda cuando no se puede encontrar a ningún familiar.",
-          "en": "Common Misconception\nMany people believe that dying without a will means \"the state takes everything.\" This is almost never true. California has a detailed system for distributing assets to relatives — the state only inherits when absolutely no family can be found."
+          "en": "Common Misconception\nMany people believe that dying without a will means \"the state takes everything.\" This is almost never true. California has a detailed system for distributing assets to relatives: the state only inherits when absolutely no family can be found."
         },
         {
           "type": "h2",
@@ -2832,7 +2832,7 @@
             [
               "Spouse only (no children, parents, or siblings)",
               "100%",
-              "—"
+              "-"
             ]
           ]
         },
@@ -2896,7 +2896,7 @@
         {
           "type": "callout",
           "text": "Sí, la sucesión sigue siendo necesaria\nUn mito común es que no tener testamento significa que no hay sucesión. En realidad, los patrimonios sin testamento casi siempre requieren la sucesión, y el proceso a menudo es más complicado porque:",
-          "en": "Yes — Probate is Still Required\nA common myth is that having no will means no probate. In reality, intestate estates almost always require probate, and the process is often more complicated because:"
+          "en": "Yes: Probate is Still Required\nA common myth is that having no will means no probate. In reality, intestate estates almost always require probate, and the process is often more complicated because:"
         },
         {
           "type": "ul",
@@ -3060,12 +3060,12 @@
         {
           "type": "p",
           "text": "Por lo general de 12 a 18 meses, a veces más si identificar a los herederos es complicado. Vea nuestra guía sobre el calendario de la sucesión para más detalles.",
-          "en": "Typically 12-18 months — sometimes longer if heir identification is complicated. See our probate timeline guide for details."
+          "en": "Typically 12-18 months: sometimes longer if heir identification is complicated. See our probate timeline guide for details."
         },
         {
           "type": "callout",
           "text": "¿Necesita ayuda con un patrimonio sin testamento?\nAdministrar un patrimonio sin testamento puede ser complicado. Nuestros abogados de sucesiones con experiencia pueden guiarle en el proceso por una tarifa fija de $3,995. En un patrimonio de $500,000, los honorarios legales del abogado establecidos por ley son de $13,000.\nInicie su caso hoy",
-          "en": "Need Help With an Intestate Estate?\nAdministering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a flat fee of $3,995 — saving you thousands compared to traditional attorneys.\nStart Your Case Today"
+          "en": "Need Help With an Intestate Estate?\nAdministering an estate without a will can be complicated. Our experienced probate attorneys can guide you through the process for a flat fee of $3,995, saving you thousands compared to traditional attorneys.\nStart Your Case Today"
         }
       ]
     },
@@ -3080,12 +3080,12 @@
         {
           "type": "p",
           "text": "Ser nombrado albacea de un patrimonio en California es a la vez un honor y una responsabilidad importante. Como albacea (también llamado \"representante personal\"), usted está obligado por ley a administrar el patrimonio, proteger sus bienes, pagar las deudas y distribuir los bienes a los beneficiarios, todo mientras maneja el sistema de cortes de sucesión (probate) de California.",
-          "en": "Being named executor of a California estate is both an honor and a significant responsibility. As executor (also called \"personal representative\"), you're legally obligated to manage the estate, protect its assets, pay debts, and distribute property to beneficiaries — all while navigating California's probate court system."
+          "en": "Being named executor of a California estate is both an honor and a significant responsibility. As executor (also called \"personal representative\"), you're legally obligated to manage the estate, protect its assets, pay debts, and distribute property to beneficiaries, all while navigating California's probate court system."
         },
         {
           "type": "callout",
           "text": "Albacea vs. administrador\nEl albacea es nombrado en un testamento. El administrador es nombrado por la corte cuando no hay testamento o cuando el albacea nombrado no puede servir. Los deberes son esencialmente idénticos. Solo cambia el proceso de nombramiento.",
-          "en": "Executor vs. Administrator\nAn executor is named in a will. An administrator is appointed by the court when there's no will or the named executor can't serve. The duties are essentially identical — only the appointment process differs."
+          "en": "Executor vs. Administrator\nAn executor is named in a will. An administrator is appointed by the court when there's no will or the named executor can't serve. The duties are essentially identical: only the appointment process differs."
         },
         {
           "type": "h2",
@@ -3484,11 +3484,11 @@
             "Ignorar a los acreedores: distribuir bienes sin atender debidamente los reclamos válidos"
           ],
           "en": [
-            "Mismanaging assets — Letting property deteriorate, making bad investments, or losing estate funds",
-            "Premature distributions — Distributing assets before paying all debts and taxes",
-            "Missing tax deadlines — Failing to file returns or pay taxes on time",
-            "Self-dealing — Using estate assets for personal benefit",
-            "Ignoring creditors — Distributing assets without properly addressing valid claims"
+            "Mismanaging assets: Letting property deteriorate, making bad investments, or losing estate funds",
+            "Premature distributions: Distributing assets before paying all debts and taxes",
+            "Missing tax deadlines: Failing to file returns or pay taxes on time",
+            "Self-dealing: Using estate assets for personal benefit",
+            "Ignoring creditors: Distributing assets without properly addressing valid claims"
           ]
         },
         {
@@ -3554,7 +3554,7 @@
         {
           "type": "callout",
           "text": "¿Se siente abrumado por los deberes de albacea?\nNo tiene que hacerlo solo. Nuestros abogados de sucesiones con experiencia guían a los albaceas en cada paso del proceso por una tarifa fija de $3,995. Nosotros nos encargamos de los documentos, las presentaciones ante la corte y las fechas límite, y usted se enfoca en su familia.\nObtenga apoyo para el albacea hoy",
-          "en": "Overwhelmed by Executor Duties?\nYou don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a flat fee of $3,995. We handle the paperwork, court filings, and deadlines — you focus on your family.\nGet Executor Support Today"
+          "en": "Overwhelmed by Executor Duties?\nYou don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a flat fee of $3,995. We handle the paperwork, court filings, and deadlines: you focus on your family.\nGet Executor Support Today"
         }
       ]
     }

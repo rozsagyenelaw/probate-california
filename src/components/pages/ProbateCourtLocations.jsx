@@ -446,7 +446,7 @@ const ProbateCourtLocations = () => {
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Related Services</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 <a href="https://livingtrustcalifornia.com/" target="_blank" rel="noopener noreferrer" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">
-                  <h3 className="font-bold text-lg text-blue-600 mb-2">Create a Living Trust — $400</h3>
+                  <h3 className="font-bold text-lg text-blue-600 mb-2">Create a Living Trust: $400</h3>
                   <p className="text-gray-600">Avoid probate entirely with a flat-fee living trust. Prepared and reviewed by a licensed California attorney.</p>
                 </a>
                 <a href="https://livingtrust-attorneys.com/" target="_blank" rel="noopener noreferrer" className="block bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition border border-gray-200">

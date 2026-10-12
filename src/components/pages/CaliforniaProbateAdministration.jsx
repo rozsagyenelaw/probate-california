@@ -143,11 +143,11 @@ const CaliforniaProbateAdministration = () => {
     },
     {
       q: 'Can I be executor if I live out of state?',
-      a: 'Yes. California allows out-of-state executors. However, you may need to post a bond and appoint a California agent for service of process. Our remote service is ideal for out-of-state executors—we handle everything and can appear at hearings on your behalf for $500.'
+      a: 'Yes. California allows out-of-state executors. However, you may need to post a bond and appoint a California agent for service of process. Our remote service is ideal for out-of-state executors: we handle everything and can appear at hearings on your behalf for $500.'
     },
     {
       q: 'What are IGN notes and how do you clear them?',
-      a: 'IGN stands for "Incomplete/Needs" — notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We monitor the court portal 5-10 days before your hearing and file Verified Supplements to address each concern, often resulting in first-hearing approval.'
+      a: 'IGN stands for "Incomplete/Needs": notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We monitor the court portal 5-10 days before your hearing and file Verified Supplements to address each concern, often resulting in first-hearing approval.'
     },
     {
       q: 'What court fees are not included in your flat fee?',
@@ -313,7 +313,7 @@ const CaliforniaProbateAdministration = () => {
             "name": "What are IGN notes and how do you clear them?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "IGN stands for 'Incomplete/Needs' — notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We monitor the court portal and file Verified Supplements to address each concern."
+              "text": "IGN stands for 'Incomplete/Needs': notes posted by court examiners identifying deficiencies in your filing. Common issues include missing notices, incorrect bond calculations, or incomplete declarations. We monitor the court portal and file Verified Supplements to address each concern."
             }
           },
           {

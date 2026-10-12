@@ -27,7 +27,7 @@ const ARTICLES = [
     id: 1,
     slug: 'clear-ign-notes-stanley-mosk',
     title: 'How to Clear IGN Notes at Stanley Mosk Courthouse',
-    description: 'The 5-step process for clearing probate examiner notes before your hearing—and avoiding 3-month continuances.',
+    description: 'The 5-step process for clearing probate examiner notes before your hearing, and avoiding 3-month continuances.',
     category: 'Court Procedures',
     image: '/images/courthouses/stanley-mosk-courthouse.jpg',
     date: 'January 2026',

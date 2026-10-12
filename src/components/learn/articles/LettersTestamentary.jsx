@@ -51,7 +51,7 @@ const LettersTestamentary = () => {
       </p>
 
       <p className="text-gray-700 mb-4">
-        Think of them as your "golden ticket"—the document that allows you to:
+        Think of them as your "golden ticket": the document that allows you to:
       </p>
 
       <ul className="space-y-2 mb-6">
@@ -98,7 +98,7 @@ const LettersTestamentary = () => {
       </div>
 
       <p className="text-gray-700 mb-4">
-        Both documents grant the same legal authority—the only difference is the title (Executor vs Administrator) based on whether there's a Will.
+        Both documents grant the same legal authority: the only difference is the title (Executor vs Administrator) based on whether there's a Will.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">How to Get Letters Testamentary</h2>
@@ -200,7 +200,7 @@ const LettersTestamentary = () => {
       </ul>
 
       <p className="text-gray-700 mb-4">
-        Most banks will open an "Estate Account" where you can consolidate the decedent's funds. This keeps estate money separate from your personal funds—which is legally required.
+        Most banks will open an "Estate Account" where you can consolidate the decedent's funds. This keeps estate money separate from your personal funds, which is legally required.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Using Letters to Sell Real Estate</h2>

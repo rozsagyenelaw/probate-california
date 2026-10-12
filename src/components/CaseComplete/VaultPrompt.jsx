@@ -71,7 +71,7 @@ const VaultPrompt = ({ caseId }) => {
             </h3>
           </div>
           <p className="text-amber-800 mb-4">
-            You've seen how complex probate can be. Protect your loved ones with a Living Trust — avoid probate entirely.
+            You've seen how complex probate can be. Protect your loved ones with a Living Trust: avoid probate entirely.
           </p>
           <a
             href="https://livingtrustcalifornia.com"
@@ -79,7 +79,7 @@ const VaultPrompt = ({ caseId }) => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-blue-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors"
           >
-            Create Your Living Trust — From $400
+            Create Your Living Trust, From $400
             <ExternalLink className="h-4 w-4" />
           </a>
         </div>

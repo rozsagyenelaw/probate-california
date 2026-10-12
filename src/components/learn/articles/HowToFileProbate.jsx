@@ -96,23 +96,23 @@ const HowToFileProbate = () => {
       <ul className="space-y-3 mb-6">
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Original Will</strong> (if one exists) — the court requires the original, not a copy</span>
+          <span className="text-gray-700"><strong>Original Will</strong> (if one exists): the court requires the original, not a copy</span>
         </li>
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Certified Death Certificates</strong> — order 10-15 copies from the county recorder</span>
+          <span className="text-gray-700"><strong>Certified Death Certificates</strong>: order 10-15 copies from the county recorder</span>
         </li>
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>List of Assets</strong> — real estate, bank accounts, investments, vehicles</span>
+          <span className="text-gray-700"><strong>List of Assets</strong>: real estate, bank accounts, investments, vehicles</span>
         </li>
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>List of Heirs</strong> — names, addresses, and relationships of all beneficiaries and legal heirs</span>
+          <span className="text-gray-700"><strong>List of Heirs</strong>: names, addresses, and relationships of all beneficiaries and legal heirs</span>
         </li>
         <li className="flex items-start">
           <Check className="h-5 w-5 text-green-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>List of Debts</strong> — mortgages, credit cards, medical bills, taxes owed</span>
+          <span className="text-gray-700"><strong>List of Debts</strong>: mortgages, credit cards, medical bills, taxes owed</span>
         </li>
       </ul>
 

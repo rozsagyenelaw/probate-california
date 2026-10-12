@@ -89,7 +89,7 @@ const IntestateSuccession = () => {
       </script>
 
       <p className="text-xl text-gray-600 mb-8">
-        When someone dies without a valid will in California, their estate doesn't simply go to whoever wants it. Instead, <strong>California's intestate succession laws</strong> dictate exactly who inherits — and the results often surprise families.
+        When someone dies without a valid will in California, their estate doesn't simply go to whoever wants it. Instead, <strong>California's intestate succession laws</strong> dictate exactly who inherits, and the results often surprise families.
       </p>
 
       <div className="bg-amber-50 border-l-4 border-amber-500 p-4 my-6">
@@ -97,7 +97,7 @@ const IntestateSuccession = () => {
           <AlertTriangle className="h-5 w-5 text-amber-600 mr-3 mt-0.5" />
           <div>
             <p className="font-bold text-amber-800">Common Misconception</p>
-            <p className="text-amber-900">Many people believe that dying without a will means "the state takes everything." This is almost never true. California has a detailed system for distributing assets to relatives — the state only inherits when absolutely no family can be found.</p>
+            <p className="text-amber-900">Many people believe that dying without a will means "the state takes everything." This is almost never true. California has a detailed system for distributing assets to relatives: the state only inherits when absolutely no family can be found.</p>
           </div>
         </div>
       </div>
@@ -170,7 +170,7 @@ const IntestateSuccession = () => {
             <tr>
               <td className="px-4 py-3">Spouse only (no children, parents, or siblings)</td>
               <td className="px-4 py-3 font-medium text-green-600">100%</td>
-              <td className="px-4 py-3">—</td>
+              <td className="px-4 py-3">-</td>
             </tr>
           </tbody>
         </table>
@@ -255,7 +255,7 @@ const IntestateSuccession = () => {
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Do You Still Need Probate Without a Will?</h2>
 
       <div className="bg-red-50 border-l-4 border-red-500 p-4 my-6">
-        <p className="font-bold text-red-800">Yes — Probate is Still Required</p>
+        <p className="font-bold text-red-800">Yes: Probate is Still Required</p>
         <p className="text-red-900">A common myth is that having no will means no probate. In reality, intestate estates almost always require probate, and the process is often <strong>more complicated</strong> because:</p>
       </div>
 
@@ -356,7 +356,7 @@ const IntestateSuccession = () => {
             <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
             How long does intestate probate take?
           </h4>
-          <p className="text-gray-600 mt-2">Typically 12-18 months — sometimes longer if heir identification is complicated. See our <Link to="/learn-california-probate/probate-timeline-california-what-to-expect" className="text-blue-600 hover:underline">probate timeline guide</Link> for details.</p>
+          <p className="text-gray-600 mt-2">Typically 12-18 months: sometimes longer if heir identification is complicated. See our <Link to="/learn-california-probate/probate-timeline-california-what-to-expect" className="text-blue-600 hover:underline">probate timeline guide</Link> for details.</p>
         </div>
       </div>
 

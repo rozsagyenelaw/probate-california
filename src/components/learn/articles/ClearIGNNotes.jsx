@@ -43,7 +43,7 @@ const ClearIGNNotes = () => {
       relatedArticles={relatedArticles}
     >
       <p className="text-xl text-gray-600 mb-8">
-        If you're handling a probate case in Los Angeles County, you'll inevitably encounter <strong>IGN notes</strong>—the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them.
+        If you're handling a probate case in Los Angeles County, you'll inevitably encounter <strong>IGN notes</strong>: the probate examiner's flags that can derail your hearing and add months to your case. This guide explains exactly what they are and how to clear them.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What Are IGN Notes?</h2>
@@ -52,7 +52,7 @@ const ClearIGNNotes = () => {
       </p>
 
       <p className="text-gray-700 mb-4">
-        The Los Angeles Superior Court centralizes all probate cases at Stanley Mosk, handling thousands of cases annually. To manage this volume, specialized probate examiners review every filing before the judge sees it. If they find any issues—even minor ones—they post notes.
+        The Los Angeles Superior Court centralizes all probate cases at Stanley Mosk, handling thousands of cases annually. To manage this volume, specialized probate examiners review every filing before the judge sees it. If they find any issues, even minor ones, they post notes.
       </p>
 
       <div className="bg-red-50 border-l-4 border-red-500 p-4 my-6">
@@ -60,7 +60,7 @@ const ClearIGNNotes = () => {
           <AlertTriangle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
           <div>
             <p className="font-bold text-red-800">Critical Warning</p>
-            <p className="text-red-900">If you appear at your hearing with uncleared IGN notes, the judge will <strong>continue</strong> your case—typically for another 3+ months. This is one of the most common causes of probate delays in LA County.</p>
+            <p className="text-red-900">If you appear at your hearing with uncleared IGN notes, the judge will <strong>continue</strong> your case, typically for another 3+ months. This is one of the most common causes of probate delays in LA County.</p>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ const ClearIGNNotes = () => {
             <span className="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 flex-shrink-0">2</span>
             <div>
               <h3 className="font-bold text-gray-900">Review Each Note Carefully</h3>
-              <p className="text-gray-700 mt-1">Read every note in detail. Each one specifies exactly what information is missing or what correction is needed. Don't skip any—all must be addressed.</p>
+              <p className="text-gray-700 mt-1">Read every note in detail. Each one specifies exactly what information is missing or what correction is needed. Don't skip any; all must be addressed.</p>
             </div>
           </li>
           <li className="flex items-start">
@@ -231,7 +231,7 @@ const ClearIGNNotes = () => {
       </ul>
 
       <p className="text-gray-700 mt-8">
-        Have IGN notes on your case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Start your case with MyProbateCA</Link> and get professional help clearing them—included in our flat fee.
+        Have IGN notes on your case? <Link to="/register" className="text-indigo-600 hover:underline font-medium">Start your case with MyProbateCA</Link> and get professional help clearing them, included in our flat fee.
       </p>
     </ArticleLayout>
   );

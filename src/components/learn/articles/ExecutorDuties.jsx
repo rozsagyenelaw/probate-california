@@ -89,12 +89,12 @@ const ExecutorDuties = () => {
       </script>
 
       <p className="text-xl text-gray-600 mb-8">
-        Being named executor of a California estate is both an honor and a significant responsibility. As executor (also called "personal representative"), you're legally obligated to manage the estate, protect its assets, pay debts, and distribute property to beneficiaries — all while navigating California's probate court system.
+        Being named executor of a California estate is both an honor and a significant responsibility. As executor (also called "personal representative"), you're legally obligated to manage the estate, protect its assets, pay debts, and distribute property to beneficiaries, all while navigating California's probate court system.
       </p>
 
       <div className="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
         <p className="font-bold text-blue-800">Executor vs. Administrator</p>
-        <p className="text-blue-900">An <strong>executor</strong> is named in a will. An <strong>administrator</strong> is appointed by the court when there's no will or the named executor can't serve. The duties are essentially identical — only the appointment process differs.</p>
+        <p className="text-blue-900">An <strong>executor</strong> is named in a will. An <strong>administrator</strong> is appointed by the court when there's no will or the named executor can't serve. The duties are essentially identical: only the appointment process differs.</p>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-10 mb-4">Your Core Fiduciary Duties</h2>
@@ -385,23 +385,23 @@ const ExecutorDuties = () => {
       <ul className="space-y-3 mb-6">
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Mismanaging assets</strong> — Letting property deteriorate, making bad investments, or losing estate funds</span>
+          <span className="text-gray-700"><strong>Mismanaging assets</strong>: Letting property deteriorate, making bad investments, or losing estate funds</span>
         </li>
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Premature distributions</strong> — Distributing assets before paying all debts and taxes</span>
+          <span className="text-gray-700"><strong>Premature distributions</strong>: Distributing assets before paying all debts and taxes</span>
         </li>
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Missing tax deadlines</strong> — Failing to file returns or pay taxes on time</span>
+          <span className="text-gray-700"><strong>Missing tax deadlines</strong>: Failing to file returns or pay taxes on time</span>
         </li>
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Self-dealing</strong> — Using estate assets for personal benefit</span>
+          <span className="text-gray-700"><strong>Self-dealing</strong>: Using estate assets for personal benefit</span>
         </li>
         <li className="flex items-start">
           <X className="h-5 w-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
-          <span className="text-gray-700"><strong>Ignoring creditors</strong> — Distributing assets without properly addressing valid claims</span>
+          <span className="text-gray-700"><strong>Ignoring creditors</strong>: Distributing assets without properly addressing valid claims</span>
         </li>
       </ul>
 
@@ -453,7 +453,7 @@ const ExecutorDuties = () => {
       <div className="bg-gray-100 p-6 rounded-lg my-8">
         <h3 className="font-bold text-gray-900 text-lg mb-3">Overwhelmed by Executor Duties?</h3>
         <p className="text-gray-700 mb-4">
-          You don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. We handle the paperwork, court filings, and deadlines — you focus on your family.
+          You don't have to do this alone. Our experienced probate attorneys guide executors through every step of the process for a <Link to="/learn-california-probate/california-probate-fees-statutory-vs-flat" className="text-blue-600 hover:underline">flat fee from $3,995</Link>. We handle the paperwork, court filings, and deadlines: you focus on your family.
         </p>
         <Link to="/register" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition">
           Get Executor Support Today

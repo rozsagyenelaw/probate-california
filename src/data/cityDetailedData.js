@@ -4,15 +4,15 @@
 export const COMMON_ESTATE_TYPES = {
   'glendale': {
     title: "Common Estate Types in Glendale",
-    content: "Glendale probate cases frequently involve multi-generational family homes in neighborhoods like Rossmoyne and Sparr Heights, often held by original owners for 30-40 years with significant appreciation. Commercial properties along Brand Boulevard and Central Avenue are common, including retail spaces and mixed-use buildings. We regularly handle estates with family business interests—particularly in jewelry, auto repair, and food service industries that have served the community for decades. Investment properties, including multi-unit apartment buildings popular with local investors, require careful rent roll documentation and tenant notification during probate."
+    content: "Glendale probate cases frequently involve multi-generational family homes in neighborhoods like Rossmoyne and Sparr Heights, often held by original owners for 30-40 years with significant appreciation. Commercial properties along Brand Boulevard and Central Avenue are common, including retail spaces and mixed-use buildings. We regularly handle estates with family business interests, particularly in jewelry, auto repair, and food service industries that have served the community for decades. Investment properties, including multi-unit apartment buildings popular with local investors, require careful rent roll documentation and tenant notification during probate."
   },
   'los-angeles': {
     title: "Common Estate Types in Los Angeles",
-    content: "Los Angeles estates span incredible diversity—from Hollywood Hills mansions with entertainment industry assets to modest East LA family homes with decades of equity. We frequently handle estates involving entertainment residuals, SAG-AFTRA pensions, and intellectual property rights from film and television work. Real estate portfolios across multiple LA neighborhoods are common, often mixing personal residences with rental properties in areas like Silver Lake, Echo Park, and West Adams. Business interests range from restaurant ventures to production companies, each requiring specialized valuation approaches."
+    content: "Los Angeles estates span incredible diversity, from Hollywood Hills mansions with entertainment industry assets to modest East LA family homes with decades of equity. We frequently handle estates involving entertainment residuals, SAG-AFTRA pensions, and intellectual property rights from film and television work. Real estate portfolios across multiple LA neighborhoods are common, often mixing personal residences with rental properties in areas like Silver Lake, Echo Park, and West Adams. Business interests range from restaurant ventures to production companies, each requiring specialized valuation approaches."
   },
   'burbank': {
     title: "Common Estate Types in Burbank",
-    content: "Burbank estates commonly include entertainment industry retirement accounts from Disney, Warner Bros., and NBC Universal—often with complex stock options and deferred compensation. Properties in the Rancho Equestrian District feature horse facilities requiring specialized appraisal. We handle many estates with Screen Actors Guild pensions, Directors Guild benefits, and entertainment union death benefits. Home offices and small production facilities are common assets. The Magnolia Park and downtown areas include commercial properties with long-term tenants requiring careful lease analysis during probate."
+    content: "Burbank estates commonly include entertainment industry retirement accounts from Disney, Warner Bros., and NBC Universal, often with complex stock options and deferred compensation. Properties in the Rancho Equestrian District feature horse facilities requiring specialized appraisal. We handle many estates with Screen Actors Guild pensions, Directors Guild benefits, and entertainment union death benefits. Home offices and small production facilities are common assets. The Magnolia Park and downtown areas include commercial properties with long-term tenants requiring careful lease analysis during probate."
   },
   'pasadena': {
     title: "Common Estate Types in Pasadena",
@@ -20,11 +20,11 @@ export const COMMON_ESTATE_TYPES = {
   },
   'encino': {
     title: "Common Estate Types in Encino",
-    content: "Encino estates typically feature high-value primary residences in gated communities like Royal Oaks, often with pools, tennis courts, and guest houses requiring itemized appraisal. Entertainment executive compensation packages with unvested stock options and golden parachute provisions are common. We handle many estates involving country club memberships with transfer restrictions, luxury vehicle collections, and wine cellars requiring certified appraisal. Business ownership interests in Valley-based companies and professional practices—particularly in entertainment law and talent management—frequently require forensic accounting."
+    content: "Encino estates typically feature high-value primary residences in gated communities like Royal Oaks, often with pools, tennis courts, and guest houses requiring itemized appraisal. Entertainment executive compensation packages with unvested stock options and golden parachute provisions are common. We handle many estates involving country club memberships with transfer restrictions, luxury vehicle collections, and wine cellars requiring certified appraisal. Business ownership interests in Valley-based companies and professional practices, particularly in entertainment law and talent management, frequently require forensic accounting."
   },
   'sherman-oaks': {
     title: "Common Estate Types in Sherman Oaks",
-    content: "Sherman Oaks probate cases often involve mid-century modern homes south of Ventura Boulevard that have appreciated dramatically since original purchase. Entertainment industry 401(k) accounts and residual income streams from TV and film work are standard assets. We regularly handle estates with small business interests along the Ventura Corridor—restaurants, retail shops, and professional offices with commercial lease considerations. Investment properties, including condo units in the many complexes built during the 1970s-80s, require HOA documentation and rental history analysis."
+    content: "Sherman Oaks probate cases often involve mid-century modern homes south of Ventura Boulevard that have appreciated dramatically since original purchase. Entertainment industry 401(k) accounts and residual income streams from TV and film work are standard assets. We regularly handle estates with small business interests along the Ventura Corridor: restaurants, retail shops, and professional offices with commercial lease considerations. Investment properties, including condo units in the many complexes built during the 1970s-80s, require HOA documentation and rental history analysis."
   },
   'woodland-hills': {
     title: "Common Estate Types in Woodland Hills",
@@ -32,55 +32,55 @@ export const COMMON_ESTATE_TYPES = {
   },
   'tarzana': {
     title: "Common Estate Types in Tarzana",
-    content: "Tarzana probate cases commonly involve medical professional estates with practice valuations, accounts receivable, and complex retirement plans from physicians at Tarzana Medical Center. Hillside properties with canyon views require careful comparable analysis due to unique features. We handle estates with therapy and counseling practice assets—Tarzana has a significant mental health professional community. Horse properties in the equestrian areas near the mountains require specialized livestock and facility appraisal. Family homes purchased in the 1960s-70s often show 20-30x appreciation."
+    content: "Tarzana probate cases commonly involve medical professional estates with practice valuations, accounts receivable, and complex retirement plans from physicians at Tarzana Medical Center. Hillside properties with canyon views require careful comparable analysis due to unique features. We handle estates with therapy and counseling practice assets: Tarzana has a significant mental health professional community. Horse properties in the equestrian areas near the mountains require specialized livestock and facility appraisal. Family homes purchased in the 1960s-70s often show 20-30x appreciation."
   },
   'calabasas': {
     title: "Common Estate Types in Calabasas",
-    content: "Calabasas estates demand expertise in high-value asset appraisal—custom homes in The Oaks and Calabasas Park Estates often exceed $5 million with unique features like home theaters, wine rooms, and smart home systems. We handle estates involving celebrity-adjacent assets: art collections, luxury vehicles (often multiple), designer furniture, and jewelry requiring certified appraisal. Business interests frequently include entertainment ventures, tech startups, and investment portfolios managed by wealth advisors. Privacy considerations often require discrete handling of asset discovery and sale processes."
+    content: "Calabasas estates demand expertise in high-value asset appraisal: custom homes in The Oaks and Calabasas Park Estates often exceed $5 million with unique features like home theaters, wine rooms, and smart home systems. We handle estates involving celebrity-adjacent assets: art collections, luxury vehicles (often multiple), designer furniture, and jewelry requiring certified appraisal. Business interests frequently include entertainment ventures, tech startups, and investment portfolios managed by wealth advisors. Privacy considerations often require discrete handling of asset discovery and sale processes."
   },
   'santa-monica': {
     title: "Common Estate Types in Santa Monica",
-    content: "Santa Monica estates frequently involve rent-controlled apartment buildings with strict RSO compliance requirements during ownership transfer. Silicon Beach tech equity from Google, Snap, and numerous startups is increasingly common. We handle estates with commercial properties along Main Street, Montana Avenue, and the Third Street Promenade—often with valuable long-term commercial leases. Beach-adjacent condos in buildings with HOA restrictions require careful document review. Creative industry assets including production company interests, screenplay rights, and residuals are standard."
+    content: "Santa Monica estates frequently involve rent-controlled apartment buildings with strict RSO compliance requirements during ownership transfer. Silicon Beach tech equity from Google, Snap, and numerous startups is increasingly common. We handle estates with commercial properties along Main Street, Montana Avenue, and the Third Street Promenade, often with valuable long-term commercial leases. Beach-adjacent condos in buildings with HOA restrictions require careful document review. Creative industry assets including production company interests, screenplay rights, and residuals are standard."
   },
   'long-beach': {
     title: "Common Estate Types in Long Beach",
-    content: "Long Beach probate commonly involves port-related employment with ILWU union pensions and benefits requiring specialized handling. Naples Island and Peninsula waterfront properties often include dock permits with transfer requirements. We handle estates with oil mineral rights—Long Beach's oil field underlies much of the city, and some older properties retain these valuable rights. Aerospace retirement accounts from the former Boeing facilities are common. Multi-unit rental properties, particularly in downtown and near CSULB, require rent roll documentation and tenant notification during probate."
+    content: "Long Beach probate commonly involves port-related employment with ILWU union pensions and benefits requiring specialized handling. Naples Island and Peninsula waterfront properties often include dock permits with transfer requirements. We handle estates with oil mineral rights: Long Beach's oil field underlies much of the city, and some older properties retain these valuable rights. Aerospace retirement accounts from the former Boeing facilities are common. Multi-unit rental properties, particularly in downtown and near CSULB, require rent roll documentation and tenant notification during probate."
   },
   'santa-clarita': {
     title: "Common Estate Types in Santa Clarita",
-    content: "Santa Clarita probate frequently involves entertainment industry assets—many residents work at the local film ranches, studios, and production facilities. Six Flags Magic Mountain employment creates estates with theme park company stock and benefits. We handle estates in the Valencia master-planned communities with extensive HOA governance. Aerospace retirement accounts from nearby defense contractors are common. Properties in Canyon Country and Newhall have appreciated significantly. Small business interests in the Valencia Town Center commercial area require lease analysis."
+    content: "Santa Clarita probate frequently involves entertainment industry assets: many residents work at the local film ranches, studios, and production facilities. Six Flags Magic Mountain employment creates estates with theme park company stock and benefits. We handle estates in the Valencia master-planned communities with extensive HOA governance. Aerospace retirement accounts from nearby defense contractors are common. Properties in Canyon Country and Newhall have appreciated significantly. Small business interests in the Valencia Town Center commercial area require lease analysis."
   },
   'anaheim': {
     title: "Common Estate Types in Anaheim",
-    content: "Anaheim probate cases often involve Disney employee benefits including stock, pensions, and unique perks requiring coordination with the company's benefits department. Properties in Anaheim Hills frequently feature views and custom construction requiring detailed appraisal. We handle estates with small business interests—the city has a vibrant small business community including restaurants, retail, and service businesses. Multi-generational family homes in older Anaheim neighborhoods often have informal additions or ADUs requiring permit verification. Some estates include theme park memorabilia collections with surprising value."
+    content: "Anaheim probate cases often involve Disney employee benefits including stock, pensions, and unique perks requiring coordination with the company's benefits department. Properties in Anaheim Hills frequently feature views and custom construction requiring detailed appraisal. We handle estates with small business interests: the city has a vibrant small business community including restaurants, retail, and service businesses. Multi-generational family homes in older Anaheim neighborhoods often have informal additions or ADUs requiring permit verification. Some estates include theme park memorabilia collections with surprising value."
   },
   'irvine': {
     title: "Common Estate Types in Irvine",
-    content: "Irvine probate frequently involves tech industry equity compensation from the numerous companies headquartered in the Irvine Spectrum area. HOA-governed properties with extensive CC&Rs require careful compliance review during estate sales. We handle estates with UCI faculty retirement accounts and research-related intellectual property. International families often have overseas assets requiring coordination—Irvine's diverse population includes significant Chinese, Korean, and Persian communities with transnational holdings. Master-planned community amenities like golf club memberships occasionally have transfer restrictions."
+    content: "Irvine probate frequently involves tech industry equity compensation from the numerous companies headquartered in the Irvine Spectrum area. HOA-governed properties with extensive CC&Rs require careful compliance review during estate sales. We handle estates with UCI faculty retirement accounts and research-related intellectual property. International families often have overseas assets requiring coordination: Irvine's diverse population includes significant Chinese, Korean, and Persian communities with transnational holdings. Master-planned community amenities like golf club memberships occasionally have transfer restrictions."
   },
   'newport-beach': {
     title: "Common Estate Types in Newport Beach",
-    content: "Newport Beach estates commonly feature waterfront properties with dock permits that don't automatically transfer, requiring careful coordination with the Harbor Department. Yacht ownership—often multiple vessels—requires maritime documentation and slip lease assignment. We handle estates with significant art collections, wine cellars, and luxury vehicles including collectible cars requiring certified appraisal. Business interests frequently include real estate development companies, investment management firms, and medical practices. Private club memberships at Big Canyon, Pelican Hill, and Newport Beach Country Club have transfer complexities."
+    content: "Newport Beach estates commonly feature waterfront properties with dock permits that don't automatically transfer, requiring careful coordination with the Harbor Department. Yacht ownership, often multiple vessels, requires maritime documentation and slip lease assignment. We handle estates with significant art collections, wine cellars, and luxury vehicles including collectible cars requiring certified appraisal. Business interests frequently include real estate development companies, investment management firms, and medical practices. Private club memberships at Big Canyon, Pelican Hill, and Newport Beach Country Club have transfer complexities."
   },
   'huntington-beach': {
     title: "Common Estate Types in Huntington Beach",
-    content: "Huntington Beach estates commonly involve oil mineral rights—the city sits atop an oil field, and some older properties retain these valuable subsurface rights. Beachfront and beach-close properties with Coastal Commission jurisdiction require compliance review for any modifications. We handle estates with Boeing and aerospace retirement accounts from the defense industry presence. Surf industry assets, including surf shop businesses and occasionally valuable vintage surfboard collections, are unique to this area. Pacific Coast Highway commercial properties require specialized retail lease analysis."
+    content: "Huntington Beach estates commonly involve oil mineral rights: the city sits atop an oil field, and some older properties retain these valuable subsurface rights. Beachfront and beach-close properties with Coastal Commission jurisdiction require compliance review for any modifications. We handle estates with Boeing and aerospace retirement accounts from the defense industry presence. Surf industry assets, including surf shop businesses and occasionally valuable vintage surfboard collections, are unique to this area. Pacific Coast Highway commercial properties require specialized retail lease analysis."
   },
   'santa-barbara': {
     title: "Common Estate Types in Santa Barbara",
-    content: "Santa Barbara probate involves coastal properties with Coastal Commission jurisdiction affecting any modifications or sales to developers. Wine country assets—vineyards, tasting rooms, and wine libraries—are increasingly common as the region's wine industry has grown. We handle estates with significant art collections, often accumulated by retirees who relocated from Los Angeles. Historic adobes and Spanish Colonial estates have landmark restrictions. UCSB retirement accounts and academic intellectual property require specialized attention. Montecito-adjacent properties command premium prices."
+    content: "Santa Barbara probate involves coastal properties with Coastal Commission jurisdiction affecting any modifications or sales to developers. Wine country assets, vineyards, tasting rooms, and wine libraries, are increasingly common as the region's wine industry has grown. We handle estates with significant art collections, often accumulated by retirees who relocated from Los Angeles. Historic adobes and Spanish Colonial estates have landmark restrictions. UCSB retirement accounts and academic intellectual property require specialized attention. Montecito-adjacent properties command premium prices."
   },
   'montecito': {
     title: "Common Estate Types in Montecito",
-    content: "Montecito estates require expertise in ultra-high-net-worth asset handling. Properties routinely include multiple structures—main residence, guest houses, staff quarters, equestrian facilities—each requiring separate appraisal. We handle estates with museum-quality art collections, rare wine cellars, and exotic vehicle collections requiring certified specialist appraisers. Charitable foundation interests and complex trust structures often interact with probate assets. Privacy and confidentiality are paramount—many clients are public figures requiring discrete handling. Security systems and intellectual property sometimes have value."
+    content: "Montecito estates require expertise in ultra-high-net-worth asset handling. Properties routinely include multiple structures, main residence, guest houses, staff quarters, equestrian facilities, each requiring separate appraisal. We handle estates with museum-quality art collections, rare wine cellars, and exotic vehicle collections requiring certified specialist appraisers. Charitable foundation interests and complex trust structures often interact with probate assets. Privacy and confidentiality are paramount: many clients are public figures requiring discrete handling. Security systems and intellectual property sometimes have value."
   },
   'goleta': {
     title: "Common Estate Types in Goleta",
-    content: "Goleta probate cases often involve aerospace industry retirement accounts from Raytheon, Northrop Grumman, and smaller defense contractors. Tech startup equity from the growing Santa Barbara tech scene is increasingly common. We handle estates with agricultural land—avocado groves and lemon orchards—requiring agricultural appraisal and water rights analysis. UCSB faculty retirement accounts and intellectual property from research are standard. Properties in Old Town Goleta have appreciated significantly as the area has gentrified, surprising some families at probate time."
+    content: "Goleta probate cases often involve aerospace industry retirement accounts from Raytheon, Northrop Grumman, and smaller defense contractors. Tech startup equity from the growing Santa Barbara tech scene is increasingly common. We handle estates with agricultural land, avocado groves and lemon orchards, requiring agricultural appraisal and water rights analysis. UCSB faculty retirement accounts and intellectual property from research are standard. Properties in Old Town Goleta have appreciated significantly as the area has gentrified, surprising some families at probate time."
   },
   'carpinteria': {
     title: "Common Estate Types in Carpinteria",
-    content: "Carpinteria estates commonly feature beachfront and blufftop properties with significant coastal erosion and Coastal Commission considerations. Agricultural assets—particularly avocado farms—require specialized appraisal including water allocation rights. We handle estates with long-time family homes that have passed between generations, often with informal title arrangements needing cleanup. Small business interests in the downtown area, particularly restaurants and shops serving the beach community, require lease analysis. Surf-culture assets occasionally include valuable vintage board collections."
+    content: "Carpinteria estates commonly feature beachfront and blufftop properties with significant coastal erosion and Coastal Commission considerations. Agricultural assets, particularly avocado farms, require specialized appraisal including water allocation rights. We handle estates with long-time family homes that have passed between generations, often with informal title arrangements needing cleanup. Small business interests in the downtown area, particularly restaurants and shops serving the beach community, require lease analysis. Surf-culture assets occasionally include valuable vintage board collections."
   },
   'isla-vista': {
     title: "Common Estate Types in Isla Vista",
@@ -88,7 +88,7 @@ export const COMMON_ESTATE_TYPES = {
   },
   'san-francisco': {
     title: "Common Estate Types in San Francisco",
-    content: "San Francisco estates commonly involve tech equity compensation—ISOs, NSOs, RSUs—requiring 409A valuations and careful exercise timing analysis. Rent-controlled properties in the city create complex tenant rights considerations during probate sales. We handle estates with cryptocurrency holdings, NFTs, and digital assets requiring specialized custody and transfer procedures. TIC (tenancy in common) ownership structures common in SF multi-unit buildings add complexity. Victorian and Edwardian homes often have title irregularities from 100+ years of transfers requiring careful documentation."
+    content: "San Francisco estates commonly involve tech equity compensation, ISOs, NSOs, RSUs, requiring 409A valuations and careful exercise timing analysis. Rent-controlled properties in the city create complex tenant rights considerations during probate sales. We handle estates with cryptocurrency holdings, NFTs, and digital assets requiring specialized custody and transfer procedures. TIC (tenancy in common) ownership structures common in SF multi-unit buildings add complexity. Victorian and Edwardian homes often have title irregularities from 100+ years of transfers requiring careful documentation."
   },
   'san-jose': {
     title: "Common Estate Types in San Jose",
@@ -100,7 +100,7 @@ export const COMMON_ESTATE_TYPES = {
   },
   'fremont': {
     title: "Common Estate Types in Fremont",
-    content: "Fremont estates frequently involve Tesla and tech industry stock options requiring careful 409A valuation and exercise timing. International families—Fremont has California's largest Afghan-American community—sometimes have overseas assets requiring coordination. We handle estates with Ohlone College and Cal State East Bay retirement accounts. Properties in Mission San Jose and Niles Districts have appreciated dramatically. Manufacturing and logistics company retirement accounts from the industrial corridor are common. Multi-generational family homes often have extensive equity from decades of ownership."
+    content: "Fremont estates frequently involve Tesla and tech industry stock options requiring careful 409A valuation and exercise timing. International families, Fremont has California's largest Afghan-American community, sometimes have overseas assets requiring coordination. We handle estates with Ohlone College and Cal State East Bay retirement accounts. Properties in Mission San Jose and Niles Districts have appreciated dramatically. Manufacturing and logistics company retirement accounts from the industrial corridor are common. Multi-generational family homes often have extensive equity from decades of ownership."
   },
   'san-diego': {
     title: "Common Estate Types in San Diego",
@@ -112,7 +112,7 @@ export const COMMON_ESTATE_TYPES = {
   },
   'riverside': {
     title: "Common Estate Types in Riverside",
-    content: "Riverside probate often involves properties in historic districts like Wood Streets and Victoria Avenue with specific preservation requirements. UC Riverside faculty estates include retirement accounts and occasional research intellectual property. We handle estates with citrus heritage properties—some families have held land since the navel orange era. Kaiser Riverside and the medical corridor create healthcare professional estates with complex retirement accounts. Small business interests, particularly along the University Avenue corridor, require lease and business valuation analysis."
+    content: "Riverside probate often involves properties in historic districts like Wood Streets and Victoria Avenue with specific preservation requirements. UC Riverside faculty estates include retirement accounts and occasional research intellectual property. We handle estates with citrus heritage properties: some families have held land since the navel orange era. Kaiser Riverside and the medical corridor create healthcare professional estates with complex retirement accounts. Small business interests, particularly along the University Avenue corridor, require lease and business valuation analysis."
   },
   'fresno': {
     title: "Common Estate Types in Fresno",
@@ -120,7 +120,7 @@ export const COMMON_ESTATE_TYPES = {
   },
   'bakersfield': {
     title: "Common Estate Types in Bakersfield",
-    content: "Bakersfield estates commonly feature oil and gas interests—mineral rights, royalty interests, and working interest partnerships—requiring specialized petroleum appraisal. Agricultural land in the surrounding valley requires water rights valuation, which can exceed the land value itself. We handle estates with farming equipment and agricultural corporation shares. Country music memorabilia—Bakersfield's musical heritage means some estates include valuable instruments and artifacts. Oilfield services company ownership interests are common given the region's energy industry employment."
+    content: "Bakersfield estates commonly feature oil and gas interests, mineral rights, royalty interests, and working interest partnerships, requiring specialized petroleum appraisal. Agricultural land in the surrounding valley requires water rights valuation, which can exceed the land value itself. We handle estates with farming equipment and agricultural corporation shares. Country music memorabilia: Bakersfield's musical heritage means some estates include valuable instruments and artifacts. Oilfield services company ownership interests are common given the region's energy industry employment."
   },
   'stockton': {
     title: "Common Estate Types in Stockton",
@@ -128,15 +128,15 @@ export const COMMON_ESTATE_TYPES = {
   },
   'modesto': {
     title: "Common Estate Types in Modesto",
-    content: "Modesto probate commonly involves agricultural assets—almond orchards, dairy operations, and wine grape vineyards—requiring specialized farm appraisal. Gallo Winery stock and retirement accounts are standard given the company's headquarters here. We handle estates with farming equipment worth significant sums and agricultural water rights that can exceed land values. Small business interests along McHenry Avenue and in downtown Modesto require lease and business valuation. Family farming corporation shares often have complex shareholder agreements affecting transfer."
+    content: "Modesto probate commonly involves agricultural assets, almond orchards, dairy operations, and wine grape vineyards, requiring specialized farm appraisal. Gallo Winery stock and retirement accounts are standard given the company's headquarters here. We handle estates with farming equipment worth significant sums and agricultural water rights that can exceed land values. Small business interests along McHenry Avenue and in downtown Modesto require lease and business valuation. Family farming corporation shares often have complex shareholder agreements affecting transfer."
   },
   'fontana': {
     title: "Common Estate Types in Fontana",
-    content: "Fontana estates frequently involve logistics and warehouse company retirement accounts from Amazon, UPS, and the numerous distribution centers. Auto Club Speedway employment creates occasional sports industry estates. We handle properties that have appreciated significantly as the Inland Empire has grown—many families who purchased in the 1990s-2000s hold substantial equity. Steel industry legacy means some older estates include pension benefits from Kaiser Steel era. Small business interests, particularly in trucking and logistics services, require specialized business valuation."
+    content: "Fontana estates frequently involve logistics and warehouse company retirement accounts from Amazon, UPS, and the numerous distribution centers. Auto Club Speedway employment creates occasional sports industry estates. We handle properties that have appreciated significantly as the Inland Empire has grown: many families who purchased in the 1990s-2000s hold substantial equity. Steel industry legacy means some older estates include pension benefits from Kaiser Steel era. Small business interests, particularly in trucking and logistics services, require specialized business valuation."
   },
   'oxnard': {
     title: "Common Estate Types in Oxnard",
-    content: "Oxnard probate frequently involves agricultural assets—the city is California's strawberry capital, and farm operations require crop contract and water rights analysis. Naval Base Ventura County employment creates estates with military benefits and survivor coordination. We handle estates with Port Hueneme maritime employment pensions and benefits. Properties in the Channel Islands Harbor area have dock permits with transfer requirements. Agricultural equipment and processing facility interests require specialized appraisal. Some estates include farmworker housing with specific regulatory considerations."
+    content: "Oxnard probate frequently involves agricultural assets: the city is California's strawberry capital, and farm operations require crop contract and water rights analysis. Naval Base Ventura County employment creates estates with military benefits and survivor coordination. We handle estates with Port Hueneme maritime employment pensions and benefits. Properties in the Channel Islands Harbor area have dock permits with transfer requirements. Agricultural equipment and processing facility interests require specialized appraisal. Some estates include farmworker housing with specific regulatory considerations."
   },
   'moreno-valley': {
     title: "Common Estate Types in Moreno Valley",
@@ -149,19 +149,19 @@ export const LOCAL_STATS = {
   'glendale': {
     avgDuration: "12-16 months",
     filingVolume: "High volume district",
-    examinerNotes: "Stanley Mosk examiners are thorough—expect IGN notes on 80%+ of first filings",
+    examinerNotes: "Stanley Mosk examiners are thorough: expect IGN notes on 80%+ of first filings",
     localTip: "Glendale cases benefit from early examiner communication to identify potential issues"
   },
   'los-angeles': {
     avgDuration: "14-18 months",
     filingVolume: "Highest volume in California",
-    examinerNotes: "Central District examiners handle 200+ cases each—detailed filings reduce delays",
+    examinerNotes: "Central District examiners handle 200+ cases each: detailed filings reduce delays",
     localTip: "Stanley Mosk has specific formatting requirements that differ from other LA courthouses"
   },
   'burbank': {
     avgDuration: "12-16 months",
     filingVolume: "Moderate volume",
-    examinerNotes: "Files at Stanley Mosk—same rigorous examiner standards as DTLA cases",
+    examinerNotes: "Files at Stanley Mosk: same rigorous examiner standards as DTLA cases",
     localTip: "Entertainment industry assets often require additional documentation for examiner review"
   },
   'pasadena': {
@@ -197,7 +197,7 @@ export const LOCAL_STATS = {
   'calabasas': {
     avgDuration: "12-18 months",
     filingVolume: "Lower volume, higher complexity",
-    examinerNotes: "High-value estates receive additional scrutiny—expect detailed asset verification requests",
+    examinerNotes: "High-value estates receive additional scrutiny: expect detailed asset verification requests",
     localTip: "Calabasas estates often benefit from early contact with the probate referee"
   },
   'santa-monica': {
@@ -239,7 +239,7 @@ export const LOCAL_STATS = {
   'huntington-beach': {
     avgDuration: "10-14 months",
     filingVolume: "Moderate volume",
-    examinerNotes: "Files at Lamoreaux—OC probate staff experienced with mineral rights",
+    examinerNotes: "Files at Lamoreaux: OC probate staff experienced with mineral rights",
     localTip: "Oil rights appraisals should be ordered early as they take 4-6 weeks"
   },
   'santa-barbara': {
@@ -257,7 +257,7 @@ export const LOCAL_STATS = {
   'goleta': {
     avgDuration: "8-12 months",
     filingVolume: "Lower volume",
-    examinerNotes: "Files at Santa Barbara—benefits from smaller courthouse's attention",
+    examinerNotes: "Files at Santa Barbara: benefits from smaller courthouse's attention",
     localTip: "Agricultural appraisals should include water rights valuation"
   },
   'carpinteria': {
@@ -275,14 +275,14 @@ export const LOCAL_STATS = {
   'san-francisco': {
     avgDuration: "12-16 months",
     filingVolume: "Moderate volume, high scrutiny",
-    examinerNotes: "SF examiners are among California's most rigorous—meticulous documentation required",
+    examinerNotes: "SF examiners are among California's most rigorous: meticulous documentation required",
     localTip: "Tech equity valuations often require 409A appraisals acceptable to the court"
   },
   'san-jose': {
     avgDuration: "10-14 months",
     filingVolume: "High volume",
     examinerNotes: "Santa Clara County has efficient systems but complex estates take longer",
-    localTip: "Tech stock option exercises may need to occur during probate—plan timing carefully"
+    localTip: "Tech stock option exercises may need to occur during probate: plan timing carefully"
   },
   'oakland': {
     avgDuration: "10-14 months",
@@ -299,19 +299,19 @@ export const LOCAL_STATS = {
   'san-diego': {
     avgDuration: "10-14 months",
     filingVolume: "High volume",
-    examinerNotes: "San Diego Superior Court has modernized systems—generally efficient processing",
+    examinerNotes: "San Diego Superior Court has modernized systems: generally efficient processing",
     localTip: "Military benefit coordination should begin early in the probate process"
   },
   'sacramento': {
     avgDuration: "8-12 months",
     filingVolume: "Moderate volume",
     examinerNotes: "Sacramento Superior Court is generally less backlogged than coastal counties",
-    localTip: "CalPERS coordination should begin immediately upon death—survivor benefits have deadlines"
+    localTip: "CalPERS coordination should begin immediately upon death: survivor benefits have deadlines"
   },
   'riverside': {
     avgDuration: "10-14 months",
     filingVolume: "High volume",
-    examinerNotes: "Riverside County has seen increased filings—some delays possible",
+    examinerNotes: "Riverside County has seen increased filings: some delays possible",
     localTip: "Historic district properties may need preservation compliance review"
   },
   'fresno': {
@@ -353,7 +353,7 @@ export const LOCAL_STATS = {
   'moreno-valley': {
     avgDuration: "10-14 months",
     filingVolume: "Moderate volume",
-    examinerNotes: "Files at Riverside Historic Courthouse—Inland Empire's busiest probate court",
+    examinerNotes: "Files at Riverside Historic Courthouse: Inland Empire's busiest probate court",
     localTip: "Military survivor benefits have 180-day deadlines that cannot be extended"
   }
 };
@@ -363,77 +363,77 @@ export const PUBLICATION_INFO = {
   'Los Angeles': {
     newspapers: "Los Angeles Daily Journal, Metropolitan News-Enterprise, or other adjudicated newspapers",
     duration: "3 successive weeks",
-    note: "We handle newspaper selection and publication—costs typically $200-350"
+    note: "We handle newspaper selection and publication: costs typically $200-350"
   },
   'Orange': {
     newspapers: "Orange County Reporter, Daily Pilot, or other adjudicated newspapers",
     duration: "3 successive weeks",
-    note: "We coordinate publication with county-approved newspapers—costs typically $200-300"
+    note: "We coordinate publication with county-approved newspapers: costs typically $200-300"
   },
   'San Diego': {
     newspapers: "San Diego Daily Transcript, San Diego Union-Tribune legal notices",
     duration: "3 successive weeks",
-    note: "Publication handled as part of our service—costs typically $200-300"
+    note: "Publication handled as part of our service: costs typically $200-300"
   },
   'San Francisco': {
     newspapers: "San Francisco Daily Journal, The Recorder, or SF Examiner legal notices",
     duration: "3 successive weeks",
-    note: "We select the most cost-effective adjudicated paper—costs typically $200-350"
+    note: "We select the most cost-effective adjudicated paper: costs typically $200-350"
   },
   'Santa Clara': {
     newspapers: "Daily Journal (San Jose), The Recorder, or other adjudicated newspapers",
     duration: "3 successive weeks",
-    note: "Publication coordinated with county-approved papers—costs typically $200-300"
+    note: "Publication coordinated with county-approved papers: costs typically $200-300"
   },
   'Sacramento': {
     newspapers: "Daily Recorder, Sacramento Bee legal notices",
     duration: "3 successive weeks",
-    note: "We handle all publication requirements—costs typically $150-250"
+    note: "We handle all publication requirements: costs typically $150-250"
   },
   'Santa Barbara': {
     newspapers: "Santa Barbara News-Press, Santa Barbara Daily Sound legal notices",
     duration: "3 successive weeks",
-    note: "Smaller county means faster publication processing—costs typically $150-250"
+    note: "Smaller county means faster publication processing: costs typically $150-250"
   },
   'Alameda': {
     newspapers: "Daily Journal, The Inter-City Express, or other adjudicated newspapers",
     duration: "3 successive weeks",
-    note: "We coordinate with county-approved newspapers—costs typically $200-300"
+    note: "We coordinate with county-approved newspapers: costs typically $200-300"
   },
   'Riverside': {
     newspapers: "Daily Journal, Press-Enterprise legal notices",
     duration: "3 successive weeks",
-    note: "Inland Empire publication costs are reasonable—typically $150-250"
+    note: "Inland Empire publication costs are reasonable, typically $150-250"
   },
   'San Bernardino': {
     newspapers: "San Bernardino County Sentinel, Daily Journal",
     duration: "3 successive weeks",
-    note: "We handle publication for all IE locations—costs typically $150-250"
+    note: "We handle publication for all IE locations: costs typically $150-250"
   },
   'Ventura': {
     newspapers: "Ventura County Star legal notices, Daily Journal",
     duration: "3 successive weeks",
-    note: "Publication coordinated with approved newspapers—costs typically $150-250"
+    note: "Publication coordinated with approved newspapers: costs typically $150-250"
   },
   'Fresno': {
     newspapers: "Fresno Business Journal, The Fresno Bee legal notices",
     duration: "3 successive weeks",
-    note: "Central Valley publication costs are lower—typically $125-200"
+    note: "Central Valley publication costs are lower, typically $125-200"
   },
   'Kern': {
     newspapers: "Bakersfield Californian legal notices, Daily Journal",
     duration: "3 successive weeks",
-    note: "We coordinate all Kern County publication—costs typically $125-200"
+    note: "We coordinate all Kern County publication: costs typically $125-200"
   },
   'San Joaquin': {
     newspapers: "The Record (Stockton), Daily Journal",
     duration: "3 successive weeks",
-    note: "Publication handled as part of our service—costs typically $125-200"
+    note: "Publication handled as part of our service: costs typically $125-200"
   },
   'Stanislaus': {
     newspapers: "Modesto Bee legal notices, Daily Journal",
     duration: "3 successive weeks",
-    note: "Central Valley publication is cost-effective—typically $125-200"
+    note: "Central Valley publication is cost-effective, typically $125-200"
   }
 };
 
@@ -442,7 +442,7 @@ export const getPublicationInfo = (county) => {
   return PUBLICATION_INFO[county] || {
     newspapers: "Court-approved adjudicated newspapers",
     duration: "3 successive weeks",
-    note: "We handle all publication requirements—costs typically $150-300"
+    note: "We handle all publication requirements: costs typically $150-300"
   };
 };
 

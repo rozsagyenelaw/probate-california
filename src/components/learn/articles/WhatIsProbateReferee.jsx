@@ -42,16 +42,16 @@ const WhatIsProbateReferee = () => {
       relatedArticles={relatedArticles}
     >
       <p className="text-xl text-gray-600 mb-8">
-        Every California probate case requires working with a <strong>Probate Referee</strong>—a court-appointed official who appraises estate assets. This guide explains who they are, what they do, and how to work with them effectively.
+        Every California probate case requires working with a <strong>Probate Referee</strong>: a court-appointed official who appraises estate assets. This guide explains who they are, what they do, and how to work with them effectively.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What is a Probate Referee?</h2>
       <p className="text-gray-700 mb-4">
-        A Probate Referee is a specially qualified appraiser appointed by the California State Controller to value estate assets for probate proceedings. They're not employees of the court—they're independent professionals licensed to provide official valuations.
+        A Probate Referee is a specially qualified appraiser appointed by the California State Controller to value estate assets for probate proceedings. They're not employees of the court: they're independent professionals licensed to provide official valuations.
       </p>
 
       <p className="text-gray-700 mb-4">
-        When you file a Petition for Probate, the court automatically assigns a Probate Referee to your case. You don't choose them—they're assigned on a rotating basis in each county.
+        When you file a Petition for Probate, the court automatically assigns a Probate Referee to your case. You don't choose them: they're assigned on a rotating basis in each county.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Key Facts About Probate Referees</h2>

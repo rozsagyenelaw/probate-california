@@ -153,7 +153,7 @@ const CaliforniaProbateFees = () => {
       </p>
 
       <p className="text-gray-700 mb-4">
-        Traditional probate attorneys can legally charge these statutory fees—and many do. They're not required to, but it's the easiest path since the fee is pre-approved by the court.
+        Traditional probate attorneys can legally charge these statutory fees, and many do. They're not required to, but it's the easiest path since the fee is pre-approved by the court.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Additional Costs Beyond Attorney Fees</h2>
