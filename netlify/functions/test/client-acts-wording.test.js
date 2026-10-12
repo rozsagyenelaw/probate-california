@@ -122,3 +122,21 @@ test('item w: Letters appearance line under "Optional add-ons"', () => {
   assert.ok(!es.some((b) => /\$3,995 flat fee includes:|tarifa fija de \$3,995 incluye:/.test(`${b.en} ${b.text}`)), 'no $3,995 in the Letters fee line');
   assert.ok(read('netlify/functions/ai-helper-data/learn-articles.json').includes('Instructions for using Letters with banks and institutionsOptional add-onsOptional attorney appearance'));
 });
+
+// Item n (third message): approved point 11 rows plus the publication schedule (Prob. Code 8121(a), 8121(b), 8124,
+// opened on leginfo 2026-10-12), the Step 5 heading, and no client-facing "IGN" anywhere (English, Spanish, AI helper).
+test('item n: point 11 rows, publication schedule, Step 5 heading, no IGN', () => {
+  const hits = [];
+  for (const f of files) {
+    const s = fs.readFileSync(f, 'utf8');
+    for (const re of [/\bIGN\b/, /consecutive weeks/i, /successive weeks/i, /semanas consecutivas/i, /Publish Notice and Mail to Heirs/, /mail notice to all heirs, beneficiaries, and any creditors/i, /within 30 days of appointment/i, /publish notice of death/i]) {
+      const m = s.match(re); if (m) hits.push(`${path.relative(root, f)}: ${m[0]}`);
+    }
+  }
+  assert.deepStrictEqual(hits, []);
+  const how = fs.readFileSync(path.join(root, 'src/components/learn/articles/HowToFileProbate.jsx'), 'utf8');
+  assert.ok(how.includes('Step 5: Publish the Notice and Have It Mailed to Heirs'));
+  assert.ok(how.includes('with at least five days between the first and last publication dates, not counting those dates (Probate Code 8121(a))'));
+  assert.ok(how.includes('The court does not hear the petition until the proof of publication is on file (Probate Code 8124).'));
+  assert.ok(how.includes('An adult who is not part of the case') && how.includes('Notice of Administration to Creditors (DE-157)'));
+});
