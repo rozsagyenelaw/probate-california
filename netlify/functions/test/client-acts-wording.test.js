@@ -141,3 +141,19 @@ test('item n: point 11 rows, publication schedule, Step 5 heading, no IGN', () =
   assert.ok(how.includes('The court does not hear the petition until the proof of publication is on file (Probate Code 8124).'));
   assert.ok(how.includes('An adult who is not part of the case') && how.includes('Notice of Administration to Creditors (DE-157)'));
 });
+
+// Item n3 (eighth message E2, E3, E5, E6, approved in writing).
+test('item n3: Probate Notes capitalized, no $3,995-alone prices in the probate notes article copies, article title, 13151 payment line', () => {
+  const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
+  const all = files.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+  assert.ok(!/probate Notes/.test(all) && !/probate notes probate/.test(all), 'E2');
+  const ai = JSON.parse(read('netlify/functions/ai-helper-data/learn-articles.json')).articles.find((a) => a.path.endsWith('clear-ign-notes-stanley-mosk'));
+  assert.strictEqual(ai.title, 'How to Clear Probate Notes at Stanley Mosk Courthouse', 'E5 title, address unchanged');
+  assert.ok(!/\$3,995 full probate|\$3,995 for full probate|\(\$3,995/.test(ai.text), 'E3 AI helper');
+  const es = JSON.parse(read('src/beyond/es/learn/articles-es.json')).articles.find((a) => a.component === 'ClearIGNNotes');
+  assert.ok(!/\$3,995|\$2,495/.test(JSON.stringify(es.blocks)), 'E3 Spanish file');
+  assert.ok(!/\$3,995|\$2,495/.test(read('src/components/learn/articles/ClearIGNNotes.jsx')), 'E3 page');
+  const L = 'For a main home in California worth $750,000 or less (Probate Code 13151)';
+  assert.ok(read('src/components/intake/steps/PaymentStep.jsx').includes(L) && read('src/components/PaymentPage.jsx').includes(L), 'E6');
+  assert.ok(!all.includes('when the rest of the estate is small'), 'E6 old line gone');
+});

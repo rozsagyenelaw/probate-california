@@ -291,7 +291,7 @@ const PaymentStep = ({ formData, onSubmitCase, isSubmitting, paidCase }) => {
             </div>
             <p className="text-2xl font-bold text-green-600 mb-1">$2,495</p>
             <p className="text-xs text-gray-500 mb-3">or 3 payments of ${fmtDollars(installmentAmounts(2495, settings)[0])}/mo</p>
-            <p className="text-sm text-gray-600 mb-2">For a main home worth up to $750,000 when the rest of the estate is small</p>
+            <p className="text-sm text-gray-600 mb-2">For a main home in California worth $750,000 or less (Probate Code 13151)</p>
             {!estateAnalysis.qualifiesForSimplified && (
               <p className="text-xs text-red-600 mt-2">
                 Based on your answers, the home petition does not fit this estate

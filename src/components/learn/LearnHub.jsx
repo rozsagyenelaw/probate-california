@@ -217,7 +217,7 @@ const LearnHub = () => {
       <Helmet>
         <title>California Probate Learning Center | Attorney Guides & Executor Resources</title>
         <meta name="description" content="Master California probate with attorney-verified guides. Learn about Stanley Mosk court procedures, clearing probate notes, bond requirements, and how statutory fees compare with a flat fee." />
-        <meta name="keywords" content="california probate guide, how to probate california, stanley mosk courthouse, probate referee, executor duties california, probate notes probate" />
+        <meta name="keywords" content="california probate guide, how to probate california, stanley mosk courthouse, probate referee, executor duties california, probate notes" />
         <link rel="canonical" href="https://myprobateca.com/learn-california-probate" />
 
         <meta property="og:title" content="California Probate Learning Center | Expert Guides for Executors" />

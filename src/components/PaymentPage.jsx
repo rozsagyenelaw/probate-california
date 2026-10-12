@@ -334,7 +334,7 @@ const PaymentPage = () => {
                 </div>
               </div>
               <p className="text-sm text-gray-600 mb-2">
-                For a main home worth up to $750,000 when the rest of the estate is small
+                For a main home in California worth $750,000 or less (Probate Code 13151)
               </p>
               <p className="text-2xl font-bold text-green-600">${prices.probate.simplified.toLocaleString()}</p>
               <p className="text-xs text-gray-500">or 3 payments of ${fmtDollars(installmentAmounts(prices.probate.simplified, settings)[0])}</p>
