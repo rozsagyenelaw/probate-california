@@ -115,7 +115,7 @@ function buildOrder({ serviceType, accountingAddon, courtAppearance, estateValue
     // client picked at account creation (decisions section 32) sets the tier fee.
     const range = FULL_TIERS.find(t => t.key === estateRange);
     fee = Number(estateValueCents) > 0 ? fullProbateFeeCents(estateValueCents) : (range ? { cents: range.cents, basis: 'tier-range', tier: range.key } : fullProbateFeeCents(estateValueCents));
-    lines.push({ key: 'full', label: LABELS.full, cents: fee.cents, basis: fee.basis });
+    lines.push({ key: 'full', label: LABELS.full, cents: fee.cents, basis: fee.basis, tier: fee.tier || null });
   } else if (serviceType === 'simplified') {
     lines.push({ key: serviceType, label: LABELS[serviceType], cents: BASE_CENTS[serviceType] });
   } else if (!['accounting_only', 'accounting_addon', 'court_appearance', 'house_sale'].includes(serviceType)) {

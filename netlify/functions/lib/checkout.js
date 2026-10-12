@@ -1,17 +1,9 @@
 // Builds the Stripe Checkout Session for every MyProbateCA purchase (pricing page, intake, add-ons,
 // standalone court appearance). Used by create-checkout-session.js and submit-intake.js.
 const { buildOrder, installmentSchedule } = require('./pricing');
+const { stripeTextFor } = require('./stripeText');
 
 class UserError extends Error { constructor(msg, status = 400) { super(msg); this.userFacing = true; this.status = status; } }
-
-const PRICE_ENV = {
-  simplified: 'STRIPE_PRICE_SIMPLIFIED_PROBATE',
-  full: 'STRIPE_PRICE_FULL_PROBATE',
-  simple_accounting: 'STRIPE_PRICE_SIMPLE_ACCOUNTING',
-  complex_accounting: 'STRIPE_PRICE_COMPLEX_ACCOUNTING',
-  remote_appearance: 'STRIPE_PRICE_REMOTE_APPEARANCE',
-  contested_hearing: 'STRIPE_PRICE_CONTESTED_HEARING'
-};
 
 // Compact hearing details for Checkout metadata (Stripe allows 500 characters per value).
 function packHearing(h) {
@@ -28,17 +20,15 @@ function packHearing(h) {
   return JSON.stringify(o).slice(0, 500);
 }
 
-// Use the Stripe price for a line when its amount matches what we charge; otherwise inline price_data.
-async function lineItemFor(stripe, line) {
-  const id = process.env[PRICE_ENV[line.key]];
-  if (id && !id.includes('REPLACE_ME')) {
-    try {
-      const p = await stripe.prices.retrieve(id);
-      if (p.active && p.unit_amount === line.cents && p.currency === 'usd' && p.type === 'one_time') return { price: id, quantity: 1 };
-      console.warn(`Stripe price ${id.slice(-4)} amount ${p.unit_amount} differs from ${line.cents}; using inline price`);
-    } catch (e) { console.warn('price lookup failed:', e.message); }
-  }
-  return { price_data: { currency: 'usd', product_data: { name: line.label, metadata: { site: 'myprobateca' } }, unit_amount: line.cents }, quantity: 1 };
+// Every line goes to Stripe as an inline price whose product name and description come from lib/stripeText.js
+// (decisions 2026-10-12, point 6). The products saved in the Stripe dashboard (STRIPE_PRICE_*) carried old wording
+// ("estates over $750,000", "11 phases", "2-hour minimum") and are no longer used for new checkouts; lib/origin.js
+// still accepts them for sessions created before this change.
+function lineItemFor(line, ctx) {
+  const t = stripeTextFor(line, ctx);
+  const product_data = { name: t.name, metadata: { site: 'myprobateca', line: line.key } };
+  if (t.description) product_data.description = t.description;
+  return { price_data: { currency: 'usd', product_data, unit_amount: line.cents }, quantity: 1 };
 }
 
 async function resolvePromo(stripe, db, code) {
@@ -133,14 +123,16 @@ async function createCheckout(stripe, db, params, settings) {
   // Everything in this order is included under the 10810 cap: nothing to charge, no Stripe checkout
   if (order.totalCents === 0) return { included: true, order };
   const amounts = mode === 'subscription' ? installmentSchedule(order.totalCents, settings) : null;
+  // The names shown on Checkout, also used as the payment description (Stripe dashboard and receipt)
+  const stripeNames = order.lines.filter(l => l.cents > 0).map(l => stripeTextFor(l, { balanceFor: params.balanceFor }).name).join(' + ');
   const line_items = [];
   if (mode === 'payment') {
-    for (const l of order.lines) if (l.cents > 0) line_items.push(await lineItemFor(stripe, l));
+    for (const l of order.lines) if (l.cents > 0) line_items.push(lineItemFor(l, { balanceFor: params.balanceFor }));
   } else {
     line_items.push({
       price_data: {
         currency: 'usd',
-        product_data: { name: `${order.description} (3 monthly payments)`, metadata: { site: 'myprobateca' }, description: `Total $${(amounts.reduce((a, b) => a + b, 0) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} in 3 monthly payments. Stops after the third payment.` },
+        product_data: { name: `${stripeNames} (3 monthly payments)`, metadata: { site: 'myprobateca' }, description: `Total $${(amounts.reduce((a, b) => a + b, 0) / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} in 3 monthly payments. Stops after the third payment.` },
         unit_amount: amounts[0],
         recurring: { interval: 'month', interval_count: 1 }
       },
@@ -189,7 +181,7 @@ async function createCheckout(stripe, db, params, settings) {
   };
   if (params.stripeCustomerId) cfg.customer = params.stripeCustomerId; else cfg.customer_email = params.customerEmail || undefined;
   if (mode === 'payment') {
-    cfg.payment_intent_data = { receipt_email: params.customerEmail || undefined, metadata, description: order.description };
+    cfg.payment_intent_data = { receipt_email: params.customerEmail || undefined, metadata, description: stripeNames };
   } else {
     cfg.subscription_data = { metadata: { ...metadata, totalPayments: '3' }, description: `${order.description}: 3 monthly payments` };
     // W6 R9/R18: Stripe shows a plan as a monthly subscription. Say plainly, next to the pay button, that it is three
