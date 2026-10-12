@@ -27,7 +27,7 @@ const TEXT = {
   },
   complex_accounting: {
     name: 'Complex Accounting (50 or more transactions)',
-    description: 'A court formatted probate accounting prepared by an attorney for you to file, for an accounting period with 50 or more transactions.'
+    description: 'A court formatted probate accounting prepared by an attorney for you to file, for an accounting period with 50 or more transactions. If the records show fewer than 50, the fee moves to Simple Accounting and the difference is refunded, as confirmed by Rozsa.'
   },
   remote_appearance: {
     name: 'Court Hearing Appearance ($500 per hearing, limited scope)',

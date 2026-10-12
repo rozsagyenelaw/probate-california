@@ -100,3 +100,10 @@ test('short notice appearance: Stripe name and description say it is confirmed w
   assert.match(pd.product_data.description, /Rozsa confirms within 1 business day; if she cannot appear on that date, this payment is refunded in full automatically\./);
   checkText({ name: pd.product_data.name, description: pd.product_data.description }, 'short notice');
 });
+
+// Item u2 (approved in writing, eighth message C): Complex Accounting says what happens with fewer than 50 transactions
+test('Complex Accounting description: fewer than 50 transactions moves the fee to Simple and the difference is refunded', () => {
+  const t = stripeTextFor({ key: 'complex_accounting' });
+  assert.match(t.description, /If the records show fewer than 50, the fee moves to Simple Accounting and the difference is refunded, as confirmed by Rozsa\./);
+  checkText(t, 'complex accounting');
+});
