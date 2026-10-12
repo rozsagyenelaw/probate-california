@@ -1156,21 +1156,33 @@
         },
         {
           "type": "p",
-          "text": "Nuestra tarifa fija de $3,995 incluye:",
-          "en": "Our $3,995 flat fee includes:"
+          "text": "Nuestra tarifa fija incluye:",
+          "en": "Our flat fee includes:"
         },
         {
           "type": "ul",
           "items": [
             "Preparación de todos los documentos necesarios para obtener las Cartas",
             "Orientación sobre cuántas copias certificadas pedir",
-            "Instrucciones para usar las Cartas con bancos e instituciones",
-            "Comparecencia opcional de la abogada en una audiencia ($500 por audiencia, representación de alcance limitado)"
+            "Instrucciones para usar las Cartas con bancos e instituciones"
           ],
           "en": [
             "Preparation of all documents needed to obtain Letters",
             "Guidance on how many certified copies to order",
-            "Instructions for using Letters with banks and institutions",
+            "Instructions for using Letters with banks and institutions"
+          ]
+        },
+        {
+          "type": "h3",
+          "text": "Servicios opcionales",
+          "en": "Optional add-ons"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Comparecencia opcional de la abogada en una audiencia ($500 por audiencia, representación de alcance limitado)"
+          ],
+          "en": [
             "Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)"
           ]
         },

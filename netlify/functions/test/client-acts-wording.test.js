@@ -106,3 +106,19 @@ test('item s2: already-started answers with the 10810 ending and link, Probate N
   const all = files.map((f) => fs.readFileSync(f, 'utf8')).join('\n');
   assert.ok(!/IGN note clearance|IGN Note Clearance|notas IGN y Suplementos|Note Clearance" service/.test(all), 'no IGN note clearance copy left');
 });
+
+// Item w (fourth message, point 9): the appearance line sits under its own "Optional add-ons" heading, not under
+// "Our flat fee includes:" (English page, English and Spanish copies, AI helper data).
+test('item w: Letters appearance line under "Optional add-ons"', () => {
+  const read = (f) => fs.readFileSync(path.join(root, f), 'utf8');
+  const L = 'Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)';
+  const page = read('src/components/learn/articles/LettersTestamentary.jsx');
+  assert.ok(page.indexOf('Optional add-ons') > page.indexOf('Instructions for using Letters with banks and institutions') && page.indexOf(L) > page.indexOf('Optional add-ons'));
+  const es = JSON.parse(read('src/beyond/es/learn/articles-es.json')).articles.find((a) => a.component === 'LettersTestamentary').blocks;
+  const i = es.findIndex((b) => b.type === 'h3' && b.en === 'Optional add-ons' && b.text === 'Servicios opcionales');
+  assert.ok(i > 0 && es[i + 1].type === 'ul' && es[i + 1].en[0] === L);
+  assert.ok(!es[i - 1].en.includes(L), 'not under "Our flat fee includes:"');
+  assert.ok(es.some((b) => b.en === 'Our flat fee includes:' && b.text === 'Nuestra tarifa fija incluye:'), 'eighth message B');
+  assert.ok(!es.some((b) => /\$3,995 flat fee includes:|tarifa fija de \$3,995 incluye:/.test(`${b.en} ${b.text}`)), 'no $3,995 in the Letters fee line');
+  assert.ok(read('netlify/functions/ai-helper-data/learn-articles.json').includes('Instructions for using Letters with banks and institutionsOptional add-onsOptional attorney appearance'));
+});

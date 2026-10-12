@@ -241,6 +241,9 @@ const LettersTestamentary = () => {
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
             <span className="text-green-900">Instructions for using Letters with banks and institutions</span>
           </li>
+        </ul>
+        <h3 className="font-bold text-green-900 mt-6 mb-2">Optional add-ons</h3>
+        <ul className="space-y-2">
           <li className="flex items-start">
             <Check className="h-5 w-5 text-green-600 mr-2 mt-0.5 flex-shrink-0" />
             <span className="text-green-900">Optional attorney appearance at a hearing ($500 per hearing, limited scope representation)</span>
