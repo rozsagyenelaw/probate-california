@@ -4,7 +4,7 @@
 //  refunds/{refundId}                          one row per refund
 //  cases/{id}.billing                          { totalCharged, totalPaid, totalRefunded, balanceDue } in cents
 const { admin } = require('./firebaseAdmin');
-const { unpackHearing, hearingEntry, legacyHearingDetails, attachAppearance } = require('./hearings');
+const { unpackHearing, hearingEntry, legacyHearingDetails, attachAppearance, shortNoticeFields } = require('./hearings');
 const { enforceThreePayments, stopAfterThirdPayment } = require('./installments');
 const { LABELS } = require('./pricing');
 
@@ -77,7 +77,7 @@ async function recordCheckout(stripe, db, session) {
     addOns: { accounting: meta.accountingAddon || null },
     houseSale: meta.houseSale ? { kind: String(meta.houseSale).split(':')[0], properties: Number(String(meta.houseSale).split(':')[1]) || 1 } : null,
     saleType: meta.houseSale ? String(meta.houseSale).split(':')[0] : null, // W3-cockpit 8c: 'npa' | 'confirmation' (outside ordinaryCents)
-    courtAppearance: meta.courtAppearance ? { kind: meta.courtAppearance, hearing: hearing || null, matchedToCase: !!caseRef } : null,
+    courtAppearance: meta.courtAppearance ? { kind: meta.courtAppearance, hearing: hearing || null, matchedToCase: !!caseRef, shortNotice: meta.shortNotice === '1' } : null,
     description: desc,
     paymentPlan: installments ? 'installments' : 'full',
     amountCents: session.amount_total,
@@ -162,10 +162,11 @@ async function recordCheckout(stripe, db, session) {
     if (meta.houseSale) { const [kind, n] = String(meta.houseSale).split(':'); c['addOns.houseSales'] = FV.arrayUnion({ kind, properties: Number(n) || 1, paymentId: session.id, paidAt: admin.firestore.Timestamp.now() }); }
     if (meta.courtAppearance) {
       c.courtAppearance = meta.courtAppearance;
-      const onEntry = meta.hearingId ? attachAppearance(((await caseRef.get()).data() || {}).hearings, meta.hearingId, { kind: meta.courtAppearance, paid: true, amountCents: session.amount_total, stripeSessionId: session.id, paymentId: session.id }) : null;
+      const sn = shortNoticeFields(meta.shortNotice === '1');
+      const onEntry = meta.hearingId ? attachAppearance(((await caseRef.get()).data() || {}).hearings, meta.hearingId, { kind: meta.courtAppearance, paid: true, amountCents: session.amount_total, stripeSessionId: session.id, paymentId: session.id, ...sn }) : null;
       if (onEntry) c.hearings = onEntry; // W6 F38: the hearing the client picked in the client home
       else if (hearing) {
-        c.hearings = FV.arrayUnion(hearingEntry(hearing, { appearance: meta.courtAppearance, sessionId: session.id, paymentId: session.id, amountCents: session.amount_total }));
+        c.hearings = FV.arrayUnion(hearingEntry(hearing, { appearance: meta.courtAppearance, sessionId: session.id, paymentId: session.id, amountCents: session.amount_total, extra: sn }));
       }
       if (hearing) c.hearingDetails = legacyHearingDetails(hearing, meta.courtAppearance);
     }
@@ -330,10 +331,11 @@ async function recordIncluded(db, { caseId, userId, email, serviceType, accounti
     const h = hearing && (hearing.hearingDate || hearing.date) ? { d: String(hearing.hearingDate || hearing.date).slice(0, 10), t: String(hearing.hearingTime || hearing.time || '').slice(0, 5), dept: hearing.department || '', cn: hearing.caseNumber || '', co: hearing.county || '', ty: hearing.hearingType || hearing.type || '', x: hearing.otherDescription || '' } : null;
     if (courtAppearance) {
       c.courtAppearance = courtAppearance;
-      const onEntry = hearingId ? attachAppearance(((await db.collection('cases').doc(caseId).get()).data() || {}).hearings, hearingId, { kind: courtAppearance, paid: false, includedUnder10810: true, amountCents: 0, paymentId: null }) : null;
+      const sn = shortNoticeFields(!!(order && order.appearanceCheck && order.appearanceCheck.shortNotice));
+      const onEntry = hearingId ? attachAppearance(((await db.collection('cases').doc(caseId).get()).data() || {}).hearings, hearingId, { kind: courtAppearance, paid: false, includedUnder10810: true, amountCents: 0, paymentId: null, ...sn }) : null;
       if (onEntry) c.hearings = onEntry; // W6 F38: the hearing the client picked in the client home
       else if (h) {
-        const e = hearingEntry(h, { appearance: courtAppearance, sessionId: ref.id, paymentId: null, amountCents: 0 });
+        const e = hearingEntry(h, { appearance: courtAppearance, sessionId: ref.id, paymentId: null, amountCents: 0, extra: sn });
         e.appearance.includedUnder10810 = true;
         c.hearings = FV.arrayUnion(e);
       }

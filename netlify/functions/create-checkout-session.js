@@ -6,6 +6,7 @@ const { getDb, corsHeaders, verifyCaller } = require('./lib/firebaseAdmin');
 const { getBusinessSettings, defaults } = require('./lib/business');
 const { createCheckout, capContextForCase } = require('./lib/checkout');
 const { recordIncluded } = require('./lib/recordPayment');
+const { queueShortNoticeIncludedAlert } = require('./lib/paymentEmails');
 
 // The balance Rozsa confirmed and made visible to the client, not yet paid (same rule as the client home's balanceDue()).
 function confirmedBalance(c) {
@@ -89,6 +90,9 @@ exports.handler = async (event) => {
     if (result.included) {
       // Nothing to pay: the 10810 cap already covers it. Record it on the case the same way a payment would.
       const r = await recordIncluded(db, { caseId, userId: caller ? caller.uid : null, email: customerEmail, serviceType: body.serviceType, accountingAddon: body.accountingAddon || null, courtAppearance: body.courtAppearance || null, hearing: body.hearingDetails || null, hearingId: caseId && body.hearingId ? String(body.hearingId) : null, order: result.order });
+      if (result.order && result.order.appearanceCheck && result.order.appearanceCheck.shortNotice && caseId) {
+        await queueShortNoticeIncludedAlert(db, { caseId, email: customerEmail, customerName: caseDoc && caseDoc.clientName, hearing: body.hearingDetails || null, courtAppearance: body.courtAppearance || null }).catch((e) => console.error('short notice alert:', e.message));
+      }
       return { statusCode: 200, headers, body: JSON.stringify({ included: true, caseId, message: 'This is included in your fee. There is nothing more to pay.', recorded: r.id }) };
     }
     console.log('Stripe session created:', result.sessionId.slice(0, 12), body.serviceType, body.paymentPlan);

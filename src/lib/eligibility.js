@@ -46,6 +46,7 @@ export const WAIT_MONTHS_SMALL_REAL = 6; // 13200(a)
 
 export const ROUTES = Object.freeze({
   NEEDS_DATE_OF_DEATH: 'needs-date-of-death',
+  NEEDS_HOME_VALUE: 'needs-home-value', // a main home is listed with no value: incomplete (Rozsa, 2026-10-12)
   ATTORNEY_REVIEW: 'attorney-review',
   NOTHING_TO_PROBATE: 'nothing-to-probate',
   SMALL_ESTATE_AFFIDAVIT: 'small-estate-affidavit',
@@ -130,13 +131,16 @@ export function summarizeAssets(assets = {}) {
   let otherRealCount = 0;
   let personalTotal = 0;
 
+  let residenceValueMissing = false;
   (assets.realProperty || []).forEach((p, i) => {
     const value = num(p.estimatedValue ?? p.value);
+    const blank = num(p.estimatedValue ?? p.value) === 0;
     const why = realPropertyExclusion(p);
     const label = p.address || `Real property ${i + 1}`;
     if (why) { excluded.push({ kind: 'real', label, value, reason: why }); return; }
     if (isPrimaryResidence(p) && !residence) {
       residence = { label, value };
+      residenceValueMissing = blank;
       counted.push({ kind: 'residence', label, value });
     } else {
       otherRealTotal += value;
@@ -176,6 +180,7 @@ export function summarizeAssets(assets = {}) {
   return {
     residence,
     residenceValue,
+    residenceValueMissing,
     otherRealTotal,
     otherRealCount,
     personalTotal,
@@ -221,6 +226,11 @@ export function assessEligibility(input = {}, opts = {}) {
 
   if (countedTotal === 0 && !residence && otherRealCount === 0) {
     return { ...out, route: totals.excluded.length ? ROUTES.NOTHING_TO_PROBATE : ROUTES.ATTORNEY_REVIEW, reasons: [totals.excluded.length ? 'all-assets-excluded' : 'no-assets-entered'] };
+  }
+
+  // A blank home value is not $0: the simpler process cannot be offered until the value is known.
+  if (totals.residenceValueMissing) {
+    return { ...out, route: ROUTES.NEEDS_HOME_VALUE, reasons: ['residence-value-missing'] };
   }
 
   const reasons = [];

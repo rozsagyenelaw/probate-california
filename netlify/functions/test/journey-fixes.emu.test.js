@@ -27,7 +27,7 @@ test('R9/R18: the 3-payment plan says next to the pay button that it is not a su
 
 test('F33/F35: a service added from the client home returns to the client home, with the picked hearing and balance kind in metadata', async () => {
   const s = captureStripe();
-  await createCheckout(s, null, { serviceType: 'court_appearance', courtAppearance: 'remote', hearing: { hearingDate: '2026-11-30' }, hearingId: 'office1', paymentPlan: 'full', customerEmail: 'rozsagyenelaw1+i@gmail.com', caseId: 'c1', successQuery: 'next=portal&kind=addon', cancelPath: '/add-service' }, {});
+  await createCheckout(s, null, { serviceType: 'court_appearance', courtAppearance: 'remote', hearing: { hearingDate: '2026-11-30' }, hearingId: 'office1', now: new Date('2026-10-12T17:00:00Z'), paymentPlan: 'full', customerEmail: 'rozsagyenelaw1+i@gmail.com', caseId: 'c1', successQuery: 'next=portal&kind=addon', cancelPath: '/add-service' }, {});
   const cfg = s.calls[0];
   assert.match(cfg.success_url, /&next=portal&kind=addon$/);
   assert.strictEqual(cfg.cancel_url, 'https://myprobateca.com/add-service');

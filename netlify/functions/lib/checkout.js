@@ -2,6 +2,7 @@
 // standalone court appearance). Used by create-checkout-session.js and submit-intake.js.
 const { buildOrder, installmentSchedule } = require('./pricing');
 const { stripeTextFor } = require('./stripeText');
+const { checkHearingDate, hearingDateMessage } = require('./courtDays');
 
 class UserError extends Error { constructor(msg, status = 400) { super(msg); this.userFacing = true; this.status = status; } }
 
@@ -119,6 +120,16 @@ async function createCheckout(stripe, db, params, settings) {
   // Standalone court appearances are paid in full (a hearing date is too close for a 3-month plan)
   if (paymentPlan === 'installments' && params.serviceType === 'court_appearance') throw new UserError('A court appearance is paid in one payment.');
 
+  // Court appearance (Rozsa, 2026-10-12): the hearing must be at least 2 court days away, counted in Pacific time
+  // (weekends and court holidays skipped). Fewer than 7 days away is short notice: the office confirms within
+  // 1 business day, or the payment is refunded in full automatically (admin-hearing 'appearance-decline').
+  if (params.courtAppearance && (params.serviceType === 'court_appearance' || params.hearing)) {
+    const h = params.hearing || {};
+    const check = checkHearingDate(String(h.hearingDate || h.date || '').slice(0, 10), params.now || new Date());
+    if (!check.ok) { const e = new UserError(hearingDateMessage(check)); e.code = `hearing_${check.reason.replace(/-/g, '_')}`; throw e; }
+    order.appearanceCheck = { shortNotice: check.shortNotice, daysAway: check.daysAway };
+  }
+
   const mode = paymentPlan === 'full' ? 'payment' : 'subscription';
   // Everything in this order is included under the 10810 cap: nothing to charge, no Stripe checkout
   if (order.totalCents === 0) return { included: true, order };
@@ -153,6 +164,7 @@ async function createCheckout(stripe, db, params, settings) {
     houseSale: params.houseSale ? `${params.houseSale}:${Math.max(1, Math.min(10, Math.floor(Number(params.houseSaleCount) || 1)))}` : '',
     hearing: packHearing(params.hearing),
     hearingId: String(params.hearingId || '').slice(0, 120), // W6 F38: the hearing picked in the client home
+    shortNotice: order.appearanceCheck && order.appearanceCheck.shortNotice ? '1' : '',
     balanceFor: params.balanceFor || '', // W6 N6: 'fee', 'accounting' or both, for a confirmed balance paid online
     paymentPlan,
     caseId: params.caseId || '',

@@ -197,3 +197,15 @@ test('default today is used when none is passed', () => {
   const r = assessEligibility({ decedent: { dateOfDeath: '2025-06-01' }, assets: { financialAccounts: [acct(1000)] } });
   assert.equal(r.route, ROUTES.SMALL_ESTATE_AFFIDAVIT);
 });
+
+// Rozsa, 2026-10-12 (item m): a main home with no value entered is incomplete, never "fits"
+test('a blank home value is incomplete, not $0', () => {
+  const input = { decedent: { dateOfDeath: '2025-06-01' }, assets: { realProperty: [{ propertyType: 'primary_residence', estimatedValue: '' }] } };
+  const r = assessEligibility(input, { today: '2026-10-12' });
+  assert.equal(r.route, ROUTES.NEEDS_HOME_VALUE);
+  assert.equal(r.simplifiedFits, false);
+  assert.equal(r.totals.residenceValueMissing, true);
+  const filled = assessEligibility({ ...input, assets: { realProperty: [{ propertyType: 'primary_residence', estimatedValue: '640000' }] } }, { today: '2026-10-12' });
+  assert.equal(filled.route, ROUTES.RESIDENCE_PETITION);
+  assert.equal(filled.simplifiedFits, true);
+});

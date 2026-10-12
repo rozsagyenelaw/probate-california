@@ -334,7 +334,7 @@ const PaymentPage = () => {
                 </div>
               </div>
               <p className="text-sm text-gray-600 mb-2">
-                For primary residences under $750,000
+                For a main home worth up to $750,000 when the rest of the estate is small
               </p>
               <p className="text-2xl font-bold text-green-600">${prices.probate.simplified.toLocaleString()}</p>
               <p className="text-xs text-gray-500">or 3 payments of ${fmtDollars(installmentAmounts(prices.probate.simplified, settings)[0])}</p>
@@ -427,11 +427,11 @@ const PaymentPage = () => {
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-900 mb-2 flex items-center">
             <span className="bg-blue-900 text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold mr-3">2</span>
-            {serviceType === 'accounting_only' ? 'Select Accounting Service' : 'Optional Add-On: Accounting Services'}
+            {serviceType === 'accounting_only' ? 'Select Accounting Service' : 'Final account (add now or later)'}
           </h2>
           {serviceType !== 'accounting_only' && (
             <p className="text-gray-600 text-sm mb-4 ml-10">
-              Need help with probate accounting? Add it to your order.
+              The law requires a final account when the estate closes, unless everyone who will receive something from the estate waives it in writing. You can add it now or at any time before your final papers.
             </p>
           )}
 

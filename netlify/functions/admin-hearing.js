@@ -3,6 +3,9 @@
 // Writes cases/{id}.hearings (W3-cockpit's calendar reads it), keeps legacy hearingDetails in step, audit logged.
 const { admin, getDb, corsHeaders, verifyCaller, isAdminToken } = require('./lib/firebaseAdmin');
 const { continueHearing } = require('./lib/hearings');
+const { decideAppearance } = require('./lib/appearanceDecision');
+
+let stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
   const headers = corsHeaders(event);
@@ -12,6 +15,17 @@ exports.handler = async (event) => {
   if (!isAdminToken(caller)) return { statusCode: 403, headers, body: JSON.stringify({ error: 'Admin only' }) };
   let body = {};
   try { body = JSON.parse(event.body || '{}'); } catch { return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid request' }) }; }
+  // Short notice appearance (Rozsa, 2026-10-12): POST { action: 'appearance-confirm' | 'appearance-decline', caseId, hearingId }.
+  // "Cannot appear" refunds the payment in full automatically, once (lib/appearanceDecision.js).
+  if (body.action === 'appearance-confirm' || body.action === 'appearance-decline') {
+    try {
+      const out = await decideAppearance(getDb(), stripe, { caseId: String(body.caseId || ''), hearingId: String(body.hearingId || ''), decision: body.action === 'appearance-confirm' ? 'confirm' : 'decline', actorEmail: caller.email });
+      return { statusCode: 200, headers, body: JSON.stringify(out) };
+    } catch (err) {
+      console.error('admin-hearing appearance:', err.message);
+      return { statusCode: err.status || 500, headers, body: JSON.stringify({ error: err.message }) };
+    }
+  }
   if (body.action !== 'continue') return { statusCode: 400, headers, body: JSON.stringify({ error: 'Unknown action' }) };
   try {
     const db = getDb();
@@ -46,3 +60,6 @@ exports.handler = async (event) => {
     return { statusCode: err.status || 400, headers, body: JSON.stringify({ error: err.message }) };
   }
 };
+
+// Tests only: a stub Stripe client (no network)
+exports._setStripeForTests = (stub) => { stripe = stub; };

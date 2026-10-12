@@ -33,6 +33,7 @@ async function queuePaymentEmails(db, { meta, email, customerName, amountCents, 
     accountingAddon: meta.accountingAddon || null,
     courtAppearance: meta.courtAppearance || null,
     hearing: hearing || null,
+    shortNotice: meta.shortNotice === '1', // hearing fewer than 7 days away: the office confirms within 1 business day
     intakeDone: intakeDone === true ? true : (intakeDone === false ? false : null), // W6 F17: answers already sent?
     balanceFor: meta.balanceFor || null,
     description: description || '',
@@ -52,6 +53,18 @@ async function queuePaymentEmails(db, { meta, email, customerName, amountCents, 
   return { queued: true, officeAlert: !test, kind: kindOf(meta) };
 }
 
+// Short notice appearance that costs nothing (included under the 10810 limit): no Stripe payment, so no payment alert.
+// The office still gets the alert, because it must confirm within 1 business day.
+async function queueShortNoticeIncludedAlert(db, { caseId, email, customerName, hearing, courtAppearance }) {
+  if (testMode() && !allowed(String(email || '').toLowerCase())) return { skipped: 'test mode, non-test address' };
+  if (testMode()) return { skipped: 'test mode: no office alert' };
+  const id = `pay-office-included-${caseId}-${String((hearing && (hearing.hearingDate || hearing.d)) || '').slice(0, 10)}`;
+  await db.collection('mailOutbox').doc(id).set({ template: 'paymentAlert', to: 'office', replyTo: email || null, source: 'create-checkout-session', createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    data: { customerName: customerName || '', customerEmail: String(email || '').toLowerCase(), serviceType: 'court_appearance', courtAppearance: courtAppearance || 'remote', amount: 0, description: 'Court appearance (included under the Probate Code 10810 limit)', shortNotice: true, orderNumber: '', stripeSessionId: '',
+      hearing: hearing ? { d: String(hearing.hearingDate || hearing.d || '').slice(0, 10), t: String(hearing.hearingTime || hearing.t || '').slice(0, 5), dept: hearing.department || hearing.dept || '' } : null } });
+  return { queued: true };
+}
+
 // Refund confirmation to the client (admin-refund). Returns { queued } or { skipped }.
 async function queueRefundEmail(db, { refundId, email, customerName, amountCents, full, description, uid }) {
   const to = String(email || '').toLowerCase();
@@ -64,4 +77,4 @@ async function queueRefundEmail(db, { refundId, email, customerName, amountCents
   return { queued: true };
 }
 
-module.exports = { queuePaymentEmails, queueRefundEmail, kindOf, allowed };
+module.exports = { queuePaymentEmails, queueRefundEmail, queueShortNoticeIncludedAlert, kindOf, allowed };

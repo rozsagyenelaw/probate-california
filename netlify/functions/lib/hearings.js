@@ -16,7 +16,8 @@ function unpackHearing(json) {
 }
 
 // h: unpacked metadata ({d,t,dept,cn,co,ty,x}); appearance: 'remote' | 'contested'
-function hearingEntry(h, { appearance, sessionId, paymentId, amountCents, source = 'checkout' }) {
+// extra: more appearance fields, e.g. { shortNotice: true, confirmation: 'pending' } (Rozsa, 2026-10-12)
+function hearingEntry(h, { appearance, sessionId, paymentId, amountCents, source = 'checkout', extra = {} }) {
   const typeLabel = h.ty === 'other' || h.ty === 'Other' ? (h.x || 'Other') : h.ty;
   return {
     id: `chk_${String(sessionId || Date.now()).slice(-12)}`,
@@ -29,7 +30,7 @@ function hearingEntry(h, { appearance, sessionId, paymentId, amountCents, source
     outcome: '',
     source,
     appearanceRequested: true,
-    appearance: { kind: appearance, paid: true, amountCents: amountCents || null, stripeSessionId: sessionId || null, paymentId: paymentId || null },
+    appearance: { kind: appearance, paid: true, amountCents: amountCents || null, stripeSessionId: sessionId || null, paymentId: paymentId || null, ...extra },
     clientCaseNumber: h.cn || '',
     county: h.co || '',
     createdAt: admin.firestore.Timestamp.now()
@@ -80,4 +81,9 @@ function attachAppearance(hearings, hearingId, appearance) {
   return list;
 }
 
-module.exports = { hearingEntry, unpackHearing, legacyHearingDetails, mapType, continueHearing, attachAppearance };
+// Short notice (fewer than 7 days to the hearing): the office confirms, or declines and the payment is refunded.
+function shortNoticeFields(on) {
+  return on ? { shortNotice: true, confirmation: 'pending', shortNoticeAt: admin.firestore.Timestamp.now() } : {};
+}
+
+module.exports = { shortNoticeFields, hearingEntry, unpackHearing, legacyHearingDetails, mapType, continueHearing, attachAppearance };
